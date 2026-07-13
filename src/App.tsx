@@ -128,12 +128,16 @@ function Projects() {
             style={{ boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px' }}
           >
             {/* Preview */}
-            <div
-              className="flex h-48 items-center justify-center transition-transform duration-500 group-hover:scale-105"
-              style={{ background: p.gradient }}
-            >
-              <span className="select-none font-mono text-4xl font-bold text-white/30">{p.initial}</span>
-            </div>
+            {p.image ? (
+              <img src={p.image} alt={p.name} className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            ) : (
+              <div
+                className="flex h-48 items-center justify-center transition-transform duration-500 group-hover:scale-105"
+                style={{ background: p.gradient }}
+              >
+                <span className="select-none font-mono text-4xl font-bold text-white/30">{p.initial}</span>
+              </div>
+            )}
             {/* Overlay info */}
             <div className="p-5">
               <h3 className="font-sans text-lg font-semibold leading-tight tracking-[-0.02em]">{p.name}</h3>
@@ -279,6 +283,7 @@ const projects = [
     tags: ['React', 'Express', 'TypeScript', 'Neon PG'],
     initial: 'RK',
     gradient: 'linear-gradient(135deg, #171717, #4d4d4d)',
+    image: '/projects/rankbr.png',
   },
   {
     name: 'FIPE na Placa',
