@@ -7,7 +7,7 @@ function App() {
       <Nav />
       <Hero />
       <Projects />
-      <Stack />
+      <OrbitingStack />
       <Achievements />
       <Footer />
     </div>
@@ -76,10 +76,9 @@ function Hero() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2 }}
-        className="mt-6 max-w-xl text-xl leading-relaxed text-vercel-gray md:text-2xl"
+        className="mt-6 text-xl leading-relaxed text-vercel-gray md:text-2xl"
       >
-        Full-Stack Developer. 16 anos. Estudante do IFC Ibirama — Técnico em Informática.
-        Bolsista PVI. Duas menções honrosas OBMEP.
+        Full-Stack Developer
       </motion.p>
 
       <motion.div
@@ -133,7 +132,6 @@ function Projects() {
             className="group relative overflow-hidden rounded-xl bg-vercel-bg transition-all hover:shadow-lg"
             style={{ boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px' }}
           >
-            {/* Preview */}
             {p.image ? (
               <img src={p.image} alt={p.name} className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
             ) : (
@@ -144,7 +142,6 @@ function Projects() {
                 <span className="select-none font-mono text-4xl font-bold text-white/30">{p.initial}</span>
               </div>
             )}
-            {/* Overlay info */}
             <div className="p-5">
               <h3 className="font-sans text-lg font-semibold leading-tight tracking-[-0.02em]">{p.name}</h3>
               <p className="mt-1.5 text-sm leading-relaxed text-vercel-gray">{p.desc}</p>
@@ -157,7 +154,6 @@ function Projects() {
                 )}
               </div>
             </div>
-            {/* Hover overlay */}
             <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
               <span className="rounded-full bg-white px-5 py-2 text-sm font-medium text-vercel-black">Visitar →</span>
             </div>
@@ -168,10 +164,35 @@ function Projects() {
   )
 }
 
-/* ───── Stack (SVG icons) ───── */
-function Stack() {
+/* ───── Orbiting Stack ───── */
+function OrbitingStack() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-50px' })
+
+  const outerItems = [
+    { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg' },
+    { name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-plain.svg' },
+    { name: 'Tailwind', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg' },
+    { name: 'Node.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg' },
+    { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg' },
+    { name: 'MongoDB', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg' },
+    { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' },
+    { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg' },
+    { name: 'Vite', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg' },
+    { name: 'Java', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg' },
+    { name: 'MySQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg' },
+    { name: 'Figma', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg' },
+  ]
+
+  const innerItems = [
+    { name: 'Express', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg' },
+    { name: 'Next.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg' },
+    { name: 'Vercel', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg' },
+    { name: 'Stripe', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/stripe/stripe-original.svg' },
+  ]
+
+  const radius = 220
+  const innerRadius = 130
 
   return (
     <section id="stack" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
@@ -179,25 +200,74 @@ function Stack() {
         <span className="font-mono text-xs font-medium uppercase tracking-wide text-preview-pink">Stack</span>
         <span className="h-px flex-1 bg-vercel-border" />
       </div>
-      {stackGroups.map((group, gi) => (
-        <div key={group.title} className={gi > 0 ? 'mt-10' : ''}>
-          <h3 className="mb-5 font-mono text-xs font-medium uppercase tracking-wide text-vercel-muted">{group.title}</h3>
-          <div className="flex flex-wrap gap-4">
-            {group.items.map((item, ii) => (
-              <motion.div
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={inView ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 0.8 }}
+        className="relative mx-auto flex h-[560px] w-[560px] items-center justify-center max-sm:h-[360px] max-sm:w-[360px]"
+      >
+        {/* Outer orbit */}
+        <div className="absolute inset-0 animate-[spin_30s_linear_infinite]">
+          {outerItems.map((item, i) => {
+            const angle = (i / outerItems.length) * 2 * Math.PI - Math.PI / 2
+            const x = Math.cos(angle) * radius
+            const y = Math.sin(angle) * radius
+            return (
+              <div
                 key={item.name}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: gi * 0.2 + ii * 0.05, duration: 0.4 }}
-                className="flex items-center gap-2 rounded-lg border border-vercel-border bg-white px-4 py-3 transition-all hover:border-vercel-black hover:shadow-sm"
+                className="absolute flex h-10 w-10 items-center justify-center rounded-xl border border-vercel-border bg-white shadow-sm transition-all hover:border-develop-blue hover:shadow-md max-sm:h-7 max-sm:w-7"
+                style={{
+                  left: `calc(50% + ${x}px - 20px)`,
+                  top: `calc(50% + ${y}px - 20px)`,
+                }}
               >
-                <img src={item.icon} alt={item.name} className="h-5 w-5" />
-                <span className="text-sm font-medium">{item.name}</span>
-              </motion.div>
-            ))}
-          </div>
+                <img
+                  src={item.icon}
+                  alt={item.name}
+                  className="h-5 w-5 max-sm:h-3.5 max-sm:w-3.5"
+                  style={{ animation: 'spin 30s linear infinite', animationDirection: 'reverse' }}
+                />
+              </div>
+            )
+          })}
         </div>
-      ))}
+
+        {/* Inner orbit (reverse) */}
+        <div className="absolute inset-0 animate-[spin_20s_linear_infinite]" style={{ animationDirection: 'reverse' }}>
+          {innerItems.map((item, i) => {
+            const angle = (i / innerItems.length) * 2 * Math.PI - Math.PI / 2
+            const x = Math.cos(angle) * innerRadius
+            const y = Math.sin(angle) * innerRadius
+            return (
+              <div
+                key={item.name}
+                className="absolute flex h-9 w-9 items-center justify-center rounded-lg border border-vercel-border bg-white/90 shadow-sm transition-all hover:border-develop-blue max-sm:h-6 max-sm:w-6"
+                style={{
+                  left: `calc(50% + ${x}px - 18px)`,
+                  top: `calc(50% + ${y}px - 18px)`,
+                }}
+              >
+                <img
+                  src={item.icon}
+                  alt={item.name}
+                  className="h-4 w-4 max-sm:h-3 max-sm:w-3"
+                  style={{ animation: 'spin 20s linear infinite' }}
+                />
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Center stats — counter-rotates to stay readable */}
+        <div className="z-10 flex flex-col items-center text-center">
+          <span className="font-mono text-4xl font-semibold text-develop-blue max-sm:text-2xl">681<span className="text-vercel-muted">+</span></span>
+          <span className="mt-1 text-xs text-vercel-gray">contribuições</span>
+          <span className="mt-3 font-mono text-2xl font-semibold text-vercel-black max-sm:text-lg">26</span>
+          <span className="mt-0.5 text-xs text-vercel-gray">repositórios</span>
+          <span className="mt-3 rounded-full bg-vercel-black px-3 py-1 font-mono text-[10px] font-medium uppercase text-white">Técnico em Informática</span>
+        </div>
+      </motion.div>
     </section>
   )
 }
@@ -310,46 +380,11 @@ const projects = [
   },
 ]
 
-const stackGroups = [
-  {
-    title: 'Frontend',
-    items: [
-      { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg' },
-      { name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-plain.svg' },
-      { name: 'Tailwind', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg' },
-      { name: 'Vite', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg' },
-      { name: 'Next.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg' },
-    ],
-  },
-  {
-    title: 'Backend',
-    items: [
-      { name: 'Node.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg' },
-      { name: 'Express', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg' },
-      { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg' },
-      { name: 'Java', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg' },
-      { name: 'MongoDB', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg' },
-      { name: 'MySQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg' },
-    ],
-  },
-  {
-    title: 'Ferramentas',
-    items: [
-      { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg' },
-      { name: 'Vercel', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg' },
-      { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' },
-      { name: 'Figma', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg' },
-      { name: 'Stripe', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/stripe/stripe-original.svg' },
-    ],
-  },
-]
-
 const achievements = [
   { year: '2023', title: 'Menção Honrosa OBMEP', desc: 'Olimpíada Brasileira de Matemática das Escolas Públicas' },
   { year: '2024', title: 'Menção Honrosa OBMEP', desc: 'Segundo ano consecutivo com destaque em matemática' },
   { year: '2025', title: 'Bolsa PVI — IFC', desc: 'Projeto LexiCube: análise de notícias com inteligência artificial' },
   { year: '2026', title: '4 Chrome Extensions', desc: 'Extensões publicadas na Chrome Web Store' },
-  { year: '2026', title: '681+ contribuições no GitHub', desc: '26 repositórios ativos, open source e projetos próprios' },
 ]
 
 export default App
