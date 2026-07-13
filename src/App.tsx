@@ -273,6 +273,7 @@ const projects = [
     tags: ['SaaS', 'IA', 'Stripe', 'JavaScript'],
     initial: 'MO',
     gradient: 'linear-gradient(135deg, #de1d8d, #ff5b4f)',
+    image: '/projects/morph.png',
   },
   {
     name: 'LexiCube',
