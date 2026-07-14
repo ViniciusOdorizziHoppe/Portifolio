@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useId } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 
 function App() {
@@ -36,67 +36,109 @@ function Nav() {
   )
 }
 
-/* ───── SVG Wave Background ───── */
-function WaveBackground() {
-  const id = useId()
+/* ───── Stripe WebGL Mesh Gradient ───── */
+function StripeBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const gl = canvas.getContext('webgl')
+    if (!gl) return
+
+    // Vertex shader — full-screen quad
+    const vert = gl.createShader(gl.VERTEX_SHADER)!
+    gl.shaderSource(vert, `attribute vec2 p;void main(){gl_Position=vec4(p,0,1);}`)
+    gl.compileShader(vert)
+
+    // Fragment shader — Simplex noise mesh gradient
+    const frag = gl.createShader(gl.FRAGMENT_SHADER)!
+    gl.shaderSource(frag, `precision highp float;
+uniform vec2 r;
+uniform float t;
+vec3 g(vec3 x){return fract(sin(dot(x,vec3(127.1,311.7,74.7)))*43758.5453);}
+float n(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+return mix(mix(mix(dot(g(i),f),dot(g(i+vec3(1,0,0)),f-vec3(1,0,0)),f.x),
+mix(dot(g(i+vec3(0,1,0)),f-vec3(0,1,0)),dot(g(i+vec3(1,1,0)),f-vec3(1,1,0)),f.x),f.y),
+mix(mix(dot(g(i+vec3(0,0,1)),f-vec3(0,0,1)),dot(g(i+vec3(1,0,1)),f-vec3(1,0,1)),f.x),
+mix(dot(g(i+vec3(0,1,1)),f-vec3(0,1,1)),dot(g(i+vec3(1,1,1)),f-vec3(1,1,1)),f.x),f.y),f.z);}
+void main(){
+  vec2 uv=gl_FragCoord.xy/r;
+  float scale=1.8;
+  float n1=n(vec3(uv*scale,t*0.12));
+  float n2=n(vec3(uv*scale+vec2(1.3,0.7),t*0.15+1.7));
+  float n3=n(vec3(uv*scale*1.4-vec2(0.4,1.1),t*0.10+3.4));
+
+  // Colors
+  vec3 c1=vec3(0.0,0.0,0.545);  // #00008b
+  vec3 c2=vec3(0.098,0.098,0.439); // #191970
+  vec3 c3=vec3(0.02,0.02,0.6);
+  vec3 c4=vec3(0.05,0.05,0.5);
+
+  vec3 col=mix(c1,c2,n1*0.5+0.5);
+  col=mix(col,c3,n2*0.4);
+  col=mix(col,c4,n3*0.35);
+
+  gl_FragColor=vec4(col,1.0);
+}`)
+    gl.compileShader(frag)
+
+    if (!gl.getShaderParameter(frag, gl.COMPILE_STATUS)) {
+      console.error('Shader error:', gl.getShaderInfoLog(frag))
+      return
+    }
+
+    const prog = gl.createProgram()!
+    gl.attachShader(prog, vert)
+    gl.attachShader(prog, frag)
+    gl.linkProgram(prog)
+    gl.useProgram(prog)
+
+    // Full-screen quad
+    const buf = gl.createBuffer()!
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW)
+    const pLoc = gl.getAttribLocation(prog, 'p')
+    gl.enableVertexAttribArray(pLoc)
+    gl.vertexAttribPointer(pLoc, 2, gl.FLOAT, false, 0, 0)
+
+    const rLoc = gl.getUniformLocation(prog, 'r')
+    const tLoc = gl.getUniformLocation(prog, 't')
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1
+      const w = canvas.clientWidth * dpr
+      const h = canvas.clientHeight * dpr
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w
+        canvas.height = h
+        gl.viewport(0, 0, w, h)
+      }
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    let anim = 0
+    const start = performance.now()
+    const draw = () => {
+      resize()
+      gl.uniform2f(rLoc, canvas.width, canvas.height)
+      gl.uniform1f(tLoc, (performance.now() - start) * 0.001)
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+      anim = requestAnimationFrame(draw)
+    }
+    anim = requestAnimationFrame(draw)
+
+    return () => {
+      cancelAnimationFrame(anim)
+      window.removeEventListener('resize', resize)
+      gl.deleteProgram(prog)
+    }
+  }, [])
+
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true" style={{ filter: 'blur(40px)' }}>
-      {/* Wave 1 — slow, large */}
-      <svg
-        className="absolute animate-[wave1_14s_ease-in-out_infinite]"
-        style={{ width: '140%', height: '120%', top: '-15%', left: '-20%' }}
-        viewBox="0 0 1200 800" preserveAspectRatio="none"
-      >
-        <path
-          d="M0,400 C200,250 400,550 600,400 C800,250 1000,550 1200,400 L1200,800 L0,800 Z"
-          fill={`url(#gw1-${id})`}
-          opacity="0.5"
-        />
-        <defs>
-          <linearGradient id={`gw1-${id}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00008b" />
-            <stop offset="100%" stopColor="#191970" />
-          </linearGradient>
-        </defs>
-      </svg>
-
-      {/* Wave 2 — medium speed, offset */}
-      <svg
-        className="absolute animate-[wave2_12s_ease-in-out_infinite]"
-        style={{ width: '130%', height: '110%', top: '-5%', left: '-15%' }}
-        viewBox="0 0 1200 800" preserveAspectRatio="none"
-      >
-        <path
-          d="M0,350 C300,500 500,200 800,400 C1000,550 1100,300 1200,350 L1200,800 L0,800 Z"
-          fill={`url(#gw2-${id})`}
-          opacity="0.4"
-        />
-        <defs>
-          <linearGradient id={`gw2-${id}`} x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#191970" />
-            <stop offset="100%" stopColor="#00008b" />
-          </linearGradient>
-        </defs>
-      </svg>
-
-      {/* Wave 3 — faster, sharper angle */}
-      <svg
-        className="absolute animate-[wave3_10s_ease-in-out_infinite]"
-        style={{ width: '150%', height: '100%', top: '5%', left: '-25%' }}
-        viewBox="0 0 1200 800" preserveAspectRatio="none"
-      >
-        <path
-          d="M0,450 C250,250 450,600 700,350 C900,150 1050,500 1200,400 L1200,800 L0,800 Z"
-          fill={`url(#gw3-${id})`}
-          opacity="0.35"
-        />
-        <defs>
-          <linearGradient id={`gw3-${id}`} x1="50%" y1="0%" x2="50%" y2="100%">
-            <stop offset="0%" stopColor="#00008b" />
-            <stop offset="100%" stopColor="#191970" />
-          </linearGradient>
-        </defs>
-      </svg>
+    <div className="pointer-events-none absolute inset-0 w-full h-full overflow-hidden [transform:skewY(-8deg)] origin-top-left" aria-hidden="true">
+      <canvas ref={canvasRef} className="absolute inset-0 w-[120%] h-[120%] -top-[10%] -left-[10%]" />
     </div>
   )
 }
@@ -127,7 +169,7 @@ function Hero() {
 
   return (
     <section className="relative overflow-hidden">
-      <WaveBackground />
+      <StripeBackground />
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 pb-20 pt-32 md:pt-48">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
