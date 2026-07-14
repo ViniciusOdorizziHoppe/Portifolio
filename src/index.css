@@ -14,3 +14,16 @@
   --color-ship-red: #ff5b4f;
   --color-link-blue: #0072f5;
 }
+
+@keyframes wave1 {
+  0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
+  50% { transform: translateY(-30px) scale(1.05) rotate(3deg); }
+}
+@keyframes wave2 {
+  0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
+  50% { transform: translateY(25px) scale(1.04) rotate(-2deg); }
+}
+@keyframes wave3 {
+  0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
+  50% { transform: translateY(-20px) scale(1.06) rotate(1deg); }
+}

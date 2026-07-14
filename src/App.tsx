@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useId } from 'react'
 import { motion, useInView } from 'framer-motion'
 
 function App() {
@@ -36,41 +36,67 @@ function Nav() {
   )
 }
 
-/* ───── Stripe-like Animated Background ───── */
-function StripeBackground() {
+/* ───── SVG Wave Background ───── */
+function WaveBackground() {
+  const id = useId()
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      {/* Animated gradient mesh */}
-      <div
-        className="absolute inset-0 animate-[stripeGradient_12s_ease-in-out_infinite]"
-        style={{
-          background: `
-            radial-gradient(ellipse 80% 60% at 20% 30%, rgba(0,0,139,0.18) 0%, transparent 55%),
-            radial-gradient(ellipse 60% 80% at 80% 20%, rgba(25,25,112,0.15) 0%, transparent 55%),
-            radial-gradient(ellipse 70% 50% at 50% 80%, rgba(0,0,139,0.12) 0%, transparent 55%),
-            radial-gradient(ellipse 50% 70% at 70% 60%, rgba(25,25,112,0.14) 0%, transparent 55%)
-          `,
-        }}
-      />
-      {/* Subtle dot grid overlay */}
-      <svg className="absolute inset-0 h-full w-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg">
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true" style={{ filter: 'blur(40px)' }}>
+      {/* Wave 1 — slow, large */}
+      <svg
+        className="absolute animate-[wave1_14s_ease-in-out_infinite]"
+        style={{ width: '140%', height: '120%', top: '-15%', left: '-20%' }}
+        viewBox="0 0 1200 800" preserveAspectRatio="none"
+      >
+        <path
+          d="M0,400 C200,250 400,550 600,400 C800,250 1000,550 1200,400 L1200,800 L0,800 Z"
+          fill={`url(#gw1-${id})`}
+          opacity="0.5"
+        />
         <defs>
-          <pattern id="dot-grid" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-            <circle cx="12" cy="12" r="1" fill="#00008b" />
-          </pattern>
+          <linearGradient id={`gw1-${id}`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#00008b" />
+            <stop offset="100%" stopColor="#191970" />
+          </linearGradient>
         </defs>
-        <rect width="100%" height="100%" fill="url(#dot-grid)" />
       </svg>
-      {/* Bottom wave */}
-      <svg className="absolute bottom-0 left-0 w-full opacity-[0.06]" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,100 C240,180 480,20 720,100 C960,180 1200,20 1440,100 L1440,200 L0,200 Z" fill="#00008b" />
+
+      {/* Wave 2 — medium speed, offset */}
+      <svg
+        className="absolute animate-[wave2_12s_ease-in-out_infinite]"
+        style={{ width: '130%', height: '110%', top: '-5%', left: '-15%' }}
+        viewBox="0 0 1200 800" preserveAspectRatio="none"
+      >
+        <path
+          d="M0,350 C300,500 500,200 800,400 C1000,550 1100,300 1200,350 L1200,800 L0,800 Z"
+          fill={`url(#gw2-${id})`}
+          opacity="0.4"
+        />
+        <defs>
+          <linearGradient id={`gw2-${id}`} x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#191970" />
+            <stop offset="100%" stopColor="#00008b" />
+          </linearGradient>
+        </defs>
       </svg>
-      <style>{`
-        @keyframes stripeGradient {
-          0%, 100% { opacity: 0.7; }
-          50% { opacity: 1; }
-        }
-      `}</style>
+
+      {/* Wave 3 — faster, sharper angle */}
+      <svg
+        className="absolute animate-[wave3_10s_ease-in-out_infinite]"
+        style={{ width: '150%', height: '100%', top: '5%', left: '-25%' }}
+        viewBox="0 0 1200 800" preserveAspectRatio="none"
+      >
+        <path
+          d="M0,450 C250,250 450,600 700,350 C900,150 1050,500 1200,400 L1200,800 L0,800 Z"
+          fill={`url(#gw3-${id})`}
+          opacity="0.35"
+        />
+        <defs>
+          <linearGradient id={`gw3-${id}`} x1="50%" y1="0%" x2="50%" y2="100%">
+            <stop offset="0%" stopColor="#00008b" />
+            <stop offset="100%" stopColor="#191970" />
+          </linearGradient>
+        </defs>
+      </svg>
     </div>
   )
 }
@@ -95,14 +121,13 @@ function Hero() {
     return () => clearInterval(interval)
   }, [])
 
-  // Split "Vinícius Odorizzi" — keep typewriter, render Odorizzi in Cinzel
   const splitIdx = 'Vinícius '.length
   const firstPart = displayed.slice(0, Math.min(displayed.length, splitIdx))
   const secondPart = displayed.slice(splitIdx)
 
   return (
     <section className="relative overflow-hidden">
-      <StripeBackground />
+      <WaveBackground />
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 pb-20 pt-32 md:pt-48">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -162,7 +187,7 @@ function Projects() {
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="projetos" className="mx-auto max-w-[1200px] px-6 pb-20" ref={ref}>
+    <section id="projetos" className="relative mx-auto max-w-[1200px] px-6 pb-20" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
         <span className="font-mono text-xs font-medium uppercase tracking-wide text-develop-blue">Projetos</span>
         <span className="h-px flex-1 bg-vercel-border" />
@@ -243,79 +268,82 @@ function OrbitingStack() {
   const innerRadius = 130
 
   return (
-    <section id="stack" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
-      <div className="mb-12 flex items-center gap-3">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-preview-pink">Stack</span>
-        <span className="h-px flex-1 bg-vercel-border" />
+    <section id="stack" className="relative border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
+      <WaveBackground />
+      <div className="relative z-10">
+        <div className="mb-12 flex items-center gap-3">
+          <span className="font-mono text-xs font-medium uppercase tracking-wide text-preview-pink">Stack</span>
+          <span className="h-px flex-1 bg-vercel-border" />
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.8 }}
+          className="relative mx-auto flex h-[560px] w-[560px] items-center justify-center max-sm:h-[360px] max-sm:w-[360px]"
+        >
+          {/* Outer orbit */}
+          <div className="absolute inset-0 animate-[spin_30s_linear_infinite]">
+            {outerItems.map((item, i) => {
+              const angle = (i / outerItems.length) * 2 * Math.PI - Math.PI / 2
+              const x = Math.cos(angle) * radius
+              const y = Math.sin(angle) * radius
+              return (
+                <div
+                  key={item.name}
+                  className="absolute flex h-10 w-10 items-center justify-center rounded-xl border border-vercel-border bg-white shadow-sm transition-all hover:border-develop-blue hover:shadow-md max-sm:h-7 max-sm:w-7"
+                  style={{
+                    left: `calc(50% + ${x}px - 20px)`,
+                    top: `calc(50% + ${y}px - 20px)`,
+                  }}
+                >
+                  <img
+                    src={item.icon}
+                    alt={item.name}
+                    className="h-5 w-5 max-sm:h-3.5 max-sm:w-3.5"
+                    style={{ animation: 'spin 30s linear infinite', animationDirection: 'reverse' }}
+                  />
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Inner orbit (reverse) */}
+          <div className="absolute inset-0 animate-[spin_20s_linear_infinite]" style={{ animationDirection: 'reverse' }}>
+            {innerItems.map((item, i) => {
+              const angle = (i / innerItems.length) * 2 * Math.PI - Math.PI / 2
+              const x = Math.cos(angle) * innerRadius
+              const y = Math.sin(angle) * innerRadius
+              return (
+                <div
+                  key={item.name}
+                  className="absolute flex h-9 w-9 items-center justify-center rounded-lg border border-vercel-border bg-white/90 shadow-sm transition-all hover:border-develop-blue max-sm:h-6 max-sm:w-6"
+                  style={{
+                    left: `calc(50% + ${x}px - 18px)`,
+                    top: `calc(50% + ${y}px - 18px)`,
+                  }}
+                >
+                  <img
+                    src={item.icon}
+                    alt={item.name}
+                    className="h-4 w-4 max-sm:h-3 max-sm:w-3"
+                    style={{ animation: 'spin 20s linear infinite' }}
+                  />
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Center stats */}
+          <div className="z-10 flex flex-col items-center text-center">
+            <span className="font-mono text-4xl font-semibold text-develop-blue max-sm:text-2xl">681<span className="text-vercel-muted">+</span></span>
+            <span className="mt-1 text-xs text-vercel-gray">contribuições</span>
+            <span className="mt-3 font-mono text-2xl font-semibold text-vercel-black max-sm:text-lg">26</span>
+            <span className="mt-0.5 text-xs text-vercel-gray">repositórios</span>
+            <span className="mt-3 rounded-full bg-vercel-black px-3 py-1 font-mono text-[10px] font-medium uppercase text-white">Técnico em Informática</span>
+          </div>
+        </motion.div>
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={inView ? { opacity: 1, scale: 1 } : {}}
-        transition={{ duration: 0.8 }}
-        className="relative mx-auto flex h-[560px] w-[560px] items-center justify-center max-sm:h-[360px] max-sm:w-[360px]"
-      >
-        {/* Outer orbit */}
-        <div className="absolute inset-0 animate-[spin_30s_linear_infinite]">
-          {outerItems.map((item, i) => {
-            const angle = (i / outerItems.length) * 2 * Math.PI - Math.PI / 2
-            const x = Math.cos(angle) * radius
-            const y = Math.sin(angle) * radius
-            return (
-              <div
-                key={item.name}
-                className="absolute flex h-10 w-10 items-center justify-center rounded-xl border border-vercel-border bg-white shadow-sm transition-all hover:border-develop-blue hover:shadow-md max-sm:h-7 max-sm:w-7"
-                style={{
-                  left: `calc(50% + ${x}px - 20px)`,
-                  top: `calc(50% + ${y}px - 20px)`,
-                }}
-              >
-                <img
-                  src={item.icon}
-                  alt={item.name}
-                  className="h-5 w-5 max-sm:h-3.5 max-sm:w-3.5"
-                  style={{ animation: 'spin 30s linear infinite', animationDirection: 'reverse' }}
-                />
-              </div>
-            )
-          })}
-        </div>
-
-        {/* Inner orbit (reverse) */}
-        <div className="absolute inset-0 animate-[spin_20s_linear_infinite]" style={{ animationDirection: 'reverse' }}>
-          {innerItems.map((item, i) => {
-            const angle = (i / innerItems.length) * 2 * Math.PI - Math.PI / 2
-            const x = Math.cos(angle) * innerRadius
-            const y = Math.sin(angle) * innerRadius
-            return (
-              <div
-                key={item.name}
-                className="absolute flex h-9 w-9 items-center justify-center rounded-lg border border-vercel-border bg-white/90 shadow-sm transition-all hover:border-develop-blue max-sm:h-6 max-sm:w-6"
-                style={{
-                  left: `calc(50% + ${x}px - 18px)`,
-                  top: `calc(50% + ${y}px - 18px)`,
-                }}
-              >
-                <img
-                  src={item.icon}
-                  alt={item.name}
-                  className="h-4 w-4 max-sm:h-3 max-sm:w-3"
-                  style={{ animation: 'spin 20s linear infinite' }}
-                />
-              </div>
-            )
-          })}
-        </div>
-
-        {/* Center stats — counter-rotates to stay readable */}
-        <div className="z-10 flex flex-col items-center text-center">
-          <span className="font-mono text-4xl font-semibold text-develop-blue max-sm:text-2xl">681<span className="text-vercel-muted">+</span></span>
-          <span className="mt-1 text-xs text-vercel-gray">contribuições</span>
-          <span className="mt-3 font-mono text-2xl font-semibold text-vercel-black max-sm:text-lg">26</span>
-          <span className="mt-0.5 text-xs text-vercel-gray">repositórios</span>
-          <span className="mt-3 rounded-full bg-vercel-black px-3 py-1 font-mono text-[10px] font-medium uppercase text-white">Técnico em Informática</span>
-        </div>
-      </motion.div>
     </section>
   )
 }
@@ -326,27 +354,30 @@ function Achievements() {
   const inView = useInView(ref, { once: true, margin: '-50px' })
 
   return (
-    <section className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
-      <div className="mb-12 flex items-center gap-3">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-ship-red">Conquistas</span>
-        <span className="h-px flex-1 bg-vercel-border" />
-      </div>
-      <div className="grid gap-1">
-        {achievements.map((a, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: -20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: i * 0.08, duration: 0.4 }}
-            className="flex items-start gap-4 rounded-lg p-4 transition-colors hover:bg-vercel-bg"
-          >
-            <span className="mt-0.5 font-mono text-sm text-vercel-muted">{a.year}</span>
-            <div>
-              <p className="font-medium">{a.title}</p>
-              <p className="text-sm text-vercel-gray">{a.desc}</p>
-            </div>
-          </motion.div>
-        ))}
+    <section className="relative border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
+      <WaveBackground />
+      <div className="relative z-10">
+        <div className="mb-12 flex items-center gap-3">
+          <span className="font-mono text-xs font-medium uppercase tracking-wide text-ship-red">Conquistas</span>
+          <span className="h-px flex-1 bg-vercel-border" />
+        </div>
+        <div className="grid gap-1">
+          {achievements.map((a, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -20 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: i * 0.08, duration: 0.4 }}
+              className="flex items-start gap-4 rounded-lg p-4 transition-colors hover:bg-vercel-bg"
+            >
+              <span className="mt-0.5 font-mono text-sm text-vercel-muted">{a.year}</span>
+              <div>
+                <p className="font-medium">{a.title}</p>
+                <p className="text-sm text-vercel-gray">{a.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -355,8 +386,9 @@ function Achievements() {
 /* ───── Footer ───── */
 function Footer() {
   return (
-    <footer id="contato" className="border-t border-vercel-border bg-vercel-bg">
-      <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 px-6 py-12 text-center">
+    <footer id="contato" className="relative border-t border-vercel-border bg-vercel-bg">
+      <WaveBackground />
+      <div className="relative z-10 mx-auto flex max-w-[1200px] flex-col items-center gap-4 px-6 py-12 text-center">
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
