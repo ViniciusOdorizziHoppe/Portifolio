@@ -268,82 +268,79 @@ function OrbitingStack() {
   const innerRadius = 130
 
   return (
-    <section id="stack" className="relative border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
-      <WaveBackground />
-      <div className="relative z-10">
-        <div className="mb-12 flex items-center gap-3">
-          <span className="font-mono text-xs font-medium uppercase tracking-wide text-preview-pink">Stack</span>
-          <span className="h-px flex-1 bg-vercel-border" />
+    <section id="stack" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
+      <div className="mb-12 flex items-center gap-3">
+        <span className="font-mono text-xs font-medium uppercase tracking-wide text-preview-pink">Stack</span>
+        <span className="h-px flex-1 bg-vercel-border" />
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={inView ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 0.8 }}
+        className="relative mx-auto flex h-[560px] w-[560px] items-center justify-center max-sm:h-[360px] max-sm:w-[360px]"
+      >
+        {/* Outer orbit */}
+        <div className="absolute inset-0 animate-[spin_30s_linear_infinite]">
+          {outerItems.map((item, i) => {
+            const angle = (i / outerItems.length) * 2 * Math.PI - Math.PI / 2
+            const x = Math.cos(angle) * radius
+            const y = Math.sin(angle) * radius
+            return (
+              <div
+                key={item.name}
+                className="absolute flex h-10 w-10 items-center justify-center rounded-xl border border-vercel-border bg-white shadow-sm transition-all hover:border-develop-blue hover:shadow-md max-sm:h-7 max-sm:w-7"
+                style={{
+                  left: `calc(50% + ${x}px - 20px)`,
+                  top: `calc(50% + ${y}px - 20px)`,
+                }}
+              >
+                <img
+                  src={item.icon}
+                  alt={item.name}
+                  className="h-5 w-5 max-sm:h-3.5 max-sm:w-3.5"
+                  style={{ animation: 'spin 30s linear infinite', animationDirection: 'reverse' }}
+                />
+              </div>
+            )
+          })}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.8 }}
-          className="relative mx-auto flex h-[560px] w-[560px] items-center justify-center max-sm:h-[360px] max-sm:w-[360px]"
-        >
-          {/* Outer orbit */}
-          <div className="absolute inset-0 animate-[spin_30s_linear_infinite]">
-            {outerItems.map((item, i) => {
-              const angle = (i / outerItems.length) * 2 * Math.PI - Math.PI / 2
-              const x = Math.cos(angle) * radius
-              const y = Math.sin(angle) * radius
-              return (
-                <div
-                  key={item.name}
-                  className="absolute flex h-10 w-10 items-center justify-center rounded-xl border border-vercel-border bg-white shadow-sm transition-all hover:border-develop-blue hover:shadow-md max-sm:h-7 max-sm:w-7"
-                  style={{
-                    left: `calc(50% + ${x}px - 20px)`,
-                    top: `calc(50% + ${y}px - 20px)`,
-                  }}
-                >
-                  <img
-                    src={item.icon}
-                    alt={item.name}
-                    className="h-5 w-5 max-sm:h-3.5 max-sm:w-3.5"
-                    style={{ animation: 'spin 30s linear infinite', animationDirection: 'reverse' }}
-                  />
-                </div>
-              )
-            })}
-          </div>
+        {/* Inner orbit (reverse) */}
+        <div className="absolute inset-0 animate-[spin_20s_linear_infinite]" style={{ animationDirection: 'reverse' }}>
+          {innerItems.map((item, i) => {
+            const angle = (i / innerItems.length) * 2 * Math.PI - Math.PI / 2
+            const x = Math.cos(angle) * innerRadius
+            const y = Math.sin(angle) * innerRadius
+            return (
+              <div
+                key={item.name}
+                className="absolute flex h-9 w-9 items-center justify-center rounded-lg border border-vercel-border bg-white/90 shadow-sm transition-all hover:border-develop-blue max-sm:h-6 max-sm:w-6"
+                style={{
+                  left: `calc(50% + ${x}px - 18px)`,
+                  top: `calc(50% + ${y}px - 18px)`,
+                }}
+              >
+                <img
+                  src={item.icon}
+                  alt={item.name}
+                  className="h-4 w-4 max-sm:h-3 max-sm:w-3"
+                  style={{ animation: 'spin 20s linear infinite' }}
+                />
+              </div>
+            )
+          })}
+        </div>
 
-          {/* Inner orbit (reverse) */}
-          <div className="absolute inset-0 animate-[spin_20s_linear_infinite]" style={{ animationDirection: 'reverse' }}>
-            {innerItems.map((item, i) => {
-              const angle = (i / innerItems.length) * 2 * Math.PI - Math.PI / 2
-              const x = Math.cos(angle) * innerRadius
-              const y = Math.sin(angle) * innerRadius
-              return (
-                <div
-                  key={item.name}
-                  className="absolute flex h-9 w-9 items-center justify-center rounded-lg border border-vercel-border bg-white/90 shadow-sm transition-all hover:border-develop-blue max-sm:h-6 max-sm:w-6"
-                  style={{
-                    left: `calc(50% + ${x}px - 18px)`,
-                    top: `calc(50% + ${y}px - 18px)`,
-                  }}
-                >
-                  <img
-                    src={item.icon}
-                    alt={item.name}
-                    className="h-4 w-4 max-sm:h-3 max-sm:w-3"
-                    style={{ animation: 'spin 20s linear infinite' }}
-                  />
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Center stats */}
-          <div className="z-10 flex flex-col items-center text-center">
-            <span className="font-mono text-4xl font-semibold text-develop-blue max-sm:text-2xl">681<span className="text-vercel-muted">+</span></span>
-            <span className="mt-1 text-xs text-vercel-gray">contribuições</span>
-            <span className="mt-3 font-mono text-2xl font-semibold text-vercel-black max-sm:text-lg">26</span>
-            <span className="mt-0.5 text-xs text-vercel-gray">repositórios</span>
-            <span className="mt-3 rounded-full bg-vercel-black px-3 py-1 font-mono text-[10px] font-medium uppercase text-white">Técnico em Informática</span>
-          </div>
-        </motion.div>
-      </div>
+        {/* Center stats */}
+        <div className="z-10 flex flex-col items-center text-center">
+          <span className="font-mono text-4xl font-semibold text-develop-blue max-sm:text-2xl">681<span className="text-vercel-muted">+</span></span>
+          <span className="mt-1 text-xs text-vercel-gray">contribuições</span>
+          <span className="mt-3 font-mono text-2xl font-semibold text-vercel-black max-sm:text-lg">26</span>
+          <span className="mt-0.5 text-xs text-vercel-gray">repositórios</span>
+          <span className="mt-3 rounded-full bg-vercel-black px-3 py-1 font-mono text-[10px] font-medium uppercase text-white">Técnico em Informática</span>
+        </div>
+      </motion.div>
     </section>
   )
 }
@@ -354,30 +351,27 @@ function Achievements() {
   const inView = useInView(ref, { once: true, margin: '-50px' })
 
   return (
-    <section className="relative border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
-      <WaveBackground />
-      <div className="relative z-10">
-        <div className="mb-12 flex items-center gap-3">
-          <span className="font-mono text-xs font-medium uppercase tracking-wide text-ship-red">Conquistas</span>
-          <span className="h-px flex-1 bg-vercel-border" />
-        </div>
-        <div className="grid gap-1">
-          {achievements.map((a, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -20 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: i * 0.08, duration: 0.4 }}
-              className="flex items-start gap-4 rounded-lg p-4 transition-colors hover:bg-vercel-bg"
-            >
-              <span className="mt-0.5 font-mono text-sm text-vercel-muted">{a.year}</span>
-              <div>
-                <p className="font-medium">{a.title}</p>
-                <p className="text-sm text-vercel-gray">{a.desc}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+    <section className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
+      <div className="mb-12 flex items-center gap-3">
+        <span className="font-mono text-xs font-medium uppercase tracking-wide text-ship-red">Conquistas</span>
+        <span className="h-px flex-1 bg-vercel-border" />
+      </div>
+      <div className="grid gap-1">
+        {achievements.map((a, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -20 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: i * 0.08, duration: 0.4 }}
+            className="flex items-start gap-4 rounded-lg p-4 transition-colors hover:bg-vercel-bg"
+          >
+            <span className="mt-0.5 font-mono text-sm text-vercel-muted">{a.year}</span>
+            <div>
+              <p className="font-medium">{a.title}</p>
+              <p className="text-sm text-vercel-gray">{a.desc}</p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   )
@@ -386,9 +380,8 @@ function Achievements() {
 /* ───── Footer ───── */
 function Footer() {
   return (
-    <footer id="contato" className="relative border-t border-vercel-border bg-vercel-bg">
-      <WaveBackground />
-      <div className="relative z-10 mx-auto flex max-w-[1200px] flex-col items-center gap-4 px-6 py-12 text-center">
+    <footer id="contato" className="border-t border-vercel-border bg-vercel-bg">
+      <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 px-6 py-12 text-center">
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
