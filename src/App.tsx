@@ -36,122 +36,128 @@ function Nav() {
   )
 }
 
-/* ───── Stripe WebGL Mesh Gradient ───── */
-function StripeBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+/* ───── 3D Wave Background (Three.js) ───── */
+function WaveBackground() {
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    const container = containerRef.current
+    if (!container) return
 
-    const gl = canvas.getContext('webgl', { alpha: false })
-    if (!gl) return
-
-    // Vertex shader
-    const vert = gl.createShader(gl.VERTEX_SHADER)
-    if (!vert) return
-    gl.shaderSource(vert, 'attribute vec2 p;void main(){gl_Position=vec4(p,0,1);}')
-    gl.compileShader(vert)
-
-    // Fragment shader — 3D Simplex-like noise for fluid gradient
-    const frag = gl.createShader(gl.FRAGMENT_SHADER)
-    if (!frag) return
-    gl.shaderSource(frag, `precision highp float;
-uniform vec2 r;
-uniform float t;
-vec3 h(vec3 x){return fract(sin(dot(x,vec3(127.1,311.7,74.7)))*43758.5453);}
-float n(vec3 p){
-  vec3 i=floor(p),f=fract(p);
-  f=f*f*(3.0-2.0*f);
-  return mix(
-    mix(mix(dot(h(i),f),dot(h(i+vec3(1,0,0)),f-vec3(1,0,0)),f.x),
-        mix(dot(h(i+vec3(0,1,0)),f-vec3(0,1,0)),dot(h(i+vec3(1,1,0)),f-vec3(1,1,0)),f.x),f.y),
-    mix(mix(dot(h(i+vec3(0,0,1)),f-vec3(0,0,1)),dot(h(i+vec3(1,0,1)),f-vec3(1,0,1)),f.x),
-        mix(dot(h(i+vec3(0,1,1)),f-vec3(0,1,1)),dot(h(i+vec3(1,1,1)),f-vec3(1,1,1)),f.x),f.y),f.z);
-}
-void main(){
-  vec2 uv=gl_FragCoord.xy/r;
-  float s=1.6;
-  float n1=n(vec3(uv*s,t*0.12));
-  float n2=n(vec3(uv*s+vec2(1.3,0.7),t*0.15+1.7));
-  float n3=n(vec3(uv*s*1.5-vec2(0.4,1.1),t*0.10+3.4));
-  vec3 col=mix(
-    mix(vec3(0.0,0.0,0.545),vec3(0.098,0.098,0.439),n1*0.5+0.5),
-    mix(vec3(0.02,0.02,0.6),vec3(0.05,0.05,0.5),n2*0.5+0.5),
-    n3*0.5+0.5
-  );
-  gl_FragColor=vec4(col,1.0);
-}`)
-    gl.compileShader(frag)
-
-    if (!gl.getShaderParameter(frag, gl.COMPILE_STATUS)) {
-      console.error('WebGL shader error:', gl.getShaderInfoLog(frag))
-      return
-    }
-
-    const prog = gl.createProgram()
-    if (!prog) return
-    gl.attachShader(prog, vert)
-    gl.attachShader(prog, frag)
-    gl.linkProgram(prog)
-    gl.useProgram(prog)
-
-    // Full-screen triangle strip quad
-    const buf = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW)
-    const pLoc = gl.getAttribLocation(prog, 'p')
-    gl.enableVertexAttribArray(pLoc)
-    gl.vertexAttribPointer(pLoc, 2, gl.FLOAT, false, 0, 0)
-
-    const rLoc = gl.getUniformLocation(prog, 'r')
-    const tLoc = gl.getUniformLocation(prog, 't')
-
+    // Dynamic import to avoid SSR issues
     let anim = 0
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect()
-      const dpr = window.devicePixelRatio || 1
-      const w = Math.max(1, Math.floor(rect.width * dpr))
-      const h = Math.max(1, Math.floor(rect.height * dpr))
-      if (canvas.width !== w || canvas.height !== h) {
-        canvas.width = w
-        canvas.height = h
+    let cleanup: (() => void) | null = null
+
+    import('three').then((THREE) => {
+      if (!container.isConnected) return
+
+      const width = container.clientWidth
+      const height = container.clientHeight
+      if (width === 0 || height === 0) return
+
+      // Scene
+      const scene = new THREE.Scene()
+
+      // Camera — looking down at the wave from above
+      const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
+      camera.position.set(0, 6, 10)
+      camera.lookAt(0, 0, 0)
+
+      // Renderer
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
+      renderer.setSize(width, height)
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+      container.appendChild(renderer.domElement)
+      renderer.domElement.style.position = 'absolute'
+      renderer.domElement.style.inset = '0'
+
+      // Lights for 3D depth
+      const ambient = new THREE.AmbientLight('#191970', 0.6)
+      scene.add(ambient)
+      const dir = new THREE.DirectionalLight('#00008b', 1.2)
+      dir.position.set(5, 10, 5)
+      scene.add(dir)
+      const dir2 = new THREE.DirectionalLight('#4169e1', 0.5)
+      dir2.position.set(-5, 3, -3)
+      scene.add(dir2)
+
+      // Wave geometry — subdivided plane
+      const segments = 120
+      const size = 14
+      const geo = new THREE.PlaneGeometry(size, size, segments, segments)
+      geo.rotateX(-Math.PI / 2.5) // tilt for perspective
+
+      // Material — blue metallic
+      const mat = new THREE.MeshStandardMaterial({
+        color: '#00008b',
+        metalness: 0.3,
+        roughness: 0.5,
+        flatShading: false,
+        side: THREE.DoubleSide,
+      })
+
+      const mesh = new THREE.Mesh(geo, mat)
+      scene.add(mesh)
+
+      // Store original positions for wave calculation
+      const origPositions = new Float32Array(geo.attributes.position.array)
+
+      const resize = () => {
+        const w = container.clientWidth
+        const h = container.clientHeight
+        if (w === 0 || h === 0) return
+        camera.aspect = w / h
+        camera.updateProjectionMatrix()
+        renderer.setSize(w, h)
       }
-    }
-    resize()
 
-    const start = performance.now()
-    const draw = () => {
-      resize()
-      gl.viewport(0, 0, canvas.width, canvas.height)
-      gl.uniform2f(rLoc, canvas.width, canvas.height)
-      gl.uniform1f(tLoc, (performance.now() - start) * 0.001)
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+      const start = performance.now()
+      const draw = () => {
+        const t = (performance.now() - start) * 0.001
+        const pos = geo.attributes.position.array as Float32Array
+
+        for (let i = 0; i < pos.length; i += 3) {
+          const ox = origPositions[i]
+          const oy = origPositions[i + 1]
+          // Flowing downward: Y drives the wave phase
+          const wave1 = Math.sin(ox * 1.8 + t * 1.2) * Math.cos(oy * 1.5 + t * 0.6) * 0.5
+          const wave2 = Math.sin(ox * 2.5 - t * 0.9) * Math.sin(oy * 2.0 + t * 0.7) * 0.35
+          const wave3 = Math.cos(ox * 3.0 + oy * 1.8 + t * 0.4) * 0.2
+          pos[i + 2] = wave1 + wave2 + wave3
+        }
+        geo.attributes.position.needsUpdate = true
+        geo.computeVertexNormals()
+
+        renderer.render(scene, camera)
+        anim = requestAnimationFrame(draw)
+      }
       anim = requestAnimationFrame(draw)
-    }
-    anim = requestAnimationFrame(draw)
 
-    const onResize = () => resize()
-    window.addEventListener('resize', onResize)
+      window.addEventListener('resize', resize)
+
+      cleanup = () => {
+        cancelAnimationFrame(anim)
+        window.removeEventListener('resize', resize)
+        renderer.dispose()
+        geo.dispose()
+        mat.dispose()
+        container.removeChild(renderer.domElement)
+      }
+    })
 
     return () => {
       cancelAnimationFrame(anim)
-      window.removeEventListener('resize', onResize)
-      gl.deleteProgram(prog)
+      cleanup?.()
     }
   }, [])
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 overflow-hidden [transform:skewY(-8deg)] origin-top-left"
+      ref={containerRef}
+      className="pointer-events-none absolute inset-0 overflow-hidden"
       aria-hidden="true"
-      style={{ background: 'linear-gradient(135deg, #00008b 0%, #191970 100%)' }}
-    >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-      />
-    </div>
+      style={{ background: 'linear-gradient(180deg, #00008b 0%, #191970 100%)' }}
+    />
   )
 }
 
@@ -181,7 +187,7 @@ function Hero() {
 
   return (
     <section className="relative overflow-hidden">
-      <StripeBackground />
+      <WaveBackground />
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 pb-20 pt-32 md:pt-48">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
