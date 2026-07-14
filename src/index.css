@@ -3,6 +3,7 @@
 @theme {
   --font-sans: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-cinzel: 'Cinzel', serif;
   --color-vercel-black: #171717;
   --color-vercel-gray: #4d4d4d;
   --color-vercel-muted: #666666;
