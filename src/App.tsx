@@ -38,76 +38,40 @@ function Nav() {
 
 /* ───── Stripe-like Animated Background ───── */
 function StripeBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animRef = useRef<number>(0)
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    const resize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-    }
-    resize()
-    window.addEventListener('resize', resize)
-
-    // Blobs: each has x, y, vx, vy, radius, opacity
-    const blobs = Array.from({ length: 6 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      radius: 200 + Math.random() * 400,
-      opacity: 0.15 + Math.random() * 0.2,
-    }))
-
-    let lastTime = performance.now()
-
-    const draw = (time: number) => {
-      const dt = Math.min(time - lastTime, 50)
-      lastTime = time
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-      for (const b of blobs) {
-        b.x += b.vx * dt * 0.1
-        b.y += b.vy * dt * 0.1
-
-        // Bounce on edges
-        if (b.x < -b.radius) b.x = canvas.width + b.radius
-        if (b.x > canvas.width + b.radius) b.x = -b.radius
-        if (b.y < -b.radius) b.y = canvas.height + b.radius
-        if (b.y > canvas.height + b.radius) b.y = -b.radius
-
-        const gradient = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.radius)
-        gradient.addColorStop(0, `rgba(0, 0, 139, ${b.opacity * 1.2})`)    // #00008b
-        gradient.addColorStop(0.5, `rgba(25, 25, 112, ${b.opacity})`)      // #191970
-        gradient.addColorStop(1, 'rgba(25, 25, 112, 0)')
-
-        ctx.fillStyle = gradient
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-      }
-
-      animRef.current = requestAnimationFrame(draw)
-    }
-
-    animRef.current = requestAnimationFrame(draw)
-
-    return () => {
-      window.removeEventListener('resize', resize)
-      cancelAnimationFrame(animRef.current)
-    }
-  }, [])
-
   return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none absolute inset-0 h-full w-full"
-      aria-hidden="true"
-    />
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      {/* Animated gradient mesh */}
+      <div
+        className="absolute inset-0 animate-[stripeGradient_12s_ease-in-out_infinite]"
+        style={{
+          background: `
+            radial-gradient(ellipse 80% 60% at 20% 30%, rgba(0,0,139,0.18) 0%, transparent 55%),
+            radial-gradient(ellipse 60% 80% at 80% 20%, rgba(25,25,112,0.15) 0%, transparent 55%),
+            radial-gradient(ellipse 70% 50% at 50% 80%, rgba(0,0,139,0.12) 0%, transparent 55%),
+            radial-gradient(ellipse 50% 70% at 70% 60%, rgba(25,25,112,0.14) 0%, transparent 55%)
+          `,
+        }}
+      />
+      {/* Subtle dot grid overlay */}
+      <svg className="absolute inset-0 h-full w-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="dot-grid" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="12" cy="12" r="1" fill="#00008b" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dot-grid)" />
+      </svg>
+      {/* Bottom wave */}
+      <svg className="absolute bottom-0 left-0 w-full opacity-[0.06]" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,100 C240,180 480,20 720,100 C960,180 1200,20 1440,100 L1440,200 L0,200 Z" fill="#00008b" />
+      </svg>
+      <style>{`
+        @keyframes stripeGradient {
+          0%, 100% { opacity: 0.7; }
+          50% { opacity: 1; }
+        }
+      `}</style>
+    </div>
   )
 }
 
