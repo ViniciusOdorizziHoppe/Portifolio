@@ -4,13 +4,23 @@
   --font-sans: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-cinzel: 'Cinzel', serif;
-  --color-vercel-black: #171717;
-  --color-vercel-gray: #4d4d4d;
-  --color-vercel-muted: #666666;
-  --color-vercel-border: #ebebeb;
-  --color-vercel-bg: #fafafa;
-  --color-develop-blue: #0a72ef;
-  --color-preview-pink: #de1d8d;
-  --color-ship-red: #ff5b4f;
-  --color-link-blue: #0072f5;
+
+  /* 70% — Dominant (backgrounds, surfaces) */
+  --color-surface: #ffffff;
+  --color-surface-alt: #fafafa;
+  --color-border: #ebebeb;
+
+  /* 20% — Secondary (river, depth, cards) */
+  --color-river: #00008b;
+  --color-river-deep: #000066;
+  --color-river-light: #1a1a9e;
+
+  /* 10% — Accent (CTAs, labels, links) */
+  --color-accent: #0a72ef;
+  --color-accent-hover: #0855b3;
+
+  /* Text */
+  --color-text: #171717;
+  --color-text-secondary: #4d4d4d;
+  --color-text-muted: #666666;
 }

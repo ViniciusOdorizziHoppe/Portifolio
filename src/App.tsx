@@ -4,7 +4,7 @@ import RiverFlow from './RiverFlow'
 
 function App() {
   return (
-    <div className="min-h-screen font-sans text-vercel-black">
+    <div className="min-h-screen font-sans text-[--color-text]">
       <RiverFlow />
       <div className="relative z-10">
         <Nav />
@@ -32,10 +32,10 @@ function Nav() {
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
         <span className="font-mono text-sm font-medium uppercase tracking-tight">VH</span>
         <div className="flex items-center gap-6">
-          <a href="#servicos" className="text-sm font-medium text-vercel-gray transition-colors hover:text-vercel-black">Serviços</a>
-          <a href="#projetos" className="text-sm font-medium text-vercel-gray transition-colors hover:text-vercel-black">Projetos</a>
-          <a href="#stack" className="text-sm font-medium text-vercel-gray transition-colors hover:text-vercel-black">Stack</a>
-          <a href="#contato" className="rounded-full bg-vercel-black px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-80">Contato</a>
+          <a href="#servicos" className="text-sm font-medium text-[--color-text-secondary] transition-colors hover:text-[--color-text]">Serviços</a>
+          <a href="#projetos" className="text-sm font-medium text-[--color-text-secondary] transition-colors hover:text-[--color-text]">Projetos</a>
+          <a href="#stack" className="text-sm font-medium text-[--color-text-secondary] transition-colors hover:text-[--color-text]">Stack</a>
+          <a href="#contato" className="rounded-full bg-[--color-text] px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-80">Contato</a>
         </div>
       </div>
     </motion.header>
@@ -67,28 +67,28 @@ function Hero() {
   const secondPart = displayed.slice(splitIdx)
 
   return (
-    <section className="relative">
+    <section className="relative bg-white/80 backdrop-blur-sm">
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 pb-20 pt-32 md:pt-48">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="font-mono text-xs font-medium uppercase tracking-wide text-vercel-muted"
+          className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-text-muted]"
         >
           Desenvolvimento de software
         </motion.p>
 
-        <h1 className="mt-4 max-w-3xl font-sans text-5xl font-semibold leading-none tracking-[-0.05em] md:text-7xl md:tracking-[-0.04em] text-vercel-black">
+        <h1 className="mt-4 max-w-3xl font-sans text-5xl font-semibold leading-none tracking-[-0.05em] md:text-7xl md:tracking-[-0.04em] text-[--color-text]">
           <span>{firstPart}</span>
           <span className="font-[family-name:var(--font-cinzel)] font-semibold">{secondPart}</span>
-          <span className={`font-light ${cursor ? 'opacity-100' : 'opacity-0'} text-vercel-muted transition-opacity`}>|</span>
+          <span className={`font-light ${cursor ? 'opacity-100' : 'opacity-0'} text-[--color-text-muted] transition-opacity`}>|</span>
         </h1>
 
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
-          className="mt-6 max-w-xl text-lg leading-relaxed text-vercel-gray md:text-xl"
+          className="mt-6 max-w-xl text-lg leading-relaxed text-[--color-text-secondary] md:text-xl"
         >
           Transformo ideias em produtos digitais — sites, automações e aplicações que geram resultado.
         </motion.p>
@@ -100,12 +100,12 @@ function Hero() {
           className="mt-8 flex flex-wrap gap-3"
         >
           <a href="#contato"
-            className="inline-flex items-center gap-2 rounded-md bg-vercel-black px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-vercel-black/80">
+            className="inline-flex items-center gap-2 rounded-md bg-[--color-text] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-[--color-text]/80">
             Solicitar orçamento
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </a>
           <a href="#projetos"
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-vercel-gray transition-all hover:text-vercel-black"
+            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-[--color-text-secondary] transition-all hover:text-[--color-text]"
             style={{ boxShadow: 'rgb(235,235,235) 0px 0px 0px 1px' }}>
             Ver projetos
           </a>
@@ -148,10 +148,10 @@ function Services() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="servicos" className="mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
+    <section id="servicos" className="mx-auto max-w-[1200px] px-6 py-20 bg-white/80 backdrop-blur-sm" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-develop-blue">Serviços</span>
-        <span className="h-px flex-1 bg-vercel-border" />
+        <span className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent]">Serviços</span>
+        <span className="h-px flex-1 bg-[--color-border]" />
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
@@ -161,14 +161,14 @@ function Services() {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: i * 0.1, duration: 0.5 }}
-            className="group rounded-xl bg-vercel-bg p-6 transition-all hover:shadow-md"
+            className="group rounded-xl bg-[--color-surface-alt] p-6 transition-all hover:shadow-md"
             style={{ boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px' }}
           >
-            <div className="mb-4 inline-flex rounded-lg border border-vercel-border bg-white p-2.5 text-develop-blue">
+            <div className="mb-4 inline-flex rounded-lg border border-[--color-border] bg-white p-2.5 text-[--color-accent]">
               {s.icon}
             </div>
             <h3 className="font-sans text-lg font-semibold tracking-[-0.02em]">{s.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-vercel-gray">{s.desc}</p>
+            <p className="mt-2 text-sm leading-relaxed text-[--color-text-secondary]">{s.desc}</p>
             <div className="mt-4 flex flex-wrap gap-1.5">
               {s.tags.map((t) => (
                 <span key={t} className="rounded-full bg-[#ebf5ff] px-2 py-0.5 font-mono text-[11px] font-medium text-[#0068d6]">{t}</span>
@@ -185,7 +185,7 @@ function Services() {
         className="mt-8 text-center"
       >
         <a href="#contato"
-          className="inline-flex items-center gap-2 rounded-md bg-vercel-black px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-80">
+          className="inline-flex items-center gap-2 rounded-md bg-[--color-text] px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-80">
           Preciso de algo personalizado
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
         </a>
@@ -200,10 +200,10 @@ function Projects() {
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="projetos" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
+    <section id="projetos" className="border-t border-[--color-border] mx-auto max-w-[1200px] px-6 py-20 bg-white/80 backdrop-blur-sm" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-preview-pink">Projetos</span>
-        <span className="h-px flex-1 bg-vercel-border" />
+        <span className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent]">Projetos</span>
+        <span className="h-px flex-1 bg-[--color-border]" />
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {projects.map((p, i) => (
@@ -215,7 +215,7 @@ function Projects() {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: i * 0.1, duration: 0.5 }}
-            className="group relative overflow-hidden rounded-xl bg-vercel-bg transition-all hover:shadow-lg"
+            className="group relative overflow-hidden rounded-xl bg-[--color-surface-alt] transition-all hover:shadow-lg"
             style={{ boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px' }}
           >
             {p.image ? (
@@ -230,18 +230,18 @@ function Projects() {
             )}
             <div className="p-5">
               <h3 className="font-sans text-lg font-semibold leading-tight tracking-[-0.02em]">{p.name}</h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-vercel-gray">{p.desc}</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-[--color-text-secondary]">{p.desc}</p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {p.tags.slice(0, 3).map((t) => (
                   <span key={t} className="rounded-full bg-[#ebf5ff] px-2 py-0.5 font-mono text-[11px] font-medium text-[#0068d6]">{t}</span>
                 ))}
                 {p.tags.length > 3 && (
-                  <span className="rounded-full bg-vercel-border px-2 py-0.5 font-mono text-[11px] text-vercel-muted">+{p.tags.length - 3}</span>
+                  <span className="rounded-full bg-[--color-border] px-2 py-0.5 font-mono text-[11px] text-[--color-text-muted]">+{p.tags.length - 3}</span>
                 )}
               </div>
             </div>
             <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
-              <span className="rounded-full bg-white px-5 py-2 text-sm font-medium text-vercel-black">Visitar →</span>
+              <span className="rounded-full bg-white px-5 py-2 text-sm font-medium text-[--color-text]">Visitar →</span>
             </div>
           </motion.a>
         ))}
@@ -251,10 +251,10 @@ function Projects() {
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ delay: 0.5 }}
-        className="mt-8 text-center text-sm text-vercel-gray"
+        className="mt-8 text-center text-sm text-[--color-text-secondary]"
       >
         Gostou do que viu?{' '}
-        <a href="#contato" className="font-medium text-link-blue underline underline-offset-4 hover:text-vercel-black">
+        <a href="#contato" className="font-medium text-[--color-accent] underline underline-offset-4 hover:text-[--color-text]">
           Vamos construir o seu projeto.
         </a>
       </motion.p>
@@ -293,10 +293,10 @@ function OrbitingStack() {
   const innerRadius = 130
 
   return (
-    <section id="stack" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
+    <section id="stack" className="border-t border-[--color-border] mx-auto max-w-[1200px] px-6 py-20 bg-white/80 backdrop-blur-sm" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-ship-red">Stack</span>
-        <span className="h-px flex-1 bg-vercel-border" />
+        <span className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent]">Stack</span>
+        <span className="h-px flex-1 bg-[--color-border]" />
       </div>
 
       <motion.div
@@ -314,7 +314,7 @@ function OrbitingStack() {
             return (
               <div
                 key={item.name}
-                className="absolute flex h-10 w-10 items-center justify-center rounded-xl border border-vercel-border bg-white shadow-sm transition-all hover:border-develop-blue hover:shadow-md max-sm:h-7 max-sm:w-7"
+                className="absolute flex h-10 w-10 items-center justify-center rounded-xl border border-[--color-border] bg-white shadow-sm transition-all hover:border-[--color-accent] hover:shadow-md max-sm:h-7 max-sm:w-7"
                 style={{
                   left: `calc(50% + ${x}px - 20px)`,
                   top: `calc(50% + ${y}px - 20px)`,
@@ -340,7 +340,7 @@ function OrbitingStack() {
             return (
               <div
                 key={item.name}
-                className="absolute flex h-9 w-9 items-center justify-center rounded-lg border border-vercel-border bg-white shadow-sm transition-all hover:border-develop-blue max-sm:h-6 max-sm:w-6"
+                className="absolute flex h-9 w-9 items-center justify-center rounded-lg border border-[--color-border] bg-white shadow-sm transition-all hover:border-[--color-accent] max-sm:h-6 max-sm:w-6"
                 style={{
                   left: `calc(50% + ${x}px - 18px)`,
                   top: `calc(50% + ${y}px - 18px)`,
@@ -359,11 +359,11 @@ function OrbitingStack() {
 
         {/* Center stats */}
         <div className="z-10 flex flex-col items-center text-center">
-          <span className="font-mono text-4xl font-semibold text-develop-blue max-sm:text-2xl">681<span className="text-vercel-muted">+</span></span>
-          <span className="mt-1 text-xs text-vercel-gray">contribuições</span>
-          <span className="mt-3 font-mono text-2xl font-semibold text-vercel-black max-sm:text-lg">26</span>
-          <span className="mt-0.5 text-xs text-vercel-gray">repositórios</span>
-          <span className="mt-3 rounded-full bg-vercel-black px-3 py-1 font-mono text-[10px] font-medium uppercase text-white">Técnico em Informática</span>
+          <span className="font-mono text-4xl font-semibold text-[--color-accent] max-sm:text-2xl">681<span className="text-[--color-text-muted]">+</span></span>
+          <span className="mt-1 text-xs text-[--color-text-secondary]">contribuições</span>
+          <span className="mt-3 font-mono text-2xl font-semibold text-[--color-text] max-sm:text-lg">26</span>
+          <span className="mt-0.5 text-xs text-[--color-text-secondary]">repositórios</span>
+          <span className="mt-3 rounded-full bg-[--color-text] px-3 py-1 font-mono text-[10px] font-medium uppercase text-white">Técnico em Informática</span>
         </div>
       </motion.div>
     </section>
@@ -421,17 +421,17 @@ function Contact() {
   }
 
   return (
-    <section id="contato" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20">
+    <section id="contato" className="border-t border-[--color-border] mx-auto max-w-[1200px] px-6 py-20 bg-white/80 backdrop-blur-sm">
       <div className="mb-12 flex items-center gap-3">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-develop-blue">Contato</span>
-        <span className="h-px flex-1 bg-vercel-border" />
+        <span className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent]">Contato</span>
+        <span className="h-px flex-1 bg-[--color-border]" />
       </div>
 
       <div className="mx-auto max-w-xl">
         <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
           Vamos conversar sobre o seu projeto
         </h2>
-        <p className="mt-3 text-vercel-gray">
+        <p className="mt-3 text-[--color-text-secondary]">
           Preencha o formulário abaixo e você será redirecionado para o WhatsApp com todas as informações.
         </p>
 
@@ -451,29 +451,29 @@ function Contact() {
         ) : (
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div>
-              <label htmlFor="nome" className="block text-sm font-medium text-vercel-black">Nome</label>
+              <label htmlFor="nome" className="block text-sm font-medium text-[--color-text]">Nome</label>
               <input
                 type="text" id="nome" name="nome" value={form.nome} onChange={handleChange}
-                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
+                className="mt-1.5 block w-full rounded-lg border border-[--color-border] bg-white px-4 py-2.5 text-sm transition-colors focus:border-[--color-accent] focus:outline-none focus:ring-1 focus:ring-[--color-accent]"
                 placeholder="Seu nome"
               />
             </div>
 
             <div>
-              <label htmlFor="desafio" className="block text-sm font-medium text-vercel-black">Qual o desafio que você quer resolver?</label>
+              <label htmlFor="desafio" className="block text-sm font-medium text-[--color-text]">Qual o desafio que você quer resolver?</label>
               <textarea
                 id="desafio" name="desafio" rows={2} value={form.desafio} onChange={handleChange}
-                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue resize-none"
+                className="mt-1.5 block w-full rounded-lg border border-[--color-border] bg-white px-4 py-2.5 text-sm transition-colors focus:border-[--color-accent] focus:outline-none focus:ring-1 focus:ring-[--color-accent] resize-none"
                 placeholder="Ex: Preciso de um site para captar leads, meu processo manual está lento..."
               />
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label htmlFor="empresa" className="block text-sm font-medium text-vercel-black">Tamanho da empresa</label>
+                <label htmlFor="empresa" className="block text-sm font-medium text-[--color-text]">Tamanho da empresa</label>
                 <select
                   id="empresa" name="empresa" value={form.empresa} onChange={handleChange}
-                  className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
+                  className="mt-1.5 block w-full rounded-lg border border-[--color-border] bg-white px-4 py-2.5 text-sm transition-colors focus:border-[--color-accent] focus:outline-none focus:ring-1 focus:ring-[--color-accent]"
                 >
                   <option value="">Selecione...</option>
                   <option value="Freelancer">Freelancer / Autônomo</option>
@@ -484,10 +484,10 @@ function Contact() {
               </div>
 
               <div>
-                <label htmlFor="orcamento" className="block text-sm font-medium text-vercel-black">Orçamento estimado</label>
+                <label htmlFor="orcamento" className="block text-sm font-medium text-[--color-text]">Orçamento estimado</label>
                 <select
                   id="orcamento" name="orcamento" value={form.orcamento} onChange={handleChange}
-                  className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
+                  className="mt-1.5 block w-full rounded-lg border border-[--color-border] bg-white px-4 py-2.5 text-sm transition-colors focus:border-[--color-accent] focus:outline-none focus:ring-1 focus:ring-[--color-accent]"
                 >
                   <option value="">Selecione...</option>
                   <option value="Ate 1k">Até R$ 1.000</option>
@@ -500,10 +500,10 @@ function Contact() {
             </div>
 
             <div>
-              <label htmlFor="descricao" className="block text-sm font-medium text-vercel-black">Descreva o que você precisa</label>
+              <label htmlFor="descricao" className="block text-sm font-medium text-[--color-text]">Descreva o que você precisa</label>
               <textarea
                 id="descricao" name="descricao" rows={4} value={form.descricao} onChange={handleChange}
-                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue resize-none"
+                className="mt-1.5 block w-full rounded-lg border border-[--color-border] bg-white px-4 py-2.5 text-sm transition-colors focus:border-[--color-accent] focus:outline-none focus:ring-1 focus:ring-[--color-accent] resize-none"
                 placeholder="Quanto mais detalhes, melhor. Funcionalidades, prazo, referências, o que já tem pronto..."
               />
             </div>
@@ -517,7 +517,7 @@ function Contact() {
                 Chamar no WhatsApp
               </button>
             ) : (
-              <p className="text-center text-xs text-vercel-muted mt-2">Preencha nome, desafio e descrição para chamar no WhatsApp</p>
+              <p className="text-center text-xs text-[--color-text-muted] mt-2">Preencha nome, desafio e descrição para chamar no WhatsApp</p>
             )}
           </form>
         )}
@@ -529,7 +529,7 @@ function Contact() {
 /* ───── Footer ───── */
 function Footer() {
   return (
-    <footer className="border-t border-vercel-border bg-vercel-bg">
+    <footer className="border-t border-[--color-border] bg-[--color-surface-alt]">
       <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 px-6 py-12 text-center">
         <motion.p
           initial={{ opacity: 0 }}
@@ -539,10 +539,10 @@ function Footer() {
           Vamos conversar?
         </motion.p>
         <a href="mailto:viniciusodorizzi25@gmail.com"
-          className="font-mono text-sm text-link-blue underline underline-offset-4 transition-colors hover:text-vercel-black">
+          className="font-mono text-sm text-[--color-accent] underline underline-offset-4 transition-colors hover:text-[--color-text]">
           viniciusodorizzi25@gmail.com
         </a>
-        <p className="mt-4 text-xs text-vercel-muted">viniciusodorizzi.com &copy; {new Date().getFullYear()}</p>
+        <p className="mt-4 text-xs text-[--color-text-muted]">viniciusodorizzi.com &copy; {new Date().getFullYear()}</p>
       </div>
     </footer>
   )
