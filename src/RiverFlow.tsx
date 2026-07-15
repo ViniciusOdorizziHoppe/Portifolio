@@ -2,37 +2,35 @@ import { useRef, useMemo, Suspense } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-/* ───── Horizontal S-Curve Ribbon (fixed) ───── */
 function SRibbon() {
   const meshRef = useRef<THREE.Mesh>(null)
   const { viewport } = useThree()
 
   const { geometry, material } = useMemo(() => {
-    const w = viewport.width * 0.8
-    const h = viewport.height * 0.6
+    const w = viewport.width * 0.45
+    const h = viewport.height * 1.3
 
-    // Horizontal S: sweeps left→right→left across the viewport
+    // Vertical S: starts left, sweeps right, returns left
     const points = [
-      new THREE.Vector3(-w * 0.9, h * 0.5, 0),
-      new THREE.Vector3(-w * 0.4, h * 0.35, 0),
-      new THREE.Vector3(w * 0.2, h * 0.15, 0),
-      new THREE.Vector3(w * 0.7, -h * 0.05, 0),
-      new THREE.Vector3(w * 0.5, -h * 0.25, 0),
-      new THREE.Vector3(-w * 0.1, -h * 0.35, 0),
-      new THREE.Vector3(-w * 0.7, -h * 0.25, 0),
-      new THREE.Vector3(-w * 0.5, -h * 0.5, 0),
+      new THREE.Vector3(-w * 0.6, h, 0),
+      new THREE.Vector3(w * 0.5, h * 0.7, 0),
+      new THREE.Vector3(w * 0.7, h * 0.4, 0),
+      new THREE.Vector3(-w * 0.1, h * 0.1, 0),
+      new THREE.Vector3(-w * 0.7, -h * 0.1, 0),
+      new THREE.Vector3(-w * 0.7, -h * 0.4, 0),
+      new THREE.Vector3(w * 0.2, -h * 0.7, 0),
+      new THREE.Vector3(w * 0.5, -h, 0),
     ]
 
-    const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.4)
-    const geo = new THREE.TubeGeometry(curve, 200, 0.55, 8, false)
+    const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.35)
+    const geo = new THREE.TubeGeometry(curve, 220, 0.5, 8, false)
 
-    // Flatten into ribbon
     const pos = geo.attributes.position.array as Float32Array
     for (let i = 0; i < pos.length; i += 3) {
-      pos[i + 2] *= 0.2
+      pos[i + 2] *= 0.18
       const x = pos[i]
       const y = pos[i + 1]
-      pos[i + 2] += Math.sin(x * 1.2 + y * 1.5) * 0.3
+      pos[i + 2] += Math.sin(x * 1.5 + y * 1.8) * 0.3
     }
     geo.computeVertexNormals()
 
@@ -53,17 +51,17 @@ function SRibbon() {
     const t = state.clock.getElapsedTime()
 
     meshRef.current.position.set(0, 0, 0)
-    meshRef.current.rotation.z = Math.sin(t * 0.05) * 0.03
+    meshRef.current.rotation.z = Math.sin(t * 0.04) * 0.02
 
     const pos = geometry.attributes.position.array as Float32Array
     for (let i = 0; i < pos.length; i += 3) {
       const x = pos[i]
       const y = pos[i + 1]
       pos[i + 2] =
-        Math.sin(x * 2.0 + y * 1.8 + t * 1.5) * 0.35 +
-        Math.cos(x * 1.5 - y * 2.2 + t * 1.1) * 0.25 +
-        Math.sin(x * 2.8 + y * 2.5 - t * 0.7) * 0.15 +
-        Math.sin(x * 1.2 + y * 1.5) * 0.3
+        Math.sin(y * 1.8 + x * 2.2 + t * 1.5) * 0.30 +
+        Math.cos(y * 2.5 - x * 1.6 + t * 1.1) * 0.22 +
+        Math.sin(y * 3.2 + x * 2.8 - t * 0.7) * 0.12 +
+        Math.sin(x * 1.5 + y * 1.8) * 0.3
     }
     geometry.attributes.position.needsUpdate = true
     geometry.computeVertexNormals()

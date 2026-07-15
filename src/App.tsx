@@ -148,7 +148,7 @@ function Services() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="servicos" className="mx-auto max-w-[1200px] px-6 py-20 bg-white" ref={ref}>
+    <section id="servicos" className="mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
         <span className="font-mono text-xs font-medium uppercase tracking-wide text-develop-blue">Serviços</span>
         <span className="h-px flex-1 bg-vercel-border" />
@@ -200,7 +200,7 @@ function Projects() {
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="projetos" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20 bg-white" ref={ref}>
+    <section id="projetos" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
         <span className="font-mono text-xs font-medium uppercase tracking-wide text-preview-pink">Projetos</span>
         <span className="h-px flex-1 bg-vercel-border" />
@@ -293,7 +293,7 @@ function OrbitingStack() {
   const innerRadius = 130
 
   return (
-    <section id="stack" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20 bg-white" ref={ref}>
+    <section id="stack" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
         <span className="font-mono text-xs font-medium uppercase tracking-wide text-ship-red">Stack</span>
         <span className="h-px flex-1 bg-vercel-border" />
@@ -421,7 +421,7 @@ function Contact() {
   }
 
   return (
-    <section id="contato" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20 bg-white">
+    <section id="contato" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20">
       <div className="mb-12 flex items-center gap-3">
         <span className="font-mono text-xs font-medium uppercase tracking-wide text-develop-blue">Contato</span>
         <span className="h-px flex-1 bg-vercel-border" />
