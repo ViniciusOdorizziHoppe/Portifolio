@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef, useLayoutEffect } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import RiverFlowSection from './RiverFlow'
+import RiverFlowSection, { HeroRibbon } from './RiverFlow'
 
 function App() {
   return (
@@ -40,122 +40,6 @@ function Nav() {
   )
 }
 
-/* ───── 3D Wave Background (Three.js) ───── */
-function WaveBackground() {
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  useLayoutEffect(() => {
-    const container = containerRef.current
-    if (!container) return
-
-    let anim = 0
-    let cleanup: (() => void) | null = null
-
-    import('three').then((THREE) => {
-      if (!container.isConnected) return
-
-      const width = container.clientWidth
-      const height = container.clientHeight
-      if (width === 0 || height === 0) return
-
-      const scene = new THREE.Scene()
-
-      const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
-      camera.position.set(0, 6, 10)
-      camera.lookAt(0, 0, 0)
-
-      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
-      renderer.setSize(width, height)
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-      container.appendChild(renderer.domElement)
-      renderer.domElement.style.position = 'absolute'
-      renderer.domElement.style.inset = '0'
-
-      const ambient = new THREE.AmbientLight('#191970', 0.6)
-      scene.add(ambient)
-      const dir = new THREE.DirectionalLight('#00008b', 1.2)
-      dir.position.set(5, 10, 5)
-      scene.add(dir)
-      const dir2 = new THREE.DirectionalLight('#4169e1', 0.5)
-      dir2.position.set(-5, 3, -3)
-      scene.add(dir2)
-
-      const segments = 120
-      const size = 14
-      const geo = new THREE.PlaneGeometry(size, size, segments, segments)
-      geo.rotateX(-Math.PI / 2.5)
-
-      const mat = new THREE.MeshStandardMaterial({
-        color: '#00008b',
-        metalness: 0.3,
-        roughness: 0.5,
-        flatShading: false,
-        side: THREE.DoubleSide,
-      })
-
-      const mesh = new THREE.Mesh(geo, mat)
-      scene.add(mesh)
-
-      const origPositions = new Float32Array(geo.attributes.position.array)
-
-      const resize = () => {
-        const w = container.clientWidth
-        const h = container.clientHeight
-        if (w === 0 || h === 0) return
-        camera.aspect = w / h
-        camera.updateProjectionMatrix()
-        renderer.setSize(w, h)
-      }
-
-      const start = performance.now()
-      const draw = () => {
-        const t = (performance.now() - start) * 0.001
-        const pos = geo.attributes.position.array as Float32Array
-
-        for (let i = 0; i < pos.length; i += 3) {
-          const ox = origPositions[i]
-          const oy = origPositions[i + 1]
-          const wave1 = Math.sin(ox * 1.8 + t * 1.2) * Math.cos(oy * 1.5 + t * 0.6) * 0.5
-          const wave2 = Math.sin(ox * 2.5 - t * 0.9) * Math.sin(oy * 2.0 + t * 0.7) * 0.35
-          const wave3 = Math.cos(ox * 3.0 + oy * 1.8 + t * 0.4) * 0.2
-          pos[i + 2] = wave1 + wave2 + wave3
-        }
-        geo.attributes.position.needsUpdate = true
-        geo.computeVertexNormals()
-
-        renderer.render(scene, camera)
-        anim = requestAnimationFrame(draw)
-      }
-      anim = requestAnimationFrame(draw)
-
-      window.addEventListener('resize', resize)
-
-      cleanup = () => {
-        cancelAnimationFrame(anim)
-        window.removeEventListener('resize', resize)
-        renderer.dispose()
-        geo.dispose()
-        mat.dispose()
-        container.removeChild(renderer.domElement)
-      }
-    })
-
-    return () => {
-      cancelAnimationFrame(anim)
-      cleanup?.()
-    }
-  }, [])
-
-  return (
-    <div
-      ref={containerRef}
-      className="pointer-events-none absolute inset-0 overflow-hidden"
-      aria-hidden="true"
-      style={{ background: 'linear-gradient(180deg, #00008b 0%, #191970 100%)' }}
-    />
-  )
-}
-
 /* ───── Hero ───── */
 function Hero() {
   const fullText = 'Vinícius Odorizzi'
@@ -181,29 +65,29 @@ function Hero() {
   const secondPart = displayed.slice(splitIdx)
 
   return (
-    <section className="relative overflow-hidden">
-      <WaveBackground />
+    <section className="relative overflow-hidden bg-white">
+      <HeroRibbon />
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 pb-20 pt-32 md:pt-48">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="font-mono text-xs font-medium uppercase tracking-wide text-white/70"
+          className="font-mono text-xs font-medium uppercase tracking-wide text-vercel-muted"
         >
           Desenvolvimento de software
         </motion.p>
 
-        <h1 className="mt-4 max-w-3xl font-sans text-5xl font-semibold leading-none tracking-[-0.05em] md:text-7xl md:tracking-[-0.04em] text-white">
+        <h1 className="mt-4 max-w-3xl font-sans text-5xl font-semibold leading-none tracking-[-0.05em] md:text-7xl md:tracking-[-0.04em] text-vercel-black">
           <span>{firstPart}</span>
           <span className="font-[family-name:var(--font-cinzel)] font-semibold">{secondPart}</span>
-          <span className={`font-light ${cursor ? 'opacity-100' : 'opacity-0'} text-white/60 transition-opacity`}>|</span>
+          <span className={`font-light ${cursor ? 'opacity-100' : 'opacity-0'} text-vercel-muted transition-opacity`}>|</span>
         </h1>
 
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
-          className="mt-6 max-w-xl text-lg leading-relaxed text-white/80 md:text-xl"
+          className="mt-6 max-w-xl text-lg leading-relaxed text-vercel-gray md:text-xl"
         >
           Transformo ideias em produtos digitais — sites, automações e aplicações que geram resultado.
         </motion.p>
@@ -215,13 +99,13 @@ function Hero() {
           className="mt-8 flex flex-wrap gap-3"
         >
           <a href="#contato"
-            className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-medium text-vercel-black transition-all hover:bg-white/90">
+            className="inline-flex items-center gap-2 rounded-md bg-vercel-black px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-vercel-black/80">
             Solicitar orçamento
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </a>
           <a href="#projetos"
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white/80 transition-all hover:text-white"
-            style={{ boxShadow: 'rgb(255,255,255,0.15) 0px 0px 0px 1px' }}>
+            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-vercel-gray transition-all hover:text-vercel-black"
+            style={{ boxShadow: 'rgb(235,235,235) 0px 0px 0px 1px' }}>
             Ver projetos
           </a>
         </motion.div>

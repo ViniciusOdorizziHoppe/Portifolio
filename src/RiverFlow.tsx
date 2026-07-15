@@ -11,7 +11,6 @@ function SRibbon({ scrollProgress }: { scrollProgress: number }) {
     const w = viewport.width * 0.45
     const h = viewport.height * 0.35
 
-    // S-shaped curve points
     const points = [
       new THREE.Vector3(-w, -h, 0),
       new THREE.Vector3(-w * 0.7, -h * 0.6, 0),
@@ -23,17 +22,11 @@ function SRibbon({ scrollProgress }: { scrollProgress: number }) {
     ]
 
     const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.5)
-
-    // Tube geometry — ribbon-like (flat tube)
     const geo = new THREE.TubeGeometry(curve, 180, 0.55, 6, false)
 
-    // Flatten the tube into a ribbon by scaling Y
-    // Apply initial vertex displacement for wave
     const pos = geo.attributes.position.array as Float32Array
     for (let i = 0; i < pos.length; i += 3) {
-      // Flatten Y (make it ribbon-like)
       pos[i + 1] *= 0.3
-      // Initial wave in Z
       const x = pos[i]
       const y = pos[i + 1]
       pos[i + 2] += Math.sin(x * 1.5 + y * 2.0) * 0.4
@@ -41,12 +34,12 @@ function SRibbon({ scrollProgress }: { scrollProgress: number }) {
     geo.computeVertexNormals()
 
     const mat = new THREE.MeshStandardMaterial({
-      color: '#0b1e40',
-      metalness: 0.7,
-      roughness: 0.25,
+      color: '#00008b',
+      metalness: 0.5,
+      roughness: 0.3,
       side: THREE.DoubleSide,
-      emissive: '#030d1f',
-      emissiveIntensity: 0.5,
+      emissive: '#000066',
+      emissiveIntensity: 0.3,
     })
 
     return { geometry: geo, material: mat }
@@ -56,16 +49,11 @@ function SRibbon({ scrollProgress }: { scrollProgress: number }) {
     if (!meshRef.current) return
 
     const t = state.clock.getElapsedTime()
-
-    // Scroll drives horizontal offset
     const xOffset = (scrollProgress - 0.5) * viewport.width * 0.3
 
     meshRef.current.position.x = xOffset
-
-    // Gentle tilt & rotation
     meshRef.current.rotation.z = Math.sin(t * 0.15) * 0.12
 
-    // Animate vertices — flowing waves along the ribbon
     const pos = geometry.attributes.position.array as Float32Array
     for (let i = 0; i < pos.length; i += 3) {
       const x = pos[i]
@@ -85,11 +73,48 @@ function SRibbon({ scrollProgress }: { scrollProgress: number }) {
 function Lighting() {
   return (
     <>
-      <ambientLight intensity={0.35} color="#1a2a5a" />
-      <directionalLight position={[5, 8, 5]} intensity={1.8} color="#4466bb" />
-      <directionalLight position={[-3, 2, -4]} intensity={0.5} color="#1a3a6a" />
-      <pointLight position={[0, 4, 6]} intensity={1} color="#3355bb" />
+      <ambientLight intensity={0.6} color="#ffffff" />
+      <directionalLight position={[5, 8, 5]} intensity={2.0} color="#ffffff" />
+      <directionalLight position={[-3, 2, -4]} intensity={0.8} color="#aaccff" />
+      <pointLight position={[0, 4, 6]} intensity={1.2} color="#ffffff" />
     </>
+  )
+}
+
+/* ───── Hero Background Canvas ───── */
+export function HeroRibbon() {
+  const [scrollProgress, setScrollProgress] = useState(0.5)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const maxScroll = document.body.scrollHeight - window.innerHeight
+      setScrollProgress(maxScroll > 0 ? scrollY / maxScroll : 0.5)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return (
+    <div
+      ref={containerRef}
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      aria-hidden="true"
+    >
+      <Canvas
+        camera={{ position: [0, 1, 9], fov: 45 }}
+        dpr={[1, 2]}
+        gl={{ antialias: true, alpha: true }}
+        style={{ background: 'transparent' }}
+      >
+        <Suspense fallback={null}>
+          <Lighting />
+          <SRibbon scrollProgress={scrollProgress} />
+        </Suspense>
+      </Canvas>
+    </div>
   )
 }
 
@@ -128,7 +153,7 @@ function Card({ top, left }: { top: string; left: string }) {
   )
 }
 
-/* ───── Section ───── */
+/* ───── Seção com cards (fundo branco) ───── */
 export default function RiverFlowSection() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -138,7 +163,6 @@ export default function RiverFlowSection() {
       if (!sectionRef.current) return
       const rect = sectionRef.current.getBoundingClientRect()
       const viewH = window.innerHeight
-
       const start = viewH * 0.8
       const end = -rect.height * 0.6
       const progress = 1 - (rect.top - end) / (start - end)
@@ -151,12 +175,12 @@ export default function RiverFlowSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative border-t border-vercel-border">
+    <section ref={sectionRef} className="relative bg-white">
       <div className="absolute left-6 top-6 z-20 flex items-center gap-3 pointer-events-none">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-white/50">
+        <span className="font-mono text-xs font-medium uppercase tracking-wide text-vercel-muted">
           Fluxo
         </span>
-        <span className="h-px w-12 bg-white/15" />
+        <span className="h-px w-12 bg-vercel-border" />
       </div>
 
       <div className="absolute inset-0 z-10 pointer-events-none">
@@ -165,14 +189,11 @@ export default function RiverFlowSection() {
         ))}
       </div>
 
-      <div
-        className="h-[550px] w-full"
-        style={{ background: 'linear-gradient(180deg, #020817 0%, #0a1628 50%, #020817 100%)' }}
-      >
+      <div className="h-[500px] w-full">
         <Canvas
           camera={{ position: [0, 0, 8], fov: 50 }}
           dpr={[1, 2]}
-          gl={{ antialias: true, alpha: false }}
+          gl={{ antialias: true, alpha: true }}
         >
           <Suspense fallback={null}>
             <Lighting />
