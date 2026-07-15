@@ -2,35 +2,45 @@ import { useRef, useMemo, Suspense, useState, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-/* ───── River Ribbon ───── */
-function RiverRibbon({ scrollProgress }: { scrollProgress: number }) {
+/* ───── S-Curve Ribbon ───── */
+function SRibbon({ scrollProgress }: { scrollProgress: number }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const { viewport } = useThree()
 
-  const geometry = useMemo(() => {
-    const width = viewport.width * 3.5
-    const height = 3.5
-    const segmentsX = 240
-    const segmentsY = 10
+  const { geometry, material } = useMemo(() => {
+    const w = viewport.width * 0.45
+    const h = viewport.height * 0.35
 
-    const geo = new THREE.PlaneGeometry(width, height, segmentsX, segmentsY)
+    // S-shaped curve points
+    const points = [
+      new THREE.Vector3(-w, -h, 0),
+      new THREE.Vector3(-w * 0.7, -h * 0.6, 0),
+      new THREE.Vector3(-w * 0.2, -h * 0.2, 0),
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(w * 0.2, h * 0.2, 0),
+      new THREE.Vector3(w * 0.7, h * 0.6, 0),
+      new THREE.Vector3(w, h, 0),
+    ]
+
+    const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.5)
+
+    // Tube geometry — ribbon-like (flat tube)
+    const geo = new THREE.TubeGeometry(curve, 180, 0.55, 6, false)
+
+    // Flatten the tube into a ribbon by scaling Y
+    // Apply initial vertex displacement for wave
     const pos = geo.attributes.position.array as Float32Array
-
     for (let i = 0; i < pos.length; i += 3) {
+      // Flatten Y (make it ribbon-like)
+      pos[i + 1] *= 0.3
+      // Initial wave in Z
       const x = pos[i]
       const y = pos[i + 1]
-      const wave1 = Math.sin(x * 0.8 + y * 1.5) * 1.2
-      const wave2 = Math.cos(x * 1.3 - y * 0.7) * 0.6
-      const wave3 = Math.sin(x * 2.1 + y * 2.3) * 0.3
-      pos[i + 2] = wave1 + wave2 + wave3
+      pos[i + 2] += Math.sin(x * 1.5 + y * 2.0) * 0.4
     }
-
     geo.computeVertexNormals()
-    return geo
-  }, [viewport.width])
 
-  const material = useMemo(() => {
-    return new THREE.MeshStandardMaterial({
+    const mat = new THREE.MeshStandardMaterial({
       color: '#0b1e40',
       metalness: 0.7,
       roughness: 0.25,
@@ -38,33 +48,32 @@ function RiverRibbon({ scrollProgress }: { scrollProgress: number }) {
       emissive: '#030d1f',
       emissiveIntensity: 0.5,
     })
-  }, [])
+
+    return { geometry: geo, material: mat }
+  }, [viewport.width, viewport.height])
 
   useFrame((state) => {
     if (!meshRef.current) return
 
     const t = state.clock.getElapsedTime()
 
-    // Map scrollProgress (0-1) to horizontal displacement across viewport
-    const xOffset = (scrollProgress - 0.5) * viewport.width * 2.2
+    // Scroll drives horizontal offset
+    const xOffset = (scrollProgress - 0.5) * viewport.width * 0.3
 
     meshRef.current.position.x = xOffset
-    meshRef.current.position.y = -1.2
 
-    // Tilt + subtle rotation
-    meshRef.current.rotation.x = -0.35
-    meshRef.current.rotation.y = Math.sin(t * 0.25) * 0.25
-    meshRef.current.rotation.z = Math.sin(t * 0.18) * 0.2
+    // Gentle tilt & rotation
+    meshRef.current.rotation.z = Math.sin(t * 0.15) * 0.12
 
-    // Animate vertices
+    // Animate vertices — flowing waves along the ribbon
     const pos = geometry.attributes.position.array as Float32Array
     for (let i = 0; i < pos.length; i += 3) {
-      const x = pos[i] - xOffset
+      const x = pos[i]
       const y = pos[i + 1]
-      const wave1 = Math.sin(x * 0.8 + y * 1.5 + t * 1.3) * 1.2
-      const wave2 = Math.cos(x * 1.3 - y * 0.7 + t * 0.9) * 0.6
-      const wave3 = Math.sin(x * 2.1 + y * 2.3 - t * 0.6) * 0.35
-      pos[i + 2] = wave1 + wave2 + wave3
+      const wave1 = Math.sin(x * 1.8 + y * 2.2 + t * 1.5) * 0.45
+      const wave2 = Math.cos(x * 2.5 - y * 1.6 + t * 1.1) * 0.3
+      const wave3 = Math.sin(x * 3.2 + y * 2.8 - t * 0.7) * 0.2
+      pos[i + 2] = wave1 + wave2 + wave3 + Math.sin(x * 1.5 + y * 2.0) * 0.4
     }
     geometry.attributes.position.needsUpdate = true
     geometry.computeVertexNormals()
@@ -86,11 +95,13 @@ function Lighting() {
 
 /* ───── Cards ───── */
 const dummyCards = [
-  { top: '8%', left: '5%' },
-  { top: '28%', left: '22%' },
-  { top: '12%', left: '42%' },
-  { top: '30%', left: '60%' },
-  { top: '10%', left: '78%' },
+  { top: '5%', left: '5%' },
+  { top: '20%', left: '30%' },
+  { top: '8%', left: '55%' },
+  { top: '22%', left: '75%' },
+  { top: '35%', left: '15%' },
+  { top: '38%', left: '48%' },
+  { top: '32%', left: '80%' },
 ]
 
 function Card({ top, left }: { top: string; left: string }) {
@@ -100,17 +111,17 @@ function Card({ top, left }: { top: string; left: string }) {
       style={{
         top,
         left,
-        width: '160px',
-        height: '100px',
+        width: '140px',
+        height: '90px',
         boxShadow: '0 4px 24px rgba(0,0,0,0.15), 0 1px 4px rgba(0,0,0,0.1)',
         zIndex: 10,
       }}
     >
       <div className="flex h-full items-center justify-center p-3">
-        <div className="space-y-2">
-          <div className="mx-auto h-2 w-16 rounded bg-gray-100" />
-          <div className="mx-auto h-2 w-24 rounded bg-gray-50" />
-          <div className="mx-auto h-2 w-14 rounded bg-gray-100" />
+        <div className="space-y-1.5">
+          <div className="mx-auto h-1.5 w-14 rounded bg-gray-100" />
+          <div className="mx-auto h-1.5 w-20 rounded bg-gray-50" />
+          <div className="mx-auto h-1.5 w-12 rounded bg-gray-100" />
         </div>
       </div>
     </div>
@@ -128,7 +139,6 @@ export default function RiverFlowSection() {
       const rect = sectionRef.current.getBoundingClientRect()
       const viewH = window.innerHeight
 
-      // Progress: 0 when section enters viewport, 1 when it leaves
       const start = viewH * 0.8
       const end = -rect.height * 0.6
       const progress = 1 - (rect.top - end) / (start - end)
@@ -142,7 +152,6 @@ export default function RiverFlowSection() {
 
   return (
     <section ref={sectionRef} className="relative border-t border-vercel-border">
-      {/* Label */}
       <div className="absolute left-6 top-6 z-20 flex items-center gap-3 pointer-events-none">
         <span className="font-mono text-xs font-medium uppercase tracking-wide text-white/50">
           Fluxo
@@ -150,23 +159,24 @@ export default function RiverFlowSection() {
         <span className="h-px w-12 bg-white/15" />
       </div>
 
-      {/* Cards layer */}
       <div className="absolute inset-0 z-10 pointer-events-none">
         {dummyCards.map((c, i) => (
           <Card key={i} top={c.top} left={c.left} />
         ))}
       </div>
 
-      {/* 3D Canvas */}
-      <div className="h-[500px] w-full" style={{ background: 'linear-gradient(180deg, #020817 0%, #0a1628 50%, #020817 100%)' }}>
+      <div
+        className="h-[550px] w-full"
+        style={{ background: 'linear-gradient(180deg, #020817 0%, #0a1628 50%, #020817 100%)' }}
+      >
         <Canvas
-          camera={{ position: [0, 1.5, 8], fov: 50 }}
+          camera={{ position: [0, 0, 8], fov: 50 }}
           dpr={[1, 2]}
           gl={{ antialias: true, alpha: false }}
         >
           <Suspense fallback={null}>
             <Lighting />
-            <RiverRibbon scrollProgress={scrollProgress} />
+            <SRibbon scrollProgress={scrollProgress} />
           </Suspense>
         </Canvas>
       </div>
