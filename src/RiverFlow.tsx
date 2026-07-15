@@ -8,21 +8,22 @@ function SRibbon() {
   const { viewport } = useThree()
 
   const { geometry, material } = useMemo(() => {
-    const w = 1.8
-    const h = viewport.height * 1.4
+    const w = viewport.width * 0.5
+    const h = viewport.height * 1.2
 
-    // Vertical S-curve: top-center → bottom-center with horizontal sway
+    // Vertical S-curve with pronounced horizontal sway
     const points = [
-      new THREE.Vector3(0, h, 0),
-      new THREE.Vector3(w * 0.9, h * 0.7, 0),
-      new THREE.Vector3(w * 0.7, h * 0.35, 0),
-      new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(-w * 0.7, -h * 0.35, 0),
-      new THREE.Vector3(-w * 0.8, -h * 0.7, 0),
-      new THREE.Vector3(w * 0.3, -h, 0),
+      new THREE.Vector3(-w * 0.3, h, 0),
+      new THREE.Vector3(w * 0.9, h * 0.75, 0),
+      new THREE.Vector3(w * 0.7, h * 0.45, 0),
+      new THREE.Vector3(-w * 0.1, h * 0.15, 0),
+      new THREE.Vector3(-w * 0.7, -h * 0.15, 0),
+      new THREE.Vector3(-w * 0.7, -h * 0.45, 0),
+      new THREE.Vector3(w * 0.3, -h * 0.75, 0),
+      new THREE.Vector3(w * 0.5, -h, 0),
     ]
 
-    const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.6)
+    const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.4)
     const geo = new THREE.TubeGeometry(curve, 200, 0.55, 8, false)
 
     // Flatten into ribbon
