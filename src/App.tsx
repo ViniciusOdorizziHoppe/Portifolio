@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import RiverFlow from './RiverFlow'
+import RiverFlow, { RiverBanks } from './RiverFlow'
 
 function App() {
   return (
     <div className="min-h-screen bg-white font-sans text-vercel-black">
       <RiverFlow />
+      <RiverBanks />
       <div className="relative z-10">
         <Nav />
         <Hero />

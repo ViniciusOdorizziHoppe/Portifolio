@@ -2,84 +2,46 @@ import { useRef, useMemo, Suspense } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-/* ───── Card positions in 3D space (viewport-relative Y) ───── */
-const CARD_POSITIONS = [
-  { x: -2.8, y: 3.0 },
-  { x: 3.0, y: 1.8 },
-  { x: -3.2, y: 0.4 },
-  { x: 2.5, y: -1.0 },
-  { x: -2.5, y: -2.2 },
-  { x: 3.2, y: -3.5 },
-]
-
-/* ───── White card mesh ───── */
-function Card3D({ position, scrollY }: { position: { x: number; y: number }; scrollY: number }) {
-  const meshRef = useRef<THREE.Mesh>(null)
-
-  useFrame(() => {
-    if (!meshRef.current) return
-    // Cards scroll vertically — map page scroll to 3D Y offset
-    const pageHeight = document.body.scrollHeight - window.innerHeight
-    const progress = pageHeight > 0 ? scrollY / pageHeight : 0
-    // Cards span from top to bottom of 3D view
-    const yRange = 7
-    const yOffset = (0.5 - progress) * yRange
-    meshRef.current.position.y = position.y + yOffset
-    meshRef.current.position.x = position.x
-    meshRef.current.position.z = 0.3
-
-    // Subtle float
-    const t = performance.now() * 0.001
-    meshRef.current.rotation.z = Math.sin(t * 0.4 + position.x) * 0.04
-    meshRef.current.rotation.x = Math.cos(t * 0.3 + position.y) * 0.03
-  })
-
-  return (
-    <mesh ref={meshRef}>
-      <boxGeometry args={[1.6, 1.0, 0.08]} />
-      <meshStandardMaterial color="#ffffff" roughness={0.3} metalness={0.05} />
-    </mesh>
-  )
-}
-
-/* ───── S-Curve Ribbon ───── */
+/* ───── S-Curve Ribbon (centered, z=0) ───── */
 function SRibbon() {
   const meshRef = useRef<THREE.Mesh>(null)
   const { viewport } = useThree()
 
   const { geometry, material } = useMemo(() => {
     const w = viewport.width * 0.44
-    const h = 4.5
+    const h = 5.5
 
-    // S-curve: top-left to bottom-right
+    // S-curve spanning viewport height
     const points = [
-      new THREE.Vector3(-w, h, 0),
-      new THREE.Vector3(w * 0.3, h * 0.65, 0),
-      new THREE.Vector3(w * 0.4, h * 0.3, 0),
+      new THREE.Vector3(w * 0.15, h, 0),
+      new THREE.Vector3(w * 0.6, h * 0.7, 0),
+      new THREE.Vector3(w * 0.5, h * 0.35, 0),
       new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(-w * 0.4, -h * 0.3, 0),
-      new THREE.Vector3(-w * 0.35, -h * 0.65, 0),
-      new THREE.Vector3(w * 0.4, -h, 0),
+      new THREE.Vector3(-w * 0.5, -h * 0.35, 0),
+      new THREE.Vector3(-w * 0.55, -h * 0.7, 0),
+      new THREE.Vector3(w * 0.35, -h, 0),
     ]
 
-    const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.5)
-    const geo = new THREE.TubeGeometry(curve, 220, 0.45, 6, false)
+    const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.6)
+    const geo = new THREE.TubeGeometry(curve, 240, 0.55, 8, false)
 
     // Flatten into ribbon
     const pos = geo.attributes.position.array as Float32Array
     for (let i = 0; i < pos.length; i += 3) {
-      pos[i + 1] *= 0.25
-      pos[i + 2] += Math.sin(pos[i] * 1.5 + pos[i + 1] * 2.0) * 0.35
+      pos[i + 1] *= 0.22
+      const x = pos[i]
+      const y = pos[i + 1]
+      pos[i + 2] += Math.sin(x * 1.5 + y * 2.0) * 0.35
     }
     geo.computeVertexNormals()
 
     const mat = new THREE.MeshStandardMaterial({
       color: '#00008b',
-      metalness: 0.55,
-      roughness: 0.28,
+      metalness: 0.6,
+      roughness: 0.22,
       side: THREE.DoubleSide,
       emissive: '#000044',
-      emissiveIntensity: 0.4,
+      emissiveIntensity: 0.45,
     })
 
     return { geometry: geo, material: mat }
@@ -88,26 +50,23 @@ function SRibbon() {
   useFrame((state) => {
     if (!meshRef.current) return
     const t = state.clock.getElapsedTime()
-
-    // Scroll drives lateral sway
     const scrollY = window.scrollY
     const maxScroll = document.body.scrollHeight - window.innerHeight
     const progress = maxScroll > 0 ? scrollY / maxScroll : 0.5
 
-    meshRef.current.position.x = (progress - 0.5) * viewport.width * 0.4
-    meshRef.current.rotation.z = Math.sin(t * 0.1) * 0.08
-    meshRef.current.position.z = -0.2 // Behind cards
+    meshRef.current.position.x = (progress - 0.5) * viewport.width * 0.35
+    meshRef.current.position.z = 0
+    meshRef.current.rotation.z = Math.sin(t * 0.08) * 0.06
 
-    // Flowing waves
     const pos = geometry.attributes.position.array as Float32Array
-    const flowPhase = t + progress * 5
+    const phase = t + progress * 6
     for (let i = 0; i < pos.length; i += 3) {
       const x = pos[i]
       const y = pos[i + 1]
       pos[i + 2] =
-        Math.sin(x * 1.8 + y * 2.2 + flowPhase * 1.5) * 0.4 +
-        Math.cos(x * 2.5 - y * 1.6 + flowPhase * 1.1) * 0.28 +
-        Math.sin(x * 3.2 + y * 2.8 - flowPhase * 0.7) * 0.18 +
+        Math.sin(x * 1.8 + y * 2.2 + phase * 1.5) * 0.42 +
+        Math.cos(x * 2.5 - y * 1.6 + phase * 1.1) * 0.30 +
+        Math.sin(x * 3.2 + y * 2.8 - phase * 0.7) * 0.18 +
         Math.sin(x * 1.5 + y * 2.0) * 0.35
     }
     geometry.attributes.position.needsUpdate = true
@@ -120,47 +79,135 @@ function SRibbon() {
 function Lighting() {
   return (
     <>
-      <ambientLight intensity={0.45} color="#ffffff" />
-      <directionalLight position={[5, 8, 5]} intensity={2.5} color="#ffffff" />
-      <directionalLight position={[-3, 2, -4]} intensity={0.6} color="#aaccff" />
-      <pointLight position={[0, 3, 5]} intensity={1.2} color="#ffffff" />
+      <ambientLight intensity={0.4} color="#ccccff" />
+      <directionalLight position={[5, 8, 5]} intensity={2.8} color="#ffffff" />
+      <directionalLight position={[-3, 2, -4]} intensity={0.7} color="#aaccff" />
+      <pointLight position={[0, 3, 5]} intensity={1.5} color="#ffffff" />
     </>
   )
 }
 
-/* ───── Scene ───── */
-function Scene() {
-  const scrollY = useRef(0)
-
-  useFrame(() => {
-    scrollY.current = window.scrollY
-  })
-
-  return (
-    <>
-      <Lighting />
-      <SRibbon />
-      {CARD_POSITIONS.map((pos, i) => (
-        <Card3D key={i} position={pos} scrollY={scrollY.current} />
-      ))}
-    </>
-  )
-}
-
-/* ───── Fixed Canvas ───── */
+/* ───── Fixed Canvas (z-index 5 — middle layer) ───── */
 export default function RiverFlow() {
   return (
-    <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
+    <div className="pointer-events-none fixed inset-0" style={{ zIndex: 5 }} aria-hidden="true">
       <Canvas
-        camera={{ position: [0, 0, 8], fov: 48 }}
+        camera={{ position: [0, 0.5, 9], fov: 48 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent' }}
       >
         <Suspense fallback={null}>
-          <Scene />
+          <Lighting />
+          <SRibbon />
         </Suspense>
       </Canvas>
+    </div>
+  )
+}
+
+/* ───── River Banks (HTML cards with alternating z-index) ───── */
+
+type Bank = {
+  id: string
+  title: string
+  desc: string
+  depth: 'foreground' | 'background'
+  shore: 'EAST' | 'WEST'
+  zIndex: number
+}
+
+const banks: Bank[] = [
+  {
+    id: '01',
+    title: 'NORTHERN BANK',
+    desc: 'A corrente pressiona a margem leste aqui, deixando a margem oeste aberta para este monólito repousar.',
+    depth: 'foreground',
+    shore: 'EAST',
+    zIndex: 20,
+  },
+  {
+    id: '02',
+    title: 'SOUTHERN BANK',
+    desc: 'Agora o rio curva para oeste, passando na frente desta placa. O fluxo corta a arquitetura, reivindicando o primeiro plano.',
+    depth: 'background',
+    shore: 'WEST',
+    zIndex: 0,
+  },
+  {
+    id: '03',
+    title: 'EASTERN BEND',
+    desc: 'Uma curva fechada para leste. O vidro repousa alto na margem oposta, refratando o azul profundo enquanto a corrente desliza por baixo.',
+    depth: 'foreground',
+    shore: 'EAST',
+    zIndex: 20,
+  },
+  {
+    id: '04',
+    title: 'WESTERN BEND',
+    desc: 'A curva final para oeste. O rio passa à frente deste plano, lançando sua luminância sobre a superfície antes de descer.',
+    depth: 'background',
+    shore: 'WEST',
+    zIndex: 0,
+  },
+]
+
+export function RiverBanks() {
+  return (
+    <div className="pointer-events-none fixed inset-0" aria-hidden="true">
+      {banks.map((bank, i) => {
+        // Position: alternate right (EAST) / left (WEST) along the S
+        const isEast = bank.shore === 'EAST'
+        const topPercent = 8 + i * 22 // Spread vertically
+
+        return (
+          <div
+            key={bank.id}
+            className="absolute w-[260px] transition-all duration-1000"
+            style={{
+              top: `${topPercent}%`,
+              right: isEast ? '4%' : 'auto',
+              left: isEast ? 'auto' : '4%',
+              zIndex: bank.zIndex,
+            }}
+          >
+            {/* Glass card */}
+            <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-5 shadow-2xl">
+              {/* Header */}
+              <div className="flex items-center gap-2 mb-3">
+                <span className="font-mono text-[10px] font-bold tracking-widest text-white/50 uppercase">
+                  BANK // {bank.id}
+                </span>
+                <span className="font-mono text-[9px] px-1.5 py-0.5 rounded border border-white/20 text-white/40 uppercase">
+                  {bank.depth === 'foreground' ? 'FOREGROUND' : 'BACKGROUND'}
+                </span>
+              </div>
+
+              {/* Title */}
+              <h3 className="font-sans text-sm font-semibold tracking-wide text-white/90 mb-1.5">
+                {bank.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-[11px] leading-relaxed text-white/55">
+                {bank.desc}
+              </p>
+
+              {/* Metadata */}
+              <div className="flex gap-4 mt-3 pt-3 border-t border-white/10">
+                <div>
+                  <span className="font-mono text-[9px] text-white/30 uppercase">DEPTH</span>
+                  <p className="font-mono text-[11px] text-white/60">{bank.depth === 'foreground' ? '+50px' : '-50px'}</p>
+                </div>
+                <div>
+                  <span className="font-mono text-[9px] text-white/30 uppercase">SHORE</span>
+                  <p className="font-mono text-[11px] text-white/60">{bank.shore}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }
