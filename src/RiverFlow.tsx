@@ -2,36 +2,37 @@ import { useRef, useMemo, Suspense } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-/* ───── Vertical S-Curve Ribbon (fixed position) ───── */
+/* ───── Horizontal S-Curve Ribbon (fixed) ───── */
 function SRibbon() {
   const meshRef = useRef<THREE.Mesh>(null)
   const { viewport } = useThree()
 
   const { geometry, material } = useMemo(() => {
-    const w = viewport.width * 0.5
-    const h = viewport.height * 1.2
+    const w = viewport.width * 0.8
+    const h = viewport.height * 0.6
 
-    // S-curve starting from LEFT, weaving right
+    // Horizontal S: sweeps left→right→left across the viewport
     const points = [
-      new THREE.Vector3(-w * 0.9, h, 0),
-      new THREE.Vector3(w * 0.3, h * 0.75, 0),
-      new THREE.Vector3(w * 0.7, h * 0.45, 0),
-      new THREE.Vector3(w * 0.1, h * 0.15, 0),
-      new THREE.Vector3(-w * 0.3, -h * 0.15, 0),
-      new THREE.Vector3(-w * 0.7, -h * 0.45, 0),
-      new THREE.Vector3(-w * 0.4, -h * 0.75, 0),
-      new THREE.Vector3(w * 0.6, -h, 0),
+      new THREE.Vector3(-w * 0.9, h * 0.5, 0),
+      new THREE.Vector3(-w * 0.4, h * 0.35, 0),
+      new THREE.Vector3(w * 0.2, h * 0.15, 0),
+      new THREE.Vector3(w * 0.7, -h * 0.05, 0),
+      new THREE.Vector3(w * 0.5, -h * 0.25, 0),
+      new THREE.Vector3(-w * 0.1, -h * 0.35, 0),
+      new THREE.Vector3(-w * 0.7, -h * 0.25, 0),
+      new THREE.Vector3(-w * 0.5, -h * 0.5, 0),
     ]
 
     const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.4)
     const geo = new THREE.TubeGeometry(curve, 200, 0.55, 8, false)
 
+    // Flatten into ribbon
     const pos = geo.attributes.position.array as Float32Array
     for (let i = 0; i < pos.length; i += 3) {
       pos[i + 2] *= 0.2
       const x = pos[i]
       const y = pos[i + 1]
-      pos[i + 2] += Math.sin(x * 1.5 + y * 1.8) * 0.35
+      pos[i + 2] += Math.sin(x * 1.2 + y * 1.5) * 0.3
     }
     geo.computeVertexNormals()
 
@@ -51,20 +52,18 @@ function SRibbon() {
     if (!meshRef.current) return
     const t = state.clock.getElapsedTime()
 
-    // Fixed position — no scroll offset
     meshRef.current.position.set(0, 0, 0)
-    meshRef.current.rotation.z = Math.sin(t * 0.06) * 0.04
+    meshRef.current.rotation.z = Math.sin(t * 0.05) * 0.03
 
     const pos = geometry.attributes.position.array as Float32Array
-    const phase = t
     for (let i = 0; i < pos.length; i += 3) {
       const x = pos[i]
       const y = pos[i + 1]
       pos[i + 2] =
-        Math.sin(y * 1.8 + x * 2.2 + phase * 1.5) * 0.35 +
-        Math.cos(y * 2.5 - x * 1.6 + phase * 1.1) * 0.25 +
-        Math.sin(y * 3.2 + x * 2.8 - phase * 0.7) * 0.15 +
-        Math.sin(x * 1.5 + y * 1.8) * 0.35
+        Math.sin(x * 2.0 + y * 1.8 + t * 1.5) * 0.35 +
+        Math.cos(x * 1.5 - y * 2.2 + t * 1.1) * 0.25 +
+        Math.sin(x * 2.8 + y * 2.5 - t * 0.7) * 0.15 +
+        Math.sin(x * 1.2 + y * 1.5) * 0.3
     }
     geometry.attributes.position.needsUpdate = true
     geometry.computeVertexNormals()
