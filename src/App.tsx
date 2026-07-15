@@ -6,9 +6,10 @@ function App() {
     <div className="min-h-screen bg-white font-sans text-vercel-black">
       <Nav />
       <Hero />
+      <Services />
       <Projects />
       <OrbitingStack />
-      <Achievements />
+      <Contact />
       <Footer />
     </div>
   )
@@ -27,6 +28,7 @@ function Nav() {
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
         <span className="font-mono text-sm font-medium uppercase tracking-tight">VH</span>
         <div className="flex items-center gap-6">
+          <a href="#servicos" className="text-sm font-medium text-vercel-gray transition-colors hover:text-vercel-black">Serviços</a>
           <a href="#projetos" className="text-sm font-medium text-vercel-gray transition-colors hover:text-vercel-black">Projetos</a>
           <a href="#stack" className="text-sm font-medium text-vercel-gray transition-colors hover:text-vercel-black">Stack</a>
           <a href="#contato" className="rounded-full bg-vercel-black px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-80">Contato</a>
@@ -44,7 +46,6 @@ function WaveBackground() {
     const container = containerRef.current
     if (!container) return
 
-    // Dynamic import to avoid SSR issues
     let anim = 0
     let cleanup: (() => void) | null = null
 
@@ -55,15 +56,12 @@ function WaveBackground() {
       const height = container.clientHeight
       if (width === 0 || height === 0) return
 
-      // Scene
       const scene = new THREE.Scene()
 
-      // Camera — looking down at the wave from above
       const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
       camera.position.set(0, 6, 10)
       camera.lookAt(0, 0, 0)
 
-      // Renderer
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
       renderer.setSize(width, height)
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -71,7 +69,6 @@ function WaveBackground() {
       renderer.domElement.style.position = 'absolute'
       renderer.domElement.style.inset = '0'
 
-      // Lights for 3D depth
       const ambient = new THREE.AmbientLight('#191970', 0.6)
       scene.add(ambient)
       const dir = new THREE.DirectionalLight('#00008b', 1.2)
@@ -81,13 +78,11 @@ function WaveBackground() {
       dir2.position.set(-5, 3, -3)
       scene.add(dir2)
 
-      // Wave geometry — subdivided plane
       const segments = 120
       const size = 14
       const geo = new THREE.PlaneGeometry(size, size, segments, segments)
-      geo.rotateX(-Math.PI / 2.5) // tilt for perspective
+      geo.rotateX(-Math.PI / 2.5)
 
-      // Material — blue metallic
       const mat = new THREE.MeshStandardMaterial({
         color: '#00008b',
         metalness: 0.3,
@@ -99,7 +94,6 @@ function WaveBackground() {
       const mesh = new THREE.Mesh(geo, mat)
       scene.add(mesh)
 
-      // Store original positions for wave calculation
       const origPositions = new Float32Array(geo.attributes.position.array)
 
       const resize = () => {
@@ -119,7 +113,6 @@ function WaveBackground() {
         for (let i = 0; i < pos.length; i += 3) {
           const ox = origPositions[i]
           const oy = origPositions[i + 1]
-          // Flowing downward: Y drives the wave phase
           const wave1 = Math.sin(ox * 1.8 + t * 1.2) * Math.cos(oy * 1.5 + t * 0.6) * 0.5
           const wave2 = Math.sin(ox * 2.5 - t * 0.9) * Math.sin(oy * 2.0 + t * 0.7) * 0.35
           const wave3 = Math.cos(ox * 3.0 + oy * 1.8 + t * 0.4) * 0.2
@@ -193,24 +186,24 @@ function Hero() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="font-mono text-xs font-medium uppercase tracking-wide text-vercel-muted"
+          className="font-mono text-xs font-medium uppercase tracking-wide text-white/70"
         >
-          Presidente Getúlio, SC
+          Desenvolvimento de software
         </motion.p>
 
-        <h1 className="mt-4 max-w-3xl font-sans text-5xl font-semibold leading-none tracking-[-0.05em] md:text-7xl md:tracking-[-0.04em]">
+        <h1 className="mt-4 max-w-3xl font-sans text-5xl font-semibold leading-none tracking-[-0.05em] md:text-7xl md:tracking-[-0.04em] text-white">
           <span>{firstPart}</span>
           <span className="font-[family-name:var(--font-cinzel)] font-semibold">{secondPart}</span>
-          <span className={`font-light ${cursor ? 'opacity-100' : 'opacity-0'} text-develop-blue transition-opacity`}>|</span>
+          <span className={`font-light ${cursor ? 'opacity-100' : 'opacity-0'} text-white/60 transition-opacity`}>|</span>
         </h1>
 
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
-          className="mt-6 text-xl leading-relaxed text-vercel-gray md:text-2xl"
+          className="mt-6 max-w-xl text-lg leading-relaxed text-white/80 md:text-xl"
         >
-          Full-Stack Developer
+          Transformo ideias em produtos digitais — sites, automações e aplicações que geram resultado.
         </motion.p>
 
         <motion.div
@@ -219,24 +212,97 @@ function Hero() {
           transition={{ delay: 1.5 }}
           className="mt-8 flex flex-wrap gap-3"
         >
-          <a href="https://github.com/ViniciusOdorizziHoppe" target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-vercel-black transition-all hover:bg-vercel-bg"
-            style={{ boxShadow: 'rgb(235,235,235) 0px 0px 0px 1px' }}>
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-            GitHub
+          <a href="#contato"
+            className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-medium text-vercel-black transition-all hover:bg-white/90">
+            Solicitar orçamento
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </a>
-          <a href="https://linkedin.com/in/viniciusodorizzi" target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-vercel-black transition-all hover:bg-vercel-bg"
-            style={{ boxShadow: 'rgb(235,235,235) 0px 0px 0px 1px' }}>
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            LinkedIn
-          </a>
-          <a href="mailto:viniciusodorizzi25@gmail.com"
-            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white bg-vercel-black transition-opacity hover:opacity-80">
-            Email
+          <a href="#projetos"
+            className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white/80 transition-all hover:text-white"
+            style={{ boxShadow: 'rgb(255,255,255,0.15) 0px 0px 0px 1px' }}>
+            Ver projetos
           </a>
         </motion.div>
       </div>
+    </section>
+  )
+}
+
+/* ───── Services ───── */
+const services = [
+  {
+    title: 'Sites & Landings',
+    desc: 'Landing pages que convertem, sites institucionais e portfólios profissionais. Do design ao deploy.',
+    icon: (
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+    ),
+    tags: ['React', 'Vite', 'Tailwind', 'SEO'],
+  },
+  {
+    title: 'Automações',
+    desc: 'Scripts, bots, integrações e fluxos que eliminam trabalho manual. Economize horas por semana.',
+    icon: (
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+    ),
+    tags: ['Python', 'Node.js', 'APIs', 'Chrome Ext'],
+  },
+  {
+    title: 'Apps & APIs',
+    desc: 'Aplicações web completas com backend, banco de dados, pagamentos e painéis administrativos.',
+    icon: (
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /></svg>
+    ),
+    tags: ['Express', 'MongoDB', 'Stripe', 'TypeScript'],
+  },
+]
+
+function Services() {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
+
+  return (
+    <section id="servicos" className="mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
+      <div className="mb-12 flex items-center gap-3">
+        <span className="font-mono text-xs font-medium uppercase tracking-wide text-develop-blue">Serviços</span>
+        <span className="h-px flex-1 bg-vercel-border" />
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-3">
+        {services.map((s, i) => (
+          <motion.div
+            key={s.title}
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: i * 0.1, duration: 0.5 }}
+            className="group rounded-xl bg-vercel-bg p-6 transition-all hover:shadow-md"
+            style={{ boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px' }}
+          >
+            <div className="mb-4 inline-flex rounded-lg border border-vercel-border bg-white p-2.5 text-develop-blue">
+              {s.icon}
+            </div>
+            <h3 className="font-sans text-lg font-semibold tracking-[-0.02em]">{s.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-vercel-gray">{s.desc}</p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {s.tags.map((t) => (
+                <span key={t} className="rounded-full bg-[#ebf5ff] px-2 py-0.5 font-mono text-[11px] font-medium text-[#0068d6]">{t}</span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ delay: 0.4, duration: 0.5 }}
+        className="mt-8 text-center"
+      >
+        <a href="#contato"
+          className="inline-flex items-center gap-2 rounded-md bg-vercel-black px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-80">
+          Preciso de algo personalizado
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+        </a>
+      </motion.div>
     </section>
   )
 }
@@ -247,9 +313,9 @@ function Projects() {
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="projetos" className="relative mx-auto max-w-[1200px] px-6 pb-20" ref={ref}>
+    <section id="projetos" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-develop-blue">Projetos</span>
+        <span className="font-mono text-xs font-medium uppercase tracking-wide text-preview-pink">Projetos</span>
         <span className="h-px flex-1 bg-vercel-border" />
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -293,6 +359,18 @@ function Projects() {
           </motion.a>
         ))}
       </div>
+
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ delay: 0.5 }}
+        className="mt-8 text-center text-sm text-vercel-gray"
+      >
+        Gostou do que viu?{' '}
+        <a href="#contato" className="font-medium text-link-blue underline underline-offset-4 hover:text-vercel-black">
+          Vamos construir o seu projeto.
+        </a>
+      </motion.p>
     </section>
   )
 }
@@ -330,7 +408,7 @@ function OrbitingStack() {
   return (
     <section id="stack" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-preview-pink">Stack</span>
+        <span className="font-mono text-xs font-medium uppercase tracking-wide text-ship-red">Stack</span>
         <span className="h-px flex-1 bg-vercel-border" />
       </div>
 
@@ -405,33 +483,153 @@ function OrbitingStack() {
   )
 }
 
-/* ───── Achievements ───── */
-function Achievements() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-50px' })
+/* ───── Contact / Qualifier ───── */
+function Contact() {
+  const [form, setForm] = useState({
+    nome: '',
+    desafio: '',
+    empresa: '',
+    orcamento: '',
+    descricao: '',
+  })
+
+  const [submitted, setSubmitted] = useState(false)
+
+  // Restore from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('portfolio_form')
+    if (saved) {
+      try { setForm(JSON.parse(saved)) } catch {}
+    }
+  }, [])
+
+  // Persist to localStorage
+  useEffect(() => {
+    localStorage.setItem('portfolio_form', JSON.stringify(form))
+  }, [form])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const buildWhatsAppMessage = () => {
+    const parts = [
+      `*Novo orçamento — Portfolio*`,
+      ``,
+      `*Nome:* ${form.nome || '(não informado)'}`,
+      `*Desafio:* ${form.desafio || '(não informado)'}`,
+      `*Empresa:* ${form.empresa || '(não informado)'}`,
+      `*Orçamento:* ${form.orcamento || '(não informado)'}`,
+      `*Descrição:* ${form.descricao || '(não informado)'}`,
+    ]
+    return encodeURIComponent(parts.join('\n'))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitted(true)
+    const msg = buildWhatsAppMessage()
+    localStorage.removeItem('portfolio_form')
+    window.open(`https://wa.me/5547997615032?text=${msg}`, '_blank')
+  }
 
   return (
-    <section className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20" ref={ref}>
+    <section id="contato" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20">
       <div className="mb-12 flex items-center gap-3">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-ship-red">Conquistas</span>
+        <span className="font-mono text-xs font-medium uppercase tracking-wide text-develop-blue">Contato</span>
         <span className="h-px flex-1 bg-vercel-border" />
       </div>
-      <div className="grid gap-1">
-        {achievements.map((a, i) => (
+
+      <div className="mx-auto max-w-xl">
+        <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
+          Vamos conversar sobre o seu projeto
+        </h2>
+        <p className="mt-3 text-vercel-gray">
+          Preencha o formulário abaixo e você será redirecionado para o WhatsApp com todas as informações.
+        </p>
+
+        {submitted ? (
           <motion.div
-            key={i}
-            initial={{ opacity: 0, x: -20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: i * 0.08, duration: 0.4 }}
-            className="flex items-start gap-4 rounded-lg p-4 transition-colors hover:bg-vercel-bg"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 rounded-xl border border-green-200 bg-green-50 p-6 text-center"
           >
-            <span className="mt-0.5 font-mono text-sm text-vercel-muted">{a.year}</span>
-            <div>
-              <p className="font-medium">{a.title}</p>
-              <p className="text-sm text-vercel-gray">{a.desc}</p>
-            </div>
+            <p className="font-medium text-green-800">Mensagem preparada!</p>
+            <p className="mt-1 text-sm text-green-700">
+              O WhatsApp deve ter aberto. Se não abriu,{' '}
+              <button onClick={() => window.open(`https://wa.me/5547997615032?text=${buildWhatsAppMessage()}`, '_blank')}
+                className="underline">clique aqui</button>.
+            </p>
           </motion.div>
-        ))}
+        ) : (
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+            <div>
+              <label htmlFor="nome" className="block text-sm font-medium text-vercel-black">Nome</label>
+              <input
+                type="text" id="nome" name="nome" value={form.nome} onChange={handleChange}
+                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
+                placeholder="Seu nome"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="desafio" className="block text-sm font-medium text-vercel-black">Qual o desafio que você quer resolver?</label>
+              <textarea
+                id="desafio" name="desafio" rows={2} value={form.desafio} onChange={handleChange}
+                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue resize-none"
+                placeholder="Ex: Preciso de um site para captar leads, meu processo manual está lento..."
+              />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label htmlFor="empresa" className="block text-sm font-medium text-vercel-black">Tamanho da empresa</label>
+                <select
+                  id="empresa" name="empresa" value={form.empresa} onChange={handleChange}
+                  className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
+                >
+                  <option value="">Selecione...</option>
+                  <option value="Freelancer">Freelancer / Autônomo</option>
+                  <option value="Pequena">Empresa pequena (1-10)</option>
+                  <option value="Média">Empresa média (11-50)</option>
+                  <option value="Grande">Empresa grande (50+)</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="orcamento" className="block text-sm font-medium text-vercel-black">Orçamento estimado</label>
+                <select
+                  id="orcamento" name="orcamento" value={form.orcamento} onChange={handleChange}
+                  className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
+                >
+                  <option value="">Selecione...</option>
+                  <option value="Ate 1k">Até R$ 1.000</option>
+                  <option value="1k-3k">R$ 1.000 — R$ 3.000</option>
+                  <option value="3k-8k">R$ 3.000 — R$ 8.000</option>
+                  <option value="8k+">Acima de R$ 8.000</option>
+                  <option value="A definir">A definir / Não sei</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="descricao" className="block text-sm font-medium text-vercel-black">Descreva o que você precisa</label>
+              <textarea
+                id="descricao" name="descricao" rows={4} value={form.descricao} onChange={handleChange}
+                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue resize-none"
+                placeholder="Quanto mais detalhes, melhor. Funcionalidades, prazo, referências, o que já tem pronto..."
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-6 py-3 text-sm font-medium text-white transition-all hover:bg-[#1fb855]"
+            >
+              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Chamar no WhatsApp
+            </button>
+          </form>
+        )}
       </div>
     </section>
   )
@@ -440,7 +638,7 @@ function Achievements() {
 /* ───── Footer ───── */
 function Footer() {
   return (
-    <footer id="contato" className="border-t border-vercel-border bg-vercel-bg">
+    <footer className="border-t border-vercel-border bg-vercel-bg">
       <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 px-6 py-12 text-center">
         <motion.p
           initial={{ opacity: 0 }}
@@ -511,13 +709,6 @@ const projects = [
     initial: 'OP',
     gradient: 'linear-gradient(135deg, #ff5b4f, #de1d8d)',
   },
-]
-
-const achievements = [
-  { year: '2023', title: 'Menção Honrosa OBMEP', desc: 'Olimpíada Brasileira de Matemática das Escolas Públicas' },
-  { year: '2024', title: 'Menção Honrosa OBMEP', desc: 'Segundo ano consecutivo com destaque em matemática' },
-  { year: '2025', title: 'Bolsa PVI — IFC', desc: 'Projeto LexiCube: análise de notícias com inteligência artificial' },
-  { year: '2026', title: '4 Chrome Extensions', desc: 'Extensões publicadas na Chrome Web Store' },
 ]
 
 export default App
