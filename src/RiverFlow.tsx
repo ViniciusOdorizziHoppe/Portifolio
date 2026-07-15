@@ -2,7 +2,7 @@ import { useRef, useMemo, Suspense } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-/* ───── Vertical S-Curve Ribbon ───── */
+/* ───── Vertical S-Curve Ribbon (fixed position) ───── */
 function SRibbon() {
   const meshRef = useRef<THREE.Mesh>(null)
   const { viewport } = useThree()
@@ -11,25 +11,23 @@ function SRibbon() {
     const w = viewport.width * 0.5
     const h = viewport.height * 1.2
 
-    // Vertical S-curve with pronounced horizontal sway
+    // S-curve starting from LEFT, weaving right
     const points = [
-      new THREE.Vector3(-w * 0.3, h, 0),
-      new THREE.Vector3(w * 0.9, h * 0.75, 0),
+      new THREE.Vector3(-w * 0.9, h, 0),
+      new THREE.Vector3(w * 0.3, h * 0.75, 0),
       new THREE.Vector3(w * 0.7, h * 0.45, 0),
-      new THREE.Vector3(-w * 0.1, h * 0.15, 0),
-      new THREE.Vector3(-w * 0.7, -h * 0.15, 0),
+      new THREE.Vector3(w * 0.1, h * 0.15, 0),
+      new THREE.Vector3(-w * 0.3, -h * 0.15, 0),
       new THREE.Vector3(-w * 0.7, -h * 0.45, 0),
-      new THREE.Vector3(w * 0.3, -h * 0.75, 0),
-      new THREE.Vector3(w * 0.5, -h, 0),
+      new THREE.Vector3(-w * 0.4, -h * 0.75, 0),
+      new THREE.Vector3(w * 0.6, -h, 0),
     ]
 
     const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.4)
     const geo = new THREE.TubeGeometry(curve, 200, 0.55, 8, false)
 
-    // Flatten into ribbon
     const pos = geo.attributes.position.array as Float32Array
     for (let i = 0; i < pos.length; i += 3) {
-      // Flatten Z (depth) so ribbon stays thin front-to-back
       pos[i + 2] *= 0.2
       const x = pos[i]
       const y = pos[i + 1]
@@ -47,24 +45,18 @@ function SRibbon() {
     })
 
     return { geometry: geo, material: mat }
-  }, [viewport.height])
+  }, [viewport.width, viewport.height])
 
   useFrame((state) => {
     if (!meshRef.current) return
     const t = state.clock.getElapsedTime()
-    const scrollY = window.scrollY
-    const maxScroll = document.body.scrollHeight - window.innerHeight
-    const progress = maxScroll > 0 ? scrollY / maxScroll : 0.5
 
-    // Scroll shifts the ribbon vertically
-    const yOffset = (0.5 - progress) * viewport.height * 0.6
-    meshRef.current.position.y = yOffset
-    meshRef.current.position.z = 0
+    // Fixed position — no scroll offset
+    meshRef.current.position.set(0, 0, 0)
     meshRef.current.rotation.z = Math.sin(t * 0.06) * 0.04
 
-    // Flowing current
     const pos = geometry.attributes.position.array as Float32Array
-    const phase = t + progress * 5
+    const phase = t
     for (let i = 0; i < pos.length; i += 3) {
       const x = pos[i]
       const y = pos[i + 1]
@@ -92,7 +84,6 @@ function Lighting() {
   )
 }
 
-/* ───── Fixed Canvas (below content, z=0) ───── */
 export default function RiverFlow() {
   return (
     <div className="pointer-events-none fixed inset-0" style={{ zIndex: 0 }} aria-hidden="true">

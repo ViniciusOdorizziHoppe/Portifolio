@@ -67,7 +67,7 @@ function Hero() {
   const secondPart = displayed.slice(splitIdx)
 
   return (
-    <section className="relative overflow-hidden bg-white/90">
+    <section className="relative">
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 pb-20 pt-32 md:pt-48">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
