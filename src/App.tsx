@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useLayoutEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
+import RiverFlowSection from './RiverFlow'
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Hero />
       <Services />
       <Projects />
+      <RiverFlowSection />
       <OrbitingStack />
       <Contact />
       <Footer />
