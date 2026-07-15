@@ -12,14 +12,14 @@ function SRibbon() {
 
     // Vertical S: starts left, sweeps right, returns left
     const points = [
-      new THREE.Vector3(-w * 0.6, h, 0),
-      new THREE.Vector3(w * 0.5, h * 0.7, 0),
-      new THREE.Vector3(w * 0.7, h * 0.4, 0),
-      new THREE.Vector3(-w * 0.1, h * 0.1, 0),
-      new THREE.Vector3(-w * 0.7, -h * 0.1, 0),
-      new THREE.Vector3(-w * 0.7, -h * 0.4, 0),
-      new THREE.Vector3(w * 0.2, -h * 0.7, 0),
-      new THREE.Vector3(w * 0.5, -h, 0),
+      new THREE.Vector3(w * 0.6, h, 0),
+      new THREE.Vector3(-w * 0.5, h * 0.7, 0),
+      new THREE.Vector3(-w * 0.7, h * 0.4, 0),
+      new THREE.Vector3(w * 0.1, h * 0.1, 0),
+      new THREE.Vector3(w * 0.7, -h * 0.1, 0),
+      new THREE.Vector3(w * 0.7, -h * 0.4, 0),
+      new THREE.Vector3(-w * 0.2, -h * 0.7, 0),
+      new THREE.Vector3(-w * 0.5, -h, 0),
     ]
 
     const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.35)
