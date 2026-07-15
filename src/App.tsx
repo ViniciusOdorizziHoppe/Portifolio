@@ -67,7 +67,7 @@ function Hero() {
   const secondPart = displayed.slice(splitIdx)
 
   return (
-    <section className="relative overflow-hidden bg-white">
+    <section className="relative overflow-hidden bg-white/90">
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 pb-20 pt-32 md:pt-48">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -148,7 +148,7 @@ function Services() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="servicos" className="mx-auto max-w-[1200px] px-6 py-20 bg-white" ref={ref}>
+    <section id="servicos" className="mx-auto max-w-[1200px] px-6 py-20 bg-white/90" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
         <span className="font-mono text-xs font-medium uppercase tracking-wide text-develop-blue">Serviços</span>
         <span className="h-px flex-1 bg-vercel-border" />
@@ -164,7 +164,7 @@ function Services() {
             className="group rounded-xl bg-vercel-bg p-6 transition-all hover:shadow-md"
             style={{ boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px' }}
           >
-            <div className="mb-4 inline-flex rounded-lg border border-vercel-border bg-white p-2.5 text-develop-blue">
+            <div className="mb-4 inline-flex rounded-lg border border-vercel-border bg-white/90 p-2.5 text-develop-blue">
               {s.icon}
             </div>
             <h3 className="font-sans text-lg font-semibold tracking-[-0.02em]">{s.title}</h3>
@@ -200,7 +200,7 @@ function Projects() {
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="projetos" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20 bg-white" ref={ref}>
+    <section id="projetos" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20 bg-white/90" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
         <span className="font-mono text-xs font-medium uppercase tracking-wide text-preview-pink">Projetos</span>
         <span className="h-px flex-1 bg-vercel-border" />
@@ -241,7 +241,7 @@ function Projects() {
               </div>
             </div>
             <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
-              <span className="rounded-full bg-white px-5 py-2 text-sm font-medium text-vercel-black">Visitar →</span>
+              <span className="rounded-full bg-white/90 px-5 py-2 text-sm font-medium text-vercel-black">Visitar →</span>
             </div>
           </motion.a>
         ))}
@@ -293,7 +293,7 @@ function OrbitingStack() {
   const innerRadius = 130
 
   return (
-    <section id="stack" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20 bg-white" ref={ref}>
+    <section id="stack" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20 bg-white/90" ref={ref}>
       <div className="mb-12 flex items-center gap-3">
         <span className="font-mono text-xs font-medium uppercase tracking-wide text-ship-red">Stack</span>
         <span className="h-px flex-1 bg-vercel-border" />
@@ -314,7 +314,7 @@ function OrbitingStack() {
             return (
               <div
                 key={item.name}
-                className="absolute flex h-10 w-10 items-center justify-center rounded-xl border border-vercel-border bg-white shadow-sm transition-all hover:border-develop-blue hover:shadow-md max-sm:h-7 max-sm:w-7"
+                className="absolute flex h-10 w-10 items-center justify-center rounded-xl border border-vercel-border bg-white/90 shadow-sm transition-all hover:border-develop-blue hover:shadow-md max-sm:h-7 max-sm:w-7"
                 style={{
                   left: `calc(50% + ${x}px - 20px)`,
                   top: `calc(50% + ${y}px - 20px)`,
@@ -421,7 +421,7 @@ function Contact() {
   }
 
   return (
-    <section id="contato" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20 bg-white">
+    <section id="contato" className="border-t border-vercel-border mx-auto max-w-[1200px] px-6 py-20 bg-white/90">
       <div className="mb-12 flex items-center gap-3">
         <span className="font-mono text-xs font-medium uppercase tracking-wide text-develop-blue">Contato</span>
         <span className="h-px flex-1 bg-vercel-border" />
@@ -454,7 +454,7 @@ function Contact() {
               <label htmlFor="nome" className="block text-sm font-medium text-vercel-black">Nome</label>
               <input
                 type="text" id="nome" name="nome" value={form.nome} onChange={handleChange}
-                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
+                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white/90 px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
                 placeholder="Seu nome"
               />
             </div>
@@ -463,7 +463,7 @@ function Contact() {
               <label htmlFor="desafio" className="block text-sm font-medium text-vercel-black">Qual o desafio que você quer resolver?</label>
               <textarea
                 id="desafio" name="desafio" rows={2} value={form.desafio} onChange={handleChange}
-                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue resize-none"
+                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white/90 px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue resize-none"
                 placeholder="Ex: Preciso de um site para captar leads, meu processo manual está lento..."
               />
             </div>
@@ -473,7 +473,7 @@ function Contact() {
                 <label htmlFor="empresa" className="block text-sm font-medium text-vercel-black">Tamanho da empresa</label>
                 <select
                   id="empresa" name="empresa" value={form.empresa} onChange={handleChange}
-                  className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
+                  className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white/90 px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
                 >
                   <option value="">Selecione...</option>
                   <option value="Freelancer">Freelancer / Autônomo</option>
@@ -487,7 +487,7 @@ function Contact() {
                 <label htmlFor="orcamento" className="block text-sm font-medium text-vercel-black">Orçamento estimado</label>
                 <select
                   id="orcamento" name="orcamento" value={form.orcamento} onChange={handleChange}
-                  className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
+                  className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white/90 px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue"
                 >
                   <option value="">Selecione...</option>
                   <option value="Ate 1k">Até R$ 1.000</option>
@@ -503,7 +503,7 @@ function Contact() {
               <label htmlFor="descricao" className="block text-sm font-medium text-vercel-black">Descreva o que você precisa</label>
               <textarea
                 id="descricao" name="descricao" rows={4} value={form.descricao} onChange={handleChange}
-                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue resize-none"
+                className="mt-1.5 block w-full rounded-lg border border-vercel-border bg-white/90 px-4 py-2.5 text-sm transition-colors focus:border-develop-blue focus:outline-none focus:ring-1 focus:ring-develop-blue resize-none"
                 placeholder="Quanto mais detalhes, melhor. Funcionalidades, prazo, referências, o que já tem pronto..."
               />
             </div>
