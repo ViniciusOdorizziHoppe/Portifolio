@@ -96,13 +96,29 @@ function Hero() {
       </p>
 
       <div className="mt-10 flex flex-wrap gap-4">
-        <a href="#contato" className="inline-flex items-center gap-2 rounded-xl bg-[--color-river] px-7 py-3.5 text-base font-semibold text-white shadow-xl shadow-[--color-river]/30 hover:bg-[--color-river-deep] hover:-translate-y-0.5 transition-all">
+        <a href="#contato"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            borderRadius: '12px', background: '#00008b', color: '#ffffff',
+            padding: '14px 28px', fontSize: '16px', fontWeight: 600,
+            boxShadow: '0 10px 30px rgba(0,0,139,0.35)',
+            textDecoration: 'none', fontFamily: 'Geist, sans-serif',
+          }}
+          className="hover:brightness-110 hover:-translate-y-0.5 transition-all">
           Solicitar orçamento
-          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          <svg style={{width: 20, height: 20}} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
         </a>
-        <a href="#projetos" className="inline-flex items-center gap-2 rounded-xl bg-[--color-text] px-7 py-3.5 text-base font-semibold text-white shadow-xl shadow-black/10 hover:bg-black hover:-translate-y-0.5 transition-all">
+        <a href="#projetos"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            borderRadius: '12px', background: '#171717', color: '#ffffff',
+            padding: '14px 28px', fontSize: '16px', fontWeight: 600,
+            boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+            textDecoration: 'none', fontFamily: 'Geist, sans-serif',
+          }}
+          className="hover:brightness-125 hover:-translate-y-0.5 transition-all">
           Ver projetos
-          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+          <svg style={{width: 20, height: 20}} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
         </a>
       </div>
     </section>
