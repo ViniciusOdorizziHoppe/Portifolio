@@ -9,10 +9,9 @@ function App() {
       <div className="relative z-10">
         <Nav />
         <Hero />
-        <Metrics />
-        <Work />
+        <Services />
+        <Projects />
         <Stack />
-        <About />
         <Contact />
         <Footer />
       </div>
@@ -31,13 +30,15 @@ function Nav() {
       style={{ boxShadow: 'rgba(0,0,0,0.06) 0px 0px 0px 1px' }}
     >
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
-        <span className="font-mono text-sm font-medium tracking-tight">VH</span>
-        <div className="flex items-center gap-8">
-          <a href="#work" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors">Work</a>
+        <span className="font-[family-name:var(--font-cinzel)] text-base font-semibold tracking-tight">
+          Vinícius Odorizzi
+        </span>
+        <div className="flex items-center gap-6 md:gap-8">
+          <a href="#servicos" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors">Serviços</a>
+          <a href="#projetos" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors">Projetos</a>
           <a href="#stack" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors">Stack</a>
-          <a href="#about" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors">About</a>
-          <a href="#contact" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors">Contact</a>
-          <a href="#contact" className="rounded-full bg-[--color-text] px-4 py-2 text-sm font-medium text-white hover:opacity-80 transition-opacity">Contratar</a>
+          <a href="#contato" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors">Contato</a>
+          <a href="#contato" className="rounded-full bg-[--color-text] px-4 py-2 text-sm font-medium text-white hover:opacity-80 transition-opacity">Contratar</a>
         </div>
       </div>
     </motion.header>
@@ -67,7 +68,7 @@ function Hero() {
   const second = displayed.slice(splitIdx)
 
   return (
-    <section className="mx-auto max-w-[1200px] px-6 pb-20 pt-32 md:pt-48">
+    <section className="mx-auto max-w-[1200px] px-6 pb-16 pt-32 md:pt-48">
       <div className="flex items-center gap-3 mb-6">
         <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse" />
         <span className="font-mono text-xs text-[--color-text-muted]">disponível · Q3 2026</span>
@@ -80,7 +81,7 @@ function Hero() {
       </h1>
 
       <p className="mt-6 max-w-xl text-lg leading-relaxed text-[--color-text-secondary] md:text-xl">
-        Full-stack developer. Automações que eliminam trabalho manual, sistemas que processam dados em escala, interfaces que respondem em milissegundos.
+        Transformo ideias em produtos digitais — sites, automações e aplicações que geram resultado.
       </p>
 
       <p className="mt-3 font-mono text-xs text-[--color-text-muted]">
@@ -88,11 +89,11 @@ function Hero() {
       </p>
 
       <div className="mt-8 flex flex-wrap gap-3">
-        <a href="#contact" className="inline-flex items-center gap-2 rounded-md bg-[--color-text] px-5 py-2.5 text-sm font-medium text-white hover:bg-[--color-text]/80 transition-all">
-          Contratar
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        <a href="#contato" className="inline-flex items-center gap-2 rounded-md bg-[--color-text] px-5 py-2.5 text-sm font-medium text-white hover:bg-[--color-text]/80 transition-all">
+          Solicitar orçamento
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
         </a>
-        <a href="#work" className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-[--color-text-secondary] hover:text-[--color-text] transition-all"
+        <a href="#projetos" className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-[--color-text-secondary] hover:text-[--color-text] transition-all"
           style={{ boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px' }}>
           Ver projetos
         </a>
@@ -101,195 +102,348 @@ function Hero() {
   )
 }
 
-/* ───── Metrics ───── */
-const metrics = [
-  { value: '681+', label: 'contribuições' },
-  { value: '26', label: 'repositórios' },
-  { value: '6', label: 'projetos ativos' },
-  { value: '3', label: 'stacks principais' },
+/* ───── Services ───── */
+const services = [
+  {
+    title: 'Sites & Landings',
+    desc: 'Landing pages que convertem, sites institucionais e portfólios profissionais. Do design ao deploy.',
+    tech: ['React', 'Vite', 'Tailwind', 'SEO'],
+    icon: (
+      <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" /></svg>
+    ),
+    color: '#0a72ef',
+  },
+  {
+    title: 'Automações',
+    desc: 'Scripts, bots, integrações e fluxos que eliminam trabalho manual. Economize horas por semana.',
+    tech: ['Python', 'Node.js', 'APIs', 'Chrome Ext'],
+    icon: (
+      <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
+    ),
+    color: '#7928ca',
+  },
+  {
+    title: 'Apps & APIs',
+    desc: 'Aplicações web completas com backend, banco de dados, pagamentos e painéis administrativos.',
+    tech: ['Express', 'MongoDB', 'Stripe', 'TypeScript'],
+    icon: (
+      <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7" /><path d="M16 3H8l-1 4h10l-1-4z" /><line x1="9" y1="12" x2="15" y2="12" /><line x1="9" y1="16" x2="13" y2="16" /></svg>
+    ),
+    color: '#00008b',
+  },
 ]
 
-function Metrics() {
+function Services() {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-50px' })
+  const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="mx-auto max-w-[1200px] px-6 py-10 border-t border-[--color-border]">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-        {metrics.map((m, i) => (
-          <motion.div
-            key={m.label}
-            initial={{ opacity: 0, y: 10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: i * 0.08 }}
-          >
-            <p className="font-mono text-3xl font-semibold text-[--color-text]">{m.value}</p>
-            <p className="mt-1 text-xs text-[--color-text-muted]">{m.label}</p>
-          </motion.div>
-        ))}
+    <section id="servicos" ref={ref} className="relative overflow-hidden bg-gradient-to-b from-[#f8fafd] to-white">
+      {/* Decorative gradient bar */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[--color-accent] via-[#7928ca] to-[--color-river]" />
+
+      <div className="mx-auto max-w-[1200px] px-6 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent] mb-2">
+            Serviços
+          </h2>
+          <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl mb-2">
+            O que eu faço de melhor.
+          </p>
+          <p className="text-sm text-[--color-text-secondary] max-w-lg mb-10">
+            Cada serviço é pensado para entregar resultado, não apenas código.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {services.map((s, i) => (
+            <motion.div
+              key={s.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="group relative rounded-2xl bg-white p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+              style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)' }}
+            >
+              {/* Colored icon circle */}
+              <div
+                className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl text-white transition-transform duration-300 group-hover:scale-110"
+                style={{ background: s.color }}
+              >
+                {s.icon}
+              </div>
+
+              <h3 className="font-sans text-lg font-semibold tracking-[-0.02em] mb-2">{s.title}</h3>
+              <p className="text-sm leading-relaxed text-[--color-text-secondary] mb-4">{s.desc}</p>
+
+              <div className="flex flex-wrap gap-1.5">
+                {s.tech.map(t => (
+                  <span key={t} className="rounded-md bg-[#f4f4f5] px-2 py-0.5 font-mono text-[10px] font-medium text-[--color-text-secondary]">
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              {/* Hover accent line */}
+              <div
+                className="absolute bottom-0 left-6 right-6 h-0.5 rounded-full opacity-0 transition-all duration-300 group-hover:opacity-100"
+                style={{ background: s.color }}
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <a href="#contato" className="inline-flex items-center gap-2 rounded-full bg-[--color-text] px-6 py-3 text-sm font-medium text-white hover:bg-[--color-text]/80 transition-all">
+            Preciso de algo personalizado
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+        </div>
       </div>
     </section>
   )
 }
 
-/* ───── Work ───── */
-const projects = [
+/* ───── Projects ───── */
+interface Project {
+  initials: string
+  name: string
+  desc: string
+  tech: string[]
+  meta: string[]
+  metric: string
+  url: string
+  gradient: string
+}
+
+const projects: Project[] = [
   {
-    category: 'ads · automação',
+    initials: 'MV',
     name: 'MediaTio Vehicle Nexus',
     desc: 'Intermediação de veículos com Meta Ads. Pipeline de leads automatizado, CPA otimizado.',
-    stack: ['React', 'TypeScript', 'Node.js', 'Meta Ads API'],
+    tech: ['React', 'TypeScript', 'Node.js', 'Meta Ads API'],
+    meta: ['Ads', 'Automação'],
     metric: 'CPA R$17',
     url: 'https://app.mediatio.api.br',
     gradient: 'linear-gradient(135deg, #0a72ef, #7928ca)',
-    initial: 'MV',
   },
   {
-    category: 'saas · ia',
+    initials: 'MO',
     name: 'Morph',
     desc: 'SaaS de transformação de fotos com IA. Stripe com PIX, assinaturas recorrentes, processamento serverless.',
-    stack: ['SaaS', 'IA', 'Stripe', 'JavaScript'],
+    tech: ['JavaScript', 'Stripe API', 'OpenAI', 'Serverless'],
+    meta: ['SaaS', 'IA'],
     metric: 'PIX + Stripe',
     url: 'https://morph-one-tan.vercel.app',
-    gradient: 'linear-gradient(135deg, #00008b, #0a72ef)',
-    initial: 'MO',
-    image: '/projects/morph.png',
+    gradient: 'linear-gradient(135deg, #0a0a1a, #1a1a3e)',
   },
   {
-    category: 'dados · nlp',
+    initials: 'LC',
     name: 'LexiCube',
     desc: 'Análise de notícias com IA. Processamento de linguagem natural, classificação e sumarização.',
-    stack: ['Python', 'IA', 'NLP'],
-    metric: 'Bolsa PVI',
+    tech: ['Python', 'Transformers', 'scikit-learn', 'FastAPI'],
+    meta: ['NLP', 'Bolsa PVI'],
+    metric: 'Pesquisa IFC',
     url: 'https://github.com/ViniciusOdorizziHoppe/lexicube',
     gradient: 'linear-gradient(135deg, #7928ca, #00008b)',
-    initial: 'LC',
   },
   {
-    category: 'plataforma · dados',
+    initials: 'RK',
     name: 'RankBR',
     desc: 'Plataforma de rankings com dados em tempo real. Deploy Vercel + Render + Neon.',
-    stack: ['React', 'Express', 'TypeScript', 'Neon PG'],
+    tech: ['React', 'Express', 'TypeScript', 'Neon PG'],
+    meta: ['Plataforma', 'Dados'],
     metric: 'Vercel + Render',
     url: 'https://rankbr.vercel.app',
-    gradient: 'linear-gradient(135deg, #171717, #0a72ef)',
-    initial: 'RK',
-    image: '/projects/rankbr.png',
+    gradient: 'linear-gradient(135deg, #1a1a2e, #0a72ef)',
+  },
+  {
+    initials: 'FP',
+    name: 'FIPE na Placa',
+    desc: 'PWA para consulta de veículos pela placa. Publicada e em produção.',
+    tech: ['JavaScript', 'PWA', 'API REST'],
+    meta: ['Web App'],
+    metric: 'Produção',
+    url: '#',
+    gradient: 'linear-gradient(135deg, #0a72ef, #0855b3)',
+  },
+  {
+    initials: 'OP',
+    name: 'Opinai — Hackathon UDESC',
+    desc: 'Líder técnico no desenvolvimento de solução com IA para processamento de feedbacks em tempo real.',
+    tech: ['React', 'Python', 'OpenAI API', 'WebSocket'],
+    meta: ['Hackathon', 'Liderança Técnica'],
+    metric: 'UDESC 2025',
+    url: '#',
+    gradient: 'linear-gradient(135deg, #7928ca, #ff006e)',
   },
 ]
 
-function Work() {
+function Projects() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="work" ref={ref} className="mx-auto max-w-[1200px] px-6 py-20 border-t border-[--color-border] bg-white/80 backdrop-blur-sm">
-      <div className="mb-10">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent]">selected work</span>
-        <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] md:text-3xl">Sistemas em produção.</h2>
-      </div>
+    <section id="projetos" ref={ref} className="relative overflow-hidden bg-white">
+      <div className="mx-auto max-w-[1200px] px-6 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent] mb-2">
+            Projetos
+          </h2>
+          <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl mb-10">
+            Sistemas em produção.
+          </p>
+        </motion.div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {projects.map((p, i) => (
-          <motion.a
-            key={p.name}
-            href={p.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: i * 0.08, duration: 0.4 }}
-            className="group relative overflow-hidden rounded-xl bg-[--color-surface-alt] p-5 transition-all hover:shadow-md"
-            style={{ boxShadow: 'rgba(0,0,0,0.06) 0px 0px 0px 1px' }}
-          >
-            <span className="font-mono text-[11px] font-medium text-[--color-accent] uppercase tracking-wide">{p.category}</span>
-            <h3 className="mt-2 font-sans text-lg font-semibold tracking-[-0.02em]">{p.name}</h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-[--color-text-secondary]">{p.desc}</p>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {projects.map((p, i) => (
+            <motion.a
+              key={p.name}
+              href={p.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: i * 0.06, duration: 0.4 }}
+              className="group relative overflow-hidden rounded-2xl p-5 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02]"
+              style={{ background: p.gradient, minHeight: '200px' }}
+            >
+              {/* Watermark initials */}
+              <div className="absolute -bottom-4 -right-2 select-none font-[family-name:var(--font-cinzel)] text-[6rem] font-bold leading-none text-white/[0.06]">
+                {p.initials}
+              </div>
 
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {p.stack.map(s => (
-                <span key={s} className="rounded-md bg-[--color-border] px-2 py-0.5 font-mono text-[10px] text-[--color-text-secondary]">{s}</span>
-              ))}
-            </div>
+              {/* Content */}
+              <div className="relative z-10 flex flex-col h-full">
+                {/* Meta labels */}
+                <div className="flex items-center gap-1.5 mb-3">
+                  {p.meta.map(m => (
+                    <span key={m} className="rounded-full bg-white/15 px-2.5 py-0.5 font-mono text-[10px] font-medium text-white/90 backdrop-blur-sm">
+                      {m}
+                    </span>
+                  ))}
+                </div>
 
-            <div className="mt-4 flex items-center justify-between border-t border-[--color-border] pt-3">
-              <span className="font-mono text-xs font-medium text-[--color-text]">{p.metric}</span>
-              <span className="font-mono text-[11px] text-[--color-text-muted] group-hover:text-[--color-accent] transition-colors">visitar →</span>
-            </div>
-          </motion.a>
-        ))}
+                <h3 className="font-sans text-base font-semibold tracking-[-0.02em] text-white mb-1.5">{p.name}</h3>
+                <p className="text-sm leading-relaxed text-white/75 mb-auto">{p.desc}</p>
+
+                {/* Bottom row */}
+                <div className="mt-4 flex items-center justify-between pt-3 border-t border-white/10">
+                  <span className="font-mono text-xs font-semibold text-white/90">{p.metric}</span>
+                  <span className="font-mono text-[11px] text-white/60 group-hover:text-white transition-colors">
+                    visitar →
+                  </span>
+                </div>
+              </div>
+            </motion.a>
+          ))}
+        </div>
+
+        <p className="mt-10 text-center text-sm text-[--color-text-secondary]">
+          Gostou do que viu?{' '}
+          <a href="#contato" className="text-[--color-accent] hover:text-[--color-accent-hover] transition-colors font-medium">
+            Vamos construir o seu projeto.
+          </a>
+        </p>
       </div>
     </section>
   )
 }
 
 /* ───── Stack ───── */
-const stackGroups = [
-  {
-    label: 'Frontend',
-    items: ['React', 'Vite', 'Tailwind CSS', 'Next.js', 'TypeScript', 'framer-motion'],
-  },
-  {
-    label: 'Backend',
-    items: ['Node.js', 'Express', 'Python', 'Java', 'REST APIs', 'WebSocket'],
-  },
-  {
-    label: 'Dados',
-    items: ['MongoDB', 'MySQL', 'Neon PostgreSQL', 'Redis'],
-  },
-  {
-    label: 'Infra',
-    items: ['Vercel', 'Render', 'Docker', 'Git', 'GitHub Actions', 'Stripe'],
-  },
+const techIcons = [
+  { name: 'React', color: '#61DAFB' },
+  { name: 'TypeScript', color: '#3178C6' },
+  { name: 'Node.js', color: '#339933' },
+  { name: 'Python', color: '#3776AB' },
+  { name: 'Tailwind', color: '#06B6D4' },
+  { name: 'MongoDB', color: '#47A248' },
+  { name: 'PostgreSQL', color: '#4169E1' },
+  { name: 'Docker', color: '#2496ED' },
+  { name: 'Git', color: '#F05032' },
+  { name: 'Stripe', color: '#635BFF' },
+  { name: 'Java', color: '#ED8B00' },
+  { name: 'Vercel', color: '#000000' },
 ]
 
 function Stack() {
-  return (
-    <section id="stack" className="mx-auto max-w-[1200px] px-6 py-20 border-t border-[--color-border] bg-white/80 backdrop-blur-sm">
-      <div className="mb-10">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent]">stack</span>
-        <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
-          Ferramentas certas,<br />para o problema certo.
-        </h2>
-        <p className="mt-3 text-sm text-[--color-text-secondary] max-w-md">
-          Escolho stack por trade-off técnico, não por trending topic.
-        </p>
-      </div>
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {stackGroups.map(g => (
-          <div key={g.label}>
-            <p className="font-mono text-[11px] font-medium text-[--color-text-muted] uppercase tracking-wide mb-2">{g.label}</p>
-            <div className="space-y-1">
-              {g.items.map(item => (
-                <p key={item} className="text-sm text-[--color-text-secondary]">{item}</p>
-              ))}
-            </div>
+  return (
+    <section id="stack" ref={ref} className="relative overflow-hidden bg-gradient-to-b from-white to-[#f8fafd] py-20">
+      {/* Subtle top border gradient */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[--color-border] to-transparent" />
+
+      <div className="mx-auto max-w-[1200px] px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+          className="text-center mb-12"
+        >
+          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent] mb-2">
+            Stack
+          </h2>
+          <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
+            Tecnologias que domino.
+          </p>
+        </motion.div>
+
+        {/* Central stats */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.5 }}
+          className="relative mx-auto mb-12 flex max-w-sm flex-col items-center"
+        >
+          <div className="flex items-baseline gap-2 mb-1">
+            <span className="font-mono text-6xl font-bold text-[--color-text]">681</span>
+            <span className="font-mono text-3xl font-bold text-[--color-accent]">+</span>
           </div>
-        ))}
-      </div>
-    </section>
-  )
-}
+          <p className="text-sm text-[--color-text-secondary] mb-4">contribuições no GitHub</p>
 
-/* ───── About ───── */
-function About() {
-  return (
-    <section id="about" className="mx-auto max-w-[1200px] px-6 py-20 border-t border-[--color-border] bg-white/80 backdrop-blur-sm">
-      <div className="max-w-2xl">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent]">about</span>
-        <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
-          Desenvolvedor por método.<br />Resultado por consequência.
-        </h2>
-        <p className="mt-4 text-sm leading-relaxed text-[--color-text-secondary]">
-          Construo software desde os 14. Passei por hackathons, bolsas de pesquisa, projetos reais em produção com pagamento via Stripe e anúncios no Meta Ads. Cada projeto me ensinou uma lição sobre desempenho, confiabilidade e entrega.
-        </p>
-        <p className="mt-3 text-sm leading-relaxed text-[--color-text-secondary]">
-          Prefiro sistemas simples que resistem à mudança. Deploy pequeno, contínuo, reversível. Código limpo acima de código rápido.
-        </p>
-        <p className="mt-4 font-mono text-xs text-[--color-text-muted]">
-          {'const'} philosophy {'='} {'"'}build less, deliver more{'"'};
-        </p>
+          <div className="flex items-baseline gap-1 mb-1">
+            <span className="font-mono text-5xl font-bold text-[--color-text]">26</span>
+          </div>
+          <p className="text-sm text-[--color-text-secondary] mb-6">repositórios</p>
+
+          <span className="inline-flex items-center gap-2 rounded-full border border-[--color-river]/20 bg-[--color-river]/5 px-4 py-2 font-mono text-xs font-semibold text-[--color-river] tracking-wide">
+            TÉCNICO EM INFORMÁTICA — IFC IBIRAMA
+          </span>
+        </motion.div>
+
+        {/* Tech icons cloud */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto"
+        >
+          {techIcons.map((tech, i) => (
+            <motion.span
+              key={tech.name}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: 0.3 + i * 0.05, duration: 0.3 }}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[--color-border] bg-white px-3.5 py-2 text-sm font-medium text-[--color-text] shadow-sm hover:shadow-md hover:scale-105 transition-all cursor-default"
+            >
+              <span
+                className="h-2.5 w-2.5 rounded-full"
+                style={{ background: tech.color }}
+              />
+              {tech.name}
+            </motion.span>
+          ))}
+        </motion.div>
       </div>
     </section>
   )
@@ -324,64 +478,145 @@ function Contact() {
   }
 
   return (
-    <section id="contact" className="mx-auto max-w-[1200px] px-6 py-20 border-t border-[--color-border] bg-white/80 backdrop-blur-sm">
-      <div className="max-w-xl">
-        <span className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent]">contact</span>
-        <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
-          Vamos construir algo que precisa existir.
-        </h2>
+    <section id="contato" className="relative overflow-hidden bg-gradient-to-br from-[#08081c] via-[#0f0f2e] to-[#120a24] py-20">
+      {/* Top transition from light section */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white to-transparent pointer-events-none" />
+
+      {/* Decorative elements */}
+      <div className="absolute top-20 right-0 w-96 h-96 bg-[--color-accent]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-64 h-64 bg-[#7928ca]/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative z-10 mx-auto max-w-[660px] px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-blue-400 mb-3">
+            Contato
+          </h2>
+          <p className="text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl">
+            Vamos conversar sobre o seu projeto.
+          </p>
+          <p className="mt-2 text-base text-gray-400">
+            Preencha o formulário abaixo e você será redirecionado para o WhatsApp com todas as informações.
+          </p>
+        </motion.div>
 
         {submitted ? (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            className="mt-8 rounded-xl border border-green-200 bg-green-50 p-6 text-center">
-            <p className="font-medium text-green-800">Mensagem preparada!</p>
-            <p className="mt-1 text-sm text-green-700">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 rounded-2xl border border-green-500/20 bg-green-500/10 p-8 text-center backdrop-blur-sm"
+          >
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green-500/20">
+              <svg className="h-7 w-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p className="text-lg font-medium text-white">Mensagem preparada!</p>
+            <p className="mt-1 text-sm text-gray-400">
               Se o WhatsApp não abriu,{' '}
-              <button onClick={() => window.open(`https://wa.me/5547997615032?text=${buildMsg()}`, '_blank')} className="underline">clique aqui</button>.
+              <button onClick={() => window.open(`https://wa.me/5547997615032?text=${buildMsg()}`, '_blank')} className="text-blue-400 underline hover:text-blue-300">
+                clique aqui
+              </button>.
             </p>
           </motion.div>
         ) : (
-          <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-            <input type="text" name="nome" value={form.nome} onChange={handleChange} placeholder="Nome"
-              className="w-full rounded-lg border border-[--color-border] bg-white px-4 py-2.5 text-sm focus:border-[--color-accent] focus:outline-none focus:ring-1 focus:ring-[--color-accent]" />
-            <textarea name="desafio" rows={2} value={form.desafio} onChange={handleChange} placeholder="Qual o desafio?"
-              className="w-full rounded-lg border border-[--color-border] bg-white px-4 py-2.5 text-sm focus:border-[--color-accent] focus:outline-none focus:ring-1 focus:ring-[--color-accent] resize-none" />
-            <div className="grid gap-4 sm:grid-cols-2">
-              <select name="empresa" value={form.empresa} onChange={handleChange}
-                className="w-full rounded-lg border border-[--color-border] bg-white px-4 py-2.5 text-sm focus:border-[--color-accent] focus:outline-none">
-                <option value="">Tamanho da empresa</option>
-                <option value="Freelancer">Freelancer</option>
-                <option value="Pequena">Pequena (1-10)</option>
-                <option value="Média">Média (11-50)</option>
-                <option value="Grande">Grande (50+)</option>
-              </select>
-              <select name="orcamento" value={form.orcamento} onChange={handleChange}
-                className="w-full rounded-lg border border-[--color-border] bg-white px-4 py-2.5 text-sm focus:border-[--color-accent] focus:outline-none">
-                <option value="">Orçamento</option>
-                <option value="Ate 1k">Até R$1.000</option>
-                <option value="1k-3k">R$1.000–3.000</option>
-                <option value="3k-8k">R$3.000–8.000</option>
-                <option value="8k+">R$8.000+</option>
-              </select>
-            </div>
-            <textarea name="descricao" rows={3} value={form.descricao} onChange={handleChange} placeholder="Descreva o que precisa"
-              className="w-full rounded-lg border border-[--color-border] bg-white px-4 py-2.5 text-sm focus:border-[--color-accent] focus:outline-none focus:ring-1 focus:ring-[--color-accent] resize-none" />
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            viewport={{ once: true }}
+            className="mt-8 space-y-4"
+          >
+            {/* Nome */}
+            <label className="block">
+              <span className="text-xs font-medium text-gray-300">Nome</span>
+              <input
+                type="text" name="nome" value={form.nome} onChange={handleChange}
+                placeholder="Seu nome completo"
+                className="mt-1.5 w-full rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-[--color-accent] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30 focus:bg-white/[0.10] transition-all"
+              />
+            </label>
 
-            {(form.nome.trim() && form.desafio.trim() && form.descricao.trim()) ? (
-              <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-5 py-3 text-sm font-medium text-white hover:bg-[#1fb855] transition-all">
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                Chamar no WhatsApp
-              </button>
-            ) : (
-              <p className="text-center text-xs text-[--color-text-muted]">Preencha nome, desafio e descrição para chamar no WhatsApp</p>
-            )}
-          </form>
+            {/* Desafio */}
+            <label className="block">
+              <span className="text-xs font-medium text-gray-300">Qual o desafio que você quer resolver?</span>
+              <textarea
+                name="desafio" rows={2} value={form.desafio} onChange={handleChange}
+                placeholder="Ex: Preciso de um site para captar leads, meu processo manual está lento..."
+                className="mt-1.5 w-full rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-[--color-accent] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30 focus:bg-white/[0.10] transition-all resize-none"
+              />
+            </label>
+
+            {/* Empresa + Orçamento */}
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="block">
+                <span className="text-xs font-medium text-gray-300">Tamanho da empresa</span>
+                <select name="empresa" value={form.empresa} onChange={handleChange}
+                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white focus:border-[--color-accent] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30 transition-all appearance-none"
+                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+                >
+                  <option value="" className="text-gray-900">Selecione...</option>
+                  <option value="Freelancer" className="text-gray-900">Freelancer / Autônomo</option>
+                  <option value="Pequena" className="text-gray-900">Empresa pequena (1-10)</option>
+                  <option value="Média" className="text-gray-900">Empresa média (11-50)</option>
+                  <option value="Grande" className="text-gray-900">Empresa grande (50+)</option>
+                </select>
+              </label>
+              <label className="block">
+                <span className="text-xs font-medium text-gray-300">Orçamento estimado</span>
+                <select name="orcamento" value={form.orcamento} onChange={handleChange}
+                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white focus:border-[--color-accent] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30 transition-all appearance-none"
+                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+                >
+                  <option value="" className="text-gray-900">Selecione...</option>
+                  <option value="Ate 1k" className="text-gray-900">Até R$ 1.000</option>
+                  <option value="1k-3k" className="text-gray-900">R$ 1.000 — R$ 3.000</option>
+                  <option value="3k-8k" className="text-gray-900">R$ 3.000 — R$ 8.000</option>
+                  <option value="8k+" className="text-gray-900">Acima de R$ 8.000</option>
+                  <option value="Indefinido" className="text-gray-900">A definir / Não sei</option>
+                </select>
+              </label>
+            </div>
+
+            {/* Descrição */}
+            <label className="block">
+              <span className="text-xs font-medium text-gray-300">Descreva o que você precisa</span>
+              <textarea
+                name="descricao" rows={3} value={form.descricao} onChange={handleChange}
+                placeholder="Quanto mais detalhes, melhor. Funcionalidades, prazo, referências, o que já tem pronto..."
+                className="mt-1.5 w-full rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-[--color-accent] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30 focus:bg-white/[0.10] transition-all resize-none"
+              />
+            </label>
+
+            {/* Submit */}
+            <div className="pt-2">
+              {(form.nome.trim() && form.desafio.trim() && form.descricao.trim()) ? (
+                <button
+                  type="submit"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-base font-semibold text-white hover:bg-[#1fb855] transition-all shadow-lg shadow-green-500/20 hover:shadow-green-500/30"
+                >
+                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  Chamar no WhatsApp
+                </button>
+              ) : (
+                <p className="text-center text-sm text-gray-500">
+                  Preencha nome, desafio e descrição para chamar no WhatsApp
+                </p>
+              )}
+            </div>
+          </motion.form>
         )}
 
-        <div className="mt-8 flex gap-4 text-sm">
-          <a href="mailto:viniciusodorizzi25@gmail.com" className="text-[--color-accent] hover:text-[--color-text] transition-colors">Email</a>
-          <a href="https://github.com/ViniciusOdorizziHoppe" target="_blank" rel="noopener noreferrer" className="text-[--color-accent] hover:text-[--color-text] transition-colors">GitHub</a>
-          <a href="https://linkedin.com/in/viniciusodorizzi" target="_blank" rel="noopener noreferrer" className="text-[--color-accent] hover:text-[--color-text] transition-colors">LinkedIn</a>
+        {/* Contact links */}
+        <div className="mt-10 flex justify-center gap-8 text-sm">
+          <a href="mailto:viniciusodorizzi25@gmail.com" className="text-gray-400 hover:text-white transition-colors">Email</a>
+          <a href="https://github.com/ViniciusOdorizziHoppe" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">GitHub</a>
+          <a href="https://linkedin.com/in/viniciusodorizzi" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">LinkedIn</a>
         </div>
       </div>
     </section>
@@ -391,10 +626,10 @@ function Contact() {
 /* ───── Footer ───── */
 function Footer() {
   return (
-    <footer className="border-t border-[--color-border] bg-[--color-surface-alt]">
+    <footer className="bg-[#08081c]">
       <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-3 px-6 py-10 text-center">
-        <p className="font-[family-name:var(--font-cinzel)] text-lg font-semibold">Vinícius Odorizzi</p>
-        <p className="text-xs text-[--color-text-muted]">© {new Date().getFullYear()} · built with precision · Presidente Getúlio, SC</p>
+        <p className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-white">Vinícius Odorizzi</p>
+        <p className="text-xs text-gray-500">© {new Date().getFullYear()} · built with precision · Presidente Getúlio, SC</p>
       </div>
     </footer>
   )
