@@ -1,11 +1,16 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, lazy, Suspense } from 'react'
 import { motion, useInView } from 'framer-motion'
-import RiverFlow from './RiverFlow'
+
+const RiverFlow = lazy(() => import('./RiverFlow'))
 
 function App() {
   return (
     <div className="min-h-screen font-sans text-[--color-text]">
-      <RiverFlow />
+      <Suspense fallback={
+        <div className="pointer-events-none fixed inset-0" style={{ zIndex: 0, background: 'radial-gradient(ellipse 80% 60% at 30% 20%, rgba(0,0,139,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 70% 80%, rgba(10,114,239,0.08) 0%, transparent 60%)' }} aria-hidden="true" />
+      }>
+        <RiverFlow />
+      </Suspense>
       <div className="relative z-10">
         <Nav />
         <Hero />

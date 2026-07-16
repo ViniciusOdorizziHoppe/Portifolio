@@ -1,4 +1,4 @@
-import { useRef, useMemo, Suspense } from 'react'
+import { useRef, useMemo, Suspense, useState, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -23,7 +23,7 @@ function SRibbon() {
     ]
 
     const curve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.35)
-    const geo = new THREE.TubeGeometry(curve, 220, 0.5, 8, false)
+    const geo = new THREE.TubeGeometry(curve, 160, 0.5, 8, false)
 
     const pos = geo.attributes.position.array as Float32Array
     for (let i = 0; i < pos.length; i += 3) {
@@ -81,13 +81,40 @@ function Lighting() {
   )
 }
 
+/** Static gradient fallback for reduced-motion / low-power */
+function StaticRiver() {
+  return (
+    <div
+      className="pointer-events-none fixed inset-0"
+      style={{
+        zIndex: 0,
+        background: 'radial-gradient(ellipse 80% 60% at 30% 20%, rgba(0,0,139,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 70% 80%, rgba(10,114,239,0.08) 0%, transparent 60%)',
+      }}
+      aria-hidden="true"
+    />
+  )
+}
+
 export default function RiverFlow() {
+  const [reduceMotion, setReduceMotion] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReduceMotion(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setReduceMotion(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
+  if (reduceMotion) return <StaticRiver />
+
   return (
     <div className="pointer-events-none fixed inset-0" style={{ zIndex: 0 }} aria-hidden="true">
       <Canvas
         camera={{ position: [0, 0, 7], fov: 45 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
+        dpr={[1, 1.5]}
+        gl={{ antialias: false, alpha: true, powerPreference: 'low-power' }}
+        performance={{ min: 0.3 }}
         style={{ background: 'transparent' }}
       >
         <Suspense fallback={null}>
