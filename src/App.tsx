@@ -222,16 +222,6 @@ interface Project {
 
 const projects: Project[] = [
   {
-    initials: 'MV',
-    name: 'MediaTio Vehicle Nexus',
-    desc: 'Intermediação de veículos com Meta Ads. Pipeline de leads automatizado, CPA otimizado.',
-    tech: ['React', 'TypeScript', 'Node.js', 'Meta Ads API'],
-    meta: ['Ads', 'Automação'],
-    metric: 'CPA R$17',
-    url: 'https://app.mediatio.api.br',
-    gradient: 'linear-gradient(135deg, #0a72ef, #7928ca)',
-  },
-  {
     initials: 'MO',
     name: 'Morph',
     desc: 'SaaS de transformação de fotos com IA. Stripe com PIX, assinaturas recorrentes, processamento serverless.',
@@ -260,26 +250,6 @@ const projects: Project[] = [
     metric: 'Vercel + Render',
     url: 'https://rankbr.vercel.app',
     gradient: 'linear-gradient(135deg, #1a1a2e, #0a72ef)',
-  },
-  {
-    initials: 'FP',
-    name: 'FIPE na Placa',
-    desc: 'PWA para consulta de veículos pela placa. Publicada e em produção.',
-    tech: ['JavaScript', 'PWA', 'API REST'],
-    meta: ['Web App'],
-    metric: 'Produção',
-    url: '#',
-    gradient: 'linear-gradient(135deg, #0a72ef, #0855b3)',
-  },
-  {
-    initials: 'OP',
-    name: 'Opinai — Hackathon UDESC',
-    desc: 'Líder técnico no desenvolvimento de solução com IA para processamento de feedbacks em tempo real.',
-    tech: ['React', 'Python', 'OpenAI API', 'WebSocket'],
-    meta: ['Hackathon', 'Liderança Técnica'],
-    metric: 'UDESC 2025',
-    url: '#',
-    gradient: 'linear-gradient(135deg, #7928ca, #ff006e)',
   },
 ]
 
