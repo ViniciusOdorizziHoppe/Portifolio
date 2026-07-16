@@ -96,13 +96,13 @@ function Hero() {
       </p>
 
       <div className="mt-8 flex flex-wrap gap-3">
-        <a href="#contato" className="inline-flex items-center gap-2 rounded-md bg-[--color-text] px-5 py-2.5 text-sm font-medium text-white hover:bg-[--color-text]/80 transition-all">
+        <a href="#contato" className="inline-flex items-center gap-2 rounded-lg bg-[--color-accent] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[--color-accent]/25 hover:bg-[--color-accent-hover] hover:shadow-xl hover:shadow-[--color-accent]/30 hover:-translate-y-0.5 transition-all">
           Solicitar orçamento
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
         </a>
-        <a href="#projetos" className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-[--color-text-secondary] hover:text-[--color-text] transition-all"
-          style={{ boxShadow: 'rgba(0,0,0,0.08) 0px 0px 0px 1px' }}>
+        <a href="#projetos" className="inline-flex items-center gap-2 rounded-lg border-2 border-[--color-text] px-6 py-3 text-sm font-semibold text-[--color-text] hover:bg-[--color-text] hover:text-white transition-all">
           Ver projetos
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
         </a>
       </div>
     </section>
