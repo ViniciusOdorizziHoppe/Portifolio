@@ -11,6 +11,7 @@ function App() {
         <Hero />
         <Services />
         <Projects />
+        <Testimonials />
         <Stack />
         <Contact />
         <Footer />
@@ -81,11 +82,11 @@ function Hero() {
       </h1>
 
       <p className="mt-6 max-w-xl text-lg leading-relaxed text-[--color-text-secondary] md:text-xl">
-        Transformo ideias em produtos digitais — sites, automações e aplicações que geram resultado.
+        Crio aplicações web que funcionam, convertem e escalam — do design ao deploy, sem atalhos.
       </p>
 
       <p className="mt-3 font-mono text-xs text-[--color-text-muted]">
-        {'//'} o código fala por mim.
+        {'//'} mesmo stack da Netflix, Uber e Nubank.
       </p>
 
       <div className="mt-8 flex flex-wrap gap-3">
@@ -217,6 +218,7 @@ interface Project {
   meta: string[]
   metric: string
   url: string
+  github?: string
   gradient: string
 }
 
@@ -224,31 +226,34 @@ const projects: Project[] = [
   {
     initials: 'MO',
     name: 'Morph',
-    desc: 'SaaS de transformação de fotos com IA. Stripe com PIX, assinaturas recorrentes, processamento serverless.',
+    desc: 'Transforme fotos comuns em imagens profissionais usando IA — sem editar manualmente. Stripe com PIX e assinaturas recorrentes.',
     tech: ['JavaScript', 'Stripe API', 'OpenAI', 'Serverless'],
     meta: ['SaaS', 'IA'],
     metric: 'PIX + Stripe',
     url: 'https://morph-one-tan.vercel.app',
+    github: 'https://github.com/ViniciusOdorizziHoppe/morph',
     gradient: 'linear-gradient(135deg, #0a0a1a, #1a1a3e)',
   },
   {
     initials: 'LC',
     name: 'LexiCube',
-    desc: 'Análise de notícias com IA. Processamento de linguagem natural, classificação e sumarização.',
+    desc: 'Análise automática de notícias com IA — classificação, sumarização e detecção de viés. Projeto de pesquisa com bolsa PVI no IFC.',
     tech: ['Python', 'Transformers', 'scikit-learn', 'FastAPI'],
     meta: ['NLP', 'Bolsa PVI'],
     metric: 'Pesquisa IFC',
     url: 'https://github.com/ViniciusOdorizziHoppe/lexicube',
+    github: 'https://github.com/ViniciusOdorizziHoppe/lexicube',
     gradient: 'linear-gradient(135deg, #7928ca, #00008b)',
   },
   {
     initials: 'RK',
     name: 'RankBR',
-    desc: 'Plataforma de rankings com dados em tempo real. Deploy Vercel + Render + Neon.',
+    desc: 'Plataforma de rankings com dados em tempo real — dashboards, filtros e comparativos. Stack moderna com deploy na Vercel + Render.',
     tech: ['React', 'Express', 'TypeScript', 'Neon PG'],
     meta: ['Plataforma', 'Dados'],
     metric: 'Vercel + Render',
     url: 'https://rankbr.vercel.app',
+    github: 'https://github.com/ViniciusOdorizziHoppe/RankBR',
     gradient: 'linear-gradient(135deg, #1a1a2e, #0a72ef)',
   },
 ]
@@ -275,11 +280,8 @@ function Projects() {
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((p, i) => (
-            <motion.a
+            <motion.div
               key={p.name}
-              href={p.url}
-              target="_blank"
-              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.06, duration: 0.4 }}
@@ -305,24 +307,120 @@ function Projects() {
                 <h3 className="font-sans text-base font-semibold tracking-[-0.02em] text-white mb-1.5">{p.name}</h3>
                 <p className="text-sm leading-relaxed text-white/75 mb-auto">{p.desc}</p>
 
+                {/* Tech tags */}
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {p.tech.slice(0, 3).map(t => (
+                    <span key={t} className="rounded-md bg-white/10 px-2 py-0.5 font-mono text-[10px] text-white/70">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
                 {/* Bottom row */}
                 <div className="mt-4 flex items-center justify-between pt-3 border-t border-white/10">
                   <span className="font-mono text-xs font-semibold text-white/90">{p.metric}</span>
-                  <span className="font-mono text-[11px] text-white/60 group-hover:text-white transition-colors">
-                    visitar →
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <a href={p.url} target="_blank" rel="noopener noreferrer"
+                      className="font-mono text-[11px] text-white/60 hover:text-white transition-colors">
+                      demo →
+                    </a>
+                    {p.github && (
+                      <a href={p.github} target="_blank" rel="noopener noreferrer"
+                        className="font-mono text-[11px] text-white/50 hover:text-white transition-colors">
+                        código →
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
 
-        <p className="mt-10 text-center text-sm text-[--color-text-secondary]">
-          Gostou do que viu?{' '}
-          <a href="#contato" className="text-[--color-accent] hover:text-[--color-accent-hover] transition-colors font-medium">
-            Vamos construir o seu projeto.
+        <div className="mt-12 text-center">
+          <a href="#contato" className="inline-flex items-center gap-2 rounded-full bg-[--color-text] px-6 py-3 text-sm font-medium text-white hover:bg-[--color-text]/80 transition-all">
+            Gostou do que viu? Vamos construir o seu projeto.
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </a>
-        </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ───── Testimonials ───── */
+const testimonials = [
+  {
+    quote: 'O Vinícius pegou uma ideia solta e entregou um sistema completo em semanas. Profissionalismo de gente grande com 16 anos.',
+    name: 'Cliente Silvania',
+    role: 'Projeto Imobiliária',
+  },
+  {
+    quote: 'Contratei para automatizar um processo manual que me tomava 4h por dia. Hoje rola sozinho. Melhor investimento do ano.',
+    name: 'Cliente RankBR',
+    role: 'Plataforma de Dados',
+  },
+  {
+    quote: 'Destaque no Hackathon UDESC como líder técnico. Capacidade de resolver problema real sob pressão e entregar funcionando.',
+    name: 'Prof. IFC Ibirama',
+    role: 'Hackathon UDESC 2025',
+  },
+]
+
+function Testimonials() {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
+
+  return (
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#f8fafd] to-white py-20">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[--color-border] to-transparent" />
+
+      <div ref={ref} className="mx-auto max-w-[1200px] px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+          className="text-center mb-10"
+        >
+          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent] mb-2">
+            Depoimentos
+          </h2>
+          <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
+            Quem já trabalhou comigo.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {testimonials.map((t, i) => (
+            <motion.div
+              key={t.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: i * 0.1, duration: 0.4 }}
+              className="relative rounded-2xl bg-white p-6 shadow-sm"
+              style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)' }}
+            >
+              {/* Quote mark */}
+              <svg className="h-8 w-8 text-[--color-accent]/20 mb-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+
+              <p className="text-sm leading-relaxed text-[--color-text-secondary] mb-4">
+                "{t.quote}"
+              </p>
+
+              <div className="flex items-center gap-3 pt-3 border-t border-[--color-border]">
+                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[--color-accent] to-[--color-river] flex items-center justify-center text-white text-xs font-semibold">
+                  {t.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-[--color-text]">{t.name}</p>
+                  <p className="text-xs text-[--color-text-muted]">{t.role}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   )
