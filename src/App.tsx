@@ -18,6 +18,7 @@ function App() {
         <Projects />
         <Testimonials />
         <Stack />
+        <Articles />
         <Contact />
         <Footer />
       </div>
@@ -517,6 +518,93 @@ function Stack() {
             </motion.span>
           ))}
         </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ───── Articles ───── */
+const articles = [
+  {
+    title: 'Quanto custa um site profissional em 2026?',
+    summary: 'Guia completo de preços: landing page, site institucional, e-commerce e sistema web. Entenda as variáveis que afetam o orçamento e como escolher o desenvolvedor certo.',
+    tags: ['Site', 'Orçamento'],
+    slug: 'quanto-custa-site-profissional',
+  },
+  {
+    title: 'Automação de processos: quanto sua empresa perde com trabalho manual?',
+    summary: 'Scripts, bots e integrações podem eliminar horas de tarefas repetitivas. Casos reais de empresas que reduziram custos operacionais em 60%+ com automação.',
+    tags: ['Automação', 'Produtividade'],
+    slug: 'automacao-processos-empresariais',
+  },
+  {
+    title: 'React, Node.js ou Python: qual stack escolher para seu projeto?',
+    summary: 'Cada tecnologia resolve problemas diferentes. Um guia prático para founders e gestores tomarem a decisão certa sem viés técnico.',
+    tags: ['Stack', 'Decisão Técnica'],
+    slug: 'qual-stack-escolher-projeto',
+  },
+]
+
+function Articles() {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
+
+  return (
+    <section className="relative overflow-hidden bg-white py-20">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[--color-border] to-transparent" />
+
+      <div ref={ref} className="mx-auto max-w-[1200px] px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+          className="mb-10"
+        >
+          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent] mb-2">
+            Artigos
+          </h2>
+          <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl mb-2">
+            Conteúdo que ajuda você a decidir.
+          </p>
+          <p className="text-sm text-[--color-text-secondary] max-w-lg">
+            Escrevo sobre desenvolvimento, tecnologia e como resolver problemas reais com código.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-5 md:grid-cols-3">
+          {articles.map((a, i) => (
+            <motion.a
+              key={a.slug}
+              href="#contato"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: i * 0.08, duration: 0.4 }}
+              className="group block rounded-2xl border border-[--color-border] bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-[--color-accent]/30"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                {a.tags.map(t => (
+                  <span key={t} className="rounded-full bg-[--color-accent]/8 px-2.5 py-0.5 font-mono text-[10px] font-medium text-[--color-accent]">
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <h3 className="font-sans text-base font-semibold tracking-[-0.02em] mb-2 group-hover:text-[--color-accent] transition-colors">
+                {a.title}
+              </h3>
+              <p className="text-sm leading-relaxed text-[--color-text-secondary] mb-4">
+                {a.summary}
+              </p>
+
+              <span className="inline-flex items-center gap-1 font-mono text-xs text-[--color-accent] group-hover:gap-2 transition-all">
+                ler artigo
+                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </span>
+            </motion.a>
+          ))}
+        </div>
       </div>
     </section>
   )
