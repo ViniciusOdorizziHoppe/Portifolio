@@ -95,14 +95,14 @@ function Hero() {
         {'//'} mesmo stack da Netflix, Uber e Nubank.
       </p>
 
-      <div className="mt-8 flex flex-wrap gap-3">
-        <a href="#contato" className="inline-flex items-center gap-2 rounded-lg bg-[--color-accent] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[--color-accent]/25 hover:bg-[--color-accent-hover] hover:shadow-xl hover:shadow-[--color-accent]/30 hover:-translate-y-0.5 transition-all">
+      <div className="mt-10 flex flex-wrap gap-4">
+        <a href="#contato" className="inline-flex items-center gap-2 rounded-xl bg-[--color-river] px-7 py-3.5 text-base font-semibold text-white shadow-xl shadow-[--color-river]/30 hover:bg-[--color-river-deep] hover:-translate-y-0.5 transition-all">
           Solicitar orçamento
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
         </a>
-        <a href="#projetos" className="inline-flex items-center gap-2 rounded-lg border-2 border-[--color-text] px-6 py-3 text-sm font-semibold text-[--color-text] hover:bg-[--color-text] hover:text-white transition-all">
+        <a href="#projetos" className="inline-flex items-center gap-2 rounded-xl bg-[--color-text] px-7 py-3.5 text-base font-semibold text-white shadow-xl shadow-black/10 hover:bg-black hover:-translate-y-0.5 transition-all">
           Ver projetos
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
         </a>
       </div>
     </section>
