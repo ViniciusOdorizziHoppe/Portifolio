@@ -1,4 +1,14 @@
 {
+  "rewrites": [
+    {
+      "source": "/namorada",
+      "destination": "/namorada/index.html"
+    },
+    {
+      "source": "/namorada/",
+      "destination": "/namorada/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
