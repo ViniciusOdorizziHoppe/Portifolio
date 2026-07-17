@@ -239,6 +239,10 @@
 
 <div class="hearts-container" id="hearts"></div>
 
+<audio id="bgMusic" loop preload="auto" style="display:none">
+  <source src="/namorada/tempo-perdido.mp3" type="audio/mpeg">
+</audio>
+
 <div class="content">
   <div class="title">❤️</div>
   <div class="subtitle">Feliz Aniversário de Namoro</div>
@@ -305,7 +309,16 @@
   setInterval(() => spawnHeart(Math.random() * 100), 2000);
 
   // ── Sparkles on tap ──
+  let musicStarted = false;
+  const bgMusic = document.getElementById('bgMusic');
+
   document.addEventListener('click', (e) => {
+    // Start music on first interaction
+    if (!musicStarted && bgMusic) {
+      bgMusic.play().catch(() => {});
+      musicStarted = true;
+    }
+
     const sparkle = document.createElement('div');
     sparkle.className = 'sparkle';
     sparkle.textContent = '💖';
