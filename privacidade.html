@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZAP AI — Política de Privacidade</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #333; }
+    h1 { color: #00a884; }
+    h2 { color: #555; margin-top: 32px; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h1>🔒 ZAP AI — Política de Privacidade</h1>
+  <p><strong>Última atualização:</strong> Julho 2026</p>
+
+  <h2>1. Dados Coletados</h2>
+  <p>A extensão <strong>ZAP AI</strong> coleta apenas os dados estritamente necessários para seu funcionamento:</p>
+  <ul>
+    <li><strong>API Key:</strong> Sua chave da OpenAI/DeepSeek, armazenada <em>localmente</em> no navegador via <code>chrome.storage.local</code>. NUNCA é enviada para nossos servidores.</li>
+    <li><strong>Preferências:</strong> Templates salvos, configurações de auto-sugestão, contagem diária de transcrições — tudo armazenado localmente.</li>
+    <li><strong>Áudio de WhatsApp:</strong> Enviado diretamente para a API OpenAI Whisper para transcrição. Não armazenamos, não retemos, não compartilhamos.</li>
+    <li><strong>Mensagens de WhatsApp:</strong> Apenas as últimas 5 mensagens são enviadas para a API DeepSeek para gerar sugestões de resposta. Não armazenamos histórico.</li>
+  </ul>
+
+  <h2>2. O que NÃO coletamos</h2>
+  <ul>
+    <li>Não lemos suas mensagens completas do WhatsApp</li>
+    <li>Não acessamos sua lista de contatos</li>
+    <li>Não coletamos dados de navegação</li>
+    <li>Não compartilhamos dados com terceiros</li>
+    <li>Não usamos cookies ou rastreadores</li>
+  </ul>
+
+  <h2>3. Armazenamento</h2>
+  <p>Todos os dados são armazenados <strong>localmente no seu navegador</strong> usando <code>chrome.storage.local</code>. Nada é enviado para servidores externos além das APIs que você configura (OpenAI Whisper e DeepSeek).</p>
+
+  <h2>4. Serviços de Terceiros</h2>
+  <p>A extensão se conecta às seguintes APIs de terceiros, somente quando você as configura com sua própria chave:</p>
+  <ul>
+    <li><strong>OpenAI Whisper API</strong> (<code>api.openai.com</code>) — para transcrição de áudio</li>
+    <li><strong>DeepSeek API</strong> (<code>api.deepseek.com</code>) — para geração de respostas IA</li>
+  </ul>
+  <p>O uso dessas APIs está sujeito às políticas de privacidade da OpenAI e DeepSeek, respectivamente.</p>
+
+  <h2>5. Seus Direitos</h2>
+  <p>Como todos os dados ficam no seu navegador, você pode:</p>
+  <ul>
+    <li>Limpar os dados a qualquer momento nas configurações da extensão</li>
+    <li>Desinstalar a extensão para remover todos os dados</li>
+    <li>Solicitar informações sobre dados armazenados (não há nada em servidores externos)</li>
+  </ul>
+
+  <h2>6. Pagamentos (Plano Pro)</h2>
+  <p>O plano Pro é processado via <strong>Stripe</strong>. A Stripe coleta dados de pagamento conforme sua própria política de privacidade. A extensão não tem acesso aos seus dados de cartão de crédito.</p>
+
+  <h2>7. Contato</h2>
+  <p>Dúvidas? Entre em contato: <strong>vinicius@odorizzi.dev</strong></p>
+</body>
+</html>
