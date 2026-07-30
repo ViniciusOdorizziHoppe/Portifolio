@@ -1,16 +1,30 @@
 import { useEffect, useState, useRef, lazy, Suspense } from 'react'
 import { motion, useInView } from 'framer-motion'
 
-const RiverFlow = lazy(() => import('./RiverFlow'))
+const ThreeBackground = lazy(() => import('./ThreeBackground'))
 
+// ═══════════════════════════════════════════
+// APP
+// ═══════════════════════════════════════════
 function App() {
   return (
-    <div className="min-h-screen font-sans text-[--color-text]">
-      <Suspense fallback={
-        <div className="pointer-events-none fixed inset-0" style={{ zIndex: 0, background: 'radial-gradient(ellipse 80% 60% at 30% 20%, rgba(0,0,139,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 70% 80%, rgba(10,114,239,0.08) 0%, transparent 60%)' }} aria-hidden="true" />
-      }>
-        <RiverFlow />
+    <div className="min-h-screen bg-[--color-bg] font-sans text-[--color-text] antialiased">
+      <Suspense
+        fallback={
+          <div
+            className="pointer-events-none fixed inset-0"
+            style={{
+              zIndex: 0,
+              background:
+                'radial-gradient(ellipse 80% 60% at 30% 20%, rgba(245,197,24,0.04) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 70% 80%, rgba(10,114,239,0.04) 0%, transparent 60%)',
+            }}
+            aria-hidden="true"
+          />
+        }
+      >
+        <ThreeBackground />
       </Suspense>
+
       <div className="relative z-10">
         <Nav />
         <Hero />
@@ -26,33 +40,57 @@ function App() {
   )
 }
 
-/* ───── Nav ───── */
+// ═══════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════
 function Nav() {
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <motion.header
       initial={{ y: -80 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="sticky top-0 z-50 bg-white/80 backdrop-blur-md"
-      style={{ boxShadow: 'rgba(0,0,0,0.06) 0px 0px 0px 1px' }}
+      className="sticky top-0 z-50 transition-all duration-300"
+      style={{
+        background: scrolled
+          ? 'rgba(9,9,11,0.85)'
+          : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+        borderBottom: scrolled
+          ? '1px solid rgba(255,255,255,0.06)'
+          : '1px solid transparent',
+      }}
     >
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
-        <span className="font-[family-name:var(--font-cinzel)] text-base font-semibold tracking-tight">
-          Vinícius Odorizzi
-        </span>
-        <div className="flex items-center gap-6 md:gap-8">
-          <a href="#servicos" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors">Serviços</a>
-          <a href="#projetos" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors">Projetos</a>
-          <a href="#stack" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors">Stack</a>
-          <a href="#contato" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors">Contato</a>
-          <a href="#contato" className="rounded-full bg-[--color-text] px-4 py-2 text-sm font-medium text-white hover:opacity-80 transition-opacity">Contratar</a>
-        </div>
+        <a href="#" className="font-[family-name:var(--font-cinzel)] text-base font-semibold tracking-tight text-[--color-text] no-underline">
+          Vinícius <span className="text-[--color-accent]">Odorizzi</span>
+        </a>
+
+        <nav className="flex items-center gap-6 md:gap-8">
+          <a href="#servicos" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors no-underline">Serviços</a>
+          <a href="#projetos" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors no-underline">Projetos</a>
+          <a href="#stack" className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors no-underline">Stack</a>
+          <a href="#contato" className="btn-primary text-sm !py-2.5 !px-5 !text-[13px] no-underline">
+            Contratar
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+        </nav>
       </div>
     </motion.header>
   )
 }
 
-/* ───── Hero ───── */
+// ═══════════════════════════════════════════
+// HERO
+// ═══════════════════════════════════════════
 function Hero() {
   const [displayed, setDisplayed] = useState('')
   const [cursor, setCursor] = useState(true)
@@ -66,7 +104,7 @@ function Hero() {
   }, [displayed])
 
   useEffect(() => {
-    const i = setInterval(() => setCursor(c => !c), 530)
+    const i = setInterval(() => setCursor((c) => !c), 530)
     return () => clearInterval(i)
   }, [])
 
@@ -75,109 +113,140 @@ function Hero() {
   const second = displayed.slice(splitIdx)
 
   return (
-    <section className="mx-auto max-w-[1200px] px-6 pb-16 pt-32 md:pt-48">
-      <div className="flex items-center gap-3 mb-6">
-        <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-        <span className="font-mono text-xs text-[--color-text-muted]">disponível · Q3 2026</span>
-      </div>
+    <section className="relative spotlight">
+      <div className="mx-auto max-w-[1200px] px-6 pb-16 pt-32 md:pt-52">
+        {/* Availability badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-8"
+        >
+          <span className="inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-4 py-1.5 font-mono text-[11px] font-medium text-green-400 backdrop-blur-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+            </span>
+            disponível · Q3 2026
+          </span>
+        </motion.div>
 
-      <h1 className="max-w-3xl font-sans text-5xl font-semibold leading-[1.05] tracking-[-0.05em] md:text-7xl md:tracking-[-0.04em]">
-        <span>{first}</span>
-        <span className="font-[family-name:var(--font-cinzel)]">{second}</span>
-        <span className={`font-light ${cursor ? 'opacity-100' : 'opacity-0'} text-[--color-text-muted]`}>|</span>
-      </h1>
+        {/* Typewriter name */}
+        <h1 className="max-w-3xl font-sans text-[clamp(48px,8vw,96px)] font-black leading-[0.95] tracking-[-0.04em]">
+          <span className="text-gradient">{first}</span>
+          <span className="font-[family-name:var(--font-cinzel)] text-[--color-accent]">{second}</span>
+          <span
+            className={`font-light ${cursor ? 'opacity-100' : 'opacity-0'} text-[--color-text-tertiary]`}
+          >
+            |
+          </span>
+        </h1>
 
-      <p className="mt-6 max-w-xl text-lg leading-relaxed text-[--color-text-secondary] md:text-xl">
-        Crio aplicações web que funcionam, convertem e escalam — do design ao deploy, sem atalhos.
-      </p>
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mt-6 max-w-xl text-[17px] leading-relaxed text-[--color-text-secondary]"
+        >
+          Full-stack developer. Crio aplicações web que funcionam, convertem e escalam —
+          do design ao deploy, sem atalhos.
+        </motion.p>
 
-      <p className="mt-3 font-mono text-xs text-[--color-text-muted]">
-        {'//'} mesmo stack da Netflix, Uber e Nubank.
-      </p>
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="mt-2 font-mono text-xs text-[--color-text-tertiary]"
+        >
+          {'//'} React · TypeScript · Node.js · Python · Java
+        </motion.p>
 
-      <div className="mt-10 flex flex-wrap gap-4">
-        <a href="#contato"
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '8px',
-            borderRadius: '12px', background: '#00008b', color: '#ffffff',
-            padding: '14px 28px', fontSize: '16px', fontWeight: 600,
-            boxShadow: '0 10px 30px rgba(0,0,139,0.35)',
-            textDecoration: 'none', fontFamily: 'Geist, sans-serif',
-          }}
-          className="hover:brightness-110 hover:-translate-y-0.5 transition-all">
-          Solicitar orçamento
-          <svg style={{width: 20, height: 20}} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-        </a>
-        <a href="#projetos"
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '8px',
-            borderRadius: '12px', background: '#171717', color: '#ffffff',
-            padding: '14px 28px', fontSize: '16px', fontWeight: 600,
-            boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-            textDecoration: 'none', fontFamily: 'Geist, sans-serif',
-          }}
-          className="hover:brightness-125 hover:-translate-y-0.5 transition-all">
-          Ver projetos
-          <svg style={{width: 20, height: 20}} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-        </a>
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0 }}
+          className="mt-10 flex flex-wrap gap-4"
+        >
+          <a href="#contato" className="btn-primary">
+            Solicitar orçamento
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a href="#projetos" className="btn-secondary">
+            Ver projetos
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </a>
+        </motion.div>
       </div>
     </section>
   )
 }
 
-/* ───── Services ───── */
+// ═══════════════════════════════════════════
+// SERVICES
+// ═══════════════════════════════════════════
 const services = [
   {
     title: 'Sites & Landings',
-    desc: 'Landing pages que convertem, sites institucionais e portfólios profissionais. Do design ao deploy.',
+    desc: 'Landing pages que convertem, sites institucionais e portfólios profissionais. Design → código → deploy.',
     tech: ['React', 'Vite', 'Tailwind', 'SEO'],
-    icon: (
-      <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" /></svg>
-    ),
     color: '#0a72ef',
+    icon: (
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" />
+      </svg>
+    ),
   },
   {
     title: 'Automações',
     desc: 'Scripts, bots, integrações e fluxos que eliminam trabalho manual. Economize horas por semana.',
     tech: ['Python', 'Node.js', 'APIs', 'Chrome Ext'],
-    icon: (
-      <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
-    ),
     color: '#7928ca',
+    icon: (
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+      </svg>
+    ),
   },
   {
     title: 'Apps & APIs',
     desc: 'Aplicações web completas com backend, banco de dados, pagamentos e painéis administrativos.',
     tech: ['Express', 'MongoDB', 'Stripe', 'TypeScript'],
+    color: '#F5C518',
     icon: (
-      <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7" /><path d="M16 3H8l-1 4h10l-1-4z" /><line x1="9" y1="12" x2="15" y2="12" /><line x1="9" y1="16" x2="13" y2="16" /></svg>
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7" />
+        <path d="M16 3H8l-1 4h10l-1-4z" />
+        <line x1="9" y1="12" x2="15" y2="12" /><line x1="9" y1="16" x2="13" y2="16" />
+      </svg>
     ),
-    color: '#00008b',
   },
 ]
 
 function Services() {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="servicos" ref={ref} className="relative overflow-hidden bg-gradient-to-b from-[#f8fafd] to-white">
-      {/* Decorative gradient bar */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[--color-accent] via-[#7928ca] to-[--color-river]" />
-
-      <div className="mx-auto max-w-[1200px] px-6 py-20">
+    <section id="servicos" ref={ref} className="relative spotlight-bottom">
+      <div className="mx-auto max-w-[1200px] px-6 py-24">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.5 }}
         >
-          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent] mb-2">
+          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[--color-accent] mb-3">
             Serviços
           </h2>
-          <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl mb-2">
+          <p className="text-[clamp(28px,5vw,48px)] font-black tracking-[-0.03em] mb-3">
             O que eu faço de melhor.
           </p>
-          <p className="text-sm text-[--color-text-secondary] max-w-lg mb-10">
+          <p className="text-[15px] text-[--color-text-secondary] max-w-lg mb-12">
             Cada serviço é pensado para entregar resultado, não apenas código.
           </p>
         </motion.div>
@@ -189,10 +258,9 @@ function Services() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="group relative rounded-2xl bg-white p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-              style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)' }}
+              className="glass group relative p-6 transition-all duration-300 hover:bg-[rgba(255,255,255,0.05)] hover:-translate-y-1"
             >
-              {/* Colored icon circle */}
+              {/* Icon */}
               <div
                 className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl text-white transition-transform duration-300 group-hover:scale-110"
                 style={{ background: s.color }}
@@ -204,8 +272,11 @@ function Services() {
               <p className="text-sm leading-relaxed text-[--color-text-secondary] mb-4">{s.desc}</p>
 
               <div className="flex flex-wrap gap-1.5">
-                {s.tech.map(t => (
-                  <span key={t} className="rounded-md bg-[#f4f4f5] px-2 py-0.5 font-mono text-[10px] font-medium text-[--color-text-secondary]">
+                {s.tech.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-md bg-[rgba(255,255,255,0.06)] px-2 py-0.5 font-mono text-[10px] font-medium text-[--color-text-tertiary]"
+                  >
                     {t}
                   </span>
                 ))}
@@ -220,10 +291,12 @@ function Services() {
           ))}
         </div>
 
-        <div className="mt-10 text-center">
-          <a href="#contato" className="inline-flex items-center gap-2 rounded-full bg-[--color-text] px-6 py-3 text-sm font-medium text-white hover:bg-[--color-text]/80 transition-all">
+        <div className="mt-12 text-center">
+          <a href="#contato" className="btn-secondary">
             Preciso de algo personalizado
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
           </a>
         </div>
       </div>
@@ -231,7 +304,9 @@ function Services() {
   )
 }
 
-/* ───── Projects ───── */
+// ═══════════════════════════════════════════
+// PROJECTS
+// ═══════════════════════════════════════════
 interface Project {
   initials: string
   name: string
@@ -248,107 +323,146 @@ const projects: Project[] = [
   {
     initials: 'MO',
     name: 'Morph',
-    desc: 'Transforme fotos comuns em imagens profissionais usando IA — sem editar manualmente. Stripe com PIX e assinaturas recorrentes.',
+    desc: 'SaaS de transformação de fotos com IA. Stripe com PIX e assinaturas recorrentes. Do upload ao checkout em segundos.',
     tech: ['JavaScript', 'Stripe API', 'OpenAI', 'Serverless'],
     meta: ['SaaS', 'IA'],
     metric: 'PIX + Stripe',
     url: 'https://morph-one-tan.vercel.app',
     github: 'https://github.com/ViniciusOdorizziHoppe/morph',
-    gradient: 'linear-gradient(135deg, #0a0a1a, #1a1a3e)',
+    gradient: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0a72ef 100%)',
   },
   {
     initials: 'LC',
     name: 'LexiCube',
-    desc: 'Análise automática de notícias com IA — classificação, sumarização e detecção de viés. Projeto de pesquisa com bolsa PVI no IFC.',
+    desc: 'Análise automática de notícias com IA — classificação, sumarização e detecção de viés. Projeto de pesquisa com bolsa PVI.',
     tech: ['Python', 'Transformers', 'scikit-learn', 'FastAPI'],
     meta: ['NLP', 'Bolsa PVI'],
     metric: 'Pesquisa IFC',
     url: 'https://github.com/ViniciusOdorizziHoppe/lexicube',
     github: 'https://github.com/ViniciusOdorizziHoppe/lexicube',
-    gradient: 'linear-gradient(135deg, #7928ca, #00008b)',
+    gradient: 'linear-gradient(135deg, #1a0a2e 0%, #7928ca 50%, #00008b 100%)',
   },
   {
     initials: 'RK',
     name: 'RankBR',
-    desc: 'Plataforma de rankings com dados em tempo real — dashboards, filtros e comparativos. Stack moderna com deploy na Vercel + Render.',
+    desc: 'Plataforma de rankings com dados em tempo real — dashboards, filtros e comparativos. Deploy na Vercel + Render.',
     tech: ['React', 'Express', 'TypeScript', 'Neon PG'],
     meta: ['Plataforma', 'Dados'],
     metric: 'Vercel + Render',
     url: 'https://rankbr.vercel.app',
     github: 'https://github.com/ViniciusOdorizziHoppe/RankBR',
-    gradient: 'linear-gradient(135deg, #1a1a2e, #0a72ef)',
+    gradient: 'linear-gradient(135deg, #0a0a0a 0%, #1a2a4e 50%, #0a72ef 100%)',
   },
 ]
 
 function Projects() {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '-100px' })
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([])
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, i: number) => {
+    const card = cardsRef.current[i]
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+    const rotateX = ((y - centerY) / centerY) * -8
+    const rotateY = ((x - centerX) / centerX) * 8
+    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(8px)`
+  }
+
+  const handleMouseLeave = (i: number) => {
+    const card = cardsRef.current[i]
+    if (!card) return
+    card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px)'
+  }
 
   return (
-    <section id="projetos" ref={ref} className="relative overflow-hidden bg-white">
-      <div className="mx-auto max-w-[1200px] px-6 py-20">
+    <section id="projetos" ref={ref} className="relative">
+      <div className="mx-auto max-w-[1200px] px-6 py-24">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.5 }}
         >
-          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent] mb-2">
+          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[--color-accent] mb-3">
             Projetos
           </h2>
-          <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl mb-10">
+          <p className="text-[clamp(28px,5vw,48px)] font-black tracking-[-0.03em] mb-12">
             Sistemas em produção.
           </p>
         </motion.div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((p, i) => (
             <motion.div
               key={p.name}
-              initial={{ opacity: 0, y: 20 }}
+              ref={(el) => { cardsRef.current[i] = el }}
+              initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.06, duration: 0.4 }}
-              className="group relative overflow-hidden rounded-2xl p-5 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02]"
-              style={{ background: p.gradient, minHeight: '200px' }}
+              transition={{ delay: i * 0.08, duration: 0.5 }}
+              onMouseMove={(e) => handleMouseMove(e, i)}
+              onMouseLeave={() => handleMouseLeave(i)}
+              className="tilt-3d group relative overflow-hidden rounded-2xl p-5 transition-shadow duration-300 hover:shadow-2xl"
+              style={{ background: p.gradient, minHeight: '220px' }}
             >
               {/* Watermark initials */}
-              <div className="absolute -bottom-4 -right-2 select-none font-[family-name:var(--font-cinzel)] text-[6rem] font-bold leading-none text-white/[0.06]">
+              <div className="pointer-events-none absolute -bottom-4 -right-2 select-none font-[family-name:var(--font-cinzel)] text-[7rem] font-bold leading-none text-white/[0.05]">
                 {p.initials}
               </div>
 
               {/* Content */}
-              <div className="relative z-10 flex flex-col h-full">
+              <div className="relative z-10 flex h-full flex-col">
                 {/* Meta labels */}
-                <div className="flex items-center gap-1.5 mb-3">
-                  {p.meta.map(m => (
-                    <span key={m} className="rounded-full bg-white/15 px-2.5 py-0.5 font-mono text-[10px] font-medium text-white/90 backdrop-blur-sm">
+                <div className="mb-3 flex items-center gap-1.5">
+                  {p.meta.map((m) => (
+                    <span
+                      key={m}
+                      className="rounded-full bg-white/15 px-2.5 py-0.5 font-mono text-[10px] font-medium text-white/90 backdrop-blur-sm"
+                    >
                       {m}
                     </span>
                   ))}
                 </div>
 
-                <h3 className="font-sans text-base font-semibold tracking-[-0.02em] text-white mb-1.5">{p.name}</h3>
-                <p className="text-sm leading-relaxed text-white/75 mb-auto">{p.desc}</p>
+                <h3 className="font-sans text-lg font-bold tracking-[-0.02em] text-white mb-1.5">
+                  {p.name}
+                </h3>
+                <p className="text-sm leading-relaxed text-white/70 mb-auto">{p.desc}</p>
 
                 {/* Tech tags */}
                 <div className="mt-3 flex flex-wrap gap-1.5">
-                  {p.tech.slice(0, 3).map(t => (
-                    <span key={t} className="rounded-md bg-white/10 px-2 py-0.5 font-mono text-[10px] text-white/70">
+                  {p.tech.slice(0, 3).map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-md bg-white/10 px-2 py-0.5 font-mono text-[10px] text-white/65"
+                    >
                       {t}
                     </span>
                   ))}
                 </div>
 
                 {/* Bottom row */}
-                <div className="mt-4 flex items-center justify-between pt-3 border-t border-white/10">
-                  <span className="font-mono text-xs font-semibold text-white/90">{p.metric}</span>
+                <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3">
+                  <span className="font-mono text-xs font-semibold text-white/85">{p.metric}</span>
                   <div className="flex items-center gap-3">
-                    <a href={p.url} target="_blank" rel="noopener noreferrer"
-                      className="font-mono text-[11px] text-white/60 hover:text-white transition-colors">
+                    <a
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-[11px] text-white/55 hover:text-[--color-accent] transition-colors no-underline"
+                    >
                       demo →
                     </a>
                     {p.github && (
-                      <a href={p.github} target="_blank" rel="noopener noreferrer"
-                        className="font-mono text-[11px] text-white/50 hover:text-white transition-colors">
+                      <a
+                        href={p.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-[11px] text-white/45 hover:text-[--color-accent] transition-colors no-underline"
+                      >
                         código →
                       </a>
                     )}
@@ -359,10 +473,12 @@ function Projects() {
           ))}
         </div>
 
-        <div className="mt-12 text-center">
-          <a href="#contato" className="inline-flex items-center gap-2 rounded-full bg-[--color-text] px-6 py-3 text-sm font-medium text-white hover:bg-[--color-text]/80 transition-all">
+        <div className="mt-14 text-center">
+          <a href="#contato" className="btn-primary">
             Gostou do que viu? Vamos construir o seu projeto.
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
           </a>
         </div>
       </div>
@@ -370,20 +486,25 @@ function Projects() {
   )
 }
 
-/* ───── Testimonials ───── */
+// ═══════════════════════════════════════════
+// TESTIMONIALS
+// ═══════════════════════════════════════════
 const testimonials = [
   {
-    quote: 'O Vinícius pegou uma ideia solta e entregou um sistema completo em semanas. Profissionalismo de gente grande com 16 anos.',
+    quote:
+      'O Vinícius pegou uma ideia solta e entregou um sistema completo em semanas. Profissionalismo de gente grande com 16 anos.',
     name: 'Cliente Silvania',
     role: 'Projeto Imobiliária',
   },
   {
-    quote: 'Contratei para automatizar um processo manual que me tomava 4h por dia. Hoje rola sozinho. Melhor investimento do ano.',
+    quote:
+      'Contratei para automatizar um processo manual que me tomava 4h por dia. Hoje rola sozinho. Melhor investimento do ano.',
     name: 'Cliente RankBR',
     role: 'Plataforma de Dados',
   },
   {
-    quote: 'Destaque no Hackathon UDESC como líder técnico. Capacidade de resolver problema real sob pressão e entregar funcionando.',
+    quote:
+      'Destaque no Hackathon UDESC como líder técnico. Capacidade de resolver problema real sob pressão e entregar funcionando.',
     name: 'Prof. IFC Ibirama',
     role: 'Hackathon UDESC 2025',
   },
@@ -391,53 +512,60 @@ const testimonials = [
 
 function Testimonials() {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#f8fafd] to-white py-20">
+    <section className="relative spotlight">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[--color-border] to-transparent" />
 
-      <div ref={ref} className="mx-auto max-w-[1200px] px-6">
+      <div ref={ref} className="mx-auto max-w-[1200px] px-6 py-24">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4 }}
-          className="text-center mb-10"
+          transition={{ duration: 0.5 }}
+          className="mb-12 text-center"
         >
-          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent] mb-2">
+          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[--color-accent] mb-3">
             Depoimentos
           </h2>
-          <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
+          <p className="text-[clamp(28px,5vw,48px)] font-black tracking-[-0.03em]">
             Quem já trabalhou comigo.
           </p>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-3">
           {testimonials.map((t, i) => (
             <motion.div
               key={t.name}
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.1, duration: 0.4 }}
-              className="relative rounded-2xl bg-white p-6 shadow-sm"
-              style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)' }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="glass relative p-6"
             >
               {/* Quote mark */}
-              <svg className="h-8 w-8 text-[--color-accent]/20 mb-3" fill="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="mb-4 h-8 w-8 text-[--color-accent]/15"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
               </svg>
 
-              <p className="text-sm leading-relaxed text-[--color-text-secondary] mb-4">
-                "{t.quote}"
+              <p className="text-sm leading-relaxed text-[--color-text-secondary] mb-5">
+                &ldquo;{t.quote}&rdquo;
               </p>
 
-              <div className="flex items-center gap-3 pt-3 border-t border-[--color-border]">
-                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[--color-accent] to-[--color-river] flex items-center justify-center text-white text-xs font-semibold">
-                  {t.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
+              <div className="flex items-center gap-3 border-t border-[--color-border] pt-4">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[--color-accent] to-[#e0b010] text-xs font-bold text-[#0a0a0a]">
+                  {t.name
+                    .split(' ')
+                    .map((w) => w[0])
+                    .join('')
+                    .slice(0, 2)}
                 </div>
                 <div>
                   <p className="text-sm font-medium text-[--color-text]">{t.name}</p>
-                  <p className="text-xs text-[--color-text-muted]">{t.role}</p>
+                  <p className="text-xs text-[--color-text-tertiary]">{t.role}</p>
                 </div>
               </div>
             </motion.div>
@@ -448,7 +576,9 @@ function Testimonials() {
   )
 }
 
-/* ───── Stack ───── */
+// ═══════════════════════════════════════════
+// STACK
+// ═══════════════════════════════════════════
 const techIcons = [
   { name: 'React', color: '#61DAFB' },
   { name: 'TypeScript', color: '#3178C6' },
@@ -461,62 +591,61 @@ const techIcons = [
   { name: 'Git', color: '#F05032' },
   { name: 'Stripe', color: '#635BFF' },
   { name: 'Java', color: '#ED8B00' },
-  { name: 'Vercel', color: '#000000' },
+  { name: 'Vercel', color: '#ffffff' },
 ]
 
 function Stack() {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="stack" ref={ref} className="relative overflow-hidden bg-gradient-to-b from-white to-[#f8fafd] py-20">
-      {/* Subtle top border gradient */}
+    <section id="stack" ref={ref} className="relative spotlight-bottom">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[--color-border] to-transparent" />
 
-      <div className="mx-auto max-w-[1200px] px-6">
+      <div className="mx-auto max-w-[1200px] px-6 py-24">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.5 }}
+          className="mb-14 text-center"
         >
-          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent] mb-2">
+          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[--color-accent] mb-3">
             Stack
           </h2>
-          <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
+          <p className="text-[clamp(28px,5vw,48px)] font-black tracking-[-0.03em]">
             Tecnologias que domino.
           </p>
         </motion.div>
 
-        {/* Central stats */}
+        {/* Stats */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.92 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.5 }}
-          className="relative mx-auto mb-12 flex max-w-sm flex-col items-center"
+          transition={{ duration: 0.6 }}
+          className="relative mx-auto mb-14 flex max-w-sm flex-col items-center"
         >
           <div className="flex items-baseline gap-2 mb-1">
-            <span className="font-mono text-6xl font-bold text-[--color-text]">681</span>
-            <span className="font-mono text-3xl font-bold text-[--color-accent]">+</span>
+            <span className="font-mono text-6xl font-black text-[--color-text]">681</span>
+            <span className="font-mono text-3xl font-black text-[--color-accent]">+</span>
           </div>
           <p className="text-sm text-[--color-text-secondary] mb-4">contribuições no GitHub</p>
 
           <div className="flex items-baseline gap-1 mb-1">
-            <span className="font-mono text-5xl font-bold text-[--color-text]">26</span>
+            <span className="font-mono text-5xl font-black text-[--color-text]">26</span>
           </div>
           <p className="text-sm text-[--color-text-secondary] mb-6">repositórios</p>
 
-          <span className="inline-flex items-center gap-2 rounded-full border border-[--color-river]/20 bg-[--color-river]/5 px-4 py-2 font-mono text-xs font-semibold text-[--color-river] tracking-wide">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[--color-accent]/20 bg-[--color-accent]/5 px-5 py-2 font-mono text-xs font-semibold text-[--color-accent] tracking-wide">
             TÉCNICO EM INFORMÁTICA — IFC IBIRAMA
           </span>
         </motion.div>
 
-        {/* Tech icons cloud */}
+        {/* Tech cloud */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto"
+          className="mx-auto flex max-w-2xl flex-wrap justify-center gap-3"
         >
           {techIcons.map((tech, i) => (
             <motion.span
@@ -524,12 +653,9 @@ function Stack() {
               initial={{ opacity: 0, scale: 0 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ delay: 0.3 + i * 0.05, duration: 0.3 }}
-              className="inline-flex items-center gap-1.5 rounded-full border border-[--color-border] bg-white px-3.5 py-2 text-sm font-medium text-[--color-text] shadow-sm hover:shadow-md hover:scale-105 transition-all cursor-default"
+              className="inline-flex cursor-default items-center gap-1.5 rounded-full border border-[--color-border] bg-[rgba(255,255,255,0.03)] px-4 py-2 text-sm font-medium text-[--color-text] backdrop-blur-sm transition-all hover:scale-105 hover:border-[--color-border-hover] hover:bg-[rgba(255,255,255,0.06)]"
             >
-              <span
-                className="h-2.5 w-2.5 rounded-full"
-                style={{ background: tech.color }}
-              />
+              <span className="h-2.5 w-2.5 rounded-full" style={{ background: tech.color }} />
               {tech.name}
             </motion.span>
           ))}
@@ -539,47 +665,49 @@ function Stack() {
   )
 }
 
-/* ───── Articles ───── */
+// ═══════════════════════════════════════════
+// ARTICLES
+// ═══════════════════════════════════════════
 const articles = [
   {
     title: 'Quanto custa um site profissional em 2026?',
-    summary: 'Guia completo de preços: landing page, site institucional, e-commerce e sistema web. Entenda as variáveis que afetam o orçamento e como escolher o desenvolvedor certo.',
+    summary:
+      'Guia completo de preços: landing page, site institucional, e-commerce e sistema web. Entenda as variáveis que afetam o orçamento.',
     tags: ['Site', 'Orçamento'],
-    slug: 'quanto-custa-site-profissional',
   },
   {
     title: 'Automação de processos: quanto sua empresa perde com trabalho manual?',
-    summary: 'Scripts, bots e integrações podem eliminar horas de tarefas repetitivas. Casos reais de empresas que reduziram custos operacionais em 60%+ com automação.',
+    summary:
+      'Scripts, bots e integrações podem eliminar horas de tarefas repetitivas. Casos reais de empresas que reduziram custos em 60%+.',
     tags: ['Automação', 'Produtividade'],
-    slug: 'automacao-processos-empresariais',
   },
   {
     title: 'React, Node.js ou Python: qual stack escolher para seu projeto?',
-    summary: 'Cada tecnologia resolve problemas diferentes. Um guia prático para founders e gestores tomarem a decisão certa sem viés técnico.',
+    summary:
+      'Cada tecnologia resolve problemas diferentes. Um guia prático para founders e gestores tomarem a decisão certa sem viés técnico.',
     tags: ['Stack', 'Decisão Técnica'],
-    slug: 'qual-stack-escolher-projeto',
   },
 ]
 
 function Articles() {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section className="relative overflow-hidden bg-white py-20">
+    <section className="relative">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[--color-border] to-transparent" />
 
-      <div ref={ref} className="mx-auto max-w-[1200px] px-6">
+      <div ref={ref} className="mx-auto max-w-[1200px] px-6 py-24">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4 }}
-          className="mb-10"
+          transition={{ duration: 0.5 }}
+          className="mb-12"
         >
-          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-[--color-accent] mb-2">
+          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[--color-accent] mb-3">
             Artigos
           </h2>
-          <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl mb-2">
+          <p className="text-[clamp(28px,5vw,48px)] font-black tracking-[-0.03em] mb-2">
             Conteúdo que ajuda você a decidir.
           </p>
           <p className="text-sm text-[--color-text-secondary] max-w-lg">
@@ -590,27 +718,28 @@ function Articles() {
         <div className="grid gap-5 md:grid-cols-3">
           {articles.map((a, i) => (
             <motion.a
-              key={a.slug}
+              key={a.title}
               href="#contato"
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.08, duration: 0.4 }}
-              className="group block rounded-2xl border border-[--color-border] bg-white p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-[--color-accent]/30"
+              transition={{ delay: i * 0.08, duration: 0.5 }}
+              className="glass group block p-6 no-underline transition-all duration-300 hover:bg-[rgba(255,255,255,0.05)] hover:-translate-y-1 hover:border-[--color-accent]/20"
             >
-              <div className="flex items-center gap-2 mb-3">
-                {a.tags.map(t => (
-                  <span key={t} className="rounded-full bg-[--color-accent]/8 px-2.5 py-0.5 font-mono text-[10px] font-medium text-[--color-accent]">
+              <div className="mb-3 flex items-center gap-2">
+                {a.tags.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-full bg-[--color-accent]/10 px-2.5 py-0.5 font-mono text-[10px] font-medium text-[--color-accent]"
+                  >
                     {t}
                   </span>
                 ))}
               </div>
 
-              <h3 className="font-sans text-base font-semibold tracking-[-0.02em] mb-2 group-hover:text-[--color-accent] transition-colors">
+              <h3 className="font-sans text-base font-semibold tracking-[-0.02em] mb-2 text-[--color-text] group-hover:text-[--color-accent] transition-colors">
                 {a.title}
               </h3>
-              <p className="text-sm leading-relaxed text-[--color-text-secondary] mb-4">
-                {a.summary}
-              </p>
+              <p className="text-sm leading-relaxed text-[--color-text-secondary] mb-4">{a.summary}</p>
 
               <span className="inline-flex items-center gap-1 font-mono text-xs text-[--color-accent] group-hover:gap-2 transition-all">
                 ler artigo
@@ -626,26 +755,36 @@ function Articles() {
   )
 }
 
-/* ───── Contact ───── */
+// ═══════════════════════════════════════════
+// CONTACT
+// ═══════════════════════════════════════════
 function Contact() {
   const [form, setForm] = useState({ nome: '', desafio: '', empresa: '', orcamento: '', descricao: '' })
   const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('portfolio_form')
-    if (saved) { try { setForm(JSON.parse(saved)) } catch {} }
+    if (saved) {
+      try {
+        setForm(JSON.parse(saved))
+      } catch {}
+    }
   }, [])
+
   useEffect(() => {
     localStorage.setItem('portfolio_form', JSON.stringify(form))
   }, [form])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const buildMsg = () => encodeURIComponent(
-    `*Novo orçamento — Portfolio*\n\n*Nome:* ${form.nome || '(não informado)'}\n*Desafio:* ${form.desafio || '(não informado)'}\n*Empresa:* ${form.empresa || '(não informado)'}\n*Orçamento:* ${form.orcamento || '(não informado)'}\n*Descrição:* ${form.descricao || '(não informado)'}`
-  )
+  const buildMsg = () =>
+    encodeURIComponent(
+      `*Novo orçamento — Portfolio*\n\n*Nome:* ${form.nome || '(não informado)'}\n*Desafio:* ${form.desafio || '(não informado)'}\n*Empresa:* ${form.empresa || '(não informado)'}\n*Orçamento:* ${form.orcamento || '(não informado)'}\n*Descrição:* ${form.descricao || '(não informado)'}`
+    )
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -655,29 +794,31 @@ function Contact() {
   }
 
   return (
-    <section id="contato" className="relative overflow-hidden bg-gradient-to-br from-[#08081c] via-[#0f0f2e] to-[#120a24] py-20">
-      {/* Top transition from light section */}
-      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white to-transparent pointer-events-none" />
+    <section
+      id="contato"
+      className="relative overflow-hidden"
+      style={{
+        background:
+          'radial-gradient(ellipse 80% 60% at 50% 30%, rgba(245,197,24,0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 50% 90%, rgba(10,114,239,0.05) 0%, transparent 60%), #09090b',
+      }}
+    >
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[--color-accent]/20 to-transparent" />
 
-      {/* Decorative elements */}
-      <div className="absolute top-20 right-0 w-96 h-96 bg-[--color-accent]/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-64 h-64 bg-[#7928ca]/5 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="relative z-10 mx-auto max-w-[660px] px-6">
+      <div className="relative z-10 mx-auto max-w-[660px] px-6 py-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
         >
-          <h2 className="font-mono text-xs font-medium uppercase tracking-wide text-blue-400 mb-3">
+          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[--color-accent] mb-4">
             Contato
           </h2>
-          <p className="text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl">
+          <p className="text-[clamp(28px,5vw,42px)] font-black tracking-[-0.03em]">
             Vamos conversar sobre o seu projeto.
           </p>
-          <p className="mt-2 text-base text-gray-400">
-            Preencha o formulário abaixo e você será redirecionado para o WhatsApp com todas as informações.
+          <p className="mt-3 text-[15px] leading-relaxed text-[--color-text-secondary]">
+            Preencha o formulário e você será redirecionado para o WhatsApp com todas as informações.
           </p>
         </motion.div>
 
@@ -685,19 +826,25 @@ function Contact() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-8 rounded-2xl border border-green-500/20 bg-green-500/10 p-8 text-center backdrop-blur-sm"
+            className="glass mt-8 p-8 text-center"
           >
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green-500/20">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green-500/15">
               <svg className="h-7 w-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <p className="text-lg font-medium text-white">Mensagem preparada!</p>
-            <p className="mt-1 text-sm text-gray-400">
+            <p className="text-lg font-semibold">Mensagem preparada!</p>
+            <p className="mt-1 text-sm text-[--color-text-secondary]">
               Se o WhatsApp não abriu,{' '}
-              <button onClick={() => window.open(`https://wa.me/5547997615032?text=${buildMsg()}`, '_blank')} className="text-blue-400 underline hover:text-blue-300">
+              <button
+                onClick={() =>
+                  window.open(`https://wa.me/5547997615032?text=${buildMsg()}`, '_blank')
+                }
+                className="text-[--color-accent] underline hover:text-[--color-accent-hover]"
+              >
                 clique aqui
-              </button>.
+              </button>
+              .
             </p>
           </motion.div>
         ) : (
@@ -709,79 +856,99 @@ function Contact() {
             viewport={{ once: true }}
             className="mt-8 space-y-4"
           >
-            {/* Nome */}
             <label className="block">
-              <span className="text-xs font-medium text-gray-300">Nome</span>
+              <span className="text-xs font-medium text-[--color-text-secondary]">Nome</span>
               <input
-                type="text" name="nome" value={form.nome} onChange={handleChange}
+                type="text"
+                name="nome"
+                value={form.nome}
+                onChange={handleChange}
                 placeholder="Seu nome completo"
-                className="mt-1.5 w-full rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-[--color-accent] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30 focus:bg-white/[0.10] transition-all"
+                className="mt-1.5 w-full rounded-xl border border-[--color-border] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-[--color-text] placeholder:text-[--color-text-tertiary] transition-all focus:border-[--color-accent] focus:bg-[rgba(255,255,255,0.07)] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30"
               />
             </label>
 
-            {/* Desafio */}
             <label className="block">
-              <span className="text-xs font-medium text-gray-300">Qual o desafio que você quer resolver?</span>
+              <span className="text-xs font-medium text-[--color-text-secondary]">Qual o desafio que você quer resolver?</span>
               <textarea
-                name="desafio" rows={2} value={form.desafio} onChange={handleChange}
+                name="desafio"
+                rows={2}
+                value={form.desafio}
+                onChange={handleChange}
                 placeholder="Ex: Preciso de um site para captar leads, meu processo manual está lento..."
-                className="mt-1.5 w-full rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-[--color-accent] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30 focus:bg-white/[0.10] transition-all resize-none"
+                className="mt-1.5 w-full resize-none rounded-xl border border-[--color-border] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-[--color-text] placeholder:text-[--color-text-tertiary] transition-all focus:border-[--color-accent] focus:bg-[rgba(255,255,255,0.07)] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30"
               />
             </label>
 
-            {/* Empresa + Orçamento */}
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
-                <span className="text-xs font-medium text-gray-300">Tamanho da empresa</span>
-                <select name="empresa" value={form.empresa} onChange={handleChange}
-                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white focus:border-[--color-accent] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30 transition-all appearance-none"
-                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+                <span className="text-xs font-medium text-[--color-text-secondary]">Tamanho da empresa</span>
+                <select
+                  name="empresa"
+                  value={form.empresa}
+                  onChange={handleChange}
+                  className="mt-1.5 w-full appearance-none rounded-xl border border-[--color-border] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-[--color-text] transition-all focus:border-[--color-accent] focus:bg-[rgba(255,255,255,0.07)] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23707070' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 12px center',
+                  }}
                 >
-                  <option value="" className="text-gray-900">Selecione...</option>
-                  <option value="Freelancer" className="text-gray-900">Freelancer / Autônomo</option>
-                  <option value="Pequena" className="text-gray-900">Empresa pequena (1-10)</option>
-                  <option value="Média" className="text-gray-900">Empresa média (11-50)</option>
-                  <option value="Grande" className="text-gray-900">Empresa grande (50+)</option>
+                  <option value="">Selecione...</option>
+                  <option value="Freelancer">Freelancer / Autônomo</option>
+                  <option value="Pequena">Empresa pequena (1-10)</option>
+                  <option value="Média">Empresa média (11-50)</option>
+                  <option value="Grande">Empresa grande (50+)</option>
                 </select>
               </label>
               <label className="block">
-                <span className="text-xs font-medium text-gray-300">Orçamento estimado</span>
-                <select name="orcamento" value={form.orcamento} onChange={handleChange}
-                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white focus:border-[--color-accent] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30 transition-all appearance-none"
-                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+                <span className="text-xs font-medium text-[--color-text-secondary]">Orçamento estimado</span>
+                <select
+                  name="orcamento"
+                  value={form.orcamento}
+                  onChange={handleChange}
+                  className="mt-1.5 w-full appearance-none rounded-xl border border-[--color-border] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-[--color-text] transition-all focus:border-[--color-accent] focus:bg-[rgba(255,255,255,0.07)] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23707070' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 12px center',
+                  }}
                 >
-                  <option value="" className="text-gray-900">Selecione...</option>
-                  <option value="Ate 1k" className="text-gray-900">Até R$ 1.000</option>
-                  <option value="1k-3k" className="text-gray-900">R$ 1.000 — R$ 3.000</option>
-                  <option value="3k-8k" className="text-gray-900">R$ 3.000 — R$ 8.000</option>
-                  <option value="8k+" className="text-gray-900">Acima de R$ 8.000</option>
-                  <option value="Indefinido" className="text-gray-900">A definir / Não sei</option>
+                  <option value="">Selecione...</option>
+                  <option value="Ate 1k">Até R$ 1.000</option>
+                  <option value="1k-3k">R$ 1.000 — R$ 3.000</option>
+                  <option value="3k-8k">R$ 3.000 — R$ 8.000</option>
+                  <option value="8k+">Acima de R$ 8.000</option>
+                  <option value="Indefinido">A definir / Não sei</option>
                 </select>
               </label>
             </div>
 
-            {/* Descrição */}
             <label className="block">
-              <span className="text-xs font-medium text-gray-300">Descreva o que você precisa</span>
+              <span className="text-xs font-medium text-[--color-text-secondary]">Descreva o que você precisa</span>
               <textarea
-                name="descricao" rows={3} value={form.descricao} onChange={handleChange}
-                placeholder="Quanto mais detalhes, melhor. Funcionalidades, prazo, referências, o que já tem pronto..."
-                className="mt-1.5 w-full rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-[--color-accent] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30 focus:bg-white/[0.10] transition-all resize-none"
+                name="descricao"
+                rows={3}
+                value={form.descricao}
+                onChange={handleChange}
+                placeholder="Quanto mais detalhes, melhor. Funcionalidades, prazo, referências..."
+                className="mt-1.5 w-full resize-none rounded-xl border border-[--color-border] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-[--color-text] placeholder:text-[--color-text-tertiary] transition-all focus:border-[--color-accent] focus:bg-[rgba(255,255,255,0.07)] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30"
               />
             </label>
 
-            {/* Submit */}
             <div className="pt-2">
-              {(form.nome.trim() && form.desafio.trim() && form.descricao.trim()) ? (
+              {form.nome.trim() && form.desafio.trim() && form.descricao.trim() ? (
                 <button
                   type="submit"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-base font-semibold text-white hover:bg-[#1fb855] transition-all shadow-lg shadow-green-500/20 hover:shadow-green-500/30"
+                  className="btn-primary w-full !bg-[#25D366] !shadow-[0_8px_32px_rgba(37,211,102,0.3)] hover:!bg-[#1fb855]"
                 >
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" />
+                  </svg>
                   Chamar no WhatsApp
                 </button>
               ) : (
-                <p className="text-center text-sm text-gray-500">
+                <p className="text-center text-sm text-[--color-text-tertiary]">
                   Preencha nome, desafio e descrição para chamar no WhatsApp
                 </p>
               )}
@@ -789,24 +956,35 @@ function Contact() {
           </motion.form>
         )}
 
-        {/* Contact links */}
         <div className="mt-10 flex justify-center gap-8 text-sm">
-          <a href="mailto:viniciusodorizzi25@gmail.com" className="text-gray-400 hover:text-white transition-colors">Email</a>
-          <a href="https://github.com/ViniciusOdorizziHoppe" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">GitHub</a>
-          <a href="https://linkedin.com/in/viniciusodorizzi" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">LinkedIn</a>
+          <a href="mailto:viniciusodorizzi25@gmail.com" className="text-[--color-text-tertiary] hover:text-[--color-text] transition-colors no-underline">
+            Email
+          </a>
+          <a href="https://github.com/ViniciusOdorizziHoppe" target="_blank" rel="noopener noreferrer" className="text-[--color-text-tertiary] hover:text-[--color-text] transition-colors no-underline">
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/viniciusodorizzi" target="_blank" rel="noopener noreferrer" className="text-[--color-text-tertiary] hover:text-[--color-text] transition-colors no-underline">
+            LinkedIn
+          </a>
         </div>
       </div>
     </section>
   )
 }
 
-/* ───── Footer ───── */
+// ═══════════════════════════════════════════
+// FOOTER
+// ═══════════════════════════════════════════
 function Footer() {
   return (
-    <footer className="bg-[#08081c]">
-      <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-3 px-6 py-10 text-center">
-        <p className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-white">Vinícius Odorizzi</p>
-        <p className="text-xs text-gray-500">© {new Date().getFullYear()} · built with precision · Presidente Getúlio, SC</p>
+    <footer className="border-t border-[--color-border]">
+      <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-3 px-6 py-12 text-center">
+        <p className="font-[family-name:var(--font-cinzel)] text-lg font-semibold tracking-tight">
+          Vinícius <span className="text-[--color-accent]">Odorizzi</span>
+        </p>
+        <p className="text-xs text-[--color-text-tertiary]">
+          © {new Date().getFullYear()} · built with precision · Presidente Getúlio, SC
+        </p>
       </div>
     </footer>
   )

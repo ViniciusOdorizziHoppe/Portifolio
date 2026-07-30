@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +10,7 @@
     <meta name="keywords" content="desenvolvedor, full-stack, sites, portfólio, projetos, programador, React, TypeScript, Node.js, Python, criar site, desenvolvedor web, aplicações, automações, Vinícius Odorizzi" />
     <meta name="author" content="Vinícius Odorizzi" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="theme-color" content="#09090b" />
     <link rel="canonical" href="https://viniciusodorizzi.com" />
 
     <!-- Open Graph -->
@@ -50,7 +51,6 @@
         "@type": "EducationalOrganization",
         "name": "IFC Ibirama"
       },
-      "award": "Menção Honrosa OBMEP 2023-2024",
       "sameAs": [
         "https://github.com/ViniciusOdorizziHoppe",
         "https://linkedin.com/in/viniciusodorizzi"
@@ -58,48 +58,17 @@
     }
     </script>
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": "Projetos — Vinícius Odorizzi",
-      "description": "Portfólio de projetos de desenvolvimento de software — sites, SaaS, automações e aplicações web.",
-      "url": "https://viniciusodorizzi.com/#projetos",
-      "about": {
-        "@type": "Thing",
-        "name": "Desenvolvimento de Software"
-      },
-      "mainEntity": [
-        {
-          "@type": "SoftwareApplication",
-          "name": "Morph",
-          "description": "SaaS de transformação de fotos com IA. Stripe com PIX e assinaturas recorrentes.",
-          "applicationCategory": "Multimedia",
-          "url": "https://morph-one-tan.vercel.app"
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "LexiCube",
-          "description": "Análise de notícias com IA. NLP, classificação e sumarização. Projeto de bolsa PVI.",
-          "applicationCategory": "DataAnalysis",
-          "url": "https://github.com/ViniciusOdorizziHoppe/lexicube"
-        },
-        {
-          "@type": "SoftwareApplication",
-          "name": "RankBR",
-          "description": "Plataforma de rankings com dados em tempo real.",
-          "applicationCategory": "DataAnalysis",
-          "url": "https://rankbr.vercel.app"
-        }
-      ]
-    }
-    </script>
+    <!-- Fonts: Geist + Geist Mono + Cinzel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
+    <!-- Analytics -->
     <script defer src="https://cdn.himetrica.com/tracker.js" data-api-key="hm_4408c6dfdce603253b8275b6f0d3f3a90e177a52acf58bb8"></script>
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-white text-[#171717] antialiased">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
