@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/acharegiao",
+      "destination": "https://chat.whatsapp.com/BnAmI64xECIG0Dq4nu2SLT",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/namorada",
