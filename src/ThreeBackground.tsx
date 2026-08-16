@@ -1,165 +1,223 @@
-import { useRef, useMemo } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
-// ───── Particle Field ─────
-function Particles({ count = 400 }: { count?: number }) {
-  const meshRef = useRef<THREE.Points>(null)
-
-  const [positions, sizes] = useMemo(() => {
-    const pos = new Float32Array(count * 3)
-    const siz = new Float32Array(count)
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 16
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 10
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 4
-      siz[i] = Math.random() * 0.03 + 0.01
-    }
-    return [pos, siz]
-  }, [count])
-
-  useFrame((state) => {
-    if (!meshRef.current) return
-    const t = state.clock.getElapsedTime()
-    meshRef.current.rotation.y = t * 0.02
-    meshRef.current.rotation.x = Math.sin(t * 0.1) * 0.05
-  })
-
-  return (
-    <points ref={meshRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-        />
-        <bufferAttribute
-          attach="attributes-size"
-          args={[sizes, 1]}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.025}
-        color="#ffffff"
-        transparent
-        opacity={0.5}
-        blending={THREE.AdditiveBlending}
-        depthWrite={false}
-        sizeAttenuation
-      />
-    </points>
-  )
-}
-
-// ───── Polar Grid (spatial anchor) ─────
-function PolarGrid() {
-  const gridRef = useRef<THREE.PolarGridHelper>(null)
-
-  useFrame((state) => {
-    if (!gridRef.current) return
-    gridRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.05) * 0.04
-    gridRef.current.rotation.y = Math.cos(state.clock.getElapsedTime() * 0.03) * 0.03
-  })
-
-  return (
-    <primitive
-      ref={gridRef}
-      object={new THREE.PolarGridHelper(6, 32, 24, 64, 0xffffff, 0xffffff)}
-      position={[0, -3.5, -2]}
-      rotation={[-0.6, 0, 0]}
-    />
-  )
-}
-
-// ───── Camera controller (mouse parallax) ─────
-function CameraRig() {
-  const target = useRef({ x: 0, y: 0 })
-  const current = useRef({ x: 0, y: 0 })
-
-  useFrame((state) => {
-    // Smooth lerp towards mouse
-    current.current.x += (target.current.x - current.current.x) * 0.02
-    current.current.y += (target.current.y - current.current.y) * 0.02
-
-    state.camera.position.x = current.current.x
-    state.camera.position.y = current.current.y
-    state.camera.lookAt(0, 0, 0)
-  })
-
-  // Track mouse globally
-  if (typeof window !== 'undefined') {
-    window.addEventListener('mousemove', (e) => {
-      target.current.x = (e.clientX / window.innerWidth - 0.5) * 2
-      target.current.y = (e.clientY / window.innerHeight - 0.5) * -1.5
-    })
-  }
-
-  return null
-}
-
-// ───── Ambient glow orbs ─────
-function GlowOrbs() {
-  const groupRef = useRef<THREE.Group>(null)
-
-  useFrame((state) => {
-    if (!groupRef.current) return
-    const t = state.clock.getElapsedTime()
-    groupRef.current.children.forEach((child, i) => {
-      child.position.y = Math.sin(t * 0.3 + i * 2) * 0.8
-      child.position.x = Math.cos(t * 0.2 + i * 1.5) * 1.2
-    })
-  })
-
-  return (
-    <group ref={groupRef}>
-      <mesh position={[-3, 2, -3]}>
-        <sphereGeometry args={[0.8, 16, 16]} />
-        <meshBasicMaterial color="#F5C518" transparent opacity={0.04} />
-      </mesh>
-      <mesh position={[4, -1, -3]}>
-        <sphereGeometry args={[1.2, 16, 16]} />
-        <meshBasicMaterial color="#0a72ef" transparent opacity={0.03} />
-      </mesh>
-      <mesh position={[-2, -2.5, -3]}>
-        <sphereGeometry args={[0.6, 16, 16]} />
-        <meshBasicMaterial color="#7928ca" transparent opacity={0.03} />
-      </mesh>
-    </group>
-  )
-}
-
-// ───── Scene ─────
-function Scene() {
-  return (
-    <>
-      <ambientLight intensity={0.4} />
-      <Particles count={400} />
-      <PolarGrid />
-      <GlowOrbs />
-      <CameraRig />
-    </>
-  )
-}
-
-// ───── Export ─────
 export default function ThreeBackground() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const sceneRef = useRef<THREE.Scene | null>(null)
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null)
+  const particlesRef = useRef<THREE.Points | null>(null)
+  const gridRef = useRef<THREE.PolarGridHelper | null>(null)
+  const frameRef = useRef(0)
+
+  useEffect(() => {
+    if (!containerRef.current) return
+
+    const container = containerRef.current
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100)
+    camera.position.set(0, 2, 12)
+    camera.lookAt(0, 0, 0)
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    container.appendChild(renderer.domElement)
+
+    // ───── Polar Grid (spatial anchor) ─────
+    const grid = new THREE.PolarGridHelper(14, 32, 24, 256, 0x222222, 0x111111)
+    grid.position.y = -4.5
+    scene.add(grid)
+    gridRef.current = grid
+
+    // ───── Particles ─────
+    const COUNT = 450
+    const geometry = new THREE.BufferGeometry()
+    const positions = new Float32Array(COUNT * 3)
+    const colors = new Float32Array(COUNT * 3)
+    const sizes = new Float32Array(COUNT)
+
+    const accentColor = new THREE.Color('#F5C518')
+    const whiteColor = new THREE.Color('#ffffff')
+    const blueColor = new THREE.Color('#0a72ef')
+
+    for (let i = 0; i < COUNT; i++) {
+      const i3 = i * 3
+      const radius = 3 + Math.random() * 9
+      const angle = Math.random() * Math.PI * 2
+      const height = (Math.random() - 0.5) * 8
+
+      positions[i3] = Math.cos(angle) * radius
+      positions[i3 + 1] = height
+      positions[i3 + 2] = Math.sin(angle) * radius
+
+      const colorChoice = Math.random()
+      if (colorChoice < 0.15) {
+        colors[i3] = accentColor.r
+        colors[i3 + 1] = accentColor.g
+        colors[i3 + 2] = accentColor.b
+      } else if (colorChoice < 0.3) {
+        colors[i3] = blueColor.r
+        colors[i3 + 1] = blueColor.g
+        colors[i3 + 2] = blueColor.b
+      } else {
+        const brightness = 0.3 + Math.random() * 0.7
+        colors[i3] = whiteColor.r * brightness
+        colors[i3 + 1] = whiteColor.g * brightness
+        colors[i3 + 2] = whiteColor.b * brightness
+      }
+
+      sizes[i] = Math.random() * 0.03 + 0.01
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
+
+    const material = new THREE.PointsMaterial({
+      size: 0.025,
+      vertexColors: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      opacity: 0.55,
+      transparent: true,
+    })
+
+    const particles = new THREE.Points(geometry, material)
+    scene.add(particles)
+    particlesRef.current = particles
+
+    // ───── Ambient glow orbs ─────
+    const glowGeo = new THREE.SphereGeometry(6, 32, 32)
+    const glowMat = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uColor: { value: new THREE.Color('#F5C518') },
+      },
+      vertexShader: /* glsl */ `
+        varying vec3 vPosition;
+        varying vec3 vNormal;
+        void main() {
+          vPosition = position;
+          vNormal = normalize(normalMatrix * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: /* glsl */ `
+        varying vec3 vPosition;
+        varying vec3 vNormal;
+        uniform float uTime;
+        uniform vec3 uColor;
+        void main() {
+          float fresnel = 1.0 - abs(dot(vNormal, vec3(0.0, 0.0, 1.0)));
+          fresnel = pow(fresnel, 4.0);
+          float alpha = fresnel * 0.06;
+          gl_FragColor = vec4(uColor, alpha);
+        }
+      `,
+      transparent: true,
+      depthWrite: false,
+    })
+    const glowOrb = new THREE.Mesh(glowGeo, glowMat)
+    glowOrb.position.set(4, 1, -3)
+    scene.add(glowOrb)
+
+    // Second orb (blue)
+    const glowGeo2 = new THREE.SphereGeometry(5, 32, 32)
+    const glowMat2 = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uColor: { value: new THREE.Color('#0a72ef') },
+      },
+      vertexShader: glowMat.vertexShader,
+      fragmentShader: glowMat.fragmentShader,
+      transparent: true,
+      depthWrite: false,
+    })
+    const glowOrb2 = new THREE.Mesh(glowGeo2, glowMat2)
+    glowOrb2.position.set(-5, -1, -4)
+    scene.add(glowOrb2)
+
+    sceneRef.current = scene
+    cameraRef.current = camera
+
+    // ───── Mouse parallax ─────
+    let mouseX = 0,
+      mouseY = 0
+    let targetMouseX = 0,
+      targetMouseY = 0
+
+    const onMouseMove = (e: MouseEvent) => {
+      targetMouseX = (e.clientX / window.innerWidth) * 2 - 1
+      targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1
+    }
+    window.addEventListener('mousemove', onMouseMove, { passive: true })
+
+    // ───── Scroll reaction ─────
+    let scrollY = 0
+    let targetScrollY = 0
+    const onScroll = () => {
+      targetScrollY = window.scrollY
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    // ───── Resize ─────
+    const onResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight
+      camera.updateProjectionMatrix()
+      renderer.setSize(window.innerWidth, window.innerHeight)
+    }
+    window.addEventListener('resize', onResize)
+
+    // ───── Animation loop ─────
+    function animate() {
+      frameRef.current = requestAnimationFrame(animate)
+
+      // Smooth lerp
+      mouseX += (targetMouseX - mouseX) * 0.02
+      mouseY += (targetMouseY - mouseY) * 0.02
+      scrollY += (targetScrollY - scrollY) * 0.03
+
+      // Camera parallax
+      camera.position.x = mouseX * 2.5
+      camera.position.y = 2 + mouseY * 1.5
+      camera.lookAt(0, mouseY * 0.5, 0)
+
+      // Particle rotation
+      if (particlesRef.current) {
+        particlesRef.current.rotation.y += 0.00015
+        particlesRef.current.rotation.x = mouseY * 0.15
+      }
+
+      // Grid rotation
+      if (gridRef.current) {
+        gridRef.current.rotation.x = -0.45 + scrollY * 0.00015
+        gridRef.current.rotation.z += 0.0001
+      }
+
+      // Update glow uniforms
+      glowMat.uniforms.uTime.value += 0.01
+      glowMat2.uniforms.uTime.value += 0.008
+
+      renderer.render(scene, camera)
+    }
+    animate()
+
+    return () => {
+      cancelAnimationFrame(frameRef.current)
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onResize)
+      renderer.dispose()
+      container.removeChild(renderer.domElement)
+    }
+  }, [])
+
   return (
     <div
+      ref={containerRef}
       className="pointer-events-none fixed inset-0"
       style={{ zIndex: 0 }}
       aria-hidden="true"
-    >
-      <Canvas
-        camera={{ position: [0, 0, 8], fov: 50 }}
-        gl={{
-          antialias: true,
-          alpha: true,
-          powerPreference: 'low-power',
-        }}
-        dpr={[1, 1.5]}
-        style={{ background: 'transparent' }}
-      >
-        <Scene />
-      </Canvas>
-    </div>
+    />
   )
 }

@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Build artifacts
+*.tsbuildinfo
+
+# Hermes
+.hermes/
+
+# Arquivos pessoais/escolares (fora do site)
+checklist-inpi-marca-justen.md
+gerar-status-*.py
+ideias/
+plano-medicina-*.md
+revolucoes-industriais.pptx
+slide_revolucoes.py
+status-comissao-premium.png
+trabalho-redes*
+sigaa-backend/

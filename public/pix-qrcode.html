@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIX QR Code - Vinícius Odorizzi</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    background: #09090b; color: #e4e4e7; font-family: system-ui, sans-serif;
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  }
+  .card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 32px; max-width: 400px; width: 90%;
+    text-align: center; backdrop-filter: blur(12px);
+  }
+  .card h2 { font-size: 20px; margin-bottom: 4px; }
+  .card .brand { color: #F5C518; font-weight: 700; }
+  .card p { color: #a1a1aa; font-size: 13px; margin-bottom: 20px; }
+  .qr-box { 
+    background: white; border-radius: 12px; padding: 16px; 
+    display: inline-block; margin-bottom: 20px;
+  }
+  .qr-box img { display: block; width: 250px; height: 250px; image-rendering: pixelated; }
+  .amount { font-size: 32px; font-weight: 800; margin-bottom: 4px; }
+  .amount span { font-size: 18px; }
+  .copy-btn {
+    background: #F5C518; color: #09090b; border: none; border-radius: 12px;
+    padding: 12px 24px; font-size: 14px; font-weight: 700; cursor: pointer;
+    width: 100%; transition: all 0.2s;
+  }
+  .copy-btn:hover { background: #e0b010; transform: translateY(-1px); }
+  .copy-btn:active { transform: scale(0.98); }
+  .copy-btn.copied { background: #22c55e; color: white; }
+  .info { margin-top: 16px; font-size: 11px; color: #71717a; word-break: break-all; }
+  .raw { margin-top: 10px; font-size: 10px; color: #52525b; word-break: break-all; font-family: monospace; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>Vinícius <span class="brand">Odorizzi</span></h2>
+  <p>PIX Copia e Cola · CPF 135.889.209-19</p>
+  
+  <div class="qr-box">
+    <img src="data:image/png;base64,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" alt="QR Code PIX" width="250" height="250">
+  </div>
+  
+  <div class="amount">R$ <span>1,00</span></div>
+  
+  <button class="copy-btn" id="copyBtn" onclick="copiarPix()">
+    📋 Copiar PIX Copia e Cola
+  </button>
+  
+  <div class="info">Presidente Getúlio · SC</div>
+  <div class="raw">00020126330014br.gov.bcb.pix01111358892091952040000530398654041.005802BR5917VINICIUS ODORIZZI6015PRESIDENTE GETU62110507DEMO00163048136</div>
+</div>
+
+<script>
+const pixString = "00020126330014br.gov.bcb.pix01111358892091952040000530398654041.005802BR5917VINICIUS ODORIZZI6015PRESIDENTE GETU62110507DEMO00163048136";
+
+function copiarPix() {
+  navigator.clipboard.writeText(pixString).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ Copiado!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 Copiar PIX Copia e Cola';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
