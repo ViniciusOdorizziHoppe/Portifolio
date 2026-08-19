@@ -1,5 +1,28 @@
-import { useEffect, useState, useRef, useCallback, lazy, Suspense } from 'react'
+import { useEffect, useState, useRef, lazy, Suspense } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
+import {
+  ArrowRight,
+  ArrowUp,
+  ArrowUpRight,
+  ArrowDown,
+  GithubLogo,
+  LinkedinLogo,
+  WhatsappLogo,
+  EnvelopeSimple,
+  CheckCircle,
+  Code,
+  Flask,
+  Monitor,
+  AppWindow,
+  Lightning,
+  Compass,
+  Quotes,
+  GitCommit,
+  Folder,
+  Rocket,
+  CalendarCheck,
+  RocketLaunch,
+} from '@phosphor-icons/react'
 import SigaaDashboard from './components/SigaaDashboard'
 
 const ThreeBackground = lazy(() => import('./ThreeBackground'))
@@ -150,14 +173,10 @@ function Nav({ mobileOpen, setMobileOpen }: { mobileOpen: boolean; setMobileOpen
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className="sticky top-0 z-50 transition-all duration-300"
       style={{
-        background: scrolled
-          ? 'rgba(9,9,11,0.85)'
-          : 'transparent',
+        background: scrolled ? 'rgba(9,9,11,0.85)' : 'transparent',
         backdropFilter: scrolled ? 'blur(20px)' : 'none',
         WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-        borderBottom: scrolled
-          ? '1px solid rgba(255,255,255,0.06)'
-          : '1px solid transparent',
+        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.08)' : '1px solid transparent',
       }}
     >
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
@@ -191,7 +210,7 @@ function Nav({ mobileOpen, setMobileOpen }: { mobileOpen: boolean; setMobileOpen
             className="btn-primary text-sm !py-2.5 !px-5 !text-[13px] no-underline ml-3"
           >
             Contratar
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            <ArrowRight size={16} weight="bold" />
           </a>
         </nav>
 
@@ -254,161 +273,101 @@ function MobileNav({ close }: { close: () => void }) {
         className="btn-primary mt-4"
       >
         Contratar
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
+        <ArrowRight size={18} weight="bold" />
       </motion.a>
     </motion.div>
   )
 }
 
 // ═══════════════════════════════════════════
-// HERO
+// HERO — animista: tracking-in + focus-in
 // ═══════════════════════════════════════════
 function Hero() {
-  const [displayed, setDisplayed] = useState('')
-  const [cursor, setCursor] = useState(true)
-  const fullText = 'Vinícius Odorizzi.'
-
-  useEffect(() => {
-    if (displayed.length < fullText.length) {
-      const t = setTimeout(() => setDisplayed(fullText.slice(0, displayed.length + 1)), 60)
-      return () => clearTimeout(t)
-    }
-  }, [displayed])
-
-  useEffect(() => {
-    const i = setInterval(() => setCursor((c) => !c), 530)
-    return () => clearInterval(i)
-  }, [])
-
-  const splitIdx = 'Vinícius '.length
-  const first = displayed.slice(0, Math.min(displayed.length, splitIdx))
-  const second = displayed.slice(splitIdx)
-
   return (
     <section className="relative spotlight">
       {/* Decorative glow orbs */}
       <div
         className="glow-orb"
-        style={{
-          width: 500,
-          height: 500,
-          background: 'rgba(245,197,24,0.06)',
-          top: '10%',
-          right: '10%',
-        }}
+        style={{ width: 500, height: 500, background: 'rgba(245,197,24,0.06)', top: '10%', right: '10%' }}
       />
       <div
         className="glow-orb"
-        style={{
-          width: 400,
-          height: 400,
-          background: 'rgba(10,114,239,0.04)',
-          bottom: '20%',
-          left: '5%',
-        }}
+        style={{ width: 400, height: 400, background: 'rgba(10,114,239,0.04)', bottom: '20%', left: '5%' }}
       />
 
       <div className="mx-auto max-w-[1200px] px-6 pb-16 pt-32 md:pt-52">
-        {/* Availability badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mb-8"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-4 py-1.5 font-mono text-[11px] font-medium text-green-400 backdrop-blur-sm">
+        {/* Availability badge — animista slide-in-blurred-top */}
+        <div className="animista-slide-blur mb-8" style={{ animationDelay: '0.15s' }}>
+          <span className="shadcn-badge !border-green-500/20 !bg-green-500/10 !text-green-400">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
             </span>
             disponível · Q3 2026
           </span>
-        </motion.div>
+        </div>
 
-        {/* Typewriter name */}
-        <h1 className="max-w-3xl font-sans text-[clamp(48px,8vw,96px)] font-black leading-[0.95] tracking-[-0.04em]">
-          <span className="text-gradient">{first}</span>
-          <span className="font-[family-name:var(--font-cinzel)] text-[--color-accent]">{second}</span>
-          <span
-            className={`font-light ${cursor ? 'opacity-100' : 'opacity-0'} text-[--color-text-tertiary]`}
-            aria-hidden="true"
-          >
-            |
-          </span>
+        {/* Name — animista tracking-in-expand */}
+        <h1 className="animista-tracking-in max-w-3xl font-sans text-[clamp(48px,8vw,96px)] font-black leading-[0.95] tracking-[-0.04em]">
+          <span className="text-gradient">Vinícius </span>
+          <span className="text-gradient-accent font-[family-name:var(--font-cinzel)]">Odorizzi.</span>
         </h1>
 
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mt-6 max-w-xl text-[17px] leading-relaxed text-[--color-text-secondary]"
+        {/* Subtitle — animista text-focus-in */}
+        <p
+          className="animista-focus-in mt-6 max-w-xl text-[17px] leading-relaxed text-[--color-text-secondary]"
+          style={{ animationDelay: '0.55s' }}
         >
           Full-stack developer. Crio aplicações web que funcionam, convertem e escalam —
           do design ao deploy, sem atalhos.
-        </motion.p>
+        </p>
 
-        <motion.p
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="mt-2 font-mono text-xs text-[--color-text-tertiary]"
+        <p
+          className="animista-focus-in mt-2 font-mono text-xs text-[--color-text-tertiary]"
+          style={{ animationDelay: '0.75s' }}
         >
           {'//'} React · TypeScript · Node.js · Python · Java
-        </motion.p>
+        </p>
 
         {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0 }}
-          className="mt-10 flex flex-wrap gap-4"
-        >
+        <div className="animista-focus-in mt-10 flex flex-wrap gap-4" style={{ animationDelay: '0.95s' }}>
           <a href="#contato" className="btn-primary btn-magnetic">
             Solicitar orçamento
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+            <ArrowRight size={18} weight="bold" />
           </a>
           <a href="#projetos" className="btn-secondary">
             Ver projetos
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+            <ArrowDown size={18} />
           </a>
-        </motion.div>
+        </div>
 
         {/* Social proof row */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.3, duration: 0.6 }}
-          className="mt-16 flex flex-wrap items-center gap-6 text-xs text-[--color-text-tertiary]"
+        <div
+          className="animista-focus-in mt-16 flex flex-wrap items-center gap-6 text-xs text-[--color-text-tertiary]"
+          style={{ animationDelay: '1.35s' }}
         >
           <span className="flex items-center gap-2">
-            <svg className="h-4 w-4 text-[--color-accent]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+            <CheckCircle size={16} weight="fill" className="text-[--color-accent]" />
             Técnico em Informática — IFC Ibirama
           </span>
           <span className="hidden sm:inline text-[--color-border]">|</span>
           <span className="flex items-center gap-2">
-            <svg className="h-4 w-4 text-[--color-accent]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+            <Flask size={16} weight="fill" className="text-[--color-accent]" />
             Bolsa PVI de Pesquisa — LexiCube
           </span>
           <span className="hidden sm:inline text-[--color-border]">|</span>
           <span className="flex items-center gap-2">
-            <svg className="h-4 w-4 text-[--color-accent]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+            <RocketLaunch size={16} weight="fill" className="text-[--color-accent]" />
             3+ projetos em produção
           </span>
-        </motion.div>
+        </div>
       </div>
     </section>
   )
 }
 
 // ═══════════════════════════════════════════
-// SERVICES — Bento Grid
+// SERVICES — Bento Grid (shadcn cards + phosphor)
 // ═══════════════════════════════════════════
 const services = [
   {
@@ -417,11 +376,8 @@ const services = [
     tech: ['React', 'Vite', 'Tailwind', 'SEO'],
     color: '#0a72ef',
     span: '',
-    icon: (
-      <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" />
-      </svg>
-    ),
+    icon: Monitor,
+    featured: false,
   },
   {
     title: 'Apps & APIs',
@@ -429,13 +385,8 @@ const services = [
     tech: ['Express', 'MongoDB', 'Stripe', 'TS'],
     color: '#F5C518',
     span: 'col-span-2',
-    icon: (
-      <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7" />
-        <path d="M16 3H8l-1 4h10l-1-4z" />
-        <line x1="9" y1="12" x2="15" y2="12" /><line x1="9" y1="16" x2="13" y2="16" />
-      </svg>
-    ),
+    icon: AppWindow,
+    featured: true,
   },
   {
     title: 'Automações',
@@ -443,11 +394,8 @@ const services = [
     tech: ['Python', 'Node.js', 'APIs', 'Chrome Ext'],
     color: '#7928ca',
     span: '',
-    icon: (
-      <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-      </svg>
-    ),
+    icon: Lightning,
+    featured: false,
   },
   {
     title: 'Consultoria Técnica',
@@ -455,11 +403,8 @@ const services = [
     tech: ['Arquitetura', 'Code Review', 'Mentoria'],
     color: '#10b981',
     span: 'col-span-2',
-    icon: (
-      <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
-      </svg>
-    ),
+    icon: Compass,
+    featured: false,
   },
 ]
 
@@ -489,45 +434,48 @@ function Services() {
         </motion.div>
 
         <div className="bento-grid">
-          {services.map((s, i) => (
-            <motion.div
-              key={s.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className={`bento-card ${s.span} group p-6 flex flex-col`}
-            >
-              {/* Icon */}
-              <div
-                className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl text-white transition-transform duration-300 group-hover:scale-110"
-                style={{ background: s.color }}
+          {services.map((s, i) => {
+            const Icon = s.icon
+            return (
+              <motion.div
+                key={s.title}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className={`bento-card ${s.span} ${s.featured ? 'featured-card' : ''} group p-6 flex flex-col`}
               >
-                {s.icon}
-              </div>
+                {/* Icon */}
+                <div
+                  className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl text-white transition-transform duration-300 group-hover:scale-110"
+                  style={{ background: s.color }}
+                >
+                  <Icon size={26} weight="bold" />
+                </div>
 
-              <div className="flex-1">
-                <h3 className="font-sans text-lg font-semibold tracking-[-0.02em] mb-2">{s.title}</h3>
-                <p className="text-sm leading-relaxed text-[--color-text-secondary] mb-4">{s.desc}</p>
-              </div>
+                <div className="flex-1">
+                  <h3 className="font-sans text-lg font-semibold tracking-[-0.02em] mb-2">{s.title}</h3>
+                  <p className="text-sm leading-relaxed text-[--color-text-secondary] mb-4">{s.desc}</p>
+                </div>
 
-              <div className="flex flex-wrap gap-1.5">
-                {s.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-md bg-[rgba(255,255,255,0.06)] px-2 py-0.5 font-mono text-[10px] font-medium text-[--color-text-tertiary]"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {s.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-md bg-[rgba(255,255,255,0.06)] px-2 py-0.5 font-mono text-[10px] font-medium text-[--color-text-tertiary]"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
 
-              {/* Hover accent line */}
-              <div
-                className="absolute bottom-0 left-6 right-6 h-0.5 rounded-full opacity-0 transition-all duration-300 group-hover:opacity-100"
-                style={{ background: s.color }}
-              />
-            </motion.div>
-          ))}
+                {/* Hover accent line */}
+                <div
+                  className="absolute bottom-0 left-6 right-6 h-0.5 rounded-full opacity-0 transition-all duration-300 group-hover:opacity-100"
+                  style={{ background: s.color }}
+                />
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>
@@ -678,12 +626,12 @@ function Projects() {
                 <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3">
                   <span className="font-mono text-xs font-semibold text-white/85">{p.metric}</span>
                   <div className="flex items-center gap-3">
-                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-white/55 hover:text-[--color-accent] transition-colors no-underline">
-                      demo →
+                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-mono text-[11px] text-white/55 hover:text-[--color-accent] transition-colors no-underline">
+                      demo <ArrowUpRight size={12} weight="bold" />
                     </a>
                     {p.github && (
-                      <a href={p.github} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-white/45 hover:text-[--color-accent] transition-colors no-underline">
-                        código →
+                      <a href={p.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-mono text-[11px] text-white/45 hover:text-[--color-accent] transition-colors no-underline">
+                        código <GithubLogo size={12} weight="bold" />
                       </a>
                     )}
                   </div>
@@ -768,7 +716,8 @@ function Timeline() {
               {i < timelineEvents.length - 1 && <div className="timeline-line" />}
 
               {/* Dot */}
-              <div className={`timeline-dot mt-1.5 flex-shrink-0 ${ev.current ? 'current' : ''}`}
+              <div
+                className={`timeline-dot mt-1.5 flex-shrink-0 ${ev.current ? 'current' : ''}`}
                 style={{ background: ev.color, boxShadow: `0 0 12px ${ev.color}40` }}
               />
 
@@ -796,14 +745,20 @@ function Timeline() {
 }
 
 // ═══════════════════════════════════════════
-// STATS — Animated Counters
+// STATS — 21st.dev stat cards + counters
 // ═══════════════════════════════════════════
+const statData = [
+  { icon: GitCommit, label: 'Commits', target: 681 },
+  { icon: Folder, label: 'Repositórios', target: 26 },
+  { icon: Rocket, label: 'Projetos Live', target: 3 },
+  { icon: CalendarCheck, label: 'Anos XP', target: 2 },
+]
+
 function Stats() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
   const [counts, setCounts] = useState([0, 0, 0, 0])
-  const targets = [681, 26, 3, 2]
-  const labels = ['Commits', 'Repositórios', 'Projetos Live', 'Anos XP']
+  const targets = statData.map((s) => s.target)
   const hasCounted = useRef(false)
 
   useEffect(() => {
@@ -827,6 +782,7 @@ function Stats() {
     }, interval)
 
     return () => clearInterval(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
   return (
@@ -834,21 +790,29 @@ function Stats() {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[--color-border] to-transparent" />
 
       <div className="mx-auto max-w-[1200px] px-6 py-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {targets.map((_, i) => (
-            <motion.div
-              key={labels[i]}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="glass text-center p-6"
-            >
-              <span className="counter-number font-mono text-4xl md:text-5xl font-black text-[--color-text]">
-                {counts[i]}+
-              </span>
-              <p className="mt-2 text-xs text-[--color-text-secondary]">{labels[i]}</p>
-            </motion.div>
-          ))}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {statData.map((s, i) => {
+            const Icon = s.icon
+            return (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className="glass glass-hover flex items-center gap-4 p-5"
+              >
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-[--color-accent]/10 text-[--color-accent]">
+                  <Icon size={22} weight="bold" />
+                </div>
+                <div>
+                  <span className="counter-number font-mono text-2xl md:text-3xl font-black text-[--color-text]">
+                    {counts[i]}+
+                  </span>
+                  <p className="text-xs text-[--color-text-secondary]">{s.label}</p>
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
 
         <motion.div
@@ -923,9 +887,7 @@ function Testimonials() {
               className="glass glass-hover relative p-6"
             >
               {/* Quote mark */}
-              <svg className="mb-4 h-8 w-8 text-[--color-accent]/15" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-              </svg>
+              <Quotes size={32} weight="fill" className="mb-4 text-[--color-accent]/15" />
 
               <p className="text-sm leading-relaxed text-[--color-text-secondary] mb-5">
                 &ldquo;{t.quote}&rdquo;
@@ -1042,7 +1004,7 @@ function Stack() {
                   initial={{ opacity: 0, scale: 0 }}
                   animate={inView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ delay: 0.4 + i * 0.04, duration: 0.3 }}
-                  className="inline-flex cursor-default items-center gap-1.5 rounded-full border border-[--color-border] bg-[rgba(255,255,255,0.03)] px-3.5 py-2 text-xs font-medium text-[--color-text] backdrop-blur-sm transition-all hover:scale-105 hover:border-[--color-border-hover] hover:bg-[rgba(255,255,255,0.06)]"
+                  className="inline-flex cursor-default items-center gap-1.5 rounded-full border border-[--color-border] bg-[rgba(255,255,255,0.03)] px-3.5 py-2 text-xs font-medium text-[--color-text] transition-all hover:scale-105 hover:border-[--color-border-hover] hover:bg-[--color-muted]"
                 >
                   {tech}
                 </motion.span>
@@ -1136,9 +1098,7 @@ function Articles() {
 
               <span className="inline-flex items-center gap-1 font-mono text-xs text-[--color-accent] group-hover:gap-2 transition-all">
                 ler artigo
-                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                <ArrowRight size={12} weight="bold" />
               </span>
             </motion.a>
           ))}
@@ -1184,6 +1144,15 @@ function Contact() {
     window.open(`https://wa.me/5547997615032?text=${buildMsg()}`, '_blank')
   }
 
+  const inputClass =
+    'mt-1.5 w-full rounded-[10px] border border-[--color-input] bg-[--color-bg] px-4 py-3 text-sm text-[--color-text] placeholder:text-[--color-text-tertiary] transition-all focus:border-[--color-accent] focus:bg-[rgba(255,255,255,0.03)] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30'
+
+  const selectChevron = {
+    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23707070' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right 12px center',
+  }
+
   return (
     <section
       id="contato"
@@ -1220,9 +1189,7 @@ function Contact() {
             className="glass mt-8 p-8 text-center"
           >
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green-500/15">
-              <svg className="h-7 w-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
+              <CheckCircle size={28} weight="fill" className="text-green-400" />
             </div>
             <p className="text-lg font-semibold">Mensagem preparada!</p>
             <p className="mt-1 text-sm text-[--color-text-secondary]">
@@ -1253,7 +1220,7 @@ function Contact() {
                 value={form.nome}
                 onChange={handleChange}
                 placeholder="Seu nome completo"
-                className="mt-1.5 w-full rounded-xl border border-[--color-border] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-[--color-text] placeholder:text-[--color-text-tertiary] transition-all focus:border-[--color-accent] focus:bg-[rgba(255,255,255,0.07)] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30"
+                className={inputClass}
               />
             </label>
 
@@ -1265,7 +1232,7 @@ function Contact() {
                 value={form.desafio}
                 onChange={handleChange}
                 placeholder="Ex: Preciso de um site para captar leads, meu processo manual está lento..."
-                className="mt-1.5 w-full resize-none rounded-xl border border-[--color-border] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-[--color-text] placeholder:text-[--color-text-tertiary] transition-all focus:border-[--color-accent] focus:bg-[rgba(255,255,255,0.07)] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30"
+                className={`${inputClass} resize-none`}
               />
             </label>
 
@@ -1276,12 +1243,8 @@ function Contact() {
                   name="empresa"
                   value={form.empresa}
                   onChange={handleChange}
-                  className="mt-1.5 w-full appearance-none rounded-xl border border-[--color-border] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-[--color-text] transition-all focus:border-[--color-accent] focus:bg-[rgba(255,255,255,0.07)] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23707070' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'right 12px center',
-                  }}
+                  className={`${inputClass} appearance-none`}
+                  style={selectChevron}
                 >
                   <option value="">Selecione...</option>
                   <option value="Freelancer">Freelancer / Autônomo</option>
@@ -1296,12 +1259,8 @@ function Contact() {
                   name="orcamento"
                   value={form.orcamento}
                   onChange={handleChange}
-                  className="mt-1.5 w-full appearance-none rounded-xl border border-[--color-border] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-[--color-text] transition-all focus:border-[--color-accent] focus:bg-[rgba(255,255,255,0.07)] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23707070' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'right 12px center',
-                  }}
+                  className={`${inputClass} appearance-none`}
+                  style={selectChevron}
                 >
                   <option value="">Selecione...</option>
                   <option value="Ate 1k">Até R$ 1.000</option>
@@ -1321,16 +1280,14 @@ function Contact() {
                 value={form.descricao}
                 onChange={handleChange}
                 placeholder="Quanto mais detalhes, melhor. Funcionalidades, prazo, referências..."
-                className="mt-1.5 w-full resize-none rounded-xl border border-[--color-border] bg-[rgba(255,255,255,0.04)] px-4 py-3 text-sm text-[--color-text] placeholder:text-[--color-text-tertiary] transition-all focus:border-[--color-accent] focus:bg-[rgba(255,255,255,0.07)] focus:outline-none focus:ring-2 focus:ring-[--color-accent]/30"
+                className={`${inputClass} resize-none`}
               />
             </label>
 
             <div className="pt-2">
               {form.nome.trim() && form.desafio.trim() && form.descricao.trim() ? (
                 <button type="submit" className="btn-primary w-full !bg-[#25D366] !shadow-[0_8px_32px_rgba(37,211,102,0.3)] hover:!bg-[#1fb855]">
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" />
-                  </svg>
+                  <WhatsappLogo size={20} weight="fill" />
                   Chamar no WhatsApp
                 </button>
               ) : (
@@ -1343,14 +1300,14 @@ function Contact() {
         )}
 
         <div className="mt-10 flex justify-center gap-8 text-sm">
-          <a href="mailto:viniciusodorizzi25@gmail.com" className="text-[--color-text-tertiary] hover:text-[--color-text] transition-colors no-underline">
-            Email
+          <a href="mailto:viniciusodorizzi25@gmail.com" className="inline-flex items-center gap-2 text-[--color-text-tertiary] hover:text-[--color-text] transition-colors no-underline">
+            <EnvelopeSimple size={16} /> Email
           </a>
-          <a href="https://github.com/ViniciusOdorizziHoppe" target="_blank" rel="noopener noreferrer" className="text-[--color-text-tertiary] hover:text-[--color-text] transition-colors no-underline">
-            GitHub
+          <a href="https://github.com/ViniciusOdorizziHoppe" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[--color-text-tertiary] hover:text-[--color-text] transition-colors no-underline">
+            <GithubLogo size={16} /> GitHub
           </a>
-          <a href="https://linkedin.com/in/viniciusodorizzi" target="_blank" rel="noopener noreferrer" className="text-[--color-text-tertiary] hover:text-[--color-text] transition-colors no-underline">
-            LinkedIn
+          <a href="https://linkedin.com/in/viniciusodorizzi" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[--color-text-tertiary] hover:text-[--color-text] transition-colors no-underline">
+            <LinkedinLogo size={16} /> LinkedIn
           </a>
         </div>
       </div>
@@ -1368,7 +1325,8 @@ function Footer() {
         <p className="font-[family-name:var(--font-cinzel)] text-lg font-semibold tracking-tight">
           Vinícius <span className="text-[--color-accent]">Odorizzi</span>
         </p>
-        <p className="text-xs text-[--color-text-tertiary]">
+        <p className="flex items-center gap-1.5 text-xs text-[--color-text-tertiary]">
+          <Code size={13} weight="bold" className="text-[--color-accent]" />
           © {new Date().getFullYear()} · built with precision · Presidente Getúlio, SC
         </p>
       </div>
@@ -1389,9 +1347,7 @@ function WhatsAppFloat() {
       aria-label="Falar no WhatsApp"
     >
       <div className="pulse-ring" />
-      <svg className="relative z-10 h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" />
-      </svg>
+      <WhatsappLogo size={26} weight="fill" className="relative z-10 text-white" />
     </a>
   )
 }
@@ -1409,9 +1365,7 @@ function BackToTop() {
       className="back-to-top"
       aria-label="Voltar ao topo"
     >
-      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-      </svg>
+      <ArrowUp size={18} weight="bold" />
     </motion.button>
   )
 }
