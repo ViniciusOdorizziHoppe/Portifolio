@@ -4,14 +4,12 @@ import {
   ArrowRight,
   ArrowUp,
   ArrowUpRight,
-  ArrowDown,
   GithubLogo,
   LinkedinLogo,
   WhatsappLogo,
   EnvelopeSimple,
   CheckCircle,
   Code,
-  Flask,
   Monitor,
   AppWindow,
   Lightning,
@@ -21,9 +19,16 @@ import {
   Folder,
   Rocket,
   CalendarCheck,
-  RocketLaunch,
+  AppleLogo,
+  MapPin,
+  DeviceMobile,
+  Handshake,
+  CurrencyCircleDollar,
+  ArrowSquareOut,
+  InstagramLogo,
 } from '@phosphor-icons/react'
 import SigaaDashboard from './components/SigaaDashboard'
+import HeroImage from './HeroImage'
 
 const ThreeBackground = lazy(() => import('./ThreeBackground'))
 
@@ -70,7 +75,8 @@ function App() {
         <AnimatePresence>
           {mobileOpen && <MobileNav close={() => setMobileOpen(false)} />}
         </AnimatePresence>
-        <Hero />
+        <HeroImage />
+        <Empreender />
         <Services />
         <Projects />
         <Timeline />
@@ -280,87 +286,75 @@ function MobileNav({ close }: { close: () => void }) {
 }
 
 // ═══════════════════════════════════════════
-// HERO — animista: tracking-in + focus-in
+// EMPREENDER — Odorizzi Store (21st.dev strip)
 // ═══════════════════════════════════════════
-function Hero() {
+function Empreender() {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-100px' })
+
   return (
-    <section className="relative spotlight">
-      {/* Decorative glow orbs */}
-      <div
-        className="glow-orb"
-        style={{ width: 500, height: 500, background: 'rgba(245,197,24,0.06)', top: '10%', right: '10%' }}
-      />
-      <div
-        className="glow-orb"
-        style={{ width: 400, height: 400, background: 'rgba(10,114,239,0.04)', bottom: '20%', left: '5%' }}
-      />
+    <section id="empreender" className="relative">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[--color-border] to-transparent" />
 
-      <div className="mx-auto max-w-[1200px] px-6 pb-16 pt-32 md:pt-52">
-        {/* Availability badge — animista slide-in-blurred-top */}
-        <div className="animista-slide-blur mb-8" style={{ animationDelay: '0.15s' }}>
-          <span className="shadcn-badge !border-green-500/20 !bg-green-500/10 !text-green-400">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
-            </span>
-            disponível · Q3 2026
-          </span>
-        </div>
-
-        {/* Name — animista tracking-in-expand */}
-        <h1 className="animista-tracking-in max-w-3xl font-sans text-[clamp(48px,8vw,96px)] font-black leading-[0.95] tracking-[-0.04em]">
-          <span className="text-gradient">Vinícius </span>
-          <span className="text-gradient-accent font-[family-name:var(--font-cinzel)]">Odorizzi.</span>
-        </h1>
-
-        {/* Subtitle — animista text-focus-in */}
-        <p
-          className="animista-focus-in mt-6 max-w-xl text-[17px] leading-relaxed text-[--color-text-secondary]"
-          style={{ animationDelay: '0.55s' }}
+      <div ref={ref} className="mx-auto max-w-[1200px] px-6 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="mb-8"
         >
-          Full-stack developer. Crio aplicações web que funcionam, convertem e escalam —
-          do design ao deploy, sem atalhos.
-        </p>
+          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[--color-accent] mb-3">
+            Empreendedorismo
+          </h2>
+          <p className="text-[clamp(28px,5vw,48px)] font-black tracking-[-0.03em]">
+            Além do código.
+          </p>
+        </motion.div>
 
-        <p
-          className="animista-focus-in mt-2 font-mono text-xs text-[--color-text-tertiary]"
-          style={{ animationDelay: '0.75s' }}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          className="glass featured-card p-8 md:p-10"
         >
-          {'//'} React · TypeScript · Node.js · Python · Java
-        </p>
+          <div className="grid gap-8 md:grid-cols-[auto_1fr]">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#2E7CF6]/15 text-[#2E7CF6]">
+              <AppleLogo size={34} weight="fill" />
+            </div>
 
-        {/* CTAs */}
-        <div className="animista-focus-in mt-10 flex flex-wrap gap-4" style={{ animationDelay: '0.95s' }}>
-          <a href="#contato" className="btn-primary btn-magnetic">
-            Solicitar orçamento
-            <ArrowRight size={18} weight="bold" />
-          </a>
-          <a href="#projetos" className="btn-secondary">
-            Ver projetos
-            <ArrowDown size={18} />
-          </a>
-        </div>
+            <div>
+              <div className="flex flex-wrap items-center gap-3 mb-2">
+                <h3 className="font-sans text-xl font-bold tracking-[-0.02em]">
+                  Odorizzi Store
+                </h3>
+                <span className="shadcn-badge">iPhones novos e seminovos</span>
+              </div>
+              <p className="text-sm leading-relaxed text-[--color-text-secondary] max-w-2xl mb-5">
+                Enquanto não estou codando, estou vendendo. Fundei a Odorizzi Store, loja de
+                iPhones com entrega em mãos em 13 cidades do Alto Vale, programa de troca,
+                indicação que paga R$200 e atendimento direto no WhatsApp.
+              </p>
 
-        {/* Social proof row */}
-        <div
-          className="animista-focus-in mt-16 flex flex-wrap items-center gap-6 text-xs text-[--color-text-tertiary]"
-          style={{ animationDelay: '1.35s' }}
-        >
-          <span className="flex items-center gap-2">
-            <CheckCircle size={16} weight="fill" className="text-[--color-accent]" />
-            Técnico em Informática — IFC Ibirama
-          </span>
-          <span className="hidden sm:inline text-[--color-border]">|</span>
-          <span className="flex items-center gap-2">
-            <Flask size={16} weight="fill" className="text-[--color-accent]" />
-            Bolsa PVI de Pesquisa — LexiCube
-          </span>
-          <span className="hidden sm:inline text-[--color-border]">|</span>
-          <span className="flex items-center gap-2">
-            <RocketLaunch size={16} weight="fill" className="text-[--color-accent]" />
-            3+ projetos em produção
-          </span>
-        </div>
+              <div className="flex flex-wrap gap-2 mb-6">
+                <span className="shadcn-badge"><MapPin size={13} weight="fill" /> 13 cidades do Alto Vale</span>
+                <span className="shadcn-badge"><DeviceMobile size={13} weight="fill" /> iPhone 11 → 17</span>
+                <span className="shadcn-badge"><Handshake size={13} weight="fill" /> Troca + indicação R$200</span>
+                <span className="shadcn-badge"><CurrencyCircleDollar size={13} weight="fill" /> Pix ou 18x</span>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <a href="https://viniciusodorizzihoppe.github.io/odorizzi-store/" target="_blank" rel="noopener noreferrer" className="btn-primary !text-[13px] !py-2.5 !px-5 no-underline">
+                  Conhecer a loja
+                  <ArrowSquareOut size={14} weight="bold" />
+                </a>
+                <a href="https://instagram.com/odorizzistore" target="_blank" rel="noopener noreferrer" className="btn-secondary !text-[13px] !py-2.5 !px-5 no-underline">
+                  <InstagramLogo size={16} weight="fill" />
+                  @odorizzistore
+                </a>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   )
