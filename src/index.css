@@ -1,13 +1,16 @@
 /* ────────────────────────────────────────────────────────────────
-   viniciusodorizzi.com — hero
-   Branco editorial: nome em serifa à esquerda, círculo à direita e os
-   ícones de tecnologia correndo em loop por trás dos dois.
+   viniciusodorizzi.com
+   Branco editorial: nome em serifa, círculo-ilha, trilha de ícones
+   em loop no hero e três seções (Sobre, Trajetória, Projetos).
    ──────────────────────────────────────────────────────────────── */
 
 :root {
   --papel: #ffffff;
   --tinta: #111111;
   --azul: #0025cc; /* azul do "Odorizzi" no print */
+  --cinza: #4a4a4a;
+  --cinza-claro: #8a8a8a;
+  --linha: #ececec;
   --gutter: clamp(16px, 1.45vw, 26px);
   --icone: clamp(28px, 5.1vw, 86px);
   --fonte-nome: 'PT Serif', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
@@ -23,6 +26,8 @@
 html {
   background: var(--papel);
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: clamp(56px, 7vh, 76px);
 }
 
 body {
@@ -39,7 +44,7 @@ body {
   color: #fff;
 }
 
-/* ─── Palco ─── */
+/* ─── Palco (hero) ─── */
 .hero {
   position: relative;
   isolation: isolate;
@@ -49,21 +54,32 @@ body {
   background: var(--papel);
 }
 
-/* ─── Menu do topo (centralizado, como no print) ─── */
+/* ─── Menu fixo (transparente sobre o hero, branco ao rolar) ─── */
 .menu {
-  position: absolute;
+  position: fixed;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  padding: clamp(18px, 6.6svh, 54px) var(--gutter);
+  pointer-events: none;
+  transition:
+    padding 260ms ease-out,
+    background-color 260ms ease-out,
+    box-shadow 260ms ease-out;
+}
+
+.menu nav {
   display: flex;
   align-items: center;
   gap: clamp(26px, 6.4vw, 96px);
-  padding-top: clamp(18px, 6.6svh, 54px);
   white-space: nowrap;
 }
 
 .menu a {
+  pointer-events: auto;
   font-family: var(--fonte-ui);
   font-size: clamp(13px, 1.45vw, 19px);
   font-weight: 700;
@@ -74,7 +90,8 @@ body {
 }
 
 .menu a:hover,
-.menu a:focus-visible {
+.menu a:focus-visible,
+.menu a.ativo {
   color: var(--azul);
 }
 
@@ -82,6 +99,14 @@ body {
   outline: 2px solid var(--azul);
   outline-offset: 5px;
   border-radius: 2px;
+}
+
+.menu--solido {
+  padding-top: 13px;
+  padding-bottom: 13px;
+  background: var(--papel);
+  box-shadow: 0 1px 0 var(--linha);
+  pointer-events: auto;
 }
 
 /* ─── Nome ─── */
@@ -162,7 +187,331 @@ body {
   height: 100%;
 }
 
-/* ─── Paisagem em pé (celular) ─── */
+/* ─── Seções ─── */
+.sessao {
+  padding: clamp(64px, 10vh, 120px) var(--gutter);
+  border-top: 1px solid var(--linha);
+}
+
+.rotulo {
+  font-size: clamp(10.5px, 0.82vw, 12px);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--azul);
+}
+
+.titulo {
+  margin-top: clamp(16px, 2.4vh, 26px);
+  font-family: var(--fonte-nome);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 4vw, 3.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+  max-width: 26ch;
+  text-wrap: balance;
+}
+
+.corpo {
+  margin-top: clamp(16px, 2.2vh, 24px);
+  max-width: 60ch;
+  font-size: clamp(15px, 1.08vw, 17px);
+  line-height: 1.68;
+  color: var(--cinza);
+}
+
+/* sobre mim */
+.sobre {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 96px);
+  align-items: start;
+}
+
+.fatos {
+  border-top: 1px solid var(--linha);
+  margin-top: clamp(16px, 2.6vh, 30px);
+}
+
+.fatos div {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: clamp(12px, 1.6vw, 24px);
+  padding: clamp(11px, 1.6vh, 16px) 0;
+  border-bottom: 1px solid var(--linha);
+}
+
+.fatos dt {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cinza-claro);
+  padding-top: 3px;
+}
+
+.fatos dd {
+  font-size: clamp(14px, 1vw, 15.5px);
+  line-height: 1.5;
+  color: var(--tinta);
+}
+
+/* trajetória */
+.linha-tempo {
+  list-style: none;
+  margin-top: clamp(28px, 4.5vh, 56px);
+  border-top: 1px solid var(--linha);
+}
+
+.etapa {
+  display: grid;
+  grid-template-columns: clamp(72px, 8vw, 120px) minmax(0, 1fr);
+  gap: clamp(18px, 3.5vw, 56px);
+  padding: clamp(20px, 2.8vh, 34px) 0;
+  border-bottom: 1px solid var(--linha);
+}
+
+.etapa__ano {
+  font-family: var(--fonte-nome);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+  color: #c2c2c2;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.etapa:first-child .etapa__ano {
+  color: var(--azul);
+}
+
+.etapa__titulo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.marca {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--azul);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 4px 9px;
+}
+
+.etapa__texto {
+  margin-top: 10px;
+  max-width: 66ch;
+  font-size: clamp(14px, 1.02vw, 15.5px);
+  line-height: 1.65;
+  color: var(--cinza);
+}
+
+/* projetos */
+.projetos {
+  list-style: none;
+  margin-top: clamp(28px, 4.5vh, 56px);
+  border-top: 1px solid var(--linha);
+}
+
+.projeto {
+  border-bottom: 1px solid var(--linha);
+}
+
+.projeto__linha {
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr) auto;
+  gap: clamp(14px, 3vw, 48px);
+  padding: clamp(20px, 2.8vh, 32px) 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.projeto__num {
+  padding-top: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #b0b0b0;
+  font-variant-numeric: tabular-nums;
+}
+
+.projeto__nome {
+  font-family: var(--fonte-nome);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2vw, 1.8rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  transition: color 180ms ease-out;
+}
+
+.projeto__desc {
+  margin-top: 9px;
+  max-width: 62ch;
+  font-size: clamp(14px, 1.02vw, 15.5px);
+  line-height: 1.62;
+  color: var(--cinza);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+  list-style: none;
+}
+
+.tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #6f6f6f;
+  border: 1px solid #e6e6e6;
+  border-radius: 999px;
+  padding: 5px 10px;
+}
+
+.projeto__meta {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding-top: 4px;
+  white-space: nowrap;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status--no-ar {
+  color: #16794a;
+}
+
+.status--dev {
+  color: #a06a00;
+}
+
+.status--pausa {
+  color: var(--cinza-claro);
+}
+
+.projeto__seta {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e6e6e6;
+  border-radius: 50%;
+  color: #9a9a9a;
+  transition:
+    transform 200ms ease-out,
+    border-color 200ms ease-out,
+    color 200ms ease-out;
+}
+
+a.projeto__linha:hover .projeto__nome,
+a.projeto__linha:focus-visible .projeto__nome {
+  color: var(--azul);
+}
+
+a.projeto__linha:hover .projeto__seta,
+a.projeto__linha:focus-visible .projeto__seta {
+  transform: translate(2px, -2px);
+  border-color: var(--azul);
+  color: var(--azul);
+}
+
+a.projeto__linha:focus-visible {
+  outline: 2px solid var(--azul);
+  outline-offset: 4px;
+}
+
+/* ─── Rodapé ─── */
+.rodape {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 28px;
+  padding: clamp(32px, 5vh, 56px) var(--gutter) clamp(40px, 7vh, 72px);
+  border-top: 1px solid var(--linha);
+}
+
+.rodape__nome {
+  font-family: var(--fonte-nome);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  letter-spacing: -0.02em;
+}
+
+.rodape__nome span {
+  color: var(--azul);
+}
+
+.rodape__cidade {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--cinza-claro);
+}
+
+.rodape__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(16px, 2.6vw, 36px);
+  font-size: clamp(13px, 1vw, 14.5px);
+  font-weight: 600;
+}
+
+.rodape__links a {
+  color: var(--tinta);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid #dcdcdc;
+  transition:
+    color 160ms ease-out,
+    border-color 160ms ease-out;
+}
+
+.rodape__links a:hover,
+.rodape__links a:focus-visible {
+  color: var(--azul);
+  border-color: var(--azul);
+}
+
+/* ─── Telas estreitas ─── */
+@media (max-width: 900px) {
+  .sobre {
+    grid-template-columns: 1fr;
+    gap: clamp(28px, 5vh, 44px);
+  }
+
+  .titulo {
+    max-width: 30ch;
+  }
+}
+
 @media (max-width: 760px) {
   .hero {
     display: flex;
@@ -174,7 +523,17 @@ body {
   }
 
   .menu {
-    padding-top: clamp(22px, 4svh, 36px);
+    padding-top: clamp(20px, 3.6svh, 34px);
+    padding-bottom: 0;
+  }
+
+  .menu nav {
+    gap: clamp(18px, 5vw, 34px);
+  }
+
+  .menu--solido {
+    padding-top: 13px;
+    padding-bottom: 13px;
   }
 
   .nome {
@@ -197,11 +556,57 @@ body {
   .icone {
     width: calc(var(--icone) * 0.82);
   }
+
+  .etapa {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .etapa__ano {
+    font-size: 1rem;
+  }
+
+  .projeto__linha {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px 16px;
+  }
+
+  .projeto__num {
+    display: none;
+  }
+
+  .projeto__corpo {
+    grid-column: 1 / -1;
+  }
+
+  .projeto__meta {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+  }
+
+  .fatos div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .fatos dt {
+    padding-top: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .menu,
   .menu a,
-  .icone {
+  .icone,
+  .projeto__nome,
+  .projeto__seta,
+  .rodape__links a {
     transition: none;
   }
 }
