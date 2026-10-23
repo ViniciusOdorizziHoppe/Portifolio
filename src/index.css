@@ -1,4 +1,19 @@
-/* ─── Base ─── */
+/* ────────────────────────────────────────────────────────────────
+   viniciusodorizzi.com — hero
+   Branco editorial: nome em serifa à esquerda, círculo à direita e os
+   ícones de tecnologia correndo em loop por trás dos dois.
+   ──────────────────────────────────────────────────────────────── */
+
+:root {
+  --papel: #ffffff;
+  --tinta: #111111;
+  --azul: #0025cc; /* azul do "Odorizzi" no print */
+  --gutter: clamp(16px, 1.45vw, 26px);
+  --icone: clamp(28px, 5.1vw, 86px);
+  --fonte-nome: 'PT Serif', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --fonte-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,103 +21,187 @@
 }
 
 html {
-  scroll-behavior: auto; /* o scrub manda no movimento */
-  background: #000;
+  background: var(--papel);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--fonte-ui);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* ─── Video fixo atrás de tudo ─── */
-.scrub-video {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
+::selection {
+  background: var(--azul);
+  color: #fff;
+}
+
+/* ─── Palco ─── */
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--papel);
+}
+
+/* ─── Menu do topo (centralizado, como no print) ─── */
+.menu {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: clamp(26px, 5.2vw, 78px);
+  padding-top: clamp(18px, 6.6svh, 54px);
+  white-space: nowrap;
+}
+
+.menu a {
+  font-family: var(--fonte-ui);
+  font-size: clamp(13px, 1.45vw, 19px);
+  font-weight: 700;
+  letter-spacing: 0.005em;
+  color: var(--tinta);
+  text-decoration: none;
+  transition: color 160ms ease-out;
+}
+
+.menu a:hover,
+.menu a:focus-visible {
+  color: var(--azul);
+}
+
+.menu a:focus-visible {
+  outline: 2px solid var(--azul);
+  outline-offset: 5px;
+  border-radius: 2px;
+}
+
+/* ─── Nome ─── */
+.nome {
+  position: absolute;
+  left: var(--gutter);
+  top: 46.8%;
+  transform: translateY(-50%);
+  z-index: 2;
+  font-family: var(--fonte-nome);
+  font-weight: 700;
+  font-size: clamp(2.2rem, min(6.3vw, 12svh), 7.6rem);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  max-width: 100%;
+  white-space: nowrap;
+  color: var(--tinta);
+}
+
+.nome span {
+  color: var(--azul);
+}
+
+/* ─── Círculo / ilha ─── */
+.ilha {
+  position: absolute;
+  left: 77.6%;
+  top: 50.2%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: min(28.65vw, 54svh);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #eaf7ff;
+}
+
+.ilha svg,
+.ilha img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background: #000;
 }
 
-/* ─── Overlay: marca + contador ─── */
-.overlay {
-  position: fixed;
+/* ─── Trilha das tecnologias (atrás de tudo) ─── */
+.trilha {
+  position: absolute;
   inset: 0;
-  z-index: 10;
+  z-index: 1;
   pointer-events: none;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 20px 24px;
+  user-select: none;
 }
 
-.brand {
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: rgba(255, 255, 255, 0.92);
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
+.trilha svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-.brand em {
-  font-style: normal;
-  color: #f5c518;
-}
-
-.counter {
-  font-family: 'Geist Mono', ui-monospace, monospace;
-  font-size: 12px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.65);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
-  font-variant-numeric: tabular-nums;
-}
-
-/* ─── Dica de scroll ─── */
-.hint {
-  position: fixed;
-  left: 50%;
-  bottom: 28px;
-  transform: translateX(-50%);
-  z-index: 10;
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.hint.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-.hint.hide {
+.icone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--tam, var(--icone));
+  height: var(--tam, var(--icone));
   opacity: 0;
-  transform: translateX(-50%) translateY(12px);
+  will-change: transform;
+  transition: opacity 600ms ease-out;
 }
 
-.hint svg {
-  animation: hint-bounce 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+.icone svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-@keyframes hint-bounce {
-  0%, 100% { transform: translateY(0); opacity: 0.9; }
-  50% { transform: translateY(7px); opacity: 0.4; }
+/* ─── Paisagem em pé (celular) ─── */
+@media (max-width: 760px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(24px, 5svh, 56px);
+    padding: clamp(84px, 13svh, 130px) var(--gutter) clamp(32px, 6svh, 64px);
+  }
+
+  .menu {
+    padding-top: clamp(22px, 4svh, 36px);
+  }
+
+  .nome {
+    position: static;
+    transform: none;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+    font-size: clamp(1.9rem, 12.4vw, 4.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+
+  .ilha {
+    position: static;
+    transform: none;
+    width: min(68vw, 44svh);
+  }
+
+  .icone {
+    width: calc(var(--icone) * 0.82);
+  }
 }
 
-/* ─── Acessibilidade ─── */
 @media (prefers-reduced-motion: reduce) {
-  .hint { display: none; }
-  .hint svg { animation: none; }
+  .menu a,
+  .icone {
+    transition: none;
+  }
 }
