@@ -58,7 +58,7 @@ body {
   z-index: 3;
   display: flex;
   align-items: center;
-  gap: clamp(26px, 5.2vw, 78px);
+  gap: clamp(26px, 6.4vw, 96px);
   padding-top: clamp(18px, 6.6svh, 54px);
   white-space: nowrap;
 }
