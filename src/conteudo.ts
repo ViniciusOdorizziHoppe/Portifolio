@@ -119,7 +119,17 @@ export const PROJETOS: Projeto[] = [
 
 export const CONTATO = {
   github: 'https://github.com/ViniciusOdorizziHoppe',
+  linkedin: 'https://www.linkedin.com/in/vinicius-odorizzi-5aa319353',
+  instagram: 'https://www.instagram.com/vinicius.odorizzi',
   email: 'viniciushoppe@outlook.com',
-  whatsapp: 'https://wa.me/554797615032',
+  whatsapp: 'https://wa.me/5547997615032',
   cidade: 'Presidente Getúlio, SC',
 }
+
+/** Ordem da pilha de ícones no canto do hero. */
+export const REDES: { nome: string; href: string }[] = [
+  { nome: 'LinkedIn', href: CONTATO.linkedin },
+  { nome: 'GitHub', href: CONTATO.github },
+  { nome: 'Instagram', href: CONTATO.instagram },
+  { nome: 'WhatsApp', href: CONTATO.whatsapp },
+]

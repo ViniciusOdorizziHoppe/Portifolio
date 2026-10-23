@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import Ilha from './components/Ilha'
 import Menu from './components/Menu'
 import Projetos from './components/Projetos'
+import Redes from './components/Redes'
 import Rodape from './components/Rodape'
 import SobreMim from './components/SobreMim'
 import TechTrail from './components/TechTrail'
@@ -36,6 +37,7 @@ export default function App() {
             Vinícius <span>Odorizzi</span>
           </h1>
           <Ilha foto={FOTO} />
+          <Redes />
         </section>
 
         <SobreMim />
