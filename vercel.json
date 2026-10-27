@@ -1,16 +1,17 @@
 {
   "redirects": [
     {
+      "source": "/caderneta",
+      "destination": "/caderneta/",
+      "permanent": false
+    },
+    {
       "source": "/acharegiao",
       "destination": "https://chat.whatsapp.com/BnAmI64xECIG0Dq4nu2SLT",
       "permanent": false
     }
   ],
   "rewrites": [
-    {
-      "source": "/caderneta",
-      "destination": "/caderneta/index.html"
-    },
     {
       "source": "/caderneta/",
       "destination": "/caderneta/index.html"
