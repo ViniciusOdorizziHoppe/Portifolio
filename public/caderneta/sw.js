@@ -1,10 +1,11 @@
 /* Caderneta — service worker: abre sem internet */
-var CACHE = 'caderneta-v1';
+var CACHE = 'caderneta-v2';
 var ASSETS = [
   './',
   './index.html',
   './styles.css',
   './app.js',
+  './acesso.js',
   './pix.js',
   './vendor/qrcode.min.js',
   './manifest.json',

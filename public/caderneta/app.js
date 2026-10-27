@@ -29,6 +29,11 @@
     var d = parseISO(s);
     return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
   }
+  function dataCurtaISO(s) {
+    var d = new Date(s);
+    if (isNaN(d.getTime())) return '';
+    return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
+  }
   function iniciais(nome) {
     var p = String(nome || '?').trim().split(/\s+/);
     return ((p[0] || '?')[0] + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase();
@@ -125,6 +130,11 @@
   function dadosCliente(id) {
     return S.clientes.filter(function (c) { return c.id === id; })[0] || null;
   }
+  function contaAtual() {
+    if (S.conta && S.conta.email) return S.conta;
+    var e = window.Acesso && window.Acesso.estado().conta;
+    return e && e.email ? e : null;
+  }
   function totais() {
     var hj = iso(hoje()), mes = hj.slice(0, 7);
     var receber = 0, atrasado = 0, recebidoMes = 0, devedores = 0, venceHoje = 0;
@@ -171,7 +181,8 @@
     return '<nav class="nav"><div class="nav-in">' +
       b('hoje', 'Hoje', IC.hoje) + b('clientes', 'Clientes', IC.clientes) + b('ajustes', 'Ajustes', IC.ajustes) +
       '</div></nav>' +
-      (v === 'novo' || v === 'receber' || v === 'cobrar' || v === 'cliente' ? '' : '<button class="fab" data-acao="novo" aria-label="Anotar fiado">+</button>');
+      (v === 'novo' || v === 'receber' || v === 'cobrar' || v === 'cliente' || v === 'ajustes' || v === 'importar'
+        ? '' : '<button class="fab" data-acao="novo" aria-label="Anotar fiado">+</button>');
   }
 
   /* ---------------- rotas ---------------- */
@@ -208,7 +219,12 @@
       '<div class="campo"><label for="o-pix">Sua chave PIX <span style="text-transform:none;color:var(--ink-3);font-weight:500">(pode deixar pra depois)</span></label>' +
       '<input id="o-pix" type="text" placeholder="CPF, celular, e-mail ou aleatória" value="' + esc(l.chavePix) + '" autocomplete="off"></div>' +
       '<button class="btn primario" data-acao="onb-salvar">Começar minha caderneta</button>' +
-      '<p class="rodape-nota">Sem cadastro, sem mensalidade de teste. Seus dados não saem do aparelho.</p>' +
+      '<p class="rodape-nota">' +
+      (contaAtual()
+        ? 'Conectado como ' + esc(contaAtual().email) +
+          ' · <span data-acao="sair-conta" style="text-decoration:underline;cursor:pointer;color:var(--ink)">sair</span>'
+        : 'Seus dados ficam só neste aparelho. Faça backup em Ajustes de vez em quando.') +
+      '</p>' +
       '</div>';
   }
 
@@ -520,6 +536,17 @@
       '<div class="campo"><label for="a-zap">Seu WhatsApp</label><input id="a-zap" type="tel" value="' + esc(l.meuZap || '') + '" placeholder="(47) 99999-9999"></div>' +
       '<button class="btn primario" data-acao="salvar-ajustes">Salvar</button>' +
       '</div>';
+
+    var conta = contaAtual();
+    if (conta && conta.email) {
+      h += '<div class="sec-head"><h2>Assinatura</h2></div>';
+      h += '<div class="card">' +
+        '<div style="font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);font-weight:700">Conta</div>' +
+        '<div style="font-weight:650;margin-top:3px;overflow:hidden;text-overflow:ellipsis">' + esc(conta.email) + '</div>' +
+        (conta.acessoAte ? '<div style="font-size:13px;color:var(--ink-3);margin-top:2px">ativa até ' + dataCurtaISO(conta.acessoAte) + '</div>' : '') +
+        '<button class="btn ghost" data-acao="sair-conta" style="margin-top:12px">Sair da conta</button>' +
+        '</div>';
+    }
 
     h += '<div class="sec-head"><h2>Dados</h2></div>';
     h += '<div class="card" style="padding:6px 16px"><div class="lista-ajustes">' +
@@ -909,6 +936,10 @@
         toast('Dados apagados');
         break;
 
+      case 'sair-conta':
+        if (window.Acesso) window.Acesso.sair();
+        break;
+
       case 'importar-texto': {
         var txt = (($('#i-txt') || {}).value || '');
         var linhas = txt.split(/\n/).map(function (l) { return l.trim(); }).filter(Boolean);
@@ -1025,7 +1056,16 @@
   /* ---------------- boot ---------------- */
   window.addEventListener('hashchange', render);
   if (S.onb && !location.hash) location.hash = '#/hoje';
-  render();
+
+  // O app só abre com assinatura ativa. Se a API ainda não existir, abre normal.
+  if (window.Acesso) {
+    window.Acesso.iniciar(function (conta) {
+      S.conta = conta && conta.email ? conta : null;
+      render();
+    });
+  } else {
+    render();
+  }
 
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     navigator.serviceWorker.register('sw.js').catch(function () { });

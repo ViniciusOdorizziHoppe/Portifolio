@@ -208,7 +208,7 @@ a { color: inherit; }
   text-transform: uppercase; letter-spacing: .1em; color: var(--ink-3);
   margin-bottom: 6px;
 }
-.campo input[type="text"], .campo input[type="tel"], .campo input[type="date"], .campo textarea, .campo select {
+.campo input[type="text"], .campo input[type="tel"], .campo input[type="date"], .campo input[type="password"], .campo input[type="email"], .campo textarea, .campo select {
   width: 100%;
   background: var(--card);
   border: 1px solid var(--line-2);
