@@ -8,6 +8,14 @@
   ],
   "rewrites": [
     {
+      "source": "/caderneta",
+      "destination": "/caderneta/index.html"
+    },
+    {
+      "source": "/caderneta/",
+      "destination": "/caderneta/index.html"
+    },
+    {
       "source": "/namorada",
       "destination": "/namorada/index.html"
     },

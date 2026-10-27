@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Caderneta">
+  <rect width="512" height="512" rx="112" fill="#f5c518"/>
+  <rect x="118" y="96" width="276" height="320" rx="28" fill="#17150f"/>
+  <rect x="152" y="130" width="208" height="252" rx="14" fill="#fffdf7"/>
+  <g stroke="#17150f" stroke-width="12" stroke-linecap="round">
+    <path d="M186 196h140"/>
+    <path d="M186 240h140"/>
+    <path d="M186 284h96"/>
+  </g>
+  <g fill="#17150f">
+    <rect x="92" y="148" width="48" height="18" rx="9"/>
+    <rect x="92" y="247" width="48" height="18" rx="9"/>
+    <rect x="92" y="346" width="48" height="18" rx="9"/>
+  </g>
+</svg>
