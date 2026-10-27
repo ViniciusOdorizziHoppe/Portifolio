@@ -7,9 +7,18 @@ let _queryDeTeste = null;
 /** Usado só pelos testes locais (PGlite) para injetar outro executor de SQL. */
 export function usarQueryDeTeste(fn) { _queryDeTeste = fn; }
 
+/** Aceita qualquer nome que a integração da Vercel costuma injetar. */
+export function urlDoBanco() {
+  return process.env.DATABASE_URL
+    || process.env.POSTGRES_URL
+    || process.env.NEON_DATABASE_URL
+    || process.env.POSTGRES_URL_NON_POOLING
+    || '';
+}
+
 export function pegarPool() {
   if (_pool) return _pool;
-  const url = process.env.DATABASE_URL;
+  const url = urlDoBanco();
   if (!url) throw new Error('DATABASE_URL ausente');
   _pool = new pg.Pool({
     connectionString: url,

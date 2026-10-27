@@ -1,11 +1,12 @@
 // GET /api/sessao  → o app pergunta se pode abrir
 import { contaDaRequisicao, json } from './_auth.js';
+import { urlDoBanco } from './_db.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET' && req.method !== 'POST') return json(res, 405, { erro: 'metodo' });
 
   // Banco ainda não configurado: 404 faz o app seguir aberto em vez de trancar todo mundo
-  if (!process.env.DATABASE_URL) {
+  if (!urlDoBanco()) {
     return json(res, 404, { ok: false, liberado: false, motivo: 'nao_configurado' });
   }
 
