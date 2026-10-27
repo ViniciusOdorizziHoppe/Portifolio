@@ -7,18 +7,27 @@ import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PGlite } from '@electric-sql/pglite';
 import { readFileSync } from 'node:fs';
+import { carregarEnvLocal } from './env-local.mjs';
 
 const PORTA = 4399;
 const RAIZ = fileURLToPath(new URL('../public/', import.meta.url));
 
-const db = new PGlite();
-await db.exec(readFileSync(new URL('../sql/caderneta-acesso.sql', import.meta.url), 'utf8'));
+// --neon: usa o banco de verdade (.env.local). Sem a flag, Postgres em WASM.
+const USAR_NEON = process.argv.includes('--neon');
 
-const { usarQueryDeTeste } = await import('../api/_db.js');
-usarQueryDeTeste(async (text, params) => {
-  const r = await db.query(text, params);
-  return { rows: r.rows, rowCount: r.affectedRows ?? r.rows.length };
-});
+if (USAR_NEON) {
+  const n = carregarEnvLocal();
+  console.log('modo NEON · .env.local:', n, 'chaves · banco:',
+    (process.env.DATABASE_URL || '').replace(/:\/\/([^:]+):[^@]+@/, '://$1:****@').split('?')[0]);
+} else {
+  const db = new PGlite();
+  await db.exec(readFileSync(new URL('../sql/caderneta-acesso.sql', import.meta.url), 'utf8'));
+  const { usarQueryDeTeste } = await import('../api/_db.js');
+  usarQueryDeTeste(async (text, params) => {
+    const r = await db.query(text, params);
+    return { rows: r.rows, rowCount: r.affectedRows ?? r.rows.length };
+  });
+}
 
 process.env.HOTMART_HOTTOK = 'hottok-de-teste';
 

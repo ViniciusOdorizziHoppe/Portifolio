@@ -1,5 +1,7 @@
 // Conexão com o Postgres (Neon). Só o servidor usa isso.
+// Na Vercel: node-postgres + attachDatabasePool (Fluid compute), conforme a skill neon-postgres.
 import pg from 'pg';
+import { attachDatabasePool } from '@vercel/functions';
 
 let _pool = null;
 let _queryDeTeste = null;
@@ -26,6 +28,9 @@ export function pegarPool() {
     idleTimeoutMillis: 10000,
     connectionTimeoutMillis: 15000 // cold start do Neon
   });
+
+  // devolve conexões ociosas antes de a função congelar (Vercel Fluid compute)
+  try { attachDatabasePool(_pool); } catch { /* fora da Vercel segue normal */ }
   return _pool;
 }
 
