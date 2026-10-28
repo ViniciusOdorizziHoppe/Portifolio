@@ -6,6 +6,11 @@
       "permanent": false
     },
     {
+      "source": "/hotmartdashboard",
+      "destination": "/hotmartdashboard/",
+      "permanent": false
+    },
+    {
       "source": "/acharegiao",
       "destination": "https://chat.whatsapp.com/BnAmI64xECIG0Dq4nu2SLT",
       "permanent": false

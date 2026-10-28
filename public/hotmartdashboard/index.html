@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Painel de vendas — Hotmart</title>
+<meta name="description" content="Painel privado de vendas da Hotmart: faturamento, ticket médio, reembolso e comissões por período.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f5f0e4">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="portao" class="portao" hidden>
+  <form class="portao-form" id="form-chave">
+    <p class="olho">Área privada</p>
+    <h1>Painel de vendas</h1>
+    <p class="sub">Informe a chave de acesso para ver os dados da Hotmart.</p>
+    <label for="chave">Chave de acesso</label>
+    <input id="chave" type="password" autocomplete="current-password" placeholder="••••••••" required>
+    <button type="submit" class="btn-primario">Entrar</button>
+    <p class="erro" id="erro-portao" role="alert"></p>
+  </form>
+</div>
+
+<main id="painel" class="painel" hidden>
+
+  <header class="topo">
+    <div class="topo-titulo">
+      <p class="olho">Hotmart · ambiente <span id="ambiente">produção</span></p>
+      <h1>Painel de vendas</h1>
+      <p class="janela" id="janela-texto">carregando…</p>
+    </div>
+    <div class="topo-acoes">
+      <button id="btn-atualizar" class="btn">Atualizar</button>
+      <button id="btn-csv" class="btn">Baixar CSV</button>
+      <button id="btn-sair" class="btn btn-fantasma" title="Esquecer a chave neste navegador">Sair</button>
+    </div>
+  </header>
+
+  <section class="filtros" aria-label="Filtros">
+    <div class="campo">
+      <label for="periodo">Período</label>
+      <select id="periodo">
+        <option value="7">Últimos 7 dias</option>
+        <option value="30" selected>Últimos 30 dias</option>
+        <option value="90">Últimos 90 dias</option>
+        <option value="mes">Este mês</option>
+        <option value="mes-passado">Mês passado</option>
+        <option value="ano">Este ano</option>
+        <option value="custom">Personalizado</option>
+      </select>
+    </div>
+
+    <div class="campo campo-data" id="campo-de" hidden>
+      <label for="de">De</label>
+      <input id="de" type="date">
+    </div>
+    <div class="campo campo-data" id="campo-ate" hidden>
+      <label for="ate">Até</label>
+      <input id="ate" type="date">
+    </div>
+
+    <div class="campo">
+      <label for="status">Status</label>
+      <select id="status">
+        <option value="">Aprovadas e completas (padrão da API)</option>
+        <option value="TODOS">Todos os status</option>
+        <option value="APPROVED">Aprovadas</option>
+        <option value="COMPLETE">Completas</option>
+        <option value="WAITING_PAYMENT">Aguardando pagamento</option>
+        <option value="PRINTED_BILLET">Boleto impresso</option>
+        <option value="UNDER_ANALISYS">Em análise</option>
+        <option value="REFUNDED">Reembolsadas</option>
+        <option value="PARTIALLY_REFUNDED">Reembolso parcial</option>
+        <option value="CANCELLED">Canceladas</option>
+        <option value="CHARGEBACK">Chargeback</option>
+        <option value="EXPIRED">Expiradas</option>
+        <option value="OVERDUE">Em atraso</option>
+        <option value="BLOCKED">Bloqueadas</option>
+        <option value="PROTESTED">Protestadas</option>
+        <option value="STARTED">Iniciadas</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="produto">Produto (ID)</label>
+      <input id="produto" inputmode="numeric" placeholder="todos">
+    </div>
+  </section>
+
+  <p class="aviso-api" id="aviso-api" hidden></p>
+
+  <section id="estado-carregando" class="estado">
+    <div class="pulso"></div>
+    <p>Consultando a Hotmart…</p>
+  </section>
+
+  <section id="estado-erro" class="estado estado-erro" hidden>
+    <p class="titulo-estado">Não foi possível carregar</p>
+    <p id="erro-texto"></p>
+    <button class="btn" id="btn-tentar">Tentar de novo</button>
+  </section>
+
+  <section id="estado-vazio" class="estado" hidden>
+    <p class="titulo-estado">Nenhuma venda nesse filtro</p>
+    <p>Troque o período ou o status. Lembrando: sem filtro de status a Hotmart devolve só aprovadas e completas.</p>
+  </section>
+
+  <div id="conteudo" hidden>
+
+    <section class="kpistas" id="kpis"></section>
+
+    <section class="grade-graficos">
+      <article class="cartao cartao-largo">
+        <header class="cartao-topo">
+          <h2>Faturamento por dia</h2>
+          <p class="nota">valor bruto pago pelo comprador</p>
+        </header>
+        <div id="grafico-serie" class="grafico-serie"></div>
+      </article>
+
+      <article class="cartao">
+        <header class="cartao-topo">
+          <h2>Por forma de pagamento</h2>
+          <p class="nota">quantidade de vendas</p>
+        </header>
+        <ul id="lista-pagamento" class="barras"></ul>
+      </article>
+
+      <article class="cartao">
+        <header class="cartao-topo">
+          <h2>Produtos</h2>
+          <p class="nota">por número de vendas</p>
+        </header>
+        <ul id="lista-produtos" class="barras"></ul>
+      </article>
+
+      <article class="cartao">
+        <header class="cartao-topo">
+          <h2>Status</h2>
+          <p class="nota">o que foi consultado</p>
+        </header>
+        <ul id="lista-status" class="barras"></ul>
+      </article>
+    </section>
+
+    <section class="cartao cartao-tabela">
+      <header class="cartao-topo cartao-topo-linha">
+        <div>
+          <h2>Vendas</h2>
+          <p class="nota" id="nota-tabela"></p>
+        </div>
+        <div class="busca">
+          <input id="busca" type="search" placeholder="filtrar por comprador, e-mail ou transação">
+        </div>
+      </header>
+      <div class="rolagem">
+        <table class="tabela">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Produto</th>
+              <th>Comprador</th>
+              <th class="num">Valor</th>
+              <th class="num">Líquido</th>
+              <th>Status</th>
+              <th>Pagamento</th>
+              <th>Origem</th>
+              <th>Transação</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela"></tbody>
+        </table>
+      </div>
+      <p class="mais" id="mais-registros" hidden></p>
+    </section>
+
+  </div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
