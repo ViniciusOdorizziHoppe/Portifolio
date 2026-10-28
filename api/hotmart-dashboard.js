@@ -1,6 +1,8 @@
 // GET /api/hotmart-dashboard → vendas da Hotmart agregadas para o painel
 // Protegido por HOTMART_DASH_KEY (header x-dash-key). Credenciais só no servidor.
+// Ordem de leitura da configuração: variável de ambiente da Vercel → tabela dashboard_config.
 import crypto from 'node:crypto';
+import { q } from './_db.js';
 
 const { timingSafeEqual } = crypto;
 
@@ -32,6 +34,28 @@ function chaveConfere(recebida, esperada) {
   return timingSafeEqual(a, b);
 }
 
+// configuração: env var primeiro, tabela dashboard_config depois (cache de 60s)
+let cacheConfig = { mapa: null, expira: 0 };
+
+async function lerConfig(chave) {
+  const doAmbiente = process.env[chave];
+  if (doAmbiente) return doAmbiente;
+
+  const agora = Date.now();
+  if (!cacheConfig.mapa || cacheConfig.expira < agora) {
+    try {
+      const r = await q('select chave, valor from dashboard_config');
+      const mapa = {};
+      for (const linha of r.rows) mapa[linha.chave] = linha.valor;
+      cacheConfig = { mapa, expira: agora + 60000 };
+    } catch (e) {
+      console.error('dashboard_config indisponivel:', e.message);
+      cacheConfig = { mapa: {}, expira: agora + 15000 };
+    }
+  }
+  return (cacheConfig.mapa || {})[chave] || '';
+}
+
 // token em cache no escopo do módulo (sobrevive entre invocações quentes)
 let cacheToken = { valor: null, expira: 0 };
 
@@ -39,9 +63,9 @@ async function pegarToken(base) {
   const agora = Date.now();
   if (cacheToken.valor && cacheToken.expira > agora + 60000) return cacheToken.valor;
 
-  const id = process.env.HOTMART_CLIENT_ID || '';
-  const segredo = process.env.HOTMART_CLIENT_SECRET || '';
-  const basicPronto = process.env.HOTMART_BASIC || '';
+  const id = await lerConfig('HOTMART_CLIENT_ID');
+  const segredo = await lerConfig('HOTMART_CLIENT_SECRET');
+  const basicPronto = await lerConfig('HOTMART_BASIC');
 
   if (!basicPronto && (!id || !segredo)) {
     const e = new Error('credenciais_ausentes');
@@ -276,12 +300,12 @@ export const config = { maxDuration: 60 };
 export default async function handler(req, res) {
   if (req.method !== 'GET') return json(res, 405, { ok: false, erro: 'metodo' });
 
-  const esperada = process.env.HOTMART_DASH_KEY || '';
+  const esperada = await lerConfig('HOTMART_DASH_KEY');
   if (!esperada) {
     return json(res, 503, {
       ok: false,
       erro: 'chave_nao_configurada',
-      dica: 'Defina HOTMART_DASH_KEY nas variáveis de ambiente do projeto na Vercel.'
+      dica: 'Defina HOTMART_DASH_KEY na Vercel ou grave na tabela dashboard_config (tests/gravar-config.mjs).'
     });
   }
 
@@ -306,7 +330,8 @@ export default async function handler(req, res) {
   if (q.status === 'TODOS') statusPedidos = TODOS_STATUS.slice();
   if (statusPedidos.length > TODOS_STATUS.length) statusPedidos = statusPedidos.slice(0, TODOS_STATUS.length);
 
-  const base = process.env.HOTMART_SANDBOX === '1' ? SANDBOX_BASE : PROD_BASE;
+  const sandbox = (await lerConfig('HOTMART_SANDBOX')) === '1';
+  const base = sandbox ? SANDBOX_BASE : PROD_BASE;
   const avisos = [];
 
   try {
@@ -338,7 +363,7 @@ export default async function handler(req, res) {
 
     return json(res, 200, {
       ok: true,
-      ambiente: process.env.HOTMART_SANDBOX === '1' ? 'sandbox' : 'producao',
+      ambiente: sandbox ? 'sandbox' : 'producao',
       janela: { de, ate, dias },
       statusConsultados: statusPedidos.length ? statusPedidos : ['APPROVED', 'COMPLETE'],
       total: vendas.length,
