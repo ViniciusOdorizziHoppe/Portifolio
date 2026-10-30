@@ -968,7 +968,9 @@ async function entrar() {
 
   // conta de revisao: vale enquanto o servidor estiver sem banco (503) ou com o token na URL
   const ehRevisao = e.toLowerCase() === REVISAO_EMAIL && s === REVISAO_SENHA;
-  if (ehRevisao && (r.status === 503 || r.status === 0 || revisaoLigada)) {
+  // qualquer resposta que nao seja 200 significa que o servidor nao validou
+  // (banco ausente, erro, rede) — nesse caso a conta de revisao entra.
+  if (ehRevisao && (r.status !== 200 || revisaoLigada)) {
     modoRevisao = true;
     st.auth = { logado: true, email: e };
     st.nome = "Revisão";
@@ -1158,7 +1160,7 @@ function fmtCtx(t){
     else linhas.push(l);
   }
   const RE_FALANTE = /^([A-Z\u00C0-\u00DF][A-Z\u00C0-\u00DF0-9 .\u00C0-\u00FF]{1,24}):\s*(.*)$/;
-  const RE_CITE = /^(Dispon[\u00EDi]vel em|Acesso em|Adaptado de)|^[A-Z\u00C0-\u00DF][\w\u00C0-\u00FF.]{2,30},\s*[A-Z]/;
+  const RE_CITE = /^(Dispon[íi]vel em|Acesso em|Adaptado de)|^[A-ZÀ-ß][\wÀ-ÿ. \-]{2,40},\s*[A-Z]/;
   return linhas.map((l,i)=>{
     const f = l.match(RE_FALANTE);
     let html;
@@ -1169,7 +1171,12 @@ function fmtCtx(t){
     }
     html = html.replace(/_([^_\n]{1,80})_/g,"<em>$1</em>");
     const ultima = (i === linhas.length - 1);
-    if (ultima && !f && RE_CITE.test(l)) return '<span class="cite">' + html + '</span>';
+    const semMarca = l.replace(/\*\*/g, '').trim();
+    if (ultima && !f && RE_CITE.test(semMarca)) {
+      // referencia bibliografica: italico sem negrito (o original vem com ** em volta)
+      const limpo = soltaTexto(l).replace(/\*\*/g, '').replace(/_/g, '');
+      return '<span class="cite">' + limpo + '</span>';
+    }
     return "<p>" + html + "</p>";
   }).join("");
 }
