@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enemzeiro: cinco questões por dia para o ENEM</title>
+<meta name="description" content="Treino diário com questões oficiais do ENEM. Cinco questões em três minutos, correção na hora e foco na área em que você erra mais. R$ 29,90 por mês.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Enemzeiro: cinco questões por dia para o ENEM">
+<meta property="og:description" content="Questões oficiais do ENEM, corrigidas na hora, na área em que você erra mais. R$ 29,90 por mês, cancele quando quiser.">
+<meta property="og:image" content="https://www.viniciusodorizzi.com/enemzeiro/vendas/banner.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://www.viniciusodorizzi.com/enemzeiro/og.jpg">
+<style>
+  :root{
+    --ink:#0E2433; --ink2:#33473F; --muted:#5C6F66; --line:#E3EAE6;
+    --bg:#FFFFFF; --soft:#F4F8F5;
+    --accent:#0B7A3B; --accent-d:#075F2F;
+    --cta:#F8C21C; --cta-ink:#31250A;
+    --r:16px;
+    --max:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:ui-sans-serif,"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.5;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  img{max-width:100%;height:auto;display:block}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .display{font-weight:800;letter-spacing:-.035em;line-height:1.02}
+
+  /* ---------- nav ---------- */
+  nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);
+      backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:var(--max);margin:0 auto;padding:0 24px;height:68px;
+      display:flex;align-items:center;gap:16px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:18px}
+  .brand .dot{width:30px;height:30px;border-radius:9px;background:var(--accent);display:grid;place-items:center;
+      color:#fff;font-size:15px;font-weight:900}
+  .nav-links{margin-left:auto;display:flex;align-items:center;gap:22px;font-size:14.5px;color:var(--muted);font-weight:600}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;
+      font-family:inherit;font-weight:800;cursor:pointer;border-radius:12px;transition:.15s}
+  .btn-cta{background:var(--cta);color:var(--cta-ink);padding:13px 22px;font-size:15px;
+      box-shadow:0 8px 22px rgba(248,194,28,.30)}
+  .btn-cta:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(248,194,28,.38)}
+  .btn-ghost{background:transparent;color:var(--ink);padding:13px 18px;font-size:15px;border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:#C9D6CF}
+
+  /* ---------- hero ---------- */
+  .hero{padding:64px 0 72px;background:
+      radial-gradient(900px 420px at 88% -8%, #EAF4EE 0%, rgba(255,255,255,0) 70%), var(--bg)}
+  .hero-in{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .hero h1{font-size:clamp(38px,5.2vw,62px);max-width:11ch}
+  .hero h1 em{font-style:normal;color:var(--accent)}
+  .hero .sub{margin-top:20px;font-size:18.5px;color:var(--muted);max-width:34ch;line-height:1.55}
+  .hero .acoes{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
+  .phone{border-radius:38px;padding:10px;background:#0E2433;
+      box-shadow:0 30px 70px rgba(14,36,51,.22);max-width:330px;margin:0 auto}
+  .phone img{border-radius:29px}
+
+  /* ---------- faixa de fatos ---------- */
+  .fatos{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--soft)}
+  .fatos-in{max-width:var(--max);margin:0 auto;padding:26px 24px;display:grid;
+      grid-template-columns:repeat(3,1fr);gap:24px}
+  .fato b{display:block;font-size:27px;letter-spacing:-.03em;font-weight:800}
+  .fato span{font-size:14px;color:var(--muted);font-weight:600}
+
+  /* ---------- seções ---------- */
+  section{padding:80px 0}
+  .bloco{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  h2{font-size:clamp(28px,3.6vw,42px);max-width:18ch}
+  .lead{margin-top:18px;font-size:17.5px;color:var(--muted);max-width:46ch;line-height:1.6}
+  .comparar{border:1.5px solid var(--line);border-radius:20px;background:#fff;overflow:hidden;
+      box-shadow:0 18px 44px rgba(14,36,51,.06)}
+  .comparar .linha{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:24px;
+      align-items:start;border-bottom:1px solid var(--line)}
+  .comparar .linha:last-child{border-bottom:0;background:#FAFCFB}
+  .comparar .tag{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+      padding:6px 10px;border-radius:8px;text-align:center}
+  .comparar .tag.sem{background:#F1F3F2;color:#6E8279}
+  .comparar .tag.com{background:#E7F5EC;color:var(--accent-d)}
+  .comparar p{font-size:15.5px;color:var(--ink2);line-height:1.5}
+  @media (max-width:520px){ .comparar .linha{grid-template-columns:1fr;gap:10px} }
+  .citacao{border-left:3px solid var(--accent);padding:6px 0 6px 20px;font-size:19px;
+      color:var(--ink2);max-width:40ch;line-height:1.5}
+
+  /* passos */
+  .passos{border-top:1px solid var(--line)}
+  .passo{display:grid;grid-template-columns:64px 1fr;gap:22px;padding:26px 0;border-bottom:1px solid var(--line)}
+  .passo .n{width:44px;height:44px;border-radius:12px;background:#EAF4EE;color:var(--accent-d);
+      display:grid;place-items:center;font-weight:900;font-size:16px}
+  .passo h3{font-size:19px;letter-spacing:-.02em;margin-bottom:6px}
+  .passo p{color:var(--muted);font-size:16px;max-width:56ch}
+
+  /* dentro do app */
+  .dentro{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .grade{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+  .lista{display:grid;gap:20px}
+  .item{display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:start}
+  .item svg{width:22px;height:22px;stroke:var(--accent);fill:none;stroke-width:2.2;margin-top:2px}
+  .item b{display:block;font-size:16.5px;letter-spacing:-.01em}
+  .item span{color:var(--muted);font-size:15px}
+
+  /* preço */
+  .preco{display:grid;grid-template-columns:1fr .9fr;gap:56px;align-items:center}
+  .cartao{border:1.5px solid var(--line);border-radius:22px;padding:32px;background:#fff;
+      box-shadow:0 22px 50px rgba(14,36,51,.07)}
+  .cartao .rot{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+  .cartao .valor{display:flex;align-items:baseline;gap:6px;margin:14px 0 4px}
+  .cartao .valor b{font-size:52px;letter-spacing:-.045em;font-weight:800}
+  .cartao .valor span{color:var(--muted);font-weight:700}
+  .cartao ul{list-style:none;margin:20px 0 24px;display:grid;gap:11px}
+  .cartao li{display:grid;grid-template-columns:20px 1fr;gap:10px;font-size:15.5px;color:var(--ink2)}
+  .cartao li svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:2.6;margin-top:2px}
+  .cartao .btn{width:100%}
+  .garantia{margin-top:14px;font-size:13.5px;color:var(--muted);text-align:center}
+
+  /* faq */
+  .faq{max-width:760px;margin:0 auto}
+  details{border-bottom:1px solid var(--line);padding:20px 0}
+  summary{cursor:pointer;font-weight:700;font-size:17px;list-style:none;display:flex;
+      justify-content:space-between;gap:16px;align-items:center}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--accent);font-size:22px;font-weight:800;line-height:1}
+  details[open] summary::after{content:"−"}
+  details p{margin-top:12px;color:var(--muted);font-size:16px;max-width:64ch}
+
+  /* cta final */
+  .final{background:var(--accent-d);color:#fff;text-align:center;padding:78px 0}
+  .final h2{color:#fff;max-width:20ch;margin:0 auto}
+  .final p{color:#C8EED8;margin:16px auto 28px;max-width:44ch}
+  .final .btn-cta{box-shadow:0 12px 30px rgba(0,0,0,.22)}
+
+  footer{padding:40px 0 56px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+  .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+
+  /* ---------- mobile ---------- */
+  @media (max-width:900px){
+    .hero{padding:40px 0 52px}
+    .hero-in{grid-template-columns:1fr;gap:36px}
+    .hero h1{max-width:14ch}
+    .phone{max-width:290px}
+    .fatos-in{grid-template-columns:1fr;gap:16px;text-align:center}
+    .fato b{font-size:24px}
+    section{padding:56px 0}
+    .bloco,.grade,.preco{grid-template-columns:1fr;gap:34px}
+    .nav-links a:not(.btn){display:none}
+    .bloco .texto{order:1}.bloco .arte{order:2}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="/enemzeiro"><span class="dot">E</span> Enemzeiro</a>
+    <div class="nav-links">
+      <a href="#como">Como funciona</a>
+      <a href="#preco">Preço</a>
+      <a href="/enemzeiro">Entrar</a>
+      <a class="btn btn-cta" href="#preco">Começar agora</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-in">
+    <div>
+      <h1 class="display">Cinco questões. Três minutos. <em>Todo dia.</em></h1>
+      <p class="sub">Questões oficiais do ENEM, corrigidas na hora, priorizando a área em que você erra mais.</p>
+      <div class="acoes">
+        <a class="btn btn-cta" href="#preco">Começar agora</a>
+        <a class="btn btn-ghost" href="#como">Ver como funciona</a>
+      </div>
+    </div>
+    <div class="arte">
+      <div class="phone"><img src="app-home.png" alt="Tela inicial do Enemzeiro com o foco do dia em Matemática" width="780" height="1688"></div>
+    </div>
+  </div>
+</header>
+
+<div class="fatos">
+  <div class="fatos-in">
+    <div class="fato"><b>4,8 milhões</b><span>de inscritos no ENEM 2025</span></div>
+    <div class="fato"><b>27%</b><span>faltaram no primeiro dia de prova</span></div>
+    <div class="fato"><b>3 minutos</b><span>é o tempo de um treino no app</span></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap bloco">
+    <div class="texto">
+      <h2 class="display">O problema nunca foi falta de conteúdo.</h2>
+      <p class="lead">Você já tem videoaula, resumo e PDF salvo. O que falta é treinar o que você sabe transformar em acerto, todos os dias, sem precisar de duas horas livres.</p>
+      <p class="lead">Quem acerta 9 em cada 10 questões de Exatas e 3 em cada 10 de Humanas não precisa de mais aula de Exatas. Precisa de tempo na área que dói.</p>
+    </div>
+    <div class="arte">
+      <div class="comparar">
+        <div class="linha"><span class="tag sem">Sem treino</span><p>Você lê a questão, reconhece o assunto e trava na hora de escolher.</p></div>
+        <div class="linha"><span class="tag com">Com treino</span><p>O padrão da questão já é familiar e a resposta sai em menos de um minuto.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como">
+  <div class="wrap">
+    <h2 class="display">Como funciona, em três passos.</h2>
+    <div class="passos" style="margin-top:34px">
+      <div class="passo">
+        <div class="n">1</div>
+        <div>
+          <h3>Você diz onde apanha</h3>
+          <p>No primeiro acesso, marca as áreas em que acerta menos. O app guarda isso e usa em cada treino.</p>
+        </div>
+      </div>
+      <div class="passo">
+        <div class="n">2</div>
+        <div>
+          <h3>O app monta o treino do dia</h3>
+          <p>Cinco questões oficiais do ENEM, curtas, com mais peso para a sua área mais fraca. Nada de simulado de 90 questões no meio da semana.</p>
+        </div>
+      </div>
+      <div class="passo">
+        <div class="n">3</div>
+        <div>
+          <h3>Você responde e vê a correção</h3>
+          <p>Correção imediata, tempo por questão, XP e a sequência de dias. Cada dia treinado vale uma pinta na onça.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dentro">
+  <div class="wrap grade">
+    <div class="arte">
+      <div class="phone" style="max-width:300px"><img src="app-question.png" alt="Questão do ENEM respondida dentro do app" width="780" height="1688"></div>
+    </div>
+    <div>
+      <h2 class="display">O que tem dentro.</h2>
+      <div class="lista" style="margin-top:26px">
+        <div class="item">
+          <svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
+          <div><b>Questões oficiais do ENEM</b><span>Edições de 2018 a 2023, com gabarito.</span></div>
+        </div>
+        <div class="item">
+          <svg viewBox="0 0 24 24"><path d="M4 19V9m6 10V5m6 14v-6m4 6H2"/></svg>
+          <div><b>Personalização por área</b><span>O app manda mais do que você erra, sem abandonar o resto.</span></div>
+        </div>
+        <div class="item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 1.8"/></svg>
+          <div><b>Cronômetro e bônus por velocidade</b><span>Treino curto de verdade: cinco questões em cerca de três minutos.</span></div>
+        </div>
+        <div class="item">
+          <svg viewBox="0 0 24 24"><path d="M12 3c1 4-2 5-2 8a3 3 0 0 0 6 0c0-1-.5-2-1-3 3 2 5 4.5 5 8a8 8 0 1 1-16 0c0-5 4-8 8-13z"/></svg>
+          <div><b>Sequência e progresso por área</b><span>Você vê o acerto de cada matéria e a sua constância.</span></div>
+        </div>
+        <div class="item">
+          <svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>
+          <div><b>Roda no navegador do celular</b><span>Sem instalar nada. Abriu, treinou.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="preco">
+  <div class="wrap preco">
+    <div>
+      <h2 class="display">Um preço. Sem pegadinha.</h2>
+      <p class="lead">Assinatura mensal, cancelamento em um clique, e o progresso continua salvo na sua conta enquanto ela estiver ativa.</p>
+      <p class="lead" style="margin-top:14px">Menos que um lanche por mês, para não perder o ritmo até a prova.</p>
+    </div>
+    <div class="cartao">
+      <div class="rot">Plano mensal</div>
+      <div class="valor"><b>R$ 29,90</b><span>/mês</span></div>
+      <ul>
+        <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Treino diário com questões oficiais</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Personalização pela sua área mais fraca</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Sequência, XP e acerto por matéria</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Acesso imediato, sem instalar app</span></li>
+      </ul>
+      <!-- Trocar o href pelo link de checkout da plataforma quando a oferta estiver ativa -->
+      <a class="btn btn-cta" href="https://www.viniciusodorizzi.com/enemzeiro">Começar agora</a>
+      <p class="garantia">7 dias de garantia. Devolvemos sem perguntar.</p>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--soft)">
+  <div class="wrap faq">
+    <h2 class="display" style="margin-bottom:22px">Perguntas rápidas.</h2>
+    <details open>
+      <summary>Preciso instalar algum aplicativo?</summary>
+      <p>Não. O Enemzeiro abre no navegador do celular ou do computador. Você pode adicionar à tela inicial se quiser.</p>
+    </details>
+    <details>
+      <summary>As questões são de verdade?</summary>
+      <p>São questões oficiais de edições do ENEM, de 2018 a 2023, com o gabarito oficial. Não são questões inventadas.</p>
+    </details>
+    <details>
+      <summary>Serve para quem está no 1º ou 2º ano?</summary>
+      <p>Serve. Criar ritmo cedo rende mais do que estudar tudo no último mês. O app foi feito para treinos curtos e diários.</p>
+    </details>
+    <details>
+      <summary>Posso cancelar quando quiser?</summary>
+      <p>Sim. O cancelamento é feito na própria plataforma de pagamento e não tem multa nem fidelidade.</p>
+    </details>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2 class="display">Comece pelo treino de hoje.</h2>
+    <p>Cinco questões agora valem mais que as cinquenta que você deixou para depois.</p>
+    <a class="btn btn-cta" href="https://www.viniciusodorizzi.com/enemzeiro">Começar agora</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>Enemzeiro · treino diário para o ENEM</div>
+    <div>Dúvidas: <a href="mailto:viniciushoppe@outlook.com">viniciushoppe@outlook.com</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
