@@ -31,7 +31,7 @@ const rotas = {
   '/api/ez/sessao': R.sessao,
   '/api/ez/progresso': R.progresso,
   '/api/ez/conta': R.conta,
-  '/api/ez/webhook/hotmart': (req, res) => R.webhook(req, res, 'hotmart'),
+  '/api/ez/webhook-hotmart': (req, res) => R.webhook(req, res, 'hotmart'),
   '/api/ez/webhook/kiwify': (req, res) => R.webhook(req, res, 'kiwify')
 };
 

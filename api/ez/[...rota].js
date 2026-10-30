@@ -15,8 +15,14 @@ export default async function handler(req, res) {
   const partes = partesDaRota(req);
   const rota = String(partes[0] || '').toLowerCase();
 
+  // aceita /api/ez/webhook-hotmart (1 segmento) e /api/ez/webhook/hotmart (2)
   if (rota === 'webhook') {
     const plataforma = String(partes[1] || '').toLowerCase();
+    if (!PLATAFORMAS.has(plataforma)) return json(res, 404, { erro: 'plataforma' });
+    return rotas.webhook(req, res, plataforma);
+  }
+  if (rota.startsWith('webhook-')) {
+    const plataforma = rota.slice('webhook-'.length);
     if (!PLATAFORMAS.has(plataforma)) return json(res, 404, { erro: 'plataforma' });
     return rotas.webhook(req, res, plataforma);
   }

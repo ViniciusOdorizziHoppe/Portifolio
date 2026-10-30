@@ -8,7 +8,7 @@ App em `/enemzeiro`, API em `/api/ez/*` (uma única função roteadora: limite d
 compra na plataforma
       │  webhook assinado
       ▼
-/api/ez/webhook/<plataforma>  →  ez_eventos (dedupe)  →  ez_acessos (status + acesso_ate)
+/api/ez/webhook-<plataforma>  →  ez_eventos (dedupe)  →  ez_acessos (status + acesso_ate)
                                                               │
 aluno entra com e-mail e senha  →  ez_sessoes (cookie HttpOnly) ─┘
       │
@@ -43,11 +43,11 @@ Alternativa ao token na URL: `EZ_WEBHOOK_<PLATAFORMA>_SECRET` aceita **HMAC SHA-
 ## URLs de webhook (colar em cada plataforma)
 
 ```
-https://www.viniciusodorizzi.com/api/ez/webhook/hotmart?t=SEU_TOKEN
-https://www.viniciusodorizzi.com/api/ez/webhook/kiwify?t=SEU_TOKEN
-https://www.viniciusodorizzi.com/api/ez/webhook/eduzz?t=SEU_TOKEN
-https://www.viniciusodorizzi.com/api/ez/webhook/monetizze?t=SEU_TOKEN
-https://www.viniciusodorizzi.com/api/ez/webhook/kirvano?t=SEU_TOKEN
+https://www.viniciusodorizzi.com/api/ez/webhook-hotmart?t=SEU_TOKEN
+https://www.viniciusodorizzi.com/api/ez/webhook-kiwify?t=SEU_TOKEN
+https://www.viniciusodorizzi.com/api/ez/webhook-eduzz?t=SEU_TOKEN
+https://www.viniciusodorizzi.com/api/ez/webhook-monetizze?t=SEU_TOKEN
+https://www.viniciusodorizzi.com/api/ez/webhook-kirvano?t=SEU_TOKEN
 ```
 
 ## Rotas

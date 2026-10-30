@@ -15,8 +15,20 @@ export function json(res, status, obj, headers) {
   res.end(JSON.stringify(obj));
 }
 
-/** Lê o corpo cru com teto de tamanho (evita payload gigante derrubar a função). */
+/**
+ * Corpo cru com teto de tamanho.
+ * Na Vercel o body pode chegar como objeto, string OU Buffer — e nesses casos o
+ * stream já foi consumido, então ler de novo estoura. Tratamos os três.
+ */
 export async function corpoCru(req) {
+  if (typeof req.body === 'string') {
+    if (req.body.length > LIMITE_CORPO) throw new Error('corpo_grande');
+    return req.body;
+  }
+  if (Buffer.isBuffer(req.body)) {
+    if (req.body.length > LIMITE_CORPO) throw new Error('corpo_grande');
+    return req.body.toString('utf8');
+  }
   if (req.body && typeof req.body === 'object') {
     const s = JSON.stringify(req.body);
     if (s.length > LIMITE_CORPO) throw new Error('corpo_grande');
@@ -24,10 +36,15 @@ export async function corpoCru(req) {
   }
   const partes = [];
   let total = 0;
-  for await (const chunk of req) {
-    total += chunk.length;
-    if (total > LIMITE_CORPO) throw new Error('corpo_grande');
-    partes.push(chunk);
+  try {
+    for await (const chunk of req) {
+      total += chunk.length;
+      if (total > LIMITE_CORPO) throw new Error('corpo_grande');
+      partes.push(chunk);
+    }
+  } catch (e) {
+    if (e && e.message === 'corpo_grande') throw e;
+    return '';
   }
   return Buffer.concat(partes).toString('utf8');
 }
@@ -35,7 +52,8 @@ export async function corpoCru(req) {
 export async function corpo(req) {
   const cru = await corpoCru(req);
   if (!cru) return {};
-  const o = JSON.parse(cru);
+  let o;
+  try { o = JSON.parse(cru); } catch { throw new Error('corpo_invalido'); }
   if (!o || typeof o !== 'object' || Array.isArray(o)) throw new Error('corpo_invalido');
   return o;
 }
