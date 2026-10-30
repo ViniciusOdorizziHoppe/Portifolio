@@ -16,7 +16,12 @@ export default async function handler(req, res) {
   // sem banco configurado nada funciona: responde claro em vez de estourar
   if (!urlDoBanco()) {
     return json(res, 503, { ok: false, erro: 'banco_nao_configurado',
-      mensagem: 'Defina DATABASE_URL nas variáveis de ambiente do projeto.' });
+      mensagem: 'Defina DATABASE_URL nas variáveis de ambiente do projeto.',
+      diag: (() => {
+        const v = String(process.env.DATABASE_URL || '');
+        try { return { tam: v.length, comeco: v.slice(0, 14), host: new URL(v).host, fim: v.slice(-14) }; }
+        catch (e) { return { tam: v.length, comeco: v.slice(0, 24), erroUrl: String(e.message).slice(0,60) }; }
+      })() });
   }
 
   const partes = partesDaRota(req);
