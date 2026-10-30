@@ -117,7 +117,9 @@ export async function google(req, res) {
   let b;
   try { b = await corpo(req); } catch { return json(res, 400, { erro: 'corpo' }); }
 
-  const clientId = process.env.GOOGLE_CLIENT_ID || '';
+  // .trim() porque variavel colada na Vercel costuma vir com quebra de linha/espaco no fim,
+  // e o aud do token nunca vai casar com "abc\n" — isso derrubava todo login valido.
+  const clientId = String(process.env.GOOGLE_CLIENT_ID || '').trim();
   const v = await verificarTokenGoogle(String(b.access_token || ''), clientId);
   if (v.erro) {
     return json(res, 401, { erro: v.erro, mensagem: 'Não foi possível confirmar sua conta Google.' });
@@ -168,8 +170,8 @@ export async function facebook(req, res) {
 
   const v = await verificarTokenFacebook(
     String(b.access_token || ''),
-    process.env.FB_APP_ID || '',
-    process.env.FB_APP_SECRET || ''
+    String(process.env.FB_APP_ID || '').trim(),
+    String(process.env.FB_APP_SECRET || '').trim()
   );
   return concluirSocial(req, res, v, 'Facebook');
 }
@@ -180,7 +182,7 @@ export async function apple(req, res) {
   try { b = await corpo(req); } catch { return json(res, 400, { erro: 'corpo' }); }
 
   const idToken = String(b.id_token || b.identity_token || '');
-  const v = await verificarIdTokenApple(idToken, process.env.APPLE_CLIENT_ID || '');
+  const v = await verificarIdTokenApple(idToken, String(process.env.APPLE_CLIENT_ID || '').trim());
   return concluirSocial(req, res, v, 'Apple');
 }
 
@@ -191,9 +193,9 @@ export async function config(req, res) {
   if (!metodoPermitido(req, res, ['GET'])) return;
   return json(res, 200, {
     ok: true,
-    facebook: process.env.FB_APP_ID || '',
-    apple: process.env.APPLE_CLIENT_ID || '',
-    google: process.env.GOOGLE_CLIENT_ID || ''
+    facebook: String(process.env.FB_APP_ID || '').trim(),
+    apple: String(process.env.APPLE_CLIENT_ID || '').trim(),
+    google: String(process.env.GOOGLE_CLIENT_ID || '').trim()
   });
 }
 
