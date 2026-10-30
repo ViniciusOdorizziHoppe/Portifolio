@@ -1,9 +1,0 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>teste</title></head>
-<body style="margin:0;background:#222">
-<img id="a" src="app-home.jpg" style="width:300px;display:block">
-<script>
-const i=document.getElementById('a');
-i.onload=()=>{document.title='OK '+i.naturalWidth+'x'+i.naturalHeight};
-i.onerror=()=>{document.title='ERRO'};
-setTimeout(()=>{ if(!document.title.startsWith('OK')) document.title=document.title+'/timeout'; },4000);
-</script></body></html>
