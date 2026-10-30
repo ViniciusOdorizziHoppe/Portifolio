@@ -1,6 +1,7 @@
 // /api/ez/<rota> — tudo do Enemzeiro numa função só (limite de 12 funções do plano Hobby).
 import * as rotas from '../_ez-rotas.js';
 import { json } from '../_ez.js';
+import { urlDoBanco } from '../_db.js';
 
 const PLATAFORMAS = new Set(['hotmart', 'kiwify', 'eduzz', 'monetizze', 'kirvano']);
 
@@ -12,10 +13,15 @@ function partesDaRota(req) {
 }
 
 export default async function handler(req, res) {
+  // sem banco configurado nada funciona: responde claro em vez de estourar
+  if (!urlDoBanco()) {
+    return json(res, 503, { ok: false, erro: 'banco_nao_configurado',
+      mensagem: 'Defina DATABASE_URL nas variáveis de ambiente do projeto.' });
+  }
+
   const partes = partesDaRota(req);
   const rota = String(partes[0] || '').toLowerCase();
 
-  // aceita /api/ez/webhook-hotmart (1 segmento) e /api/ez/webhook/hotmart (2)
   if (rota === 'webhook') {
     const plataforma = String(partes[1] || '').toLowerCase();
     if (!PLATAFORMAS.has(plataforma)) return json(res, 404, { erro: 'plataforma' });
@@ -29,12 +35,12 @@ export default async function handler(req, res) {
 
   const fn = rotas[rota];
   if (typeof fn !== 'function' || rota.startsWith('_')) {
-    return json(res, 404, { erro: 'rota', recebido: partes });
+    return json(res, 404, { erro: 'rota' });
   }
   try {
     return await fn(req, res);
   } catch (e) {
-    // DIAGNOSTICO TEMPORARIO
-    return json(res, 500, { erro: 'interno', detalhe: String(e && e.stack || e).slice(0, 600) });
+    console.error('ez/' + rota, e);
+    return json(res, 500, { ok: false, erro: 'interno' });
   }
 }
