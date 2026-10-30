@@ -41,6 +41,6 @@ export default async function handler(req, res) {
     return await fn(req, res);
   } catch (e) {
     console.error('ez/' + rota, e);
-    return json(res, 500, { ok: false, erro: 'interno' });
+    return json(res, 500, { ok: false, erro: 'interno', d: String(e && e.message || e).slice(0, 300) });
   }
 }
