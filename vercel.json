@@ -28,6 +28,14 @@
     {
       "source": "/namorada/",
       "destination": "/namorada/index.html"
+    },
+    {
+      "source": "/enemzeiro",
+      "destination": "/enemzeiro/index.html"
+    },
+    {
+      "source": "/enemzeiro/",
+      "destination": "/enemzeiro/index.html"
     }
   ],
   "headers": [
