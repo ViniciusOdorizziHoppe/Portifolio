@@ -9,11 +9,12 @@ import {
 import {
   criarConta, definirSenha, contaPorEmail, abrirSessao, fecharSessao, emailLimpo, nomeLimpo,
   telefoneLimpo, acessoLiberado, tentativasRestantes, registrarFalha, limparFalhas,
-  lerProgresso, salvarProgresso
+  lerProgresso, salvarProgresso, entrarOuCriarOauth
 } from './_ez-dominio.js';
 import { hashSenha, confereSenha, senhaForte } from './_auth.js';
 import * as dominio from './_ez-dominio.js';
 import { origemConfiavel, aplicarEvento } from './_ez-webhooks.js';
+import { verificarTokenGoogle } from './_ez-google.js';
 
 /* ------------------------------------------------------------------ contas */
 
@@ -101,6 +102,28 @@ export async function ativar(req, res) {
   if (r.erro === 'ja_ativada') {
     return json(res, 409, { erro: 'ja_ativada', mensagem: 'Essa conta já tem senha. Use Entrar.' });
   }
+
+  const sessao = await abrirSessao(q, r.conta.id);
+  return json(res, 200, {
+    ok: true, email: r.conta.email, nome: r.conta.nome,
+    liberado: acessoLiberado(r.conta), acessoAte: r.conta.acesso_ate
+  }, { 'Set-Cookie': cookieSessao(sessao.token, sessao.expira, ehHttps(req)) });
+}
+
+export async function google(req, res) {
+  if (!metodoPermitido(req, res, ['POST'])) return;
+  let b;
+  try { b = await corpo(req); } catch { return json(res, 400, { erro: 'corpo' }); }
+
+  const clientId = process.env.GOOGLE_CLIENT_ID || '';
+  const v = await verificarTokenGoogle(String(b.access_token || ''), clientId);
+  if (v.erro) {
+    return json(res, 401, { erro: v.erro, mensagem: 'Não foi possível confirmar sua conta Google.' });
+  }
+
+  const trial = Number(process.env.EZ_TRIAL_DIAS ?? 7);
+  const r = await entrarOuCriarOauth(q, { email: v.email, nome: v.nome, trialDias: trial });
+  if (!r.conta) return json(res, 400, { erro: r.erro || 'conta' });
 
   const sessao = await abrirSessao(q, r.conta.id);
   return json(res, 200, {

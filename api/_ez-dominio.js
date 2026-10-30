@@ -75,6 +75,17 @@ export async function criarConta(q, { email, nome, telefone, senhaHash, trialDia
   return { conta };
 }
 
+/** Login por Google: entra se existir, cria se for a primeira vez. */
+export async function entrarOuCriarOauth(q, { email, nome, trialDias = 0 }) {
+  const r = await criarConta(q, { email, nome, telefone: null, senhaHash: null, trialDias });
+  if (r.erro === 'ja_existe') {
+    const conta = await contaPorEmail(q, email);
+    if (!conta) return { erro: 'nao_encontrada' };
+    return { conta };
+  }
+  return r;
+}
+
 /** Primeiro acesso de quem comprou: define a senha. */
 export async function definirSenha(q, { email, senhaHash }) {
   const conta = await contaPorEmail(q, email);

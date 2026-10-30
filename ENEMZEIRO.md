@@ -79,3 +79,14 @@ node tests/enemzeiro.test.mjs        # 47 asserções: webhook, acesso, login, s
 node tests/servidor-ez.mjs           # app + API com PGlite em http://localhost:4400/enemzeiro/
 node tests/aplicar-schema-enemzeiro.mjs  # aplica sql/enemzeiro.sql no Neon
 ```
+
+
+## Login com Google
+
+- Botão "Continuar com o Google" → Google Identity Services no navegador → access token
+- `POST /api/ez/google` confirma o token em `oauth2.googleapis.com/tokeninfo`,
+  checa que `aud` é o nosso Client ID e que o e-mail está verificado
+- Se a conta não existe, cria (com o trial); se existe, entra
+- Variável obrigatória: `GOOGLE_CLIENT_ID`
+- No Google Cloud Console → Credenciais → OAuth client → **Origens JavaScript autorizadas**:
+  `https://www.viniciusodorizzi.com` e `https://viniciusodorizzi.com`
