@@ -1323,6 +1323,17 @@ async function boot() {
     return;
   }
 
+  // link de revisao: entra direto, sem digitar nada (usado na aprovacao das plataformas)
+  if (revisaoLigada) {
+    modoRevisao = true;
+    st.auth = { logado: true, email: REVISAO_EMAIL };
+    st.nome = st.nome || "Revisão";
+    st.meta = st.meta || 10;
+    salvar();
+    if (st.fracas && st.fracas.length) irHome(); else passo(2);
+    return;
+  }
+
   if (!SERVIDOR) {
     if (st.nome) irHome();
     else mostrar(location.search.includes("cadastro") ? "t-cadastro" : "t-login");
