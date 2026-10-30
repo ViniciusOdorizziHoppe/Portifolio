@@ -1,6 +1,6 @@
 # Enemzeiro — sistema de contas, acesso e webhooks
 
-App em `/enemzeiro`, API em `/api/ez-*`, banco no Neon (tabelas `ez_*`).
+App em `/enemzeiro`, API em `/api/ez/*` (uma única função roteadora: limite de 12 funções do plano Hobby), banco no Neon (tabelas `ez_*`).
 
 ## Como o acesso funciona
 
@@ -8,12 +8,12 @@ App em `/enemzeiro`, API em `/api/ez-*`, banco no Neon (tabelas `ez_*`).
 compra na plataforma
       │  webhook assinado
       ▼
-/api/ez-webhook-<plataforma>  →  ez_eventos (dedupe)  →  ez_acessos (status + acesso_ate)
+/api/ez/webhook/<plataforma>  →  ez_eventos (dedupe)  →  ez_acessos (status + acesso_ate)
                                                               │
 aluno entra com e-mail e senha  →  ez_sessoes (cookie HttpOnly) ─┘
       │
       ▼
-/api/ez-sessao  responde liberado: true/false
+/api/ez/sessao  responde liberado: true/false
 ```
 
 - **Conta criada pela compra**: o webhook cria a conta com o e-mail do comprador, sem senha.
@@ -43,24 +43,24 @@ Alternativa ao token na URL: `EZ_WEBHOOK_<PLATAFORMA>_SECRET` aceita **HMAC SHA-
 ## URLs de webhook (colar em cada plataforma)
 
 ```
-https://www.viniciusodorizzi.com/api/ez-webhook-hotmart?t=SEU_TOKEN
-https://www.viniciusodorizzi.com/api/ez-webhook-kiwify?t=SEU_TOKEN
-https://www.viniciusodorizzi.com/api/ez-webhook-eduzz?t=SEU_TOKEN
-https://www.viniciusodorizzi.com/api/ez-webhook-monetizze?t=SEU_TOKEN
-https://www.viniciusodorizzi.com/api/ez-webhook-kirvano?t=SEU_TOKEN
+https://www.viniciusodorizzi.com/api/ez/webhook/hotmart?t=SEU_TOKEN
+https://www.viniciusodorizzi.com/api/ez/webhook/kiwify?t=SEU_TOKEN
+https://www.viniciusodorizzi.com/api/ez/webhook/eduzz?t=SEU_TOKEN
+https://www.viniciusodorizzi.com/api/ez/webhook/monetizze?t=SEU_TOKEN
+https://www.viniciusodorizzi.com/api/ez/webhook/kirvano?t=SEU_TOKEN
 ```
 
 ## Rotas
 
 | Rota | Método | O que faz |
 |---|---|---|
-| `/api/ez-cadastro` | POST | cria conta (ou completa a criada pela compra) e abre sessão |
-| `/api/ez-entrar` | POST | login, com bloqueio após 10 tentativas por 15 min |
-| `/api/ez-ativar` | POST | primeiro acesso de quem comprou (define a senha) |
-| `/api/ez-sessao` | GET | diz se pode abrir e se tem acesso |
-| `/api/ez-progresso` | GET/POST | sincroniza o progresso (máx. 48 KB) |
-| `/api/ez-sair` | POST | encerra a sessão |
-| `/api/ez-conta` | DELETE | apaga conta, senha, sessão, progresso (LGPD) |
+| `/api/ez/cadastro` | POST | cria conta (ou completa a criada pela compra) e abre sessão |
+| `/api/ez/entrar` | POST | login, com bloqueio após 10 tentativas por 15 min |
+| `/api/ez/ativar` | POST | primeiro acesso de quem comprou (define a senha) |
+| `/api/ez/sessao` | GET | diz se pode abrir e se tem acesso |
+| `/api/ez/progresso` | GET/POST | sincroniza o progresso (máx. 48 KB) |
+| `/api/ez/sair` | POST | encerra a sessão |
+| `/api/ez/conta` | DELETE | apaga conta, senha, sessão, progresso (LGPD) |
 
 ## Segurança aplicada
 

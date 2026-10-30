@@ -822,14 +822,14 @@ function agendarEnvio() {
   if (!SERVIDOR || !st.auth.logado) return;
   clearTimeout(envioAgendado);
   envioAgendado = setTimeout(function () {
-    api('POST', '/api/ez-progresso', { dados: dadosDoJogo() });
+    api('POST', '/api/ez/progresso', { dados: dadosDoJogo() });
   }, 1200);
 }
 async function sincronizar() {
   if (!SERVIDOR || !st.auth.logado) return;
-  const r = await api('GET', '/api/ez-progresso');
+  const r = await api('GET', '/api/ez/progresso');
   if (r.status === 200 && r.dados) aplicarDados(r.dados);
-  else if (r.status === 200) api('POST', '/api/ez-progresso', { dados: dadosDoJogo() });
+  else if (r.status === 200) api('POST', '/api/ez/progresso', { dados: dadosDoJogo() });
 }
 
 function irBloqueio(motivo, dados) {
@@ -842,7 +842,7 @@ function irBloqueio(motivo, dados) {
 }
 
 async function verificarDeNovo() {
-  const r = await api('GET', '/api/ez-sessao');
+  const r = await api('GET', '/api/ez/sessao');
   if (r.status === 200 && r.liberado) {
     toast('Acesso liberado. Bom treino!');
     await sincronizar();
@@ -882,7 +882,7 @@ async function entrar() {
     salvar(); depoisDoLogin(); return;
   }
 
-  const r = await api('POST', '/api/ez-entrar', { email: e, senha: s });
+  const r = await api('POST', '/api/ez/entrar', { email: e, senha: s });
   if (r.status === 429) { toast(r.mensagem || 'Muitas tentativas. Aguarde.'); return; }
   if (r.status !== 200) { toast(r.mensagem || 'E-mail ou senha não conferem'); return; }
 
@@ -913,7 +913,7 @@ async function criarConta() {
     salvar(); passo(2); return;
   }
 
-  const r = await api('POST', '/api/ez-cadastro', { nome: n, email: e, senha: s, telefone: f });
+  const r = await api('POST', '/api/ez/cadastro', { nome: n, email: e, senha: s, telefone: f });
   if (r.status === 409) { toast('Esse e-mail já tem conta. Faça login.'); irLogin(); return; }
   if (r.status !== 200) { toast(r.mensagem || 'Não foi possível criar a conta'); return; }
 
@@ -925,7 +925,7 @@ async function criarConta() {
 
 async function sairConta() {
   if (!confirm('Sair da conta? Seu progresso fica salvo.')) return;
-  if (SERVIDOR) await api('POST', '/api/ez-sair');
+  if (SERVIDOR) await api('POST', '/api/ez/sair');
   st.auth = { logado: false, email: '' };
   salvar();
   mostrar('t-login');
@@ -1188,7 +1188,7 @@ async function boot() {
     return;
   }
 
-  const r = await api("GET", "/api/ez-sessao");
+  const r = await api("GET", "/api/ez/sessao");
   if (r.status === 200) {
     st.auth = { logado: true, email: r.email };
     if (r.nome) st.nome = r.nome;

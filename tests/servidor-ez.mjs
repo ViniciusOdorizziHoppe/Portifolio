@@ -22,16 +22,17 @@ process.env.EZ_TRIAL_DIAS = '7';
 process.env.EZ_WEBHOOK_HOTMART_TOKEN = 'tok-teste';
 process.env.EZ_WEBHOOK_KIWIFY_TOKEN = 'tok-kiwify';
 
+const R = await import('../api/_ez-rotas.js');
 const rotas = {
-  '/api/ez-cadastro': (await import('../api/ez-cadastro.js')).default,
-  '/api/ez-entrar': (await import('../api/ez-entrar.js')).default,
-  '/api/ez-ativar': (await import('../api/ez-ativar.js')).default,
-  '/api/ez-sair': (await import('../api/ez-sair.js')).default,
-  '/api/ez-sessao': (await import('../api/ez-sessao.js')).default,
-  '/api/ez-progresso': (await import('../api/ez-progresso.js')).default,
-  '/api/ez-conta': (await import('../api/ez-conta.js')).default,
-  '/api/ez-webhook-hotmart': (await import('../api/ez-webhook-hotmart.js')).default,
-  '/api/ez-webhook-kiwify': (await import('../api/ez-webhook-kiwify.js')).default
+  '/api/ez/cadastro': R.cadastro,
+  '/api/ez/entrar': R.entrar,
+  '/api/ez/ativar': R.ativar,
+  '/api/ez/sair': R.sair,
+  '/api/ez/sessao': R.sessao,
+  '/api/ez/progresso': R.progresso,
+  '/api/ez/conta': R.conta,
+  '/api/ez/webhook/hotmart': (req, res) => R.webhook(req, res, 'hotmart'),
+  '/api/ez/webhook/kiwify': (req, res) => R.webhook(req, res, 'kiwify')
 };
 
 const TIPOS = { '.html': 'text/html; charset=utf-8', '.png': 'image/png',
