@@ -902,12 +902,25 @@ function irLogin() { mostrar('t-login'); }
 function irCadastro() { mostrar('t-cadastro'); }
 function esqueci() { toast('Fale com viniciushoppe@outlook.com para recuperar o acesso'); }
 const GOOGLE_ID = "285860671721-jkupmrhb82859u55ea9faljsc8k5vban.apps.googleusercontent.com";
-// Preencha os dois abaixo quando criar os apps. Sao valores PUBLICOS, podem ficar no HTML.
-// Facebook: developers.facebook.com -> seu app -> Configuracoes -> Basico -> ID do aplicativo
-const FB_APP_ID = "";
-// Apple: developer.apple.com -> Identifiers -> Services ID (ex: com.viniciusodorizzi.enemzeiro)
-const APPLE_ID = "";
+// IDs publicos dos logins sociais. O app carrega do servidor (/api/ez/config), entao
+// basta cadastrar FB_APP_ID e APPLE_CLIENT_ID na Vercel que os botoes funcionam.
+// Os valores abaixo sao apenas fallback, para o caso de o servidor nao responder.
+let FB_APP_ID = "";
+let APPLE_ID = "";
+let configSocialPedida = false;
 let gClient = null;
+
+async function carregarConfigSocial() {
+  if (configSocialPedida || !SERVIDOR) return;
+  configSocialPedida = true;
+  try {
+    const r = await api('GET', '/api/ez/config');
+    if (r && r.status === 200) {
+      if (r.facebook) FB_APP_ID = r.facebook;
+      if (r.apple) APPLE_ID = r.apple;
+    }
+  } catch (e) { /* segue com o que tiver */ }
+}
 
 /* Carrega o Google Identity Services so quando a pessoa toca no botao. */
 function carregarGoogle() {
@@ -1021,9 +1034,10 @@ async function entrarComApple() {
   }
 }
 
-function social(n) {
+async function social(n) {
   const opcao = String(n || '').toLowerCase();
   if (opcao === 'google') return entrarComGoogle();
+  await carregarConfigSocial();
   if (opcao === 'facebook') return entrarComFacebook();
   if (opcao === 'apple') return entrarComApple();
   toast('Use e-mail e senha');

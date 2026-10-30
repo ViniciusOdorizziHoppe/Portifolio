@@ -184,6 +184,19 @@ export async function apple(req, res) {
   return concluirSocial(req, res, v, 'Apple');
 }
 
+/* Config publica dos logins sociais: o app busca aqui em vez de ter o ID fixo no HTML.
+   Assim, quando o App ID do Facebook ou o Service ID da Apple forem cadastrados na Vercel,
+   o botao passa a funcionar sem novo deploy de codigo. */
+export async function config(req, res) {
+  if (!metodoPermitido(req, res, ['GET'])) return;
+  return json(res, 200, {
+    ok: true,
+    facebook: process.env.FB_APP_ID || '',
+    apple: process.env.APPLE_CLIENT_ID || '',
+    google: process.env.GOOGLE_CLIENT_ID || ''
+  });
+}
+
 export async function sair(req, res) {
   if (!metodoPermitido(req, res, ['POST'])) return;
   try { await fecharSessao(q, leCookie(req, COOKIE)); } catch { /* segue */ }
