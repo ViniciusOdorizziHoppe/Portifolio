@@ -272,41 +272,66 @@
   .meta-op span{display:block;font-size:11px;color:var(--dim);margin-top:3px;font-weight:700}
 
   /* ---------- desafio ---------- */
-  .dz-top{display:flex;align-items:center;gap:12px;padding:4px 0 10px}
+  .dz-top{display:flex;align-items:center;gap:12px;padding:6px 0 12px}
   .dz-top .x{width:36px;height:36px;border-radius:12px;background:var(--card);border:1.5px solid var(--line);
-    color:var(--dim);display:grid;place-items:center;cursor:pointer;flex:none;font-family:inherit}
+    color:var(--dim);display:grid;place-items:center;cursor:pointer;flex:none;font-family:inherit;
+    padding:0;transition:.15s;align-self:center}
   .dz-top .x svg{width:16px;height:16px;stroke:var(--dim);fill:none;stroke-width:2.4}
-  .dz-prog{flex:1;height:7px;background:#E4EBE7;border-radius:99px;overflow:hidden}
-  .dz-prog i{display:block;height:100%;background:var(--green);border-radius:99px;transition:width .3s}
-  .dz-time{font-size:13px;font-weight:900;color:var(--dim);font-variant-numeric:tabular-nums;flex:none}
-  .q-head{display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:nowrap;overflow:hidden}
+  .dz-top .x:active{transform:scale(.94);background:#F1F5F3}
+  /* barra com contraste real: trilho escuro + preenchimento azul da marca */
+  .dz-prog{flex:1;height:8px;background:#D6E0DB;border-radius:99px;overflow:hidden;align-self:center;
+    box-shadow:inset 0 1px 2px rgba(14,36,51,.06)}
+  .dz-prog i{display:block;height:100%;background:linear-gradient(90deg,#1D5FA8,#3B82CE);
+    border-radius:99px;transition:width .3s}
+  .dz-time{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:900;color:#3E5249;
+    font-variant-numeric:tabular-nums;flex:none;line-height:1;align-self:center}
+  .dz-time svg{width:14px;height:14px;stroke:#3E5249;fill:none;stroke-width:2.2;flex:none}
+  .q-head{display:flex;gap:6px;align-items:center;margin:0 0 10px;flex-wrap:nowrap;overflow:hidden}
   .chip-area{font-size:10px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;
-    padding:6px 10px;border-radius:99px}
-  .chip-fonte{font-size:10.5px;font-weight:800;color:var(--dim);background:#EDF2EF;
-    padding:6px 10px;border-radius:99px}
+    padding:6px 11px;border-radius:99px;line-height:1}
+  .chip-fonte{font-size:10.5px;font-weight:800;color:#485C53;background:#E6EDE9;
+    padding:6px 11px;border-radius:99px;line-height:1}
   #dz-body{flex:1 1 auto;min-height:0;overflow:hidden;overflow-x:hidden;display:flex;flex-direction:column;--qs:1}
-  .ctx{font-size:calc(12.5px*var(--qs));line-height:1.55;color:#3F534B;background:var(--card);
-    border:1px solid var(--line);border-radius:16px;padding:calc(12px*var(--qs)) 13px;
-    margin-bottom:calc(10px*var(--qs));overflow:hidden;overflow-wrap:anywhere;flex:none}
-  .ctx strong{color:var(--ink);font-weight:800}
-  .stem{font-size:calc(15.5px*var(--qs));line-height:1.4;font-weight:900;letter-spacing:-.015em;
-    margin:0 0 calc(12px*var(--qs));color:var(--ink);flex:none}
-  .alt{width:100%;display:flex;gap:10px;align-items:flex-start;background:var(--card);
-    border:1.5px solid var(--line);border-radius:14px;padding:calc(11px*var(--qs)) 12px;
-    margin-bottom:calc(7px*var(--qs));color:var(--ink);font-family:inherit;
-    font-size:calc(13.5px*var(--qs));line-height:1.42;text-align:left;cursor:pointer;transition:.15s;flex:none}
+  .ctx{font-size:calc(12.8px*var(--qs));line-height:1.63;color:#33473F;background:var(--card);
+    border:1px solid #E2E9E5;border-radius:16px;padding:calc(13px*var(--qs)) calc(14px*var(--qs));
+    margin-bottom:calc(10px*var(--qs));overflow:hidden;overflow-wrap:anywhere;flex:none;
+    box-shadow:0 1px 3px rgba(14,36,51,.03)}
+  /* texto literario/comunicado longo: serifada le melhor que a geometrica da interface */
+  .ctx.longa{font-family:Georgia,"Times New Roman",Times,serif;letter-spacing:0}
+  .ctx.longa p{margin:0 0 .58em}
+  .ctx.longa p:last-child{margin-bottom:0}
+  .ctx strong{color:#12281F;font-weight:800}
+  .ctx .cite{display:block;margin-top:calc(9px*var(--qs));font-size:.9em;font-style:italic;
+    color:#6B7F76;line-height:1.45}
+  .ctx.hidden{display:none}
+  .stem{font-size:calc(15.2px*var(--qs));line-height:1.46;font-weight:600;letter-spacing:-.006em;
+    margin:calc(2px*var(--qs)) 0 calc(14px*var(--qs));color:var(--ink);flex:none}
+  .stem strong{font-weight:800;letter-spacing:-.012em}
+  .alt{width:100%;display:flex;gap:10px;align-items:center;background:var(--card);
+    border:1.5px solid var(--line);border-radius:14px;padding:calc(13px*var(--qs)) 12px;
+    margin-bottom:calc(11px*var(--qs));color:var(--ink);font-family:inherit;
+    font-size:calc(13.4px*var(--qs));line-height:1.45;text-align:left;cursor:pointer;
+    transition:border-color .15s,background .15s,transform .1s;flex:none}
+  @media (hover:hover){
+    .alt:not(.travada):hover{border-color:#C3D2CA;background:#FBFDFC}
+    .alt:not(.travada):hover .lt{background:#E4EDE7}
+  }
   .alt>span:last-child{overflow-wrap:anywhere}
-  .alt:active{transform:scale(.995)}
-  .alt .lt{width:calc(23px*var(--qs));height:calc(23px*var(--qs));border-radius:7px;background:#EDF2EF;display:grid;place-items:center;
-    font-size:11.5px;font-weight:900;flex:none;color:var(--dim)}
+  .alt:active{transform:scale(.985)}
+  .alt .lt{width:calc(25px*var(--qs));height:calc(25px*var(--qs));border-radius:8px;background:#EFF4F1;
+    border:1px solid #D9E3DD;display:grid;place-items:center;font-size:11.5px;font-weight:900;
+    flex:none;color:#33473F;line-height:1}
   .alt.ok{border-color:#0F9B4A;background:#EAF7EE}
   .alt.ok .lt{background:var(--green2);color:#fff}
   .alt.no{border-color:#E0A0A0;background:var(--red-bg)}
   .alt.no .lt{background:var(--red);color:#fff}
   .alt.dim{opacity:.5}
   .alt.travada{cursor:default}
-  .foot-fb{padding-top:8px;flex:none;background:linear-gradient(180deg,rgba(246,249,247,0),var(--bg) 30%)}
-  .fb{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:800;margin-bottom:10px}
+  .foot-fb{padding-top:10px;flex:none;background:linear-gradient(180deg,rgba(246,249,247,0),var(--bg) 30%)}
+  .fb{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:800;margin-bottom:11px}
+  .btn-blue{background:linear-gradient(180deg,#2A6FBF,#1D5FA8);color:#fff;
+    box-shadow:0 10px 22px rgba(29,95,168,.26)}
+  .btn-blue:active{transform:scale(.99)}
   .fb.ok{color:var(--green2)}
   .fb.no{color:var(--red)}
 
@@ -579,7 +604,7 @@
     <div class="dz-top">
       <button class="x" onclick="sair()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
       <div class="dz-prog"><i id="dz-bar" style="width:20%"></i></div>
-      <div class="dz-time" id="dz-time">0:00</div>
+      <div class="dz-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 1.8"/></svg><span id="dz-time">0:00</span></div>
     </div>
     <div class="q-head">
       <span class="chip-area" id="q-area">Humanas</span>
@@ -592,7 +617,7 @@
     </div>
     <div class="foot-fb">
       <div class="fb hidden" id="fb"></div>
-      <button class="btn btn-green hidden" id="bt-next" onclick="proxima()">Próxima</button>
+      <button class="btn btn-blue hidden" id="bt-next" onclick="proxima()">Próxima</button>
     </div>
   </section>
 
@@ -1006,14 +1031,16 @@ function iniciar(n){
 function renderQ(){
   const q = dz.fila[dz.i];
   const a = AREAS[q.area];
-  document.getElementById("dz-bar").style.width = (dz.i/dz.fila.length*100)+"%";
+  // progresso mostra em que questão voce esta (na 1a ja aparece 1/5, antes ficava vazio)
+  document.getElementById("dz-bar").style.width = ((dz.i+1)/dz.fila.length*100)+"%";
   const ca = document.getElementById("q-area");
   ca.textContent = a.nome;
   ca.style.background = a.cor; ca.style.color = (q.area==="ciencias-natureza") ? "#3A2C05" : "#fff";
   document.getElementById("q-fonte").textContent = "ENEM " + q.ano + " · Q" + q.idx;
   const ctx = document.getElementById("q-ctx");
-  if(q.ctx){ ctx.innerHTML = fmt(q.ctx); ctx.classList.remove("hidden"); } else { ctx.classList.add("hidden"); }
-  document.getElementById("q-stem").innerHTML = fmt(q.intro || "Assinale a alternativa correta.");
+  if(q.ctx){ ctx.innerHTML = fmtCtx(q.ctx); ctx.classList.remove("hidden");
+    ctx.classList.toggle("longa", q.ctx.length > 190); } else { ctx.classList.add("hidden"); }
+  document.getElementById("q-stem").innerHTML = fmtStem(q.intro || "Assinale a alternativa correta.");
   document.getElementById("q-alts").innerHTML = q.alts.map(al=>
     `<button class="alt" data-l="${al.l}" onclick="responder('${al.l}')">
        <span class="lt">${al.l}</span><span>${fmt(al.t)}</span></button>`).join("");
@@ -1029,7 +1056,7 @@ function ajustarQuestao(){
   let s = 1; box.style.setProperty("--qs", 1);
   let guard = 0;
   // diminui a tipografia ate caber, sem descer abaixo do legivel
-  while(guard++ < 12 && box.scrollHeight > box.clientHeight + 1 && s > 0.74){
+  while(guard++ < 14 && box.scrollHeight > box.clientHeight + 1 && s > 0.70){
     s = Math.round((s - 0.035) * 100) / 100;
     box.style.setProperty("--qs", s);
   }
@@ -1040,6 +1067,45 @@ function ajustarQuestao(){
   }
 }
 window.addEventListener("resize", ()=>{ if(!document.getElementById("t-desafio").classList.contains("oculta")) ajustarQuestao(); });
+function soltaTexto(t){
+  return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+/* Enunciado: negrito so nos trechos entre aspas — antes ficava tudo em 900 e cansava a vista. */
+function fmtStem(t){
+  let x = String(t).replace(/([\u201C"'])([^\u201D"']{1,90})([\u201D"'])/g, (m,a,b,c)=> "\u0001" + b + "\u0002");
+  x = soltaTexto(x).replace(/\u0001/g,"<strong>").replace(/\u0002/g,"</strong>");
+  return x.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\n/g,"<br>");
+}
+
+/* Contexto: vira parágrafos, falante em negrito e citação/referência em itálico menor. */
+function fmtCtx(t){
+  const brutas = String(t).split(/\n+/).map(l=>l.trim()).filter(Boolean);
+  // junta linha quebrada no meio da frase (o texto original quebra por largura, nao por paragrafo)
+  const linhas = [];
+  for (const l of brutas) {
+    const ant = linhas[linhas.length - 1];
+    const continua = ant && !/[.:!?\u2026\u201D"]$/.test(ant) && /^[a-z\u00E0-\u00FF(]/.test(l);
+    if (continua) linhas[linhas.length - 1] = ant + " " + l;
+    else linhas.push(l);
+  }
+  const RE_FALANTE = /^([A-Z\u00C0-\u00DF][A-Z\u00C0-\u00DF0-9 .\u00C0-\u00FF]{1,24}):\s*(.*)$/;
+  const RE_CITE = /^(Dispon[\u00EDi]vel em|Acesso em|Adaptado de)|^[A-Z\u00C0-\u00DF][\w\u00C0-\u00FF.]{2,30},\s*[A-Z]/;
+  return linhas.map((l,i)=>{
+    const f = l.match(RE_FALANTE);
+    let html;
+    if (f && f[2]) {
+      html = "<strong>" + soltaTexto(f[1]) + ":</strong> " + soltaTexto(f[2]).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+    } else {
+      html = soltaTexto(l).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+    }
+    html = html.replace(/_([^_\n]{1,80})_/g,"<em>$1</em>");
+    const ultima = (i === linhas.length - 1);
+    if (ultima && !f && RE_CITE.test(l)) return '<span class="cite">' + html + '</span>';
+    return "<p>" + html + "</p>";
+  }).join("");
+}
+
 function fmt(t){
   return String(t)
     .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
