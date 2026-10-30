@@ -103,10 +103,26 @@ export function extrair(body) {
   return { email, nome, plano: planoNome, valor };
 }
 
+/** Nome exato e, se o nome tiver sido digitado com caracteres faltando na Vercel
+ *  (aconteceu: EZ_WEBHOOK__TMART_TOKEN), acha pelo trecho que sobrou. */
+function envDoWebhook(plataforma, sufixo) {
+  const exato = `EZ_WEBHOOK_${plataforma.toUpperCase()}_${sufixo}`;
+  if (process.env[exato]) return process.env[exato];
+  const pista = {
+    hotmart: 'TMART', kiwify: 'KIWI', eduzz: 'EDUZZ', monetizze: 'TIZZE', kirvano: 'RVANO'
+  }[plataforma];
+  if (!pista) return '';
+  for (const k of Object.keys(process.env)) {
+    if (!k.startsWith('EZ_WEBHOOK_') || !k.endsWith(`_${sufixo}`)) continue;
+    if (k.includes(pista) && process.env[k]) return process.env[k];
+  }
+  return '';
+}
+
 /** Confere o segredo da URL e/ou o HMAC, conforme a plataforma. */
 export function origemConfiavel(plataforma, req, cru) {
-  const esperadoToken = process.env[`EZ_WEBHOOK_${plataforma.toUpperCase()}_TOKEN`] || '';
-  const esperadoHmac = process.env[`EZ_WEBHOOK_${plataforma.toUpperCase()}_SECRET`] || '';
+  const esperadoToken = envDoWebhook(plataforma, 'TOKEN') || '';
+  const esperadoHmac = envDoWebhook(plataforma, 'SECRET') || '';
 
   // 1) token na query (?t=...)
   if (esperadoToken) {
