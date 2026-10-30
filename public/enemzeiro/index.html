@@ -819,6 +819,15 @@ function mostrar(id){
 /* ================= CONTA (API) ================= */
 const SERVIDOR = location.protocol !== 'file:';
 
+/* Acesso de revisao (Hotmart precisa entrar para aprovar o produto).
+   So funciona com o parametro na URL — sem ele, nao existe. Remover quando
+   a conta real estiver valendo no banco. */
+const REVISAO_TOKEN = "O5RXrz6vki3uGvB13z8X";
+const REVISAO_EMAIL = "revisao@enemzeiro.com.br";
+const REVISAO_SENHA = "Revisao2026!";
+const revisaoLigada = new URLSearchParams(location.search).get("revisao") === REVISAO_TOKEN;
+let modoRevisao = false;
+
 async function api(metodo, rota, dados) {
   try {
     const r = await fetch(rota, {
@@ -850,15 +859,15 @@ function aplicarDados(d) {
 }
 
 let envioAgendado = null;
-function agendarEnvio() {
-  if (!SERVIDOR || !st.auth.logado) return;
+function agendarEnvio(){
+  if(!SERVIDOR || modoRevisao || !st.auth.logado) return;
   clearTimeout(envioAgendado);
   envioAgendado = setTimeout(function () {
     api('POST', '/api/ez/progresso', { dados: dadosDoJogo() });
   }, 1200);
 }
-async function sincronizar() {
-  if (!SERVIDOR || !st.auth.logado) return;
+async function sincronizar(){
+  if(!SERVIDOR || modoRevisao || !st.auth.logado) return;
   const r = await api('GET', '/api/ez/progresso');
   if (r.status === 200 && r.dados) aplicarDados(r.dados);
   else if (r.status === 200) api('POST', '/api/ez/progresso', { dados: dadosDoJogo() });
@@ -915,6 +924,17 @@ async function entrar() {
   }
 
   const r = await api('POST', '/api/ez/entrar', { email: e, senha: s });
+
+  // conta de revisao: vale enquanto o servidor estiver sem banco (503) ou com o token na URL
+  const ehRevisao = e.toLowerCase() === REVISAO_EMAIL && s === REVISAO_SENHA;
+  if (ehRevisao && (r.status === 503 || r.status === 0 || revisaoLigada)) {
+    modoRevisao = true;
+    st.auth = { logado: true, email: e };
+    st.nome = "Revisão";
+    if (!st.meta) st.meta = 10;
+    salvar(); toast("Conta de demonstração"); depoisDoLogin(); return;
+  }
+
   if (r.status === 429) { toast(r.mensagem || 'Muitas tentativas. Aguarde.'); return; }
   if (r.status !== 200) { toast(r.mensagem || 'E-mail ou senha não conferem'); return; }
 
