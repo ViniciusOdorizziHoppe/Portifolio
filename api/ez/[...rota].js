@@ -16,12 +16,7 @@ export default async function handler(req, res) {
   // sem banco configurado nada funciona: responde claro em vez de estourar
   if (!urlDoBanco()) {
     return json(res, 503, { ok: false, erro: 'banco_nao_configurado',
-      mensagem: 'Defina DATABASE_URL nas variáveis de ambiente do projeto.',
-      diag: (() => {
-        const v = String(process.env.DATABASE_URL || '');
-        try { return { tam: v.length, comeco: v.slice(0, 14), host: new URL(v).host, fim: v.slice(-14) }; }
-        catch (e) { return { tam: v.length, comeco: v.slice(0, 24), erroUrl: String(e.message).slice(0,60) }; }
-      })() });
+      mensagem: 'Defina DATABASE_URL nas variáveis de ambiente do projeto.' });
   }
 
   const partes = partesDaRota(req);
@@ -46,6 +41,11 @@ export default async function handler(req, res) {
     return await fn(req, res);
   } catch (e) {
     console.error('ez/' + rota, e);
-    return json(res, 500, { ok: false, erro: 'interno', d: String(e && e.message || e).slice(0, 300) });
+    const m = String((e && e.message) || '');
+    if (/ENOTFOUND|getaddrinfo|ECONNREFUSED|SASL|password authentication/i.test(m)) {
+      return json(res, 503, { ok: false, erro: 'banco_invalido',
+        mensagem: 'DATABASE_URL não está conectando. Confira o valor da variável na Vercel.' });
+    }
+    return json(res, 500, { ok: false, erro: 'interno' });
   }
 }
