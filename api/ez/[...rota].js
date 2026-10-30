@@ -31,5 +31,10 @@ export default async function handler(req, res) {
   if (typeof fn !== 'function' || rota.startsWith('_')) {
     return json(res, 404, { erro: 'rota', recebido: partes });
   }
-  return fn(req, res);
+  try {
+    return await fn(req, res);
+  } catch (e) {
+    // DIAGNOSTICO TEMPORARIO
+    return json(res, 500, { erro: 'interno', detalhe: String(e && e.stack || e).slice(0, 600) });
+  }
 }
