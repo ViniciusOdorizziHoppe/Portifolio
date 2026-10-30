@@ -15,6 +15,8 @@ import { hashSenha, confereSenha, senhaForte } from './_auth.js';
 import * as dominio from './_ez-dominio.js';
 import { origemConfiavel, aplicarEvento } from './_ez-webhooks.js';
 import { verificarTokenGoogle } from './_ez-google.js';
+import { verificarTokenFacebook } from './_ez-facebook.js';
+import { verificarIdTokenApple } from './_ez-apple.js';
 
 /* ------------------------------------------------------------------ contas */
 
@@ -130,6 +132,56 @@ export async function google(req, res) {
     ok: true, email: r.conta.email, nome: r.conta.nome,
     liberado: acessoLiberado(r.conta), acessoAte: r.conta.acesso_ate
   }, { 'Set-Cookie': cookieSessao(sessao.token, sessao.expira, ehHttps(req)) });
+}
+
+/* Resposta comum dos logins sociais: abre sessao e devolve o mesmo formato do /entrar. */
+async function concluirSocial(req, res, v, rotulo) {
+  if (v.erro) {
+    const mensagens = {
+      app_nao_configurado: `Login com ${rotulo} ainda não está configurado. Use e-mail e senha.`,
+      sem_email: `O ${rotulo} não liberou seu e-mail. Autorize o e-mail ou entre com e-mail e senha.`,
+      facebook_indisponivel: 'O Facebook não respondeu agora. Tente de novo em instantes.',
+      perfil_indisponivel: 'Não conseguimos ler seu perfil do Facebook agora.',
+      expirado: 'A confirmação expirou. Tente de novo.'
+    };
+    return json(res, 401, {
+      erro: v.erro,
+      mensagem: mensagens[v.erro] || `Não foi possível confirmar sua conta ${rotulo}.`
+    });
+  }
+
+  const trial = Number(process.env.EZ_TRIAL_DIAS ?? 7);
+  const r = await entrarOuCriarOauth(q, { email: v.email, nome: v.nome, trialDias: trial });
+  if (!r.conta) return json(res, 400, { erro: r.erro || 'conta' });
+
+  const sessao = await abrirSessao(q, r.conta.id);
+  return json(res, 200, {
+    ok: true, email: r.conta.email, nome: r.conta.nome,
+    liberado: acessoLiberado(r.conta), acessoAte: r.conta.acesso_ate
+  }, { 'Set-Cookie': cookieSessao(sessao.token, sessao.expira, ehHttps(req)) });
+}
+
+export async function facebook(req, res) {
+  if (!metodoPermitido(req, res, ['POST'])) return;
+  let b;
+  try { b = await corpo(req); } catch { return json(res, 400, { erro: 'corpo' }); }
+
+  const v = await verificarTokenFacebook(
+    String(b.access_token || ''),
+    process.env.FB_APP_ID || '',
+    process.env.FB_APP_SECRET || ''
+  );
+  return concluirSocial(req, res, v, 'Facebook');
+}
+
+export async function apple(req, res) {
+  if (!metodoPermitido(req, res, ['POST'])) return;
+  let b;
+  try { b = await corpo(req); } catch { return json(res, 400, { erro: 'corpo' }); }
+
+  const idToken = String(b.id_token || b.identity_token || '');
+  const v = await verificarIdTokenApple(idToken, process.env.APPLE_CLIENT_ID || '');
+  return concluirSocial(req, res, v, 'Apple');
 }
 
 export async function sair(req, res) {

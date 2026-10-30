@@ -902,6 +902,11 @@ function irLogin() { mostrar('t-login'); }
 function irCadastro() { mostrar('t-cadastro'); }
 function esqueci() { toast('Fale com viniciushoppe@outlook.com para recuperar o acesso'); }
 const GOOGLE_ID = "285860671721-jkupmrhb82859u55ea9faljsc8k5vban.apps.googleusercontent.com";
+// Preencha os dois abaixo quando criar os apps. Sao valores PUBLICOS, podem ficar no HTML.
+// Facebook: developers.facebook.com -> seu app -> Configuracoes -> Basico -> ID do aplicativo
+const FB_APP_ID = "";
+// Apple: developer.apple.com -> Identifiers -> Services ID (ex: com.viniciusodorizzi.enemzeiro)
+const APPLE_ID = "";
 let gClient = null;
 
 /* Carrega o Google Identity Services so quando a pessoa toca no botao. */
@@ -939,9 +944,89 @@ async function entrarComGoogle() {
  gClient.requestAccessToken();
 }
 
+/* Fecha o login social: mesma resposta para Google, Facebook e Apple. */
+function finalizarSocial(r, rotulo) {
+  if (r.status !== 200) { toast(r.mensagem || ('Não foi possível entrar com ' + rotulo)); return; }
+  st.auth = { logado: true, email: r.email };
+  if (r.nome) st.nome = r.nome;
+  salvar();
+  sincronizar().then(function () {
+    if (r.liberado) depoisDoLogin(); else irBloqueio('Sua assinatura não está ativa.', r);
+  });
+}
+
+/* ---------------- Facebook ---------------- */
+function carregarFacebook() {
+  return new Promise(function (ok, falha) {
+    if (window.FB && window.FB.login) return ok();
+    const s = document.createElement('script');
+    s.src = 'https://connect.facebook.net/pt_BR/sdk.js';
+    s.async = true; s.defer = true;
+    s.onload = function () { ok(); };
+    s.onerror = function () { falha(new Error('fb_sdk')); };
+    document.head.appendChild(s);
+  });
+}
+
+async function entrarComFacebook() {
+  if (!SERVIDOR) { toast('Login com Facebook só na versão publicada'); return; }
+  if (!FB_APP_ID) { toast('Login com Facebook ainda não está configurado. Use e-mail e senha.'); return; }
+  try { await carregarFacebook(); }
+  catch (e) { toast('Não deu para abrir o Facebook. Use e-mail e senha.'); return; }
+
+  if (!window.__fbPronto) {
+    FB.init({ appId: FB_APP_ID, cookie: false, xfbml: false, version: 'v21.0' });
+    window.__fbPronto = true;
+  }
+  FB.login(function (resp) {
+    if (!resp || !resp.authResponse || !resp.authResponse.accessToken) { toast('Login cancelado'); return; }
+    api('POST', '/api/ez/facebook', { access_token: resp.authResponse.accessToken })
+      .then(function (r) { finalizarSocial(r, 'Facebook'); });
+  }, { scope: 'email,public_profile' });
+}
+
+/* ---------------- Apple ---------------- */
+function carregarApple() {
+  return new Promise(function (ok, falha) {
+    if (window.AppleID && window.AppleID.auth) return ok();
+    const s = document.createElement('script');
+    s.src = 'https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/pt_BR/appleid.auth.js';
+    s.async = true; s.defer = true;
+    s.onload = function () { ok(); };
+    s.onerror = function () { falha(new Error('apple_sdk')); };
+    document.head.appendChild(s);
+  });
+}
+
+async function entrarComApple() {
+  if (!SERVIDOR) { toast('Login com Apple só na versão publicada'); return; }
+  if (!APPLE_ID) { toast('Login com Apple ainda não está configurado. Use e-mail e senha.'); return; }
+  try { await carregarApple(); }
+  catch (e) { toast('Não deu para abrir a Apple. Use e-mail e senha.'); return; }
+
+  try {
+    AppleID.auth.init({
+      clientId: APPLE_ID,
+      scope: 'name email',
+      redirectURI: location.origin + '/enemzeiro',
+      usePopup: true
+    });
+    const resp = await AppleID.auth.signIn();
+    const idt = resp && resp.authorization && resp.authorization.id_token;
+    if (!idt) { toast('Login cancelado'); return; }
+    const r = await api('POST', '/api/ez/apple', { id_token: idt });
+    finalizarSocial(r, 'Apple');
+  } catch (e) {
+    toast('Login com Apple cancelado');
+  }
+}
+
 function social(n) {
- if (n === 'google') return entrarComGoogle();
- toast(n === 'apple' || n === 'Apple' ? 'Entrar com Apple: em breve' : 'Use e-mail e senha por enquanto');
+  const opcao = String(n || '').toLowerCase();
+  if (opcao === 'google') return entrarComGoogle();
+  if (opcao === 'facebook') return entrarComFacebook();
+  if (opcao === 'apple') return entrarComApple();
+  toast('Use e-mail e senha');
 }
 
 function depoisDoLogin() {
