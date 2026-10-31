@@ -169,11 +169,10 @@
 
   /* ---------- LOGIN / CADASTRO ---------- */
   .auth{position:relative;overflow:hidden}
-  /* onda da bandeira no rodape esquerdo: circulo concentrico recortado pelo canto,
-     entao so a curva aparece (o arco do topo saiu, quem ocupa o canto agora e a onca) */
-  .auth .onda{position:absolute;left:-158px;bottom:-196px;width:300px;height:300px;border-radius:50%;z-index:0;
-    background:#0B7A3B;
-    box-shadow:0 0 0 12px #F8C21C, 0 0 0 20px #1D5FA8, 0 0 0 26px #0B7A3B}
+  /* fita da bandeira no rodape esquerdo: SVG com tres curvas paralelas
+     (verde, amarelo, azul) saindo do canto, como uma onda de pano */
+  .auth .onda{position:absolute;left:-6px;bottom:-4px;width:300px;height:160px;z-index:0;
+    pointer-events:none;overflow:visible}
   .auth .onca-auth{position:absolute;right:-4px;top:-8px;width:218px;z-index:1;
          filter:drop-shadow(0 12px 20px rgba(14,36,51,.12))}
   .auth .folha{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;z-index:0;opacity:.16;
@@ -403,7 +402,7 @@
 
   <!-- ================= LOGIN ================= -->
   <section class="tela oculta auth" id="t-login">
-    <div class="onda"></div>
+    <svg class="onda" viewBox="0 0 320 170" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 C86,26 176,86 320,170 L0,170 Z" fill="#0B7A3B"/><path d="M-6,18 C92,46 182,102 328,186" stroke="#F8C21C" stroke-width="30" fill="none"/><path d="M-6,58 C88,92 176,146 328,228" stroke="#1D5FA8" stroke-width="26" fill="none"/></svg>
     <img class="onca-auth" data-img="hero" alt="">
     <div class="folha"></div>
     <div class="marca-auth">
@@ -430,7 +429,7 @@
 
   <!-- ================= CADASTRO ================= -->
   <section class="tela oculta auth" id="t-cadastro">
-    <div class="onda"></div>
+    <svg class="onda" viewBox="0 0 320 170" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 C86,26 176,86 320,170 L0,170 Z" fill="#0B7A3B"/><path d="M-6,18 C92,46 182,102 328,186" stroke="#F8C21C" stroke-width="30" fill="none"/><path d="M-6,58 C88,92 176,146 328,228" stroke="#1D5FA8" stroke-width="26" fill="none"/></svg>
     <img class="onca-auth" data-img="hero" alt="">
     <div class="folha"></div>
     <div class="marca-auth">
@@ -465,7 +464,7 @@
 
   <!-- ================= SEM ASSINATURA ================= -->
   <section class="tela oculta auth" id="t-bloqueio">
-    <div class="onda"></div>
+    <svg class="onda" viewBox="0 0 320 170" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 C86,26 176,86 320,170 L0,170 Z" fill="#0B7A3B"/><path d="M-6,18 C92,46 182,102 328,186" stroke="#F8C21C" stroke-width="30" fill="none"/><path d="M-6,58 C88,92 176,146 328,228" stroke="#1D5FA8" stroke-width="26" fill="none"/></svg>
     <img class="onca-auth" data-img="hero" alt="">
     <div class="marca-auth">
       <div class="ava"><img data-img="logo" alt=""></div>
