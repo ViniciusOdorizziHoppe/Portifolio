@@ -5,14 +5,17 @@ const GOOGLE_TOKENINFO = 'https://oauth2.googleapis.com/tokeninfo';
 
 /**
  * @param {string} accessToken token devolvido pelo Google Identity Services
- * @param {string} clientId nosso Client ID (publico)
+ * @param {string|string[]} clientIdOuLista nossos Client IDs (publicos). Aceita lista
+ *   porque ja trocamos de Client ID uma vez e o token pode vir do antigo.
  * @returns {{erro?:string, email?:string, nome?:string}}
  */
-export async function verificarTokenGoogle(accessToken, clientId) {
+export async function verificarTokenGoogle(accessToken, clientIdOuLista) {
+  const ids = (Array.isArray(clientIdOuLista) ? clientIdOuLista : [clientIdOuLista])
+    .map((x) => String(x || '').trim()).filter(Boolean);
   if (!accessToken || typeof accessToken !== 'string' || accessToken.length > 4096) {
     return { erro: 'token_invalido' };
   }
-  if (!clientId) return { erro: 'client_id_ausente' };
+  if (!ids.length) return { erro: 'client_id_ausente' };
 
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), 8000);
@@ -28,8 +31,9 @@ export async function verificarTokenGoogle(accessToken, clientId) {
     clearTimeout(t);
   }
 
-  // o token precisa ter sido emitido para o NOSSO app
-  if (String(dados.aud || '') !== String(clientId)) return { erro: 'token_de_outro_app' };
+  // o token precisa ter sido emitido para o NOSSO app (aud ou azp)
+  const emitidoPara = [String(dados.aud || ''), String(dados.azp || '')];
+  if (!emitidoPara.some((x) => ids.includes(x))) return { erro: 'token_de_outro_app' };
   if (dados.email_verified !== true && dados.email_verified !== 'true') return { erro: 'email_nao_verificado' };
 
   const email = String(dados.email || '').trim().toLowerCase();

@@ -119,8 +119,14 @@ export async function google(req, res) {
 
   // .trim() porque variavel colada na Vercel costuma vir com quebra de linha/espaco no fim,
   // e o aud do token nunca vai casar com "abc\n" — isso derrubava todo login valido.
-  const clientId = String(process.env.GOOGLE_CLIENT_ID || '').trim();
-  const v = await verificarTokenGoogle(String(b.access_token || ''), clientId);
+  // Client ID novo sempre entra na lista, e o que estiver na Vercel entra junto
+  // (separado por virgula). Assim o login funciona mesmo se a variavel ainda
+  // apontar para o Client ID antigo.
+  const clientIds = [...new Set([
+    '285860671721-d43m5qqvvqldr83o6l0a9kpqdpgfja5j.apps.googleusercontent.com',
+    ...String(process.env.GOOGLE_CLIENT_ID || '').split(',').map((x) => x.trim()).filter(Boolean)
+  ])];
+  const v = await verificarTokenGoogle(String(b.access_token || ''), clientIds);
   if (v.erro) {
     return json(res, 401, { erro: v.erro, mensagem: 'Não foi possível confirmar sua conta Google.' });
   }
