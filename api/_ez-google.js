@@ -2,6 +2,7 @@
 // e aqui confirmamos com o proprio Google que o token é valido E que foi emitido
 // para o nosso Client ID (aud). Sem client secret, sem confiar no que o cliente diz.
 const GOOGLE_TOKENINFO = 'https://oauth2.googleapis.com/tokeninfo';
+const GOOGLE_USERINFO = 'https://www.googleapis.com/oauth2/v3/userinfo';
 
 /**
  * @param {string} accessToken token devolvido pelo Google Identity Services
@@ -39,9 +40,28 @@ export async function verificarTokenGoogle(accessToken, clientIdOuLista) {
   const email = String(dados.email || '').trim().toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return { erro: 'email_invalido' };
 
+  // o tokeninfo de access token nao traz o nome da pessoa; quando falta, busca no userinfo
+  // (o scope pedido pelo app inclui profile, entao o endpoint responde)
+  let nome = String(dados.name || '').trim();
+  if (!nome) {
+    try {
+      const ctrl2 = new AbortController();
+      const t2 = setTimeout(() => ctrl2.abort(), 6000);
+      const ru = await fetch(GOOGLE_USERINFO, {
+        headers: { Authorization: 'Bearer ' + accessToken },
+        signal: ctrl2.signal
+      });
+      if (ru.ok) {
+        const u = await ru.json();
+        nome = String(u.name || u.given_name || '').trim();
+      }
+      clearTimeout(t2);
+    } catch { /* sem nome do Google: cai no prefixo do e-mail */ }
+  }
+
   return {
     email,
-    nome: String(dados.name || '').trim().slice(0, 80) || email.split('@')[0],
+    nome: nome.slice(0, 80) || email.split('@')[0],
     sub: String(dados.sub || '')
   };
 }
