@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/cacada",
+      "destination": "/enemzeiro/cacada",
+      "permanent": false
+    },
+    {
       "source": "/caderneta",
       "destination": "/caderneta/",
       "permanent": false
@@ -17,6 +22,14 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/enemzeiro/cacada",
+      "destination": "/enemzeiro/cacada.html"
+    },
+    {
+      "source": "/enemzeiro/cacada/",
+      "destination": "/enemzeiro/cacada.html"
+    },
     {
       "source": "/enemzeiro/vendas/",
       "destination": "/enemzeiro/vendas/index.html"
