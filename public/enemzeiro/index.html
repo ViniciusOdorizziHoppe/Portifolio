@@ -169,14 +169,12 @@
 
   /* ---------- LOGIN / CADASTRO ---------- */
   .auth{position:relative;overflow:hidden}
-  .auth .arco{position:absolute;right:-150px;top:-210px;width:470px;height:470px;border-radius:50%;
-    background:linear-gradient(205deg,#0B7A3B 0 30%,#F8C21C 30% 62%,#1D5FA8 62% 100%);
-    -webkit-mask:radial-gradient(circle at 50% 50%,transparent 0 41%,#000 42% 47%,transparent 48% 100%);
-    mask:radial-gradient(circle at 50% 50%,transparent 0 41%,#000 42% 47%,transparent 48% 100%);
-    opacity:.95;z-index:0}
-  /* cabe dentro da tela, com a base dissolvendo antes do primeiro campo
-       (antes: 236px jogados para fora, cortados no topo, direita e na base) */
-    .auth .onca-auth{position:absolute;right:-4px;top:-8px;width:218px;z-index:1;
+  /* onda da bandeira no rodape esquerdo: circulo concentrico recortado pelo canto,
+     entao so a curva aparece (o arco do topo saiu, quem ocupa o canto agora e a onca) */
+  .auth .onda{position:absolute;left:-158px;bottom:-196px;width:300px;height:300px;border-radius:50%;z-index:0;
+    background:#0B7A3B;
+    box-shadow:0 0 0 12px #F8C21C, 0 0 0 20px #1D5FA8, 0 0 0 26px #0B7A3B}
+  .auth .onca-auth{position:absolute;right:-4px;top:-8px;width:218px;z-index:1;
          filter:drop-shadow(0 12px 20px rgba(14,36,51,.12))}
   .auth .folha{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;z-index:0;opacity:.16;
     background:radial-gradient(60% 60% at 50% 50%,#0B7A3B 0 40%,transparent 41%),
@@ -405,7 +403,7 @@
 
   <!-- ================= LOGIN ================= -->
   <section class="tela oculta auth" id="t-login">
-    <div class="arco"></div>
+    <div class="onda"></div>
     <img class="onca-auth" data-img="hero" alt="">
     <div class="folha"></div>
     <div class="marca-auth">
@@ -432,7 +430,7 @@
 
   <!-- ================= CADASTRO ================= -->
   <section class="tela oculta auth" id="t-cadastro">
-    <div class="arco"></div>
+    <div class="onda"></div>
     <img class="onca-auth" data-img="hero" alt="">
     <div class="folha"></div>
     <div class="marca-auth">
@@ -467,7 +465,7 @@
 
   <!-- ================= SEM ASSINATURA ================= -->
   <section class="tela oculta auth" id="t-bloqueio">
-    <div class="arco"></div>
+    <div class="onda"></div>
     <img class="onca-auth" data-img="hero" alt="">
     <div class="marca-auth">
       <div class="ava"><img data-img="logo" alt=""></div>
