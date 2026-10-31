@@ -831,7 +831,8 @@ async function api(metodo, rota, dados) {
     });
     let j = {};
     try { j = await r.json(); } catch (e) {}
-    return Object.assign({ status: r.status }, j);
+    // status do corpo ("ativo"/"inativo") NÃO pode sobrescrever o código HTTP
+    return Object.assign({}, j, { status: r.status });
   } catch (e) {
     return { status: 0, erro: 'rede' };
   }
@@ -936,8 +937,19 @@ async function entrarComGoogle() {
    gClient = google.accounts.oauth2.initTokenClient({
      client_id: GOOGLE_ID,
      scope: 'openid email profile',
+     // sem isso o popup do Google falha em silêncio e o botão parece morto
+     error_callback: (err) => {
+       const tipo = (err && (err.type || err.message)) || '';
+       if (tipo === 'popup_closed') { toast('Login com Google cancelado'); return; }
+       if (tipo === 'popup_failed_to_open') { toast('O navegador bloqueou a janela do Google'); return; }
+       toast('Google não abriu (' + (tipo || 'erro') + '). Use e-mail e senha.');
+     },
      callback: async (resp) => {
-       if (resp.error || !resp.access_token) { toast('Login cancelado'); return; }
+       if (resp.error || !resp.access_token) {
+         toast(resp.error === 'access_denied' ? 'Login com Google cancelado'
+           : 'Google recusou o pedido (' + (resp.error || 'sem token') + '). Use e-mail e senha.');
+         return;
+       }
        const r = await api('POST', '/api/ez/google', { access_token: resp.access_token });
        if (r.status !== 200) { toast(r.mensagem || 'Não foi possível entrar com o Google'); return; }
        st.auth = { logado: true, email: r.email };
@@ -1034,6 +1046,12 @@ async function entrar() {
   }
 
   if (r.status === 429) { toast(r.mensagem || 'Muitas tentativas. Aguarde.'); return; }
+  if (r.status === 400) {
+    toast(r.erro === 'campos'
+      ? 'Preencha e-mail e senha para entrar.'
+      : 'Não foi possível enviar seus dados. Recarregue a página e tente de novo.');
+    return;
+  }
   if (r.status !== 200) { toast(r.mensagem || 'E-mail ou senha não conferem'); return; }
 
   st.auth = { logado: true, email: r.email };
