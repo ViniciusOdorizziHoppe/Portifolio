@@ -329,6 +329,10 @@
   .alt.no .lt{background:var(--red);color:#fff}
   .alt.dim{opacity:.5}
   .alt.travada{cursor:default}
+  /* cada alternativa entra um pouco depois da anterior; acerto dá pop, erro treme */
+  .alt{animation:ezUp .34s cubic-bezier(.16,1,.3,1) both}
+  .alt.ok{animation:ezPop .42s cubic-bezier(.16,1,.3,1)}
+  .alt.no{animation:ezShake .44s cubic-bezier(.36,.07,.19,.97)}
   .foot-fb{padding-top:10px;flex:none;background:linear-gradient(180deg,rgba(246,249,247,0),var(--bg) 30%)}
   .fb{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:800;margin-bottom:11px}
   .btn-blue{background:linear-gradient(180deg,#2A6FBF,#1D5FA8);color:#fff;
@@ -359,18 +363,114 @@
   .hist-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line2)}
   .hist-row:first-child{border-top:0}
 
+  /* ---------- telas que rolam (matérias, revisar, conta) ---------- */
+  .rola{overflow-y:auto!important;overflow-x:hidden;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;padding-bottom:16px}
+  .rola::-webkit-scrollbar{display:none}
+
+  /* ---------- movimento ---------- */
+  @keyframes ezUp{from{opacity:0;transform:translate3d(0,14px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+  @keyframes ezPop{0%{opacity:0;transform:scale(.82)}55%{opacity:1;transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
+  @keyframes ezShake{0%,100%{transform:translateX(0)}18%{transform:translateX(-6px)}38%{transform:translateX(5px)}
+    58%{transform:translateX(-3px)}78%{transform:translateX(2px)}}
+  @keyframes ezPulse{0%{box-shadow:0 0 0 0 rgba(11,122,59,.3)}70%{box-shadow:0 0 0 11px rgba(11,122,59,0)}
+    100%{box-shadow:0 0 0 0 rgba(11,122,59,0)}}
+  @keyframes ezBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes ezFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  @keyframes ezSpark{0%{opacity:1;transform:translate(0,0) scale(1)}
+    100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.15)}}
+  /* entrada em cascata de cada tela: os filhos sobem um depois do outro */
+  .tela.entra>*{animation:ezUp .42s cubic-bezier(.16,1,.3,1) both}
+  .tela.entra>*:nth-child(1){animation-delay:.02s}
+  .tela.entra>*:nth-child(2){animation-delay:.07s}
+  .tela.entra>*:nth-child(3){animation-delay:.12s}
+  .tela.entra>*:nth-child(4){animation-delay:.17s}
+  .tela.entra>*:nth-child(5){animation-delay:.22s}
+  .tela.entra>*:nth-child(6){animation-delay:.26s}
+  .tela.entra>*:nth-child(n+7){animation-delay:.3s}
+  .tela.entra .bar i{animation:ezBar .7s cubic-bezier(.16,1,.3,1) both;transform-origin:left center}
+  .ring circle#ring-ok{transition:stroke-dashoffset .9s cubic-bezier(.16,1,.3,1)}
+  .chip-streak.pulsa{animation:ezPulse 1.7s cubic-bezier(.16,1,.3,1) 1}
+  .pintas .pinta.on,.pintas2 .pinta.on{animation:ezPop .35s cubic-bezier(.16,1,.3,1) both}
+  .fab-area svg,.hero .media img{will-change:transform}
+
+  /* faísca do acerto: pinta verde que sai voando do botão */
+  .spark{position:fixed;width:7px;height:7px;border-radius:50%;pointer-events:none;z-index:70;
+    background:var(--green2);animation:ezSpark .62s ease-out forwards}
+
+  /* ---------- matérias ---------- */
+  .area-card{background:var(--card);border:1px solid var(--line);border-radius:19px;box-shadow:var(--sh);
+    padding:14px;margin-bottom:10px}
+  .area-card .topo{display:flex;align-items:center;gap:11px}
+  .area-card .topo .ic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none}
+  .area-card .topo .ic svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2}
+  .area-card .topo .nm{flex:1;min-width:0}
+  .area-card .topo .nm b{display:block;font-size:14.5px;font-weight:900;letter-spacing:-.02em}
+  .area-card .topo .nm small{display:block;font-size:11.5px;color:var(--dim);font-weight:600;margin-top:1px}
+  .area-card .topo .taxa{font-size:16px;font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  .area-card .track{height:6px;border-radius:99px;background:#EDF1EE;margin-top:11px;overflow:hidden}
+  .area-card .track i{display:block;height:100%;border-radius:99px;transform-origin:left center}
+  .area-card .acoes{display:flex;gap:8px;margin-top:11px}
+  .area-card .acoes button{flex:1;border:0;border-radius:12px;padding:11px 8px;font-family:inherit;
+    font-size:12.5px;font-weight:900;cursor:pointer;transition:transform .12s}
+  .area-card .acoes button:active{transform:scale(.97)}
+  .area-card .acoes .b1{background:var(--green);color:#fff}
+  .area-card .acoes .b2{background:#F2F7F4;color:var(--ink);border:1px solid var(--line)}
+
+  /* ---------- gráfico da evolução ---------- */
+  .graf{display:flex;align-items:flex-end;gap:8px;height:92px}
+  .graf .col{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;
+    gap:6px;height:100%}
+  .graf .col i{width:100%;max-width:24px;border-radius:7px 7px 3px 3px;display:block;min-height:5px;
+    background:linear-gradient(180deg,var(--green2),var(--green));
+    transform-origin:bottom center;transform:scaleY(0);transition:transform .7s cubic-bezier(.16,1,.3,1)}
+  .graf .col i.baixo{background:linear-gradient(180deg,#E9AF08,var(--yellow))}
+  .graf .col span{font-size:9.5px;color:var(--dim2);font-weight:800;letter-spacing:.02em;white-space:nowrap}
+
+  /* ---------- revisar ---------- */
+  .rev-hero{background:linear-gradient(180deg,#FFFFFF,#F7FBF8);border:1px solid var(--line);
+    border-radius:22px;padding:18px;box-shadow:var(--sh);position:relative;overflow:hidden}
+  .rev-hero:after{content:"";position:absolute;width:158px;height:158px;right:-64px;top:-70px;border-radius:50%;
+    background:radial-gradient(circle,rgba(248,194,28,.22),transparent 68%)}
+  .rev-hero .num{font-size:52px;line-height:.95;font-weight:900;letter-spacing:-.05em;
+    font-variant-numeric:tabular-nums;position:relative;z-index:1}
+  .rev-hero .leg{font-size:12.5px;color:var(--dim);font-weight:600;margin-top:6px;max-width:30ch;line-height:1.5;
+    position:relative;z-index:1}
+  .rev-linha{display:flex;align-items:center;gap:11px;padding:12px 2px;border-top:1px solid var(--line2)}
+  .rev-linha .nm{flex:1;font-size:13px;font-weight:800}
+  .rev-linha .nx{font-size:12px;font-weight:900;color:var(--red);font-variant-numeric:tabular-nums}
+  .vazio{text-align:center;padding:22px 18px;font-size:13px;color:var(--dim);line-height:1.55;font-weight:600}
+
+  /* ---------- conta ---------- */
+  .conta-linha{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line2)}
+  .conta-linha:first-child{border-top:0}
+  .conta-linha .ic{width:34px;height:34px;border-radius:11px;background:#F1F6F3;display:grid;place-items:center;flex:none}
+  .conta-linha .ic svg{width:18px;height:18px;stroke:var(--green);fill:none;stroke-width:2}
+  .conta-linha .tx{flex:1;min-width:0}
+  .conta-linha .tx b{display:block;font-size:13.5px;font-weight:800}
+  .conta-linha .tx small{display:block;font-size:11.5px;color:var(--dim);font-weight:600;margin-top:1px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .seg{display:flex;gap:8px;margin-top:4px}
+  .seg button{flex:1;background:#F7FAF8;border:1.5px solid var(--line);border-radius:14px;padding:13px 6px;
+    font-family:inherit;color:var(--ink);font-size:13px;font-weight:900;cursor:pointer;transition:.15s}
+  .seg button.on{background:var(--green-bg);border-color:var(--green);box-shadow:0 0 0 3px rgba(11,122,59,.07)}
+  .seg button span{display:block;font-size:10px;color:var(--dim);font-weight:700;margin-top:2px}
+
   /* ---------- nav ---------- */
   .nav{position:relative;flex:none!important;z-index:30;height:calc(48px + env(safe-area-inset-bottom));
     padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.98);
     backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex}
-  .nav button{flex:1;background:0;border:0;color:#93A69D;font-family:inherit;font-size:9px;font-weight:900;
-    letter-spacing:.1em;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;
-    padding:9px 0 0;position:relative}
+  .nav button{flex:1;min-width:0;background:0;border:0;color:#93A69D;font-family:inherit;font-size:8.6px;font-weight:900;
+    letter-spacing:.06em;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;
+    padding:9px 0 0;position:relative;transition:color .2s}
   .nav button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2.1;
-    stroke-linecap:round;stroke-linejoin:round}
+    stroke-linecap:round;stroke-linejoin:round;transition:transform .24s cubic-bezier(.16,1,.3,1)}
   .nav button.on{color:var(--green)}
-  .nav button.on:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
-    width:44px;height:3px;border-radius:0 0 4px 4px;background:var(--green)}
+  .nav button.on svg{animation:ezPop .4s cubic-bezier(.16,1,.3,1)}
+  /* marcador que desliza entre as abas em vez de piscar de um lado pro outro */
+  .nav .ind{position:absolute;top:0;left:0;height:3px;border-radius:0 0 4px 4px;background:var(--green);
+    width:calc(100% / 5);transform:translateX(0);
+    transition:transform .36s cubic-bezier(.16,1,.3,1);will-change:transform}
   @media (max-height:720px){
     .hero{padding:11px 12px 9px}
     .hero h2{font-size:20px;margin:8px 0 6px}
@@ -394,6 +494,11 @@
     background:var(--ink);color:#fff;font-size:12.5px;font-weight:800;padding:11px 17px;border-radius:99px;
     opacity:0;transition:.25s;pointer-events:none;z-index:60;box-shadow:0 8px 24px rgba(14,36,51,.25)}
   .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  /* quem pediu menos movimento no sistema não recebe nenhuma animação */
+  @media (prefers-reduced-motion:reduce){
+    *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;
+      transition-duration:.001ms!important;scroll-behavior:auto!important}
+  }
 </style>
 </head>
 <body>
@@ -661,6 +766,12 @@
 
     <div class="h3">
       <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+      Evolução das caçadas
+    </div>
+    <div class="card" id="p-chart" style="padding:16px 14px 12px"></div>
+
+    <div class="h3">
+      <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
       Acerto por área
     </div>
     <div class="card areas" id="p-areas"></div>
@@ -671,15 +782,133 @@
     </div>
     <div class="card" id="p-hist"></div>
 
-    <button class="btn btn-ghost" style="margin-top:12px" onclick="sairConta()">Sair da conta</button>
+    <p style="font-size:11.5px;color:var(--dim2);line-height:1.55;margin:12px 0 6px">
+      Sair da conta e recomeçar do zero ficam na aba Conta.
+    </p>
+  </section>
+
+  <!-- ================= MATÉRIAS ================= -->
+  <section class="tela oculta rola" id="t-mat">
+    <div class="topbar">
+      <div class="perfil">
+        <div class="ava"><img data-img="logo" alt=""></div>
+        <div class="nm"><b>Matérias</b><small id="m-sub">onde você ganha mais pontos</small></div>
+      </div>
+      <div class="chip-streak">
+        <svg viewBox="0 0 24 24"><path d="M12 2c1 4-2 5-2 8a3 3 0 0 0 6 0c0-1-.5-2-1-3 3 2 5 4.5 5 8a8 8 0 1 1-16 0c0-5 4-8 8-13z"/></svg>
+        <b id="m-streak">0</b><span>DIAS</span>
+      </div>
+    </div>
+
+    <div class="rev-hero">
+      <div class="kicker">Onde treinar primeiro</div>
+      <div id="m-foco" style="font-size:22px;font-weight:900;letter-spacing:-.035em;margin-top:7px;position:relative;z-index:1">Linguagens</div>
+      <div class="leg" id="m-foco-leg">Você acerta 50% aqui. Duas sessões de cinco questões já mudam esse número.</div>
+    </div>
+
+    <div class="h3">
+      <svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h10"/></svg>
+      As quatro áreas
+    </div>
+    <div id="m-lista"></div>
+
+    <p style="font-size:11.5px;color:var(--dim2);line-height:1.55;margin:2px 0 4px">
+      O app já pesa a fila do dia pela sua taxa de acerto. Treinar por matéria é para quando você quer focar em uma só.
+    </p>
+  </section>
+
+  <!-- ================= REVISAR ================= -->
+  <section class="tela oculta rola" id="t-rev">
+    <div class="topbar">
+      <div class="perfil">
+        <div class="ava"><img data-img="logo" alt=""></div>
+        <div class="nm"><b>Revisar</b><small id="r-sub">o que você errou volta aqui</small></div>
+      </div>
+      <div class="chip-streak">
+        <svg viewBox="0 0 24 24"><path d="M12 2c1 4-2 5-2 8a3 3 0 0 0 6 0c0-1-.5-2-1-3 3 2 5 4.5 5 8a8 8 0 1 1-16 0c0-5 4-8 8-13z"/></svg>
+        <b id="r-streak">0</b><span>DIAS</span>
+      </div>
+    </div>
+
+    <div class="rev-hero">
+      <div class="kicker">Questões esperando revisão</div>
+      <div class="num" id="r-num">0</div>
+      <div class="leg" id="r-leg">Toda questão que você erra entra nesta fila. Acertar aqui tira ela da lista.</div>
+      <button class="btn btn-green" style="margin-top:14px;position:relative;z-index:1" id="r-botao" onclick="iniciarRevisao()">
+        Revisar agora
+      </button>
+    </div>
+
+    <div class="h3">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+      Pendências por área
+    </div>
+    <div class="card" id="r-lista"></div>
+
+    <p style="font-size:11.5px;color:var(--dim2);line-height:1.55;margin:10px 0 4px">
+      Errar é informação, não fracasso: a revisão usa exatamente as questões em que você caiu.
+    </p>
+  </section>
+
+  <!-- ================= CONTA ================= -->
+  <section class="tela oculta rola" id="t-conta">
+    <div class="topbar">
+      <div class="perfil">
+        <div class="ava"><img data-img="logo" alt=""></div>
+        <div class="nm"><b id="c-nome">Sua conta</b><small id="c-email">—</small></div>
+      </div>
+    </div>
+
+    <div class="h3">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      Meta de questões por dia
+    </div>
+    <div class="seg" id="c-meta">
+      <button data-m="5">5<span>~3 min</span></button>
+      <button data-m="10">10<span>~6 min</span></button>
+      <button data-m="15">15<span>~9 min</span></button>
+    </div>
+
+    <div class="h3">
+      <svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>
+      Sua conta
+    </div>
+    <div class="card">
+      <div class="conta-linha">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div>
+        <div class="tx"><b id="c-xp">0 xp</b><small id="c-nivel">filhote · 0 pintas</small></div>
+      </div>
+      <div class="conta-linha">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+        <div class="tx"><b id="c-total">0 questões</b><small id="c-acerto">0% de acerto geral</small></div>
+      </div>
+      <div class="conta-linha">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2c1 4-2 5-2 8a3 3 0 0 0 6 0c0-1-.5-2-1-3 3 2 5 4.5 5 8a8 8 0 1 1-16 0c0-5 4-8 8-13z"/></svg></div>
+        <div class="tx"><b id="c-streak">0 dias seguidos</b><small id="c-ultimo">nenhuma caçada ainda</small></div>
+      </div>
+    </div>
+
+    <div style="height:12px"></div>
+    <button class="btn btn-ghost" onclick="sairConta()">Sair da conta</button>
     <button class="btn btn-ghost" style="margin-top:8px" onclick="zerar()">Recomeçar do zero</button>
+
+    <p style="font-size:11px;color:var(--dim2);text-align:center;line-height:1.6;margin:14px 0 4px">
+      Enemzeiro · questões oficiais do ENEM<br>Seu progresso fica salvo na sua conta.
+    </p>
   </section>
 
   <nav class="nav oculta" id="nav">
+    <span class="ind" id="nav-ind"></span>
     <button class="on" id="nv-home" onclick="irHome()">
       <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>CAÇAR</button>
+    <button id="nv-mat" onclick="irMat()">
+      <svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h10"/></svg>MATÉRIAS</button>
+    <button id="nv-rev" onclick="irRev()">
+      <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>REVISAR</button>
     <button id="nv-prog" onclick="irProg()">
       <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>PROGRESSO</button>
+    <button id="nv-conta" onclick="irConta()">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 21c0-3.9 3.4-6.4 7.5-6.4s7.5 2.5 7.5 6.4"/></svg>CONTA</button>
   </nav>
 
   <div class="toast" id="toast"></div>
@@ -698,10 +927,18 @@ const AREAS = {
 const CHAVE = "enemzeiro_v1";
 
 let st = { nome:"", meta:10, fracas:[], xp:0, vistos:{}, stats:{}, streak:{dias:0, ultimo:null},
-           hist:[], auth:{logado:false,email:""}, criado:Date.now() };
+           hist:[], auth:{logado:false,email:""}, criado:Date.now(), erradas:{} };
 Object.keys(AREAS).forEach(k => st.stats[k] = {ok:0, tot:0});
 
-function carregar(){ try{ const raw = localStorage.getItem(CHAVE); if(raw) st = Object.assign(st, JSON.parse(raw)); }catch(e){} }
+function carregar(){
+  try{ const raw = localStorage.getItem(CHAVE); if(raw) st = Object.assign(st, JSON.parse(raw)); }catch(e){}
+  // quem já usava o app antes da aba Revisar: as questões vistas com 0 são justamente as erradas
+  if(!st.erradas || typeof st.erradas !== "object"){
+    st.erradas = {};
+    Object.keys(st.vistos || {}).forEach(id => { if(!st.vistos[id]) st.erradas[id] = 1; });
+  }
+  if(!Array.isArray(st.hist)) st.hist = [];
+}
 function salvar(){ try{ localStorage.setItem(CHAVE, JSON.stringify(st)); }catch(e){}
   if (typeof agendarEnvio === 'function') agendarEnvio(); }
 function hoje(){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
@@ -731,8 +968,29 @@ function pesos(){
 }
 function escolherArea(p){ const r=Math.random(); let acc=0;
   for(const k of Object.keys(p)){ acc+=p[k]; if(r<=acc) return k; } return Object.keys(p)[0]; }
-function montarFila(n){
-  const fila=[], p=pesos(), usados=new Set(); let guard=0;
+function montarFila(n, opts){
+  opts = opts || {};
+  const fila=[], usados=new Set(); let guard=0;
+
+  /* treino de uma área só ou revisão de questões específicas: fila direta, sem peso */
+  if(opts.area || opts.ids){
+    let base = opts.ids
+      ? BANCO.filter(q => opts.ids.indexOf(q.id) >= 0)
+      : BANCO.filter(q => q.area === opts.area);
+    if(opts.area && !opts.ids){
+      // primeiro as que a pessoa nunca viu, depois as já vistas
+      base = base.filter(q=>!st.vistos[q.id]).concat(base.filter(q=>st.vistos[q.id]));
+    }
+    while(fila.length<n && guard++<400 && base.length){
+      const livre = base.filter(q=>!usados.has(q.id));
+      if(!livre.length) break;
+      const escolha = livre[Math.floor(Math.random()*livre.length)];
+      fila.push(escolha); usados.add(escolha.id);
+    }
+    return fila;
+  }
+
+  const p=pesos();
   while(fila.length<n && guard++<400){
     const area = escolherArea(p);
     const pool = BANCO.filter(q=>q.area===area && !st.vistos[q.id] && !usados.has(q.id));
@@ -799,11 +1057,21 @@ function montarOnb(){
 }
 
 /* ================= NAVEGAÇÃO ================= */
+const TELAS = ["t-login","t-cadastro","t-bloqueio","t-onb","t-home","t-desafio","t-fim","t-prog",
+               "t-mat","t-rev","t-conta"];
 function mostrar(id){
-  ["t-login","t-cadastro","t-bloqueio","t-onb","t-home","t-desafio","t-fim","t-prog"]
-    .forEach(t=>document.getElementById(t).classList.add("oculta"));
-  document.getElementById(id).classList.remove("oculta");
-  const semNav = (id==="t-onb"||id==="t-desafio"||id==="t-login"||id==="t-cadastro"||id==="t-bloqueio");
+  TELAS.forEach(t=>{
+    const el = document.getElementById(t);
+    if(!el) return;
+    el.classList.add("oculta");
+    el.classList.remove("entra");
+  });
+  const alvo = document.getElementById(id);
+  alvo.classList.remove("oculta");
+  void alvo.offsetWidth;          // força o navegador a reiniciar a animação de entrada
+  alvo.classList.add("entra");
+  if(alvo.classList.contains("rola")) alvo.scrollTop = 0;
+  const semNav = (id==="t-onb"||id==="t-desafio"||id==="t-login"||id==="t-cadastro"||id==="t-bloqueio"||id==="t-fim");
   document.getElementById("nav").classList.toggle("oculta", semNav);
   document.getElementById("nav").classList.toggle("hidden", semNav);
   window.scrollTo(0,0);
@@ -834,11 +1102,11 @@ async function api(metodo, rota, dados) {
 
 function dadosDoJogo() {
   return { nome: st.nome, meta: st.meta, fracas: st.fracas, xp: st.xp,
-           vistos: st.vistos, stats: st.stats, streak: st.streak, hist: st.hist };
+           vistos: st.vistos, stats: st.stats, streak: st.streak, hist: st.hist, erradas: st.erradas };
 }
 function aplicarDados(d) {
   if (!d || typeof d !== 'object') return;
-  ['nome','meta','fracas','xp','vistos','stats','streak','hist'].forEach(function (k) {
+  ['nome','meta','fracas','xp','vistos','stats','streak','hist','erradas'].forEach(function (k) {
     if (d[k] !== undefined && d[k] !== null) st[k] = d[k];
   });
   Object.keys(AREAS).forEach(function (k) {
@@ -1083,8 +1351,71 @@ async function sairConta() {
 
 function irHome(){ mostrar("t-home"); renderHome(); marcarNav("nv-home"); }
 function irProg(){ mostrar("t-prog"); renderProg(); marcarNav("nv-prog"); }
-function marcarNav(id){ document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("on"));
-  document.getElementById(id).classList.add("on"); }
+function irMat(){ mostrar("t-mat"); renderMat(); marcarNav("nv-mat"); }
+function irRev(){ mostrar("t-rev"); renderRev(); marcarNav("nv-rev"); }
+function irConta(){ mostrar("t-conta"); renderConta(); marcarNav("nv-conta"); }
+function marcarNav(id){
+  const botoes = [...document.querySelectorAll(".nav button")];
+  botoes.forEach(b=>b.classList.remove("on"));
+  const alvo = document.getElementById(id);
+  if(alvo) alvo.classList.add("on");
+  const i = Math.max(0, botoes.indexOf(alvo));
+  const ind = document.getElementById("nav-ind");
+  if(ind) ind.style.transform = "translateX(" + (i * 100) + "%)";
+}
+
+/* ================= MOVIMENTO ================= */
+/* semmov=1 na URL desliga o movimento: e o que o script de prints usa para a
+   captura nao cair no meio da animacao */
+const SEM_MOVIMENTO = (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+  || location.search.indexOf("semmov") >= 0;
+
+/* número que sobe de 0 até o valor final em vez de aparecer pronto */
+function contar(el, alvo, sufixo, ms){
+  if(!el) return;
+  sufixo = sufixo || "";
+  const fim = Number(alvo) || 0;
+  if(SEM_MOVIMENTO || !window.requestAnimationFrame){ el.textContent = fim + sufixo; return; }
+  const dur = ms || 700, t0 = performance.now(), de = Number(el.dataset.de) || 0;
+  el.dataset.de = fim;
+  function passo(t){
+    const p = Math.min(1, (t - t0) / dur);
+    const e = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(de + (fim - de) * e) + sufixo;
+    if(p < 1) requestAnimationFrame(passo);
+  }
+  requestAnimationFrame(passo);
+  // rede de seguranca: se o navegador travar o rAF (aba em segundo plano), o valor final entra igual
+  setTimeout(()=>{ el.textContent = fim + sufixo; }, dur + 200);
+}
+
+/* barra horizontal: anima por scaleX (GPU), sem tocar em layout */
+function animarBarra(el, pct, cor){
+  if(!el) return;
+  el.style.width = "100%";
+  if(cor) el.style.background = cor;
+  el.style.transform = "scaleX(" + (Math.max(0, Math.min(100, pct)) / 100) + ")";
+}
+
+/* faíscas saindo do botão quando acerta — 10 pontinhos, some sozinho em 0,6s */
+function faisca(el){
+  if(!el || SEM_MOVIMENTO) return;
+  const r = el.getBoundingClientRect();
+  const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  for(let i=0;i<10;i++){
+    const s = document.createElement("i");
+    s.className = "spark";
+    const ang = (Math.PI * 2 * i) / 10 + Math.random() * 0.4;
+    const dist = 34 + Math.random() * 30;
+    s.style.left = cx + "px";
+    s.style.top = cy + "px";
+    s.style.setProperty("--dx", Math.cos(ang) * dist + "px");
+    s.style.setProperty("--dy", Math.sin(ang) * dist + "px");
+    s.style.animationDelay = (i * 8) + "ms";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(), 800);
+  }
+}
 
 /* ================= HOME ================= */
 function iconeArea(k){
@@ -1093,20 +1424,26 @@ function iconeArea(k){
 }
 function renderHome(){
   document.getElementById("h-nome").textContent = st.nome || "Enemzeiro";
-  document.getElementById("h-streak").textContent = st.streak.dias;
+  contar(document.getElementById("h-streak"), st.streak.dias);
   document.getElementById("h-streak-lb").textContent = st.streak.dias === 1 ? "DIA" : "DIAS";
   document.getElementById("h-frase").textContent = "meta de hoje: " + st.meta + " questões";
   document.getElementById("h-meta2").textContent = st.meta;
 
+  // a chama da sequência pulsa uma vez quando a home abre
+  const chip = document.querySelector("#t-home .chip-streak");
+  if(chip){ chip.classList.remove("pulsa"); void chip.offsetWidth; chip.classList.add("pulsa"); }
+
   const total = Object.values(st.stats).reduce((a,s)=>a+s.tot,0);
   const ok = Object.values(st.stats).reduce((a,s)=>a+s.ok,0);
   const pct = total ? Math.round(ok/total*100) : 0;
-  document.getElementById("h-acertos").textContent = pct + "%";
-  document.getElementById("ring-lb").textContent = pct + "%";
+  contar(document.getElementById("h-acertos"), pct, "%", 800);
+  contar(document.getElementById("ring-lb"), pct, "%", 800);
   const dash = 141 - (141 * pct / 100);
   document.getElementById("ring-ok").setAttribute("stroke-dashoffset", dash);
 
-  document.getElementById("h-xp").innerHTML = st.xp + ' <span style="font-size:13px;color:#93A69D">xp</span>';
+  const elXp = document.getElementById("h-xp");
+  elXp.innerHTML = '<span id="h-xp-num">0</span> <span style="font-size:13px;color:#93A69D">xp</span>';
+  contar(document.getElementById("h-xp-num"), st.xp, "", 900);
   const nivelXp = Math.min(100, Math.round((st.xp % 200) / 2));
   document.getElementById("h-xpbar").style.width = Math.max(8, nivelXp) + "%";
 
@@ -1121,13 +1458,13 @@ function renderHome(){
 
   const pintas = Math.min(st.streak.dias, 11);
   let ph = "";
-  for(let i=0;i<11;i++) ph += `<i class="pinta ${i<pintas?"on":""}"></i>`;
+  for(let i=0;i<11;i++) ph += `<i class="pinta ${i<pintas?"on":""}" style="animation-delay:${i*28}ms"></i>`;
   document.getElementById("h-pintas").innerHTML = ph;
 
   document.getElementById("h-areas").innerHTML = Object.keys(AREAS).map(k=>{
     const ar = AREAS[k], s = st.stats[k];
     const t = s.tot ? Math.round(s.ok/s.tot*100) : 0;
-    return `<div class="area-row">
+    return `<div class="area-row" onclick="treinarArea('${k}')" style="cursor:pointer">
       ${iconeArea(k)}
       <div class="mid">
         <div class="ln"><span class="nm">${ar.nome}</span>
@@ -1140,11 +1477,15 @@ function renderHome(){
 }
 
 /* ================= DESAFIO ================= */
-let dz = {fila:[], i:0, ok:0, t0:0, respondido:false, timer:null};
-function iniciar(n){
-  const fila = montarFila(n);
-  if(!fila.length){ toast("Você já fez todas as questões. Reseta no progresso."); return; }
-  dz = {fila, i:0, ok:0, t0:Date.now(), respondido:false, timer:null};
+let dz = {fila:[], i:0, ok:0, t0:0, respondido:false, timer:null, revisao:false};
+function iniciar(n, opts){
+  opts = opts || {};
+  const fila = montarFila(n, opts);
+  if(!fila.length){
+    toast(opts.ids ? "Nada para revisar por aqui." : "Você já fez todas as questões. Reseta no progresso.");
+    return;
+  }
+  dz = {fila, i:0, ok:0, t0:Date.now(), respondido:false, timer:null, revisao:!!opts.revisao};
   mostrar("t-desafio");
   clearInterval(dz.timer);
   dz.timer = setInterval(()=>{
@@ -1152,6 +1493,17 @@ function iniciar(n){
     document.getElementById("dz-time").textContent = Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
   }, 500);
   renderQ();
+}
+/* treino de uma matéria só, a partir da home ou da aba Matérias */
+function treinarArea(k, n){
+  if(!AREAS[k]) return;
+  iniciar(n || 5, {area: k});
+}
+/* fila de revisão: só o que já foi errado */
+function iniciarRevisao(){
+  const ids = Object.keys(st.erradas || {}).filter(id => BANCO.some(q => q.id === id));
+  if(!ids.length){ toast("Nada para revisar. Faça uma caçada primeiro."); return; }
+  iniciar(Math.min(10, ids.length), {ids, revisao:true});
 }
 function renderQ(){
   const q = dz.fila[dz.i];
@@ -1161,13 +1513,15 @@ function renderQ(){
   const ca = document.getElementById("q-area");
   ca.textContent = a.nome;
   ca.style.background = a.cor; ca.style.color = (q.area==="ciencias-natureza") ? "#3A2C05" : "#fff";
-  document.getElementById("q-fonte").textContent = "ENEM " + q.ano + " · Q" + q.idx;
+  document.getElementById("q-fonte").textContent = dz.revisao
+    ? "Revisão · ENEM " + q.ano + " · Q" + q.idx
+    : "ENEM " + q.ano + " · Q" + q.idx;
   const ctx = document.getElementById("q-ctx");
   if(q.ctx){ ctx.innerHTML = fmtCtx(q.ctx); ctx.classList.remove("hidden");
     ctx.classList.toggle("longa", q.ctx.length > 190); } else { ctx.classList.add("hidden"); }
   document.getElementById("q-stem").innerHTML = fmtStem(q.intro || "Assinale a alternativa correta.");
-  document.getElementById("q-alts").innerHTML = q.alts.map(al=>
-    `<button class="alt" data-l="${al.l}" onclick="responder('${al.l}')">
+  document.getElementById("q-alts").innerHTML = q.alts.map((al,i)=>
+    `<button class="alt" data-l="${al.l}" onclick="responder('${al.l}')" style="animation-delay:${i*45}ms">
        <span class="lt">${al.l}</span><span>${fmt(al.t)}</span></button>`).join("");
   document.getElementById("fb").classList.add("hidden");
   document.getElementById("bt-next").classList.add("hidden");
@@ -1252,6 +1606,10 @@ function responder(letra){
   if(certo) dz.ok++;
   st.stats[q.area].tot++; if(certo) st.stats[q.area].ok++;
   st.vistos[q.id] = certo ? 1 : 0;
+  // revisão espaçada: errou, fica na fila; acertou, sai dela
+  if(!st.erradas || typeof st.erradas !== "object") st.erradas = {};
+  if(certo) delete st.erradas[q.id];
+  else st.erradas[q.id] = (st.erradas[q.id] || 0) + 1;
 
   document.querySelectorAll("#q-alts .alt").forEach(el=>{
     const l = el.dataset.l;
@@ -1261,9 +1619,15 @@ function responder(letra){
     else el.classList.add("dim");
     el.onclick = null;
   });
+  if(certo){
+    const marco = document.querySelector('#q-alts .alt[data-l="' + letra + '"]');
+    faisca(marco);
+  }
   const fb = document.getElementById("fb");
   fb.className = "fb " + (certo ? "ok" : "no");
-  fb.textContent = certo ? "✓ Isso. +10 xp" : "✕ A correta é " + q.ok + ". Anota o padrão, não a questão.";
+  fb.textContent = certo
+    ? (dz.revisao ? "✓ Acertou. Essa saiu da revisão." : "✓ Isso. +10 xp")
+    : "✕ A correta é " + q.ok + ". Anota o padrão, não a questão.";
   fb.classList.remove("hidden");
   const bt = document.getElementById("bt-next");
   bt.classList.remove("hidden");
@@ -1291,15 +1655,30 @@ function fim(){
 
   document.getElementById("fim-acertos").textContent = dz.ok+"/"+dz.fila.length;
   document.getElementById("fim-tempo").textContent = Math.floor(seg/60)+":"+String(seg%60).padStart(2,"0");
-  document.getElementById("fim-xp").textContent = "+"+ganho;
+  const elXpFim = document.getElementById("fim-xp");
+  elXpFim.textContent = "+0";
+  if(window.requestAnimationFrame && !SEM_MOVIMENTO){
+    const t0 = performance.now(), dur = 750;
+    (function sobe(t){
+      const p = Math.min(1, (t - t0) / dur);
+      elXpFim.textContent = "+" + Math.round(ganho * (1 - Math.pow(1 - p, 3)));
+      if(p < 1) requestAnimationFrame(sobe);
+    })(t0);
+  } else { elXpFim.textContent = "+"+ganho; }
   let fp = ""; const qtd = Math.min(st.streak.dias,14);
-  for(let i=0;i<14;i++) fp += `<i class="pinta ${i<qtd?"on":""}"></i>`;
+  for(let i=0;i<14;i++) fp += `<i class="pinta ${i<qtd?"on":""}" style="animation-delay:${i*40}ms"></i>`;
   document.getElementById("fim-pintas").innerHTML = fp;
   const pct = dz.ok/dz.fila.length;
-  document.getElementById("fim-titulo").textContent = pct>=.8 ? "Caçada limpa" : pct>=.5 ? "Caçada concluída" : "Caçada difícil";
-  document.getElementById("fim-sub").textContent = st.streak.dias===1
-    ? "Primeira pinta da onça. Amanhã ela ganha a segunda."
-    : "A onça está com " + st.streak.dias + " pintas. Não quebra a corrente.";
+  document.getElementById("fim-titulo").textContent = dz.revisao
+    ? (pct>=.8 ? "Revisão vencida" : "Revisão feita")
+    : (pct>=.8 ? "Caçada limpa" : pct>=.5 ? "Caçada concluída" : "Caçada difícil");
+  const pendentes = Object.keys(st.erradas || {}).length;
+  document.getElementById("fim-sub").textContent = dz.revisao
+    ? (pendentes ? pendentes + (pendentes===1?" questão ainda esperando revisão.":" questões ainda esperando revisão.")
+                 : "Fila de revisão zerada. Nada ficou para trás.")
+    : (st.streak.dias===1
+        ? "Primeira pinta da onça. Amanhã ela ganha a segunda."
+        : "A onça está com " + st.streak.dias + " pintas. Não quebra a corrente.");
   mostrar("t-fim");
 }
 function compartilhar(){
@@ -1343,7 +1722,141 @@ function renderProg(){
         <div style="font-size:11.5px;color:#6E8279;font-weight:600">${Math.floor(h.s/60)}:${String(h.s%60).padStart(2,"0")} de caçada</div></div>
       </div>`).join("")
     : `<div style="padding:18px 16px;font-size:13px;color:#6E8279">Nenhuma caçada ainda. Cinco questões levam 3 minutos.</div>`;
+
+  // gráfico: acerto das últimas caçadas, da mais antiga para a mais nova
+  const alvo = document.getElementById("p-chart");
+  const ultimas = st.hist.slice(0,7).reverse();
+  if(!ultimas.length){
+    alvo.innerHTML = `<div class="vazio">O gráfico aparece depois da primeira caçada.</div>`;
+  } else {
+    alvo.innerHTML = `<div class="graf">${ultimas.map(h=>{
+      const p = h.n ? Math.round(h.ok/h.n*100) : 0;
+      const alt = Math.max(6, p);
+      return `<div class="col" title="${p}% de acerto">
+        <i data-y="${alt}" class="${p<50?"baixo":""}" style="height:${alt}%"></i>
+        <span>${String(h.d).slice(8,10)}/${String(h.d).slice(5,7)}</span>
+      </div>`;
+    }).join("")}</div>`;
+    requestAnimationFrame(()=>{
+      document.querySelectorAll("#p-chart .graf i").forEach(b=>{ b.style.transform = "scaleY(1)"; });
+    });
+  }
 }
+/* ================= MATÉRIAS ================= */
+function renderMat(){
+  const total = Object.values(st.stats).reduce((a,s)=>a+s.tot,0);
+  document.getElementById("m-streak").textContent = st.streak.dias;
+  document.getElementById("m-sub").textContent = total + (total===1 ? " questão respondida" : " questões respondidas");
+
+  const fr = areaMaisFraca();
+  const a = AREAS[fr] || AREAS["ciencias-humanas"];
+  const s0 = st.stats[fr];
+  const taxaF = s0.tot ? Math.round(s0.ok/s0.tot*100) : null;
+  document.getElementById("m-foco").textContent = a.nome;
+  document.getElementById("m-foco-leg").textContent = taxaF === null
+    ? "Ainda sem dados aqui. Cinco questões já mostram onde você está."
+    : "Você acerta " + taxaF + "% em " + a.nome + " (" + s0.ok + " de " + s0.tot + "). É a área que mais rende ponto agora.";
+
+  document.getElementById("m-lista").innerHTML = Object.keys(AREAS).map(k=>{
+    const ar = AREAS[k], s = st.stats[k];
+    const t = s.tot ? Math.round(s.ok/s.tot*100) : 0;
+    const largura = s.tot ? Math.max(t,2) : 0;
+    return `<div class="area-card">
+      <div class="topo">
+        <div class="ic" style="background:${ar.cor}"><svg viewBox="0 0 24 24">${ar.ic}</svg></div>
+        <div class="nm"><b>${ar.nome}</b><small>${s.tot ? s.ok + " de " + s.tot + " certas" : "nenhuma questão ainda"}</small></div>
+        <div class="taxa" style="color:${s.tot ? ar.cor : "#93A69D"}">${s.tot ? t + "%" : "—"}</div>
+      </div>
+      <div class="track"><i data-p="${largura}" style="width:100%;background:${ar.cor};
+        transform:scaleX(0);transition:transform .75s cubic-bezier(.16,1,.3,1)"></i></div>
+      <div class="acoes">
+        <button class="b1" onclick="treinarArea('${k}',5)">Treinar 5</button>
+        <button class="b2" onclick="treinarArea('${k}',10)">10 questões</button>
+      </div>
+    </div>`;
+  }).join("");
+
+  // as barras crescem depois que entram na tela (transform, sem tocar em layout)
+  requestAnimationFrame(()=>{
+    document.querySelectorAll("#m-lista .track i").forEach(b=>{
+      b.style.transform = "scaleX(" + (Number(b.dataset.p) / 100) + ")";
+    });
+  });
+}
+
+/* ================= REVISAR ================= */
+function erradasValidas(){
+  return Object.keys(st.erradas || {}).filter(id => BANCO.some(q => q.id === id));
+}
+function renderRev(){
+  const ids = erradasValidas();
+  document.getElementById("r-streak").textContent = st.streak.dias;
+  contar(document.getElementById("r-num"), ids.length, "", 600);
+  document.getElementById("r-sub").textContent = ids.length
+    ? ids.length + (ids.length===1 ? " questão pendente" : " questões pendentes")
+    : "nada pendente";
+  const bt = document.getElementById("r-botao");
+  bt.disabled = !ids.length;
+  bt.textContent = ids.length
+    ? "Revisar " + Math.min(10, ids.length) + (Math.min(10, ids.length)===1 ? " questão" : " questões")
+    : "Nada para revisar";
+  document.getElementById("r-leg").textContent = ids.length
+    ? "Toda questão que você erra entra nesta fila. Acertar aqui tira ela da lista."
+    : "Fila vazia. Errar é o começo de aprender: quando errar, a questão aparece aqui.";
+
+  const porArea = {};
+  ids.forEach(id=>{
+    const q = BANCO.find(x => x.id === id);
+    if(q) porArea[q.area] = (porArea[q.area] || 0) + 1;
+  });
+  const linhas = Object.keys(AREAS).filter(k => porArea[k]).map(k=>{
+    const ar = AREAS[k], n = porArea[k];
+    return `<div class="rev-linha">
+      <div class="ic" style="background:${ar.cor};width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none">
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2">${ar.ic}</svg>
+      </div>
+      <div class="nm">${ar.nome}</div>
+      <div class="nx">${n} ${n===1 ? "errada" : "erradas"}</div>
+    </div>`;
+  });
+  document.getElementById("r-lista").innerHTML = linhas.length
+    ? linhas.join("")
+    : `<div class="vazio">${st.hist.length
+        ? "Nenhuma pendência. Você está em dia com o que errou."
+        : "Você ainda não errou nada porque ainda não caçou. Comece pela aba Caçar."}</div>`;
+}
+
+/* ================= CONTA ================= */
+function renderConta(){
+  const total = Object.values(st.stats).reduce((a,s)=>a+s.tot,0);
+  const ok = Object.values(st.stats).reduce((a,s)=>a+s.ok,0);
+  const pct = total ? Math.round(ok/total*100) : 0;
+  const dias = st.streak.dias || 0;
+  const nivel = dias>=30 ? "adulta" : dias>=14 ? "jovem" : dias>=7 ? "crescendo" : "filhote";
+
+  document.getElementById("c-nome").textContent = st.nome || "Caçador";
+  document.getElementById("c-email").textContent = (st.auth && st.auth.email) ? st.auth.email : "sem login";
+  contar(document.getElementById("c-xp"), st.xp, " xp", 800);
+  document.getElementById("c-nivel").textContent = nivel + " · " + dias + (dias===1 ? " pinta" : " pintas");
+  document.getElementById("c-total").textContent = total + (total===1 ? " questão" : " questões");
+  document.getElementById("c-acerto").textContent = pct + "% de acerto geral";
+  document.getElementById("c-streak").textContent = dias + (dias===1 ? " dia seguido" : " dias seguidos");
+  document.getElementById("c-ultimo").textContent = st.hist.length
+    ? "última caçada em " + String(st.hist[0].d).split("-").reverse().slice(0,2).join("/")
+    : "nenhuma caçada ainda";
+
+  document.querySelectorAll("#c-meta button").forEach(b=>{
+    const valor = Number(b.dataset.m);
+    b.classList.toggle("on", valor === Number(st.meta));
+    b.onclick = () => {
+      st.meta = valor; salvar();
+      document.querySelectorAll("#c-meta button").forEach(x=>x.classList.remove("on"));
+      b.classList.add("on");
+      toast("Meta: " + valor + " questões por dia");
+    };
+  });
+}
+
 function zerar(){
   if(!confirm("Apagar todo o progresso e recomeçar?")) return;
   localStorage.removeItem(CHAVE); location.reload();
@@ -1359,6 +1872,19 @@ async function boot() {
   if (demo) {
     st.nome = st.nome || "Vinícius";
     st.fracas = st.fracas.length ? st.fracas : ["ciencias-humanas"];
+    // dados de demonstracao: existem apenas com ?demo na URL, nunca no app publicado
+    if((location.search.includes("prog")||location.search.includes("mat")||location.search.includes("conta"))
+       && !st.hist.length){
+      const dia = n => { const d = new Date(Date.now() - n*864e5);
+        return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
+      st.hist = [{d:dia(0),ok:4,n:5,s:212},{d:dia(1),ok:3,n:5,s:268},{d:dia(2),ok:2,n:5,s:301},
+                 {d:dia(3),ok:5,n:5,s:176},{d:dia(4),ok:3,n:5,s:240},{d:dia(5),ok:2,n:5,s:318}];
+      st.xp = 340; st.streak.dias = 6; st.streak.ultimo = hoje();
+      st.stats.linguagens = {ok:8, tot:12};
+      st.stats["ciencias-humanas"] = {ok:4, tot:13};
+      st.stats["ciencias-natureza"] = {ok:9, tot:11};
+      st.stats.matematica = {ok:5, tot:10};
+    }
     if (location.search.includes("fim")) {
       iniciar(5); dz.ok = 4; dz.t0 = Date.now() - 214000;
       st.streak.dias = st.streak.dias || 1; st.streak.ultimo = hoje(); fim();
@@ -1372,6 +1898,12 @@ async function boot() {
         setTimeout(() => responder(dz.fila[dz.i].ok), 120);
       }
     } else if (location.search.includes("prog")) { irProg(); }
+    else if (location.search.includes("mat")) { irMat(); }
+    else if (location.search.includes("rev")) {
+      if(!Object.keys(st.erradas || {}).length){ BANCO.slice(0,7).forEach(q=>{ st.erradas[q.id] = 1; }); }
+      irRev();
+    }
+    else if (location.search.includes("conta")) { irConta(); }
     else if (location.search.includes("login")) { mostrar("t-login"); }
     else if (location.search.includes("bloqueio")) { irBloqueio("Sua assinatura não está ativa.", {}); }
     else { irHome(); }
