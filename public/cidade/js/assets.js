@@ -4,7 +4,7 @@ import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { clone as skClone } from 'three/addons/utils/SkeletonUtils.js';
 
-const M = './models/';
+const M = '/cidade/models/';
 const gltf = new GLTFLoader();
 const objLoader = new OBJLoader();
 const mtlLoader = new MTLLoader();
