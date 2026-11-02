@@ -57,6 +57,14 @@
     {
       "source": "/enemzeiro/",
       "destination": "/enemzeiro/index.html"
+    },
+    {
+      "source": "/cidade",
+      "destination": "/cidade/index.html"
+    },
+    {
+      "source": "/cidade/",
+      "destination": "/cidade/index.html"
     }
   ],
   "headers": [
@@ -94,6 +102,24 @@
         {
           "key": "X-DNS-Prefetch-Control",
           "value": "off"
+        }
+      ]
+    },
+    {
+      "source": "/cidade/models/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/cidade/vendor/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     }

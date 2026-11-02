@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Cidade 3D — Vinícius Odorizzi</title>
+<meta name="description" content="Uma cidade 3D viva: ruas, carros, pessoas, barcos e ciclo de 24 horas. Navegue pelo mundo.">
+<link rel="stylesheet" href="./style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/build/three.module.js",
+    "three/addons/": "./vendor/three/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="app">
+  <canvas id="c"></canvas>
+
+  <div id="loader">
+    <div class="loader-box">
+      <div class="loader-title">CIDADE 3D</div>
+      <div class="loader-bar"><i id="bar"></i></div>
+      <div class="loader-txt" id="ltext">carregando modelos…</div>
+    </div>
+  </div>
+
+  <header id="topbar">
+    <a class="brand" href="/" title="Voltar ao portfólio">
+      <span class="dot"></span> viniciusodorizzi<span class="dim">.com</span>
+    </a>
+    <div class="clockbox">
+      <div class="clock" id="clock">--:--</div>
+      <div class="date" id="date">—</div>
+    </div>
+    <div class="topright">
+      <div class="fps" id="fps">--</div>
+    </div>
+  </header>
+
+  <div id="panel">
+    <div class="panel-row">
+      <span class="lbl">HORA</span>
+      <input id="timeSlider" type="range" min="0" max="24" step="0.05" value="12">
+      <button id="timeNow" class="mini">agora</button>
+    </div>
+    <div class="panel-row segs">
+      <span class="lbl">TEMPO</span>
+      <button class="seg" data-speed="1">1×</button>
+      <button class="seg" data-speed="60">60×</button>
+      <button class="seg active" data-speed="600">600×</button>
+    </div>
+    <div class="panel-row segs">
+      <span class="lbl">MODO</span>
+      <button class="seg mode active" data-mode="walk">andar</button>
+      <button class="seg mode" data-mode="fly">voar</button>
+      <button class="seg mode" data-mode="tour">passeio</button>
+    </div>
+    <div class="panel-row segs">
+      <span class="lbl">MUNDO</span>
+      <button class="seg" id="moto">pausar vida</button>
+      <button class="seg" id="sound">som</button>
+    </div>
+  </div>
+
+  <div id="hint">
+    <b>W A S D</b> mover · <b>mouse</b> olhar · <b>Shift</b> correr · <b>Space</b> subir · <b>C</b> trocar modo
+  </div>
+
+  <div id="touch">
+    <div id="stick"><i></i></div>
+    <div id="lookpad"></div>
+  </div>
+
+  <div id="crosshair"></div>
+  <div id="tooltip"></div>
+</div>
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
