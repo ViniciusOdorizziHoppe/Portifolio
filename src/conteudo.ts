@@ -65,7 +65,7 @@ export type Projeto = {
 }
 
 /* Se mudar a quantidade de projetos, ajuste o título abaixo. */
-export const TITULO_PROJETOS = 'Cinco coisas que construí e estão no mundo.'
+export const TITULO_PROJETOS = 'Seis coisas que construí e estão no mundo.'
 
 export const PROJETOS: Projeto[] = [
   {
@@ -114,6 +114,16 @@ export const PROJETOS: Projeto[] = [
     status: 'no-ar',
     statusTexto: 'No ar',
     link: 'https://viniciusodorizzi.com',
+  },
+  {
+    numero: '06',
+    nome: 'Cidade 3D',
+    resumo:
+      'Um mundo navegável que roda 24 horas: ruas com semáforo de verdade, carros que param no vermelho e viram na esquina, pedestres atravessando na faixa e o dia inteiro passando em ciclo real. Dá para andar, voar ou deixar a câmera passear. Roda 100% no navegador, sem servidor.',
+    stack: ['Three.js', 'WebGL', 'GLTF', 'Animação procedural'],
+    status: 'no-ar',
+    statusTexto: 'No ar',
+    link: '/cidade',
   },
 ]
 
