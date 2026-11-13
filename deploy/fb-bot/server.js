@@ -456,6 +456,19 @@ async function tratar(req, res) {
     return responder(res, 200, r);
   }
 
+  if (rota === '/fb/app' && req.method === 'POST') {
+    let corpo;
+    try { corpo = await lerCorpo(req); } catch (e) { return responder(res, e.codigo || 400, { erro: e.message }); }
+    const appId = String(corpo.appId || '').trim();
+    const appSecret = String(corpo.appSecret || '').trim();
+    if (!appId || !appSecret) return responder(res, 400, { erro: 'informe appId e appSecret' });
+    cfg.appId = appId;
+    cfg.appSecret = appSecret;
+    await gravar(ARQ_CONFIG, cfg);
+    await anotar('app_configurado', { appId });
+    return responder(res, 200, { ok: true, appId });
+  }
+
   if (rota === '/fb/token' && req.method === 'POST') {
     let corpo;
     try { corpo = await lerCorpo(req); } catch (e) { return responder(res, e.codigo || 400, { erro: e.message }); }
