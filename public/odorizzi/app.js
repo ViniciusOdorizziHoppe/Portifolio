@@ -781,7 +781,7 @@ function renderDia() {
 
 /* ─────────── nuvem ─────────── */
 
-const nuvem = { token: null, estado: 'local', timer: null, enviando: false, erro: null };
+const nuvem = { token: null, estado: 'local', timer: null, retry: null, enviando: false, pendente: false, erro: null };
 
 function nuvemToken() {
   try { return localStorage.getItem(CHAVE_TOKEN) || ''; } catch (e) { return ''; }
@@ -918,6 +918,10 @@ async function nuvemEnviar() {
       nuvem.estado = 'erro';
       nuvem.erro = e.message;
       nuvem.pendente = true;
+      clearTimeout(nuvem.retry);
+      nuvem.retry = setTimeout(() => {
+        if (nuvem.pendente && nuvemToken()) nuvemEnviar();
+      }, 20000);
     }
   } finally {
     nuvem.enviando = false;
@@ -938,6 +942,9 @@ function abrirNuvem() {
   const m = document.getElementById('modal-nuvem');
   m.hidden = false;
   nuvemPintar();
+  if (nuvemToken() && (nuvem.pendente || nuvem.estado === 'erro')) {
+    nuvemEnviar();
+  }
   const campo = document.querySelector('#form-nuvem input[name="chave"]');
   if (campo && !nuvemToken()) setTimeout(() => campo.focus(), 40);
 }
