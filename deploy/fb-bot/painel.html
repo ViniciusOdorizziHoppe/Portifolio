@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FB-BOT · painel</title>
+<style>
+  :root{
+    --papel:#F8F7F3;--cartao:#fff;--tinta:#14140F;--tinta2:#5F5F55;--tinta3:#8E8E82;
+    --linha:#E7E4DA;--amarelo:#F5C518;--verde:#157F5B;--vermelho:#C8453C;
+    --serifa:'PT Serif',Georgia,serif;--ui:system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--papel);color:var(--tinta);font-family:var(--ui);font-size:14px;padding:22px;max-width:1080px;margin:0 auto}
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:1px solid var(--linha);padding-bottom:14px;margin-bottom:20px;flex-wrap:wrap}
+  h1{font-family:var(--serifa);font-size:24px;line-height:1.1}
+  .olho{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tinta3);margin-bottom:4px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--tinta3);display:inline-block;margin-right:6px}
+  .dot.ok{background:var(--verde)}.dot.sim{background:var(--amarelo)}.dot.off{background:var(--vermelho)}
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:0;background:var(--cartao);border:1px solid var(--linha);border-radius:12px;overflow:hidden;margin-bottom:18px}
+  .kpi{padding:14px 16px;border-right:1px solid var(--linha)}
+  .kpi:last-child{border-right:0}
+  .kpi b{display:block;font-size:20px;font-weight:600;letter-spacing:-.02em}
+  .kpi span{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta3)}
+  .cartao{background:var(--cartao);border:1px solid var(--linha);border-radius:12px;padding:18px;margin-bottom:18px}
+  .cartao h2{font-family:var(--serifa);font-size:16px;margin-bottom:12px}
+  .grade{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  label{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta3);margin-bottom:4px}
+  input,textarea,select{width:100%;border:1px solid #D8D4C7;border-radius:8px;padding:9px 11px;font:inherit;background:#fff;outline:none}
+  input:focus,textarea:focus{border-color:var(--tinta)}
+  textarea{min-height:120px;resize:vertical;font-family:ui-monospace,monospace;font-size:12.5px;line-height:1.5}
+  .btn{border:1px solid #D8D4C7;background:#fff;border-radius:8px;padding:9px 14px;font:inherit;font-size:13px;cursor:pointer}
+  .btn:hover{background:#FBFAF6}
+  .btn.pri{background:var(--tinta);color:#fff;border-color:var(--tinta);font-weight:600}
+  .btn.pri:hover{background:#26261E}
+  .btn.mini{padding:5px 9px;font-size:11.5px}
+  .linha-acoes{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta3);font-weight:500;padding:0 8px 8px;border-bottom:1px solid var(--linha)}
+  td{padding:9px 8px;border-bottom:1px solid var(--linha);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  .tag{font-size:10px;padding:2px 7px;border-radius:20px;background:#F4F2EC;color:var(--tinta2);white-space:nowrap}
+  .tag.pub{background:#E4F2EC;color:var(--verde)}
+  .tag.err{background:#FAE8E6;color:var(--vermelho)}
+  .tag.pen{background:#FDF6D6;color:#7A5D00}
+  .mudo{color:var(--tinta3);font-size:11.5px}
+  .log{list-style:none;font-size:12px}
+  .log li{padding:7px 0;border-bottom:1px solid var(--linha);display:flex;gap:10px}
+  .log li:last-child{border-bottom:0}
+  .log time{color:var(--tinta3);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .erro{color:var(--vermelho)}
+  @media(max-width:800px){.kpis{grid-template-columns:repeat(2,1fr)}.grade{grid-template-columns:1fr}.kpi{border-bottom:1px solid var(--linha)}}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <p class="olho">FB-BOT · página</p>
+    <h1 id="titulo"><span class="dot" id="dot"></span>carregando…</h1>
+  </div>
+  <div class="linha-acoes">
+    <button class="btn" id="btn-atualizar" type="button">Atualizar</button>
+    <button class="btn" id="btn-pausar" type="button">Pausar robô</button>
+  </div>
+</header>
+
+<div class="kpis">
+  <div class="kpi"><span>Modo</span><b id="k-modo">—</b></div>
+  <div class="kpi"><span>Publicados hoje</span><b id="k-hoje">—</b></div>
+  <div class="kpi"><span>Na fila</span><b id="k-fila">—</b></div>
+  <div class="kpi"><span>Total publicado</span><b id="k-total">—</b></div>
+  <div class="kpi"><span>Comentários</span><b id="k-com">—</b></div>
+</div>
+
+<div class="grade">
+  <section class="cartao">
+    <h2>Publicar agora</h2>
+    <label for="msg">Mensagem</label>
+    <textarea id="msg" placeholder="Texto do post…"></textarea>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+      <div><label for="link">Link (opcional)</label><input id="link" placeholder="https://s.shopee.com.br/…"></div>
+      <div><label for="img">Imagem (URL, opcional)</label><input id="img" placeholder="https://cf.shopee.com.br/file/…"></div>
+    </div>
+    <div class="linha-acoes">
+      <button class="btn pri" id="btn-publicar" type="button">Publicar agora</button>
+      <button class="btn" id="btn-enfileirar" type="button">Colocar na fila</button>
+    </div>
+  </section>
+
+  <section class="cartao">
+    <h2>Como está configurado</h2>
+    <table>
+      <tbody id="conf"></tbody>
+    </table>
+    <p class="mudo" id="aviso-config" style="margin-top:10px"></p>
+  </section>
+</div>
+
+<section class="cartao">
+  <h2>Fila</h2>
+  <table>
+    <thead><tr><th>Quando</th><th>Status</th><th>Prévia</th><th>Etiqueta</th><th></th></tr></thead>
+    <tbody id="fila"></tbody>
+  </table>
+  <p class="mudo" id="fila-vazia">Fila vazia.</p>
+</section>
+
+<section class="cartao">
+  <h2>Últimos acontecimentos</h2>
+  <ul class="log" id="log"></ul>
+</section>
+
+<script>
+const API = '';
+let chave = localStorage.getItem('fb_chave') || '';
+
+function pedirChave() {
+  const k = prompt('Chave de administração do FB-BOT:');
+  if (k) { chave = k.trim(); localStorage.setItem('fb_chave', chave); carregar(); }
+}
+
+async function chamar(rota, opcoes = {}) {
+  const r = await fetch(API + rota, {
+    method: opcoes.metodo || 'GET',
+    headers: { 'content-type': 'application/json', 'x-chave': chave },
+    body: opcoes.corpo ? JSON.stringify(opcoes.corpo) : undefined,
+    cache: 'no-store',
+  });
+  let d = null;
+  try { d = await r.json(); } catch (e) {}
+  if (r.status === 401) { pedirChave(); throw new Error('chave'); }
+  if (!r.ok) throw new Error((d && (d.erro || d.detalhe)) || 'http ' + r.status);
+  return d;
+}
+
+function fmtData(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+}
+
+async function carregar() {
+  if (!chave) { pedirChave(); return; }
+  try {
+    const s = await chamar('/fb/status');
+    document.getElementById('titulo').innerHTML =
+      '<span class="dot ' + (s.modo === 'producao' ? 'ok' : 'sim') + '" id="dot"></span>' +
+      (s.paginaNome || 'modo simulado');
+    document.getElementById('k-modo').textContent = s.modo === 'producao' ? 'produção' : 'simulado';
+    document.getElementById('k-hoje').textContent = s.publicadosHoje + '/' + s.limiteDiario;
+    document.getElementById('k-fila').textContent = s.filaPendente;
+    document.getElementById('k-total').textContent = s.totalPublicados;
+    document.getElementById('k-com').textContent = s.ultimoPollComentarios ? 'ativas' : '—';
+    document.getElementById('btn-pausar').textContent = s.pausado ? 'Retomar robô' : 'Pausar robô';
+    document.getElementById('btn-pausar').dataset.pausado = s.pausado ? '1' : '';
+
+    document.getElementById('conf').innerHTML = [
+      ['Página', s.paginaNome ? s.paginaNome + ' · ' + s.pagina : 'não conectada'],
+      ['Intervalo entre posts', s.intervaloMinMinutos + ' min'],
+      ['Limite por dia', s.limiteDiario + ' posts'],
+      ['Regras de resposta', s.regras + ' · padrão ' + (s.respostaPadrao ? 'sim' : 'não')],
+      ['Último comentário verificado', fmtData(s.ultimoPollComentarios)],
+      ['Último post', s.ultimoPost ? fmtData(s.ultimoPost.publicadoEm) : '—'],
+    ].map(([a, b]) => '<tr><td class="mudo">' + a + '</td><td style="text-align:right">' + b + '</td></tr>').join('');
+
+    document.getElementById('aviso-config').textContent = s.modo === 'producao'
+      ? ''
+      : 'Sem token da Página: tudo que passar por aqui fica registrado como SIMULADO, nada vai ao Facebook.';
+
+    const f = await chamar('/fb/fila');
+    const corpo = document.getElementById('fila');
+    const itens = f.itens.slice(0, 40);
+    document.getElementById('fila-vazia').hidden = itens.length > 0;
+    corpo.innerHTML = itens.map((i) => {
+      const classe = i.status === 'publicado' ? 'pub' : i.status === 'erro' ? 'err' : 'pen';
+      const quando = i.publicadoEm || i.quando;
+      const previa = (i.mensagem || i.link || '').replace(/\s+/g, ' ').slice(0, 90);
+      return '<tr><td>' + fmtData(quando) + '</td>' +
+        '<td><span class="tag ' + classe + '">' + i.status + '</span></td>' +
+        '<td>' + previa + (i.erro ? '<div class="erro">' + i.erro + '</div>' : '') + '</td>' +
+        '<td class="mudo">' + (i.etiqueta || '—') + '</td>' +
+        '<td><button class="btn mini" data-remover="' + i.id + '">×</button></td></tr>';
+    }).join('');
+
+    const lg = await chamar('/fb/log');
+    document.getElementById('log').innerHTML = lg.eventos.slice(0, 20).map((e) => {
+      const extra = Object.entries(e).filter(([k]) => !['quando', 'tipo'].includes(k))
+        .map(([k, v]) => k + ': ' + String(v).slice(0, 60)).join(' · ');
+      return '<li><time>' + fmtData(e.quando) + '</time><span><b>' + e.tipo + '</b> ' +
+        '<span class="mudo">' + extra + '</span></span></li>';
+    }).join('');
+  } catch (e) {
+    if (e.message !== 'chave') document.getElementById('titulo').textContent = 'erro: ' + e.message;
+  }
+}
+
+document.getElementById('btn-atualizar').onclick = carregar;
+
+document.getElementById('btn-pausar').onclick = async () => {
+  const pausado = document.getElementById('btn-pausar').dataset.pausado === '1';
+  await chamar('/fb/pausar', { metodo: 'POST', corpo: { pausado: !pausado } });
+  carregar();
+};
+
+document.getElementById('btn-publicar').onclick = async () => {
+  const mensagem = document.getElementById('msg').value;
+  const link = document.getElementById('link').value;
+  const imagem = document.getElementById('img').value;
+  if (!mensagem && !link) return alert('escreve a mensagem ou o link');
+  if (!confirm('Publicar agora na Página?')) return;
+  try {
+    const r = await chamar('/fb/publicar', { metodo: 'POST', corpo: { mensagem, link, imagem } });
+    alert(r.simulado ? 'Simulado: registrado (sem token da Página).' : 'Publicado: ' + r.postId);
+    carregar();
+  } catch (e) { alert('falhou: ' + e.message); }
+};
+
+document.getElementById('btn-enfileirar').onclick = async () => {
+  const mensagem = document.getElementById('msg').value;
+  const link = document.getElementById('link').value;
+  const imagem = document.getElementById('img').value;
+  if (!mensagem && !link) return alert('escreve a mensagem ou o link');
+  await chamar('/fb/fila', { metodo: 'POST', corpo: { mensagem, link, imagem } });
+  document.getElementById('msg').value = '';
+  document.getElementById('link').value = '';
+  document.getElementById('img').value = '';
+  carregar();
+};
+
+document.getElementById('fila').addEventListener('click', async (e) => {
+  const b = e.target.closest('[data-remover]');
+  if (!b) return;
+  await chamar('/fb/fila/' + b.dataset.remover, { metodo: 'DELETE' });
+  carregar();
+});
+
+carregar();
+setInterval(carregar, 60000);
+</script>
+</body>
+</html>
