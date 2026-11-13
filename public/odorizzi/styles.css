@@ -485,6 +485,20 @@ h1,h2{font-family:var(--serifa);font-weight:700;letter-spacing:-.01em}
 .modal-topo{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .modal-topo h2{font-size:18px}
 
+/* ─────────── nuvem (sincronização) ─────────── */
+.nuvem-dot{
+  width:7px;height:7px;border-radius:50%;flex:0 0 7px;
+  background:var(--tinta-3);transition:background .2s ease;
+}
+.nuvem-dot.ok{background:var(--verde)}
+.nuvem-dot.pendente{background:var(--amarelo)}
+.nuvem-dot.erro{background:var(--vermelho)}
+.nuvem-explica{font-size:12.5px;color:var(--tinta-2);line-height:1.65;margin-bottom:16px}
+.nuvem-estado{font-size:12px;color:var(--tinta-3);margin:14px 0 10px;line-height:1.55}
+.nuvem-estado.ok{color:var(--verde)}
+.nuvem-estado.erro{color:var(--vermelho)}
+#nuvem-sair{margin-top:2px}
+
 /* ─────────── aviso (toast) ─────────── */
 .aviso{
   position:fixed;left:50%;bottom:24px;transform:translateX(-50%);
@@ -528,6 +542,7 @@ h1,h2{font-family:var(--serifa);font-weight:700;letter-spacing:-.01em}
   .conteudo{padding:16px 14px 40px}
   .topo h1{font-size:23px}
   .topo-data{display:none}
+  #nuvem-txt{display:none}
   .grade-2,.grade-3{grid-template-columns:1fr}
   .grade-3 > .cartao:last-child{grid-column:auto}
   .grafico{height:220px}

@@ -5,6 +5,8 @@
 'use strict';
 
 const CHAVE = 'odorizzi_os_v1';
+const CHAVE_TOKEN = 'odorizzi_token';
+const API = '/api/odz';
 
 /* ─────────── utilidades ─────────── */
 
@@ -95,11 +97,13 @@ function carregar() {
 }
 
 function salvar() {
+  estado.atualizadoEm = new Date().toISOString();
   try {
     localStorage.setItem(CHAVE, JSON.stringify(estado));
   } catch (e) {
     aviso('Não consegui salvar no navegador (armazenamento cheio?)');
   }
+  agendarEnvio();
 }
 
 function aviso(msg) {
@@ -775,6 +779,173 @@ function renderDia() {
   }
 }
 
+/* ─────────── nuvem ─────────── */
+
+const nuvem = { token: null, estado: 'local', timer: null, enviando: false, erro: null };
+
+function nuvemToken() {
+  try { return localStorage.getItem(CHAVE_TOKEN) || ''; } catch (e) { return ''; }
+}
+
+function dataHoraBonita(iso) {
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return '—';
+  return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+}
+
+function nuvemPintar() {
+  const ponto = document.getElementById('nuvem-dot');
+  const txt = document.getElementById('nuvem-txt');
+  const conectado = !!nuvemToken();
+  let classe = '';
+  let rotulo = 'Nuvem';
+
+  if (conectado) {
+    if (nuvem.estado === 'ok') { classe = 'ok'; rotulo = 'Sincronizado'; }
+    else if (nuvem.estado === 'pendente') { classe = 'pendente'; rotulo = 'Enviando…'; }
+    else if (nuvem.estado === 'erro') { classe = 'erro'; rotulo = 'Sem conexão'; }
+    else { classe = 'ok'; rotulo = 'Sincronizado'; }
+  }
+  if (ponto) ponto.className = 'nuvem-dot ' + classe;
+  if (txt) txt.textContent = rotulo;
+
+  const est = document.getElementById('nuvem-estado');
+  if (est) {
+    est.className = 'nuvem-estado';
+    if (!conectado) {
+      est.textContent = 'Ainda não conectado. O que você lançar está salvo só neste navegador.';
+    } else if (nuvem.estado === 'erro') {
+      est.className = 'nuvem-estado erro';
+      est.textContent = 'Não consegui falar com a VPS (' + (nuvem.erro || 'sem resposta') + '). Tudo continua salvo neste aparelho e eu tento de novo.';
+    } else {
+      est.className = 'nuvem-estado ok';
+      est.textContent = 'Conectado. Último envio: ' + (estado.atualizadoEm ? dataHoraBonita(estado.atualizadoEm) : '—');
+    }
+  }
+
+  const sair = document.getElementById('nuvem-sair');
+  if (sair) sair.hidden = !conectado;
+  const form = document.getElementById('form-nuvem');
+  if (form) form.hidden = conectado;
+}
+
+async function nuvemChamar(rota, opcoes) {
+  const cfg = opcoes || {};
+  const cab = { 'content-type': 'application/json' };
+  const t = nuvemToken();
+  if (t) cab.authorization = 'Bearer ' + t;
+
+  const resposta = await fetch(API + '?rota=' + rota, {
+    method: cfg.metodo || 'GET',
+    headers: cab,
+    body: cfg.corpo ? JSON.stringify(cfg.corpo) : undefined,
+    cache: 'no-store',
+  });
+
+  let dados = null;
+  try { dados = await resposta.json(); } catch (e) { dados = null; }
+
+  if (resposta.status === 401 && rota !== 'entrar') {
+    try { localStorage.removeItem(CHAVE_TOKEN); } catch (e) {}
+    nuvem.estado = 'local';
+    nuvemPintar();
+    throw new Error('sessao_expirada');
+  }
+  if (!resposta.ok) throw new Error((dados && dados.erro) || 'http ' + resposta.status);
+  return dados;
+}
+
+async function nuvemConectar(chave) {
+  const d = await nuvemChamar('entrar', { metodo: 'POST', corpo: { chave } });
+  try { localStorage.setItem(CHAVE_TOKEN, d.token); } catch (e) {}
+  nuvem.estado = 'ok';
+  nuvem.erro = null;
+  nuvemPintar();
+  await nuvemSincronizarTudo();
+}
+
+async function nuvemSincronizarTudo() {
+  const remoto = await nuvemChamar('estado');
+  const localQuando = estado.atualizadoEm || '';
+  const localTemDados = (estado.lancamentos.length || estado.fontes.length || estado.fixos.length || Number(estado.saldoInicial.valor) || 0);
+
+  // dados antigos, salvos antes de existir nuvem: empurra eles pra cima
+  if (!localQuando && localTemDados) {
+    estado.atualizadoEm = new Date().toISOString();
+    try { localStorage.setItem(CHAVE, JSON.stringify(estado)); } catch (e) {}
+    await nuvemEnviar();
+    return;
+  }
+
+  if (!remoto || remoto.vazio || !remoto.estado) {
+    if (localTemDados) await nuvemEnviar();
+    nuvem.estado = 'ok';
+    nuvemPintar();
+    return;
+  }
+
+  if ((remoto.atualizadoEm || '') > localQuando) {
+    estado = Object.assign(estadoVazio(), remoto.estado);
+    estado.saldoInicial = Object.assign({ valor: 0, data: isoHoje() }, remoto.estado.saldoInicial || {});
+    estado.fontes = Array.isArray(remoto.estado.fontes) ? remoto.estado.fontes : [];
+    estado.fixos = Array.isArray(remoto.estado.fixos) ? remoto.estado.fixos : [];
+    estado.lancamentos = Array.isArray(remoto.estado.lancamentos) ? remoto.estado.lancamentos : [];
+    estado.eventos = Array.isArray(remoto.estado.eventos) ? remoto.estado.eventos : [];
+    estado.atualizadoEm = remoto.atualizadoEm;
+    try { localStorage.setItem(CHAVE, JSON.stringify(estado)); } catch (e) {}
+    renderizarTudo();
+    aviso('Dados atualizados da nuvem');
+  } else if (localQuando > (remoto.atualizadoEm || '')) {
+    await nuvemEnviar();
+  }
+
+  nuvem.estado = 'ok';
+  nuvem.erro = null;
+  nuvemPintar();
+}
+
+async function nuvemEnviar() {
+  if (!nuvemToken()) return;
+  if (nuvem.enviando) { nuvem.pendente = true; return; }
+  nuvem.enviando = true;
+  nuvem.pendente = false;
+  try {
+    await nuvemChamar('estado', { metodo: 'PUT', corpo: { estado, atualizadoEm: estado.atualizadoEm } });
+    nuvem.estado = 'ok';
+    nuvem.erro = null;
+  } catch (e) {
+    if (e.message !== 'sessao_expirada') {
+      nuvem.estado = 'erro';
+      nuvem.erro = e.message;
+      nuvem.pendente = true;
+    }
+  } finally {
+    nuvem.enviando = false;
+    nuvemPintar();
+    if (nuvem.pendente && nuvem.estado === 'ok') agendarEnvio();
+  }
+}
+
+function agendarEnvio() {
+  if (!nuvemToken()) return;
+  nuvem.estado = 'pendente';
+  nuvemPintar();
+  clearTimeout(nuvem.timer);
+  nuvem.timer = setTimeout(() => { nuvemEnviar(); }, 1200);
+}
+
+function abrirNuvem() {
+  const m = document.getElementById('modal-nuvem');
+  m.hidden = false;
+  nuvemPintar();
+  const campo = document.querySelector('#form-nuvem input[name="chave"]');
+  if (campo && !nuvemToken()) setTimeout(() => campo.focus(), 40);
+}
+
+function fecharNuvem() {
+  document.getElementById('modal-nuvem').hidden = true;
+}
+
 /* ─────────── navegação ─────────── */
 
 const TITULOS = { dashboard: 'Dashboard', patrimonio: 'Patrimônio', rendas: 'Rendas', gastos: 'Gastos', calendario: 'Calendário' };
@@ -1115,7 +1286,7 @@ function ligar() {
   document.getElementById('modal-fechar').addEventListener('click', fecharModal);
   document.getElementById('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') fecharModal(); });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') fecharModal();
+    if (e.key === 'Escape') { fecharModal(); fecharNuvem(); }
     if (e.key === 'n' && !e.metaKey && !e.ctrlKey && !/input|select|textarea/i.test(document.activeElement.tagName)) {
       e.preventDefault(); abrirModal();
     }
@@ -1144,6 +1315,39 @@ function ligar() {
     fecharModal();
     aviso('Lançamento salvo');
     renderizarTudo();
+  });
+
+  // nuvem
+  document.getElementById('btn-nuvem').addEventListener('click', abrirNuvem);
+  document.getElementById('nuvem-fechar').addEventListener('click', fecharNuvem);
+  document.getElementById('modal-nuvem').addEventListener('click', (e) => { if (e.target.id === 'modal-nuvem') fecharNuvem(); });
+  document.getElementById('form-nuvem').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const campo = e.target.chave;
+    const chave = String(campo.value || '').trim();
+    if (!chave) return;
+    const botao = document.getElementById('nuvem-entrar');
+    botao.disabled = true;
+    botao.textContent = 'Conectando…';
+    try {
+      await nuvemConectar(chave);
+      campo.value = '';
+      aviso('Nuvem conectada');
+    } catch (err) {
+      aviso(err.message === 'sessao_expirada' ? 'Sessão expirada, conecte de novo' : 'Não conectou: ' + err.message);
+    } finally {
+      botao.disabled = false;
+      botao.textContent = 'Conectar';
+      nuvemPintar();
+    }
+  });
+  document.getElementById('nuvem-sair').addEventListener('click', async () => {
+    try { await nuvemChamar('sair', { metodo: 'POST', corpo: {} }); } catch (err) { /* segue local */ }
+    try { localStorage.removeItem(CHAVE_TOKEN); } catch (err) { /* ignora */ }
+    nuvem.estado = 'local';
+    nuvem.erro = null;
+    nuvemPintar();
+    aviso('Desconectado da nuvem');
   });
 
   // exportar / importar
@@ -1196,5 +1400,17 @@ carregar();
 ligar();
 irPara(abaAtual());
 
+nuvemPintar();
+if (nuvemToken()) {
+  nuvemSincronizarTudo().catch((e) => {
+    if (e.message !== 'sessao_expirada') {
+      nuvem.estado = 'erro';
+      nuvem.erro = e.message;
+      nuvemPintar();
+    }
+  });
+}
+window.addEventListener('online', () => { if (nuvemToken()) nuvemEnviar(); });
+
 // expõe pra testes manuais no console
-window.odorizzi = { estado: () => estado, salvar, renderizarTudo };
+window.odorizzi = { estado: () => estado, salvar, renderizarTudo, nuvem, nuvemEnviar, nuvemSincronizarTudo };

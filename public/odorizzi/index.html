@@ -64,6 +64,10 @@
       </div>
       <div class="topo-dir">
         <p class="topo-data" id="topo-data"></p>
+        <button class="btn btn-fantasma btn-mini" id="btn-nuvem" type="button" title="Sincronização com a nuvem">
+          <span class="nuvem-dot" id="nuvem-dot"></span>
+          <span id="nuvem-txt">Nuvem</span>
+        </button>
         <button class="btn btn-primario" id="btn-lancar" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
           Lançar
@@ -383,6 +387,32 @@
 </div>
 
 <div class="aviso" id="aviso" hidden></div>
+
+<!-- ─────────── modal da nuvem ─────────── -->
+<div class="modal-fundo" id="modal-nuvem" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="nuvem-titulo">
+    <header class="modal-topo">
+      <h2 id="nuvem-titulo">Sincronizar</h2>
+      <button class="btn btn-icone" id="nuvem-fechar" type="button" aria-label="Fechar">×</button>
+    </header>
+
+    <p class="nuvem-explica">
+      Seus dados ficam guardados na sua VPS. Com a chave de acesso, o mesmo painel abre no
+      computador e no celular, e um backup é feito a cada envio.
+    </p>
+
+    <form class="form" id="form-nuvem">
+      <label class="campo"><span>Chave de acesso</span>
+        <input name="chave" type="password" autocomplete="current-password" placeholder="sua chave" required>
+      </label>
+      <button class="btn btn-primario" type="submit" id="nuvem-entrar">Conectar</button>
+    </form>
+
+    <div class="nuvem-estado" id="nuvem-estado"></div>
+
+    <button class="btn btn-fantasma btn-mini" id="nuvem-sair" type="button" hidden>Desconectar deste aparelho</button>
+  </div>
+</div>
 
 <script src="app.js"></script>
 </body>
