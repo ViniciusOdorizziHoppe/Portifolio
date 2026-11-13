@@ -23,6 +23,14 @@
   ],
   "rewrites": [
     {
+      "source": "/odorizzi",
+      "destination": "/odorizzi/index.html"
+    },
+    {
+      "source": "/odorizzi/",
+      "destination": "/odorizzi/index.html"
+    },
+    {
       "source": "/enemzeiro/cacada",
       "destination": "/enemzeiro/cacada.html"
     },

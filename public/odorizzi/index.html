@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ODORIZZI — painel pessoal</title>
+<meta name="description" content="Painel pessoal de patrimônio, rendas, gastos e agenda.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#F8F7F3">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ─────────── rail lateral ─────────── -->
+  <aside class="rail" id="rail">
+    <div class="marca">
+      <span class="marca-nome">ODORIZZI</span>
+      <span class="marca-sub">painel pessoal</span>
+    </div>
+
+    <nav class="nav" id="nav">
+      <a href="#dashboard" data-aba="dashboard" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="#patrimonio" data-aba="patrimonio" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l5-5 4 3 5-7 4 4"/><path d="M3 21h18"/></svg>
+        <span>Patrimônio</span>
+      </a>
+      <a href="#rendas" data-aba="rendas" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 17V9"/><path d="M8.5 12.5L12 9l3.5 3.5"/></svg>
+        <span>Rendas</span>
+      </a>
+      <a href="#gastos" data-aba="gastos" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v8"/><path d="M8.5 11.5L12 15l3.5-3.5"/></svg>
+        <span>Gastos</span>
+      </a>
+      <a href="#calendario" data-aba="calendario" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/></svg>
+        <span>Calendário</span>
+      </a>
+    </nav>
+
+    <div class="rail-rodape">
+      <button class="btn btn-fantasma btn-mini" id="btn-exportar" type="button">Exportar dados</button>
+      <button class="btn btn-fantasma btn-mini" id="btn-importar" type="button">Importar</button>
+      <input type="file" id="arquivo-importar" accept="application/json" hidden>
+    </div>
+  </aside>
+
+  <!-- ─────────── conteúdo ─────────── -->
+  <div class="conteudo">
+
+    <header class="topo">
+      <div class="topo-esq">
+        <p class="olho" id="topo-olho">Painel pessoal</p>
+        <h1 id="topo-titulo">Dashboard</h1>
+      </div>
+      <div class="topo-dir">
+        <p class="topo-data" id="topo-data"></p>
+        <button class="btn btn-primario" id="btn-lancar" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Lançar
+        </button>
+        <div class="avatar" title="Vinícius Odorizzi">VO</div>
+      </div>
+    </header>
+
+    <div class="telas" id="telas">
+
+      <!-- ══════════ DASHBOARD ══════════ -->
+      <section class="tela" id="tela-dashboard">
+        <div class="kpis" id="kpis"></div>
+
+        <article class="cartao cartao-grafico">
+          <header class="cartao-topo">
+            <div>
+              <h2>Evolução do patrimônio</h2>
+              <p class="sub" id="grafico-sub">Saldo acumulado, dia a dia</p>
+            </div>
+            <div class="segmentado" id="faixas">
+              <button data-dias="7" type="button">7D</button>
+              <button data-dias="30" class="ativo" type="button">30D</button>
+              <button data-dias="90" type="button">90D</button>
+              <button data-dias="0" type="button">Tudo</button>
+            </div>
+          </header>
+          <div class="grafico" id="grafico">
+            <svg id="grafico-svg" viewBox="0 0 900 260" preserveAspectRatio="none" aria-hidden="true"></svg>
+            <div class="grafico-dica" id="grafico-dica" hidden></div>
+            <p class="grafico-vazio" id="grafico-vazio" hidden><span>Sem movimentos ainda. Registre uma alta ou baixa na aba <a href="#patrimonio">Patrimônio</a>.</span></p>
+          </div>
+          <footer class="grafico-pe" id="grafico-pe"></footer>
+        </article>
+
+        <div class="grade-3">
+          <article class="cartao">
+            <header class="cartao-topo">
+              <div><h2>Top fontes de renda</h2><p class="sub">Previsto por mês</p></div>
+            </header>
+            <ul class="barras" id="top-fontes"></ul>
+          </article>
+
+          <article class="cartao">
+            <header class="cartao-topo">
+              <div><h2>Gastos por categoria</h2><p class="sub" id="donut-sub">No mês</p></div>
+            </header>
+            <div class="donut-caixa" id="donut-caixa"></div>
+          </article>
+
+          <article class="cartao">
+            <header class="cartao-topo">
+              <div><h2>Resumo do mês</h2><p class="sub" id="resumo-sub"></p></div>
+            </header>
+            <ul class="lista-simples" id="resumo-mes"></ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- ══════════ PATRIMÔNIO ══════════ -->
+      <section class="tela" id="tela-patrimonio" hidden>
+        <div class="grade-2">
+          <article class="cartao">
+            <header class="cartao-topo"><div><h2>Saldo inicial</h2><p class="sub">O ponto de partida da linha do patrimônio</p></div></header>
+            <form class="form" id="form-saldo-inicial">
+              <div class="campos">
+                <label class="campo"><span>Valor em conta</span><input name="valor" type="text" inputmode="decimal" placeholder="0,00" required></label>
+                <label class="campo"><span>Em</span><input name="data" type="date" required></label>
+              </div>
+              <button class="btn btn-primario" type="submit">Salvar saldo inicial</button>
+              <p class="ajuda">Tudo que entrar ou sair a partir dessa data é somado a este valor.</p>
+            </form>
+          </article>
+
+          <article class="cartao">
+            <header class="cartao-topo"><div><h2>Acertar saldo de hoje</h2><p class="sub">Reconcilia o sistema com a conta de verdade</p></div></header>
+            <form class="form" id="form-acertar">
+              <div class="campos">
+                <label class="campo"><span>Saldo real hoje</span><input name="valor" type="text" inputmode="decimal" placeholder="0,00" required></label>
+              </div>
+              <button class="btn" type="submit">Gerar ajuste automático</button>
+              <p class="ajuda" id="ajuda-acertar">Calcula a diferença e lança como alta ou baixa.</p>
+            </form>
+          </article>
+        </div>
+
+        <div class="grade-2">
+          <article class="cartao">
+            <header class="cartao-topo"><div><h2>Nova alta ou baixa</h2><p class="sub">Movimento manual de patrimônio</p></div></header>
+            <form class="form" id="form-movimento">
+              <div class="segmentado largo" id="mov-tipo">
+                <button type="button" data-tipo="entrada" class="ativo">Alta</button>
+                <button type="button" data-tipo="saida">Baixa</button>
+              </div>
+              <div class="campos">
+                <label class="campo"><span>Valor</span><input name="valor" type="text" inputmode="decimal" placeholder="0,00" required></label>
+                <label class="campo"><span>Data</span><input name="data" type="date" required></label>
+                <label class="campo largo"><span>Descrição</span><input name="descricao" type="text" placeholder="Ex.: venda do iPhone, aporte, retirada"></label>
+                <label class="campo"><span>Categoria</span>
+                  <select name="categoria">
+                    <option value="Venda">Venda</option>
+                    <option value="Aporte">Aporte</option>
+                    <option value="Retirada">Retirada</option>
+                    <option value="Ajuste">Ajuste</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </label>
+              </div>
+              <button class="btn btn-primario" type="submit">Registrar movimento</button>
+            </form>
+          </article>
+
+          <article class="cartao">
+            <header class="cartao-topo"><div><h2>Situação</h2><p class="sub">Composição do patrimônio</p></div></header>
+            <ul class="lista-simples" id="situacao-patrimonio"></ul>
+          </article>
+        </div>
+
+        <article class="cartao">
+          <header class="cartao-topo">
+            <div><h2>Movimentos de patrimônio</h2><p class="sub" id="mov-sub"></p></div>
+            <div class="segmentado" id="filtro-mov">
+              <button data-filtro="todos" class="ativo" type="button">Todos</button>
+              <button data-filtro="entrada" type="button">Altas</button>
+              <button data-filtro="saida" type="button">Baixas</button>
+            </div>
+          </header>
+          <div class="tabela-caixa">
+            <table class="tabela" id="tabela-movimentos">
+              <thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th class="dir">Valor</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <p class="vazio" id="mov-vazio" hidden>Nenhum movimento registrado ainda.</p>
+          </div>
+        </article>
+      </section>
+
+      <!-- ══════════ RENDAS ══════════ -->
+      <section class="tela" id="tela-rendas" hidden>
+        <div class="kpis kpis-4" id="kpis-rendas"></div>
+
+        <div class="grade-2">
+          <article class="cartao">
+            <header class="cartao-topo"><div><h2>Nova fonte de renda</h2><p class="sub">Quanto entra, e com que frequência</p></div></header>
+            <form class="form" id="form-renda">
+              <div class="campos">
+                <label class="campo largo"><span>Nome da fonte</span><input name="nome" type="text" placeholder="Ex.: Shopee afiliado, freela, mesada" required></label>
+                <label class="campo"><span>Valor</span><input name="valor" type="text" inputmode="decimal" placeholder="0,00" required></label>
+                <label class="campo"><span>Modo</span>
+                  <select name="modo" id="renda-modo">
+                    <option value="por-execucao">Por execução</option>
+                    <option value="mensal">Fixa mensal</option>
+                    <option value="semanal">Fixa semanal</option>
+                    <option value="diaria">Fixa diária</option>
+                  </select>
+                </label>
+                <label class="campo" id="campo-vezes"><span>Quantas vezes</span><input name="vezes" type="number" min="1" step="1" value="1"></label>
+                <label class="campo" id="campo-periodo"><span>Por</span>
+                  <select name="periodo">
+                    <option value="mes">mês</option>
+                    <option value="semana">semana</option>
+                  </select>
+                </label>
+                <label class="campo"><span>Dia de receber</span><input name="dia" type="number" min="1" max="31" placeholder="opcional"></label>
+              </div>
+              <button class="btn btn-primario" type="submit">Adicionar fonte</button>
+              <p class="ajuda" id="ajuda-renda">"Por execução" serve pra renda que só cai quando você faz o trabalho.</p>
+            </form>
+          </article>
+
+          <article class="cartao">
+            <header class="cartao-topo"><div><h2>Fontes cadastradas</h2><p class="sub" id="fontes-sub"></p></div></header>
+            <div id="lista-fontes"></div>
+          </article>
+        </div>
+
+        <article class="cartao">
+          <header class="cartao-topo">
+            <div><h2>Recebimentos</h2><p class="sub" id="receb-sub"></p></div>
+          </header>
+          <div class="tabela-caixa">
+            <table class="tabela" id="tabela-recebimentos">
+              <thead><tr><th>Data</th><th>Fonte</th><th>Descrição</th><th class="dir">Valor</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <p class="vazio" id="receb-vazio" hidden>Nenhum recebimento lançado. Use o botão <strong>Recebi</strong> em uma fonte.</p>
+          </div>
+        </article>
+      </section>
+
+      <!-- ══════════ GASTOS ══════════ -->
+      <section class="tela" id="tela-gastos" hidden>
+        <div class="kpis kpis-4" id="kpis-gastos"></div>
+
+        <div class="grade-2">
+          <article class="cartao">
+            <header class="cartao-topo"><div><h2>Assinatura ou gasto fixo</h2><p class="sub">O que cobra todo mês, sem você decidir</p></div></header>
+            <form class="form" id="form-fixo">
+              <div class="campos">
+                <label class="campo largo"><span>Nome</span><input name="nome" type="text" placeholder="Ex.: Spotify, aluguel, internet" required></label>
+                <label class="campo"><span>Valor</span><input name="valor" type="text" inputmode="decimal" placeholder="0,00" required></label>
+                <label class="campo"><span>Frequência</span>
+                  <select name="freq"><option value="mensal">Mensal</option><option value="anual">Anual</option><option value="semanal">Semanal</option></select>
+                </label>
+                <label class="campo"><span>Dia da cobrança</span><input name="dia" type="number" min="1" max="31" placeholder="ex.: 5" required></label>
+                <label class="campo"><span>Categoria</span>
+                  <select name="categoria">
+                    <option>Assinaturas</option><option>Moradia</option><option>Internet/Telefone</option><option>Transporte</option><option>Saúde</option><option>Estudos</option><option>Outros</option>
+                  </select>
+                </label>
+              </div>
+              <button class="btn btn-primario" type="submit">Adicionar fixo</button>
+            </form>
+          </article>
+
+          <article class="cartao">
+            <header class="cartao-topo"><div><h2>Fixo por mês</h2><p class="sub" id="fixos-sub"></p></div></header>
+            <div id="lista-fixos"></div>
+          </article>
+        </div>
+
+        <article class="cartao">
+          <header class="cartao-topo"><div><h2>Gasto variado</h2><p class="sub">Lanche, jantar, uber, o que aparecer no dia</p></div></header>
+          <form class="form form-curto" id="form-variavel">
+            <div class="campos">
+              <label class="campo"><span>Data</span><input name="data" type="date" required></label>
+              <label class="campo"><span>Valor</span><input name="valor" type="text" inputmode="decimal" placeholder="0,00" required></label>
+              <label class="campo"><span>Categoria</span>
+                <select name="categoria">
+                  <option>Alimentação</option><option>Transporte</option><option>Lazer</option><option>Saúde</option><option>Estudos</option><option>Casa</option><option>Vestuário</option><option>Outros</option>
+                </select>
+              </label>
+              <label class="campo"><span>Descrição</span><input name="descricao" type="text" placeholder="Ex.: lanche na escola"></label>
+            </div>
+            <button class="btn btn-primario" type="submit">Lançar gasto</button>
+          </form>
+
+          <div class="tabela-caixa">
+            <table class="tabela" id="tabela-variaveis">
+              <thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th class="dir">Valor</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <p class="vazio" id="variaveis-vazio" hidden>Nenhum gasto variado lançado ainda.</p>
+          </div>
+        </article>
+      </section>
+
+      <!-- ══════════ CALENDÁRIO ══════════ -->
+      <section class="tela tela-calendario" id="tela-calendario" hidden>
+        <div class="cal-grade">
+          <article class="cartao cartao-cal">
+            <header class="cartao-topo">
+              <div>
+                <h2 id="cal-titulo">—</h2>
+                <p class="sub" id="cal-sub"></p>
+              </div>
+              <div class="cal-nav">
+                <button class="btn btn-icone" id="cal-ante" type="button" aria-label="Mês anterior">‹</button>
+                <button class="btn btn-mini" id="cal-hoje" type="button">Hoje</button>
+                <button class="btn btn-icone" id="cal-prox" type="button" aria-label="Próximo mês">›</button>
+              </div>
+            </header>
+            <div class="cal-semana" id="cal-semana"></div>
+            <div class="cal-mes" id="cal-mes"></div>
+            <div class="cal-legenda">
+              <span><i class="pt renda"></i> recebimento</span>
+              <span><i class="pt gasto"></i> gasto</span>
+              <span><i class="pt fixo"></i> cobrança fixa</span>
+              <span><i class="pt evento"></i> compromisso</span>
+            </div>
+          </article>
+
+          <aside class="cartao cartao-dia">
+            <header class="cartao-topo"><div><h2 id="dia-titulo">—</h2><p class="sub" id="dia-sub"></p></div></header>
+            <div id="dia-lista" class="dia-lista"></div>
+
+            <form class="form form-compacto" id="form-evento">
+              <p class="form-titulo">Compromisso neste dia</p>
+              <div class="campos">
+                <label class="campo"><span>Título</span><input name="titulo" type="text" placeholder="Ex.: prova de matemática" required></label>
+                <label class="campo curto"><span>Hora</span><input name="hora" type="time"></label>
+              </div>
+              <button class="btn btn-primario" type="submit">Adicionar</button>
+            </form>
+          </aside>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ─────────── modal de lançamento rápido ─────────── -->
+<div class="modal-fundo" id="modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <header class="modal-topo">
+      <h2 id="modal-titulo">Lançamento rápido</h2>
+      <button class="btn btn-icone" id="modal-fechar" type="button" aria-label="Fechar">×</button>
+    </header>
+    <form class="form" id="form-rapido">
+      <div class="segmentado largo" id="rapido-tipo">
+        <button type="button" data-tipo="renda" class="ativo">Renda</button>
+        <button type="button" data-tipo="gasto">Gasto</button>
+        <button type="button" data-tipo="entrada">Alta</button>
+        <button type="button" data-tipo="saida">Baixa</button>
+      </div>
+      <div class="campos">
+        <label class="campo"><span>Valor</span><input name="valor" type="text" inputmode="decimal" placeholder="0,00" required></label>
+        <label class="campo"><span>Data</span><input name="data" type="date" required></label>
+        <label class="campo largo"><span>Descrição</span><input name="descricao" type="text" placeholder="opcional"></label>
+        <label class="campo largo" id="campo-fonte-rapido" hidden><span>Fonte</span><select name="fonte" id="rapido-fonte"></select></label>
+        <label class="campo largo"><span>Categoria</span><select name="categoria" id="rapido-categoria"></select></label>
+      </div>
+      <button class="btn btn-primario largo" type="submit">Salvar lançamento</button>
+    </form>
+  </div>
+</div>
+
+<div class="aviso" id="aviso" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
