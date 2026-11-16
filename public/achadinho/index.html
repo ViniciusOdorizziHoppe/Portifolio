@@ -55,27 +55,26 @@
 
   .cards{display:grid;gap:14px;margin-bottom:26px}
   a.card{
-    display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;
-    border:1.5px solid var(--linha);border-radius:16px;padding:16px 16px;
-    transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;
+    border:1.5px solid transparent;border-radius:16px;padding:17px 16px;
+    transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
     position:relative;overflow:hidden;
   }
-  a.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--amarelo)}
   a.card:active{transform:scale(.985)}
-  @media(hover:hover){a.card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(17,17,20,.09)}}
+  @media(hover:hover){a.card:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(17,17,20,.18);filter:brightness(1.04)}}
 
-  a.card.wa::before{background:var(--wa)}
-  a.card.tg::before{background:var(--tg)}
+  /* verde cheio e azul cheio: e o que da o destaque */
+  a.card.wa{background:#1da851;box-shadow:0 4px 0 #178a42}
+  a.card.tg{background:#229ed9;box-shadow:0 4px 0 #1b7fae}
 
-  .icone{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;flex:0 0 auto}
-  .wa .icone{background:#e8f9ee}
-  .tg .icone{background:#e6f4fd}
+  .icone{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;flex:0 0 auto;
+    background:rgba(255,255,255,.18)}
   .icone svg{width:26px;height:26px}
 
   .txt{flex:1;min-width:0}
-  .txt .t{font-weight:800;font-size:16px;letter-spacing:-.2px;display:block;margin-bottom:2px}
-  .txt .d{font-size:13px;color:var(--cinza);display:block}
-  .seta{font-size:20px;color:#c9c9d2;flex:0 0 auto}
+  .txt .t{font-weight:800;font-size:16.5px;letter-spacing:-.2px;display:block;margin-bottom:3px;color:#fff}
+  .txt .d{font-size:13px;color:rgba(255,255,255,.88);display:block}
+  .seta{font-size:22px;color:rgba(255,255,255,.8);flex:0 0 auto}
 
   .selo-vip{
     display:inline-flex;align-items:center;gap:6px;background:var(--amarelo);
@@ -107,7 +106,7 @@
     <!-- WHATSAPP -->
     <a class="card wa" href="https://chat.whatsapp.com/IXJEbgKnQeXFE18fbGiX6I" target="_blank" rel="noopener" data-canal="whatsapp">
       <span class="icone" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="#25d366"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.03.24-3.47-.72-2.94-1.16-4.8-4.2-4.94-4.4-.14-.19-1.17-1.55-1.17-2.96 0-1.41.74-2.1 1-2.39.26-.29.56-.36.75-.36.19 0 .38 0 .55.01.18.01.41-.07.64.48.24.58.81 1.98.88 2.12.07.15.12.32.02.51-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.15.14-.3.3-.13.59.17.29.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.35 1.46.29.15.46.12.63-.07.17-.19.73-.85.93-1.14.19-.29.39-.24.65-.15.27.1 1.68.79 1.97.94.29.15.48.22.55.34.07.13.07.75-.17 1.43z"/></svg>
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.03.24-3.47-.72-2.94-1.16-4.8-4.2-4.94-4.4-.14-.19-1.17-1.55-1.17-2.96 0-1.41.74-2.1 1-2.39.26-.29.56-.36.75-.36.19 0 .38 0 .55.01.18.01.41-.07.64.48.24.58.81 1.98.88 2.12.07.15.12.32.02.51-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.15.14-.3.3-.13.59.17.29.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.35 1.46.29.15.46.12.63-.07.17-.19.73-.85.93-1.14.19-.29.39-.24.65-.15.27.1 1.68.79 1.97.94.29.15.48.22.55.34.07.13.07.75-.17 1.43z"/></svg>
       </span>
       <span class="txt">
         <span class="t">Entrar no grupo do WhatsApp</span>
@@ -119,7 +118,7 @@
     <!-- TELEGRAM -->
     <a class="card tg" href="https://t.me/AchadinhosPG" target="_blank" rel="noopener" data-canal="telegram">
       <span class="icone" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="#2aabee"><path d="M21.9 4.3c-.3-.3-.8-.4-1.3-.2L2.7 11.2c-.5.2-.8.6-.8 1.1 0 .5.4.9.9 1l4.4 1.2 1.6 5.2c.1.4.4.7.8.8h.3c.3 0 .6-.1.8-.4l2.4-2.9 4.4 3.2c.2.2.5.2.7.2.1 0 .3 0 .4-.1.3-.1.5-.4.6-.7l3.5-15c.1-.5-.1-1-.4-1.3zM9.7 14.1l-.5 3-1.1-3.7 8.6-5.6-7 6.3z"/></svg>
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M21.9 4.3c-.3-.3-.8-.4-1.3-.2L2.7 11.2c-.5.2-.8.6-.8 1.1 0 .5.4.9.9 1l4.4 1.2 1.6 5.2c.1.4.4.7.8.8h.3c.3 0 .6-.1.8-.4l2.4-2.9 4.4 3.2c.2.2.5.2.7.2.1 0 .3 0 .4-.1.3-.1.5-.4.6-.7l3.5-15c.1-.5-.1-1-.4-1.3zM9.7 14.1l-.5 3-1.1-3.7 8.6-5.6-7 6.3z"/></svg>
       </span>
       <span class="txt">
         <span class="t">Entrar no canal do Telegram</span>
