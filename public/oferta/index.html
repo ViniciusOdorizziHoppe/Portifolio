@@ -46,6 +46,8 @@
   .principal{background:var(--tinta);color:#fff}
   .principal.feito{background:var(--verde);color:#fff}
   .ghost{background:#fff;border-color:var(--linha);color:var(--texto);font-weight:600}
+  .mini{display:inline-flex;align-items:center;text-decoration:none;background:#fff;border:1.5px solid var(--linha);
+    border-radius:9px;padding:8px 12px;font-size:13px;font-weight:600;color:var(--texto)}
   .aviso{font-size:12px;color:var(--cinza);text-align:center;padding:18px 10px}
   .carregando{text-align:center;color:var(--cinza);font-size:13px;padding:36px 10px}
   .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);
@@ -124,47 +126,70 @@ function copiarAntigo(texto) {
   ta.remove();
 }
 
-async function linkDoItem(o) {
-  if (!o.precisa_resolver) return o.link;
-  if (state.resolvidos[o.id]) return state.resolvidos[o.id];
-  const r = await fetch('/api/ofertas?link=' + encodeURIComponent(o.id), { cache: 'no-store' });
-  const d = await r.json();
-  if (!d.link) throw new Error(d.erro || 'não consegui preparar o link');
-  state.resolvidos[o.id] = d.link;
-  return d.link;
+// Link curto do próprio domínio: o destino (com sub_id) é resolvido só no
+// clique, em /o/<id>. Sem isso o texto do WhatsApp carrega 600 caracteres.
+function linkCurto(o) {
+  return location.origin + '/o/' + o.id;
+}
+
+// A foto precisa vir pelo nosso servidor: o CDN da Shopee não manda CORS,
+// então o navegador não consegue baixar para compartilhar.
+async function fotoDoItem(o) {
+  if (!o.imagem) return null;
+  const r = await fetch('/api/img?src=' + encodeURIComponent(o.imagem));
+  if (!r.ok) return null;
+  const blob = await r.blob();
+  return new File([blob], 'achadinho-' + o.id + '.jpg', { type: blob.type || 'image/jpeg' });
 }
 
 async function acaoCopiar(o, botao) {
   const original = botao.textContent;
   botao.disabled = true;
-  botao.textContent = o.precisa_resolver && !state.resolvidos[o.id] ? 'preparando link…' : 'copiando…';
+  botao.textContent = 'copiando…';
   try {
-    const link = await linkDoItem(o);
-    await copiar(mensagem(o, link));
-    botao.textContent = 'copiado!';
+    await copiar(mensagem(o, linkCurto(o)));
+    botao.textContent = 'texto copiado!';
     botao.classList.add('feito');
-    toast('mensagem pronta, cola no grupo');
+    toast('texto pronto — anexa a foto no WhatsApp');
     setTimeout(() => { botao.textContent = original; botao.classList.remove('feito'); botao.disabled = false; }, 2000);
   } catch (e) {
-    botao.textContent = 'erro, tentar de novo';
+    botao.textContent = original;
     botao.disabled = false;
-    toast(e.message || 'falhou');
+    toast('não consegui copiar');
   }
 }
 
-async function acaoCompartilhar(o) {
+// Envia foto + texto juntos pela gaveta do sistema (WhatsApp recebe a imagem
+// com o texto como legenda). É o único caminho que leva a imagem junto.
+async function acaoEnviar(o, botao) {
+  const original = botao.textContent;
+  botao.disabled = true;
+  botao.textContent = 'preparando foto…';
   try {
-    const link = await linkDoItem(o);
-    const texto = mensagem(o, link);
-    if (navigator.share) {
-      await navigator.share({ text: texto });
+    const texto = mensagem(o, linkCurto(o));
+    const foto = await fotoDoItem(o);
+
+    if (!foto) {
+      await copiar(texto);
+      toast('foto não veio; copiei só o texto');
+      return;
+    }
+
+    const arquivo = { files: [foto], text: texto };
+    if (navigator.canShare && navigator.canShare({ files: [foto] })) {
+      botao.textContent = 'abre a gaveta…';
+      await navigator.share(arquivo);
+      botao.textContent = 'enviado!';
+      botao.classList.add('feito');
+      toast('escolheu o grupo, foi com foto');
     } else {
       await copiar(texto);
-      toast('sem compartilhamento nativo: copiei a mensagem');
+      toast('navegador sem compartilhar: texto copiado, baixa a foto no "Baixar foto"');
     }
   } catch (e) {
-    if (e && e.name === 'AbortError') return;
-    toast(e.message || 'falhou');
+    if (!e || e.name !== 'AbortError') toast(e && e.message ? e.message : 'falhou');
+  } finally {
+    setTimeout(() => { botao.textContent = original; botao.classList.remove('feito'); botao.disabled = false; }, 2000);
   }
 }
 
@@ -212,10 +237,10 @@ function render() {
         </div>
         <div class="meta">comissão ${brl(o.com_reais)}${o.vendas_txt ? ` · ${o.vendas_txt} vendidos` : ''}</div>
         <div class="acoes">
-          <button class="principal" data-acao="copiar">Copiar mensagem</button>
-          <button class="ghost" data-acao="compartilhar">Compartilhar</button>
-          <a class="ghost" style="text-decoration:none;padding:8px 12px;border:1.5px solid var(--linha);border-radius:9px;font-size:13px;font-weight:600;color:var(--texto)"
-             href="${o.link}" target="_blank" rel="noopener">Abrir</a>
+          <button class="principal" data-acao="enviar">Enviar com foto</button>
+          <button class="ghost" data-acao="copiar">Só o texto</button>
+          <a class="mini" href="/o/${o.id}" target="_blank" rel="noopener">Abrir</a>
+          <a class="mini" href="/api/img?src=${encodeURIComponent(o.imagem)}" download="achadinho-${o.id}.jpg">Baixar foto</a>
         </div>
       </div>
     </article>`).join('');
@@ -227,8 +252,8 @@ document.getElementById('lista').addEventListener('click', (ev) => {
   const card = botao.closest('.card');
   const item = state.itens.find((o) => String(o.id) === card.dataset.id);
   if (!item) return;
-  if (botao.dataset.acao === 'copiar') acaoCopiar(item, botao);
-  else acaoCompartilhar(item);
+  if (botao.dataset.acao === 'enviar') acaoEnviar(item, botao);
+  else acaoCopiar(item, botao);
 });
 
 document.getElementById('busca').addEventListener('input', render);

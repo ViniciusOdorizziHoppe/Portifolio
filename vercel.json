@@ -23,6 +23,10 @@
   ],
   "rewrites": [
     {
+      "source": "/o/:id",
+      "destination": "/api/o/:id"
+    },
+    {
       "source": "/oferta",
       "destination": "/oferta/index.html"
     },
