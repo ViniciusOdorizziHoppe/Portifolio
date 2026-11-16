@@ -39,6 +39,14 @@
       "destination": "/achadinho/index.html"
     },
     {
+      "source": "/cliques",
+      "destination": "/cliques/index.html"
+    },
+    {
+      "source": "/cliques/",
+      "destination": "/cliques/index.html"
+    },
+    {
       "source": "/achadinho/",
       "destination": "/achadinho/index.html"
     },

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cliques · Achadinhos Shopee PG</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f5c518">
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{background:#fff;color:#111318;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;padding:22px 16px 40px}
+  .wrap{max-width:620px;margin:0 auto}
+  .marca{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6b6b76;font-weight:700;margin:0}
+  h1{font-size:26px;letter-spacing:-.7px;margin:8px 0 2px;font-weight:900}
+  .sub{color:#6b6b76;font-size:13px;margin:0}
+
+  .topo{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:20px;
+    border:1px solid #e9e9ec;border-radius:16px;padding:16px 18px}
+  .total{font-size:38px;font-weight:900;letter-spacing:-1.5px;line-height:1;font-variant-numeric:tabular-nums}
+  .total small{display:block;font-size:12px;font-weight:600;color:#6b6b76;letter-spacing:0;margin-top:6px}
+  .abas{display:flex;gap:6px;flex-wrap:wrap}
+  .abas button{font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;padding:7px 12px;border-radius:9px;
+    border:1px solid #e9e9ec;background:#fff;color:#111318}
+  .abas button.on{background:#f5c518;border-color:#f5c518}
+
+  ol{list-style:none;padding:0;margin:18px 0 0}
+  li{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;
+    padding:13px 0;border-bottom:1px solid #f0f0f2}
+  li:first-child{border-top:1px solid #f0f0f2}
+  .pos{font-size:13px;font-weight:900;color:#b9b9c1;font-variant-numeric:tabular-nums}
+  li:first-child .pos{color:#111318}
+  .nome{font-size:13.5px;font-weight:600;line-height:1.3;margin:0;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .meta{font-size:11.5px;color:#6b6b76;margin-top:3px}
+  .num{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.6px;text-align:right}
+  .num small{display:block;font-size:10.5px;font-weight:600;color:#6b6b76;letter-spacing:0}
+  .barra{grid-column:1/-1;height:5px;border-radius:3px;background:#f0f0f2;margin-top:-4px}
+  .barra i{display:block;height:100%;border-radius:3px;background:#f5c518}
+  .vazio{padding:34px 0;text-align:center;color:#6b6b76;font-size:13.5px}
+  .pe{margin-top:22px;font-size:11.5px;color:#9a9aa3;text-align:center}
+  a.ver{color:#111318;font-weight:800;text-decoration:none;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="marca">Achadinhos Shopee PG</p>
+  <h1>Cliques da página</h1>
+  <p class="sub">atualiza sozinho a cada 30 segundos</p>
+
+  <div class="topo">
+    <div>
+      <div class="total" id="total">—</div>
+      <small id="rotulo">cliques no período</small>
+    </div>
+    <div class="abas" id="abas">
+      <button data-dias="1">Hoje</button>
+      <button data-dias="7" class="on">7 dias</button>
+      <button data-dias="30">30 dias</button>
+    </div>
+  </div>
+
+  <ol id="lista"></ol>
+  <p class="pe" id="pe"></p>
+</div>
+
+<script>
+let dias = 7;
+
+function brl(v){ return 'R$ ' + Number(v).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+async function carregar(){
+  const lista = document.getElementById('lista');
+  try{
+    const r = await fetch('/api/cliques?dias=' + dias, {cache:'no-store'});
+    const d = await r.json();
+    const itens = d.cliques || [];
+    document.getElementById('total').textContent = d.total_geral || 0;
+    document.getElementById('rotulo').textContent = dias === 1 ? 'cliques hoje' : 'cliques em ' + dias + ' dias';
+
+    if(!itens.length){
+      lista.innerHTML = '<div class="vazio">Nenhum clique ainda.<br>Manda o link pra alguém e volta aqui.</div>';
+      document.getElementById('pe').textContent = '';
+      return;
+    }
+
+    const max = Math.max.apply(null, itens.map(i => i.total));
+    lista.innerHTML = itens.map((i, ix) => {
+      const orig = Object.keys(i.origem || {}).map(k => k + ' ' + i.origem[k]).join(' · ');
+      return '<li>'
+        + '<span class="pos">' + (ix + 1) + '</span>'
+        + '<div><p class="nome">' + (i.nome || i.id) + '</p>'
+        + '<div class="meta">' + (i.preco ? brl(i.preco) : '') + (orig ? ' · ' + orig : '') + '</div></div>'
+        + '<div class="num">' + i.total + '<small>' + (i.total === 1 ? 'clique' : 'cliques') + '</small></div>'
+        + '<div class="barra"><i style="width:' + Math.round(i.total / max * 100) + '%"></i></div>'
+        + '</li>';
+    }).join('');
+
+    const somaDia = {};
+    itens.forEach(i => Object.keys(i.dias || {}).forEach(dia => { somaDia[dia] = (somaDia[dia] || 0) + i.dias[dia]; }));
+    const dias_txt = Object.keys(somaDia).sort().map(dia => {
+      const [a, m, d2] = dia.split('-');
+      return d2 + '/' + m + ': ' + somaDia[dia];
+    }).join('   ');
+    document.getElementById('pe').textContent = dias_txt;
+  }catch(e){
+    lista.innerHTML = '<div class="vazio">Não consegui puxar os números agora.<br>' + e.message + '</div>';
+  }
+}
+
+document.querySelectorAll('#abas button').forEach(b => {
+  b.addEventListener('click', () => {
+    dias = Number(b.dataset.dias);
+    document.querySelectorAll('#abas button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    carregar();
+  });
+});
+
+carregar();
+setInterval(carregar, 30000);
+</script>
+</body>
+</html>
