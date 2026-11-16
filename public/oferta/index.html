@@ -129,7 +129,7 @@ function copiarAntigo(texto) {
 // Link curto do próprio domínio: o destino (com sub_id) é resolvido só no
 // clique, em /o/<id>. Sem isso o texto do WhatsApp carrega 600 caracteres.
 function linkCurto(o) {
-  return location.origin + '/o/' + o.id;
+  return location.origin + '/o/' + o.id + '?o=wa';
 }
 
 // A foto precisa vir pelo nosso servidor: o CDN da Shopee não manda CORS,
@@ -239,7 +239,7 @@ function render() {
         <div class="acoes">
           <button class="principal" data-acao="enviar">Enviar com foto</button>
           <button class="ghost" data-acao="copiar">Só o texto</button>
-          <a class="mini" href="/o/${o.id}" target="_blank" rel="noopener">Abrir</a>
+          <a class="mini" href="/o/${o.id}?o=oferta" target="_blank" rel="noopener">Abrir</a>
           <a class="mini" href="/api/img?src=${encodeURIComponent(o.imagem)}" download="achadinho-${o.id}.jpg">Baixar foto</a>
         </div>
       </div>

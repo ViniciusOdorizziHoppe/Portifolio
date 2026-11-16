@@ -3,98 +3,213 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Entrar no grupo do WhatsApp</title>
-
-<!-- Open Graph (como aparece quando alguém compartilha) -->
+<title>Ofertas de hoje · Achadinhos Shopee PG</title>
 <meta property="og:type" content="website">
-<meta property="og:title" content="Achadinhos Shopee PG · entre no grupo">
-<meta property="og:description" content="Os achadinhos da Shopee com preço conferido, todo dia, no seu WhatsApp. Grátis.">
+<meta property="og:title" content="Ofertas de hoje · Achadinhos Shopee PG">
+<meta property="og:description" content="Achadinhos da Shopee com preço conferido. 9 ofertas atualizadas hoje.">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:url" content="https://www.viniciusodorizzi.com/achadinho">
 <meta property="og:image" content="https://www.viniciusodorizzi.com/achadinho/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Achadinhos Shopee PG · entre no grupo">
-<meta name="twitter:image" content="https://www.viniciusodorizzi.com/achadinho/og.jpg">
-<link rel="canonical" href="https://www.viniciusodorizzi.com/achadinho">
+<meta name="theme-color" content="#f5c518">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#0b8043">
-
 <style>
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;padding:0;height:100%}
+  html,body{margin:0;padding:0}
   body{
-    background:#fff;
+    background:#fff;color:#111318;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    display:grid;place-items:center;
-    min-height:100vh;min-height:100dvh;
-    padding:24px max(20px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:calc(88px + env(safe-area-inset-bottom));
   }
+  .wrap{max-width:560px;margin:0 auto;padding:0 16px}
 
-  .cta{
-    display:flex;align-items:center;justify-content:center;gap:14px;
-    width:100%;max-width:560px;
-    padding:30px 26px;
-    border:0;border-radius:22px;
-    background:linear-gradient(180deg,#16a34a 0%,#0b8043 100%);
-    color:#fff;text-decoration:none;
-    font-size:clamp(19px,5.2vw,24px);font-weight:900;letter-spacing:-.2px;
-    text-transform:uppercase;line-height:1.15;text-align:center;
-    box-shadow:0 8px 0 #075e33, 0 18px 34px rgba(11,128,67,.28);
-    transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
-    animation:respira 2.6s ease-in-out infinite;
-  }
-  .cta svg{width:1.55em;height:1.55em;flex:0 0 auto;fill:currentColor}
-  .cta:active{
-    transform:translateY(6px);
-    box-shadow:0 2px 0 #075e33, 0 6px 14px rgba(11,128,67,.22);
-    animation:none;
-  }
-  @media(hover:hover){
-    .cta:hover{
-      transform:translateY(-2px);filter:brightness(1.05);
-      box-shadow:0 10px 0 #075e33, 0 22px 40px rgba(11,128,67,.32);
-      animation:none;
-    }
-  }
-  .cta:focus-visible{
-    outline:3px solid #f5c518;outline-offset:4px;
-  }
+  header{padding:22px 0 4px}
+  .marca{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6b6b76;font-weight:700;margin:0}
+  h1{font-size:27px;line-height:1.1;letter-spacing:-.7px;margin:10px 0 4px;font-weight:900}
+  .sub{margin:0;font-size:13px;color:#6b6b76}
+  .sub b{color:#111318;font-weight:700}
 
-  @keyframes respira{
-    0%,100%{box-shadow:0 8px 0 #075e33, 0 18px 34px rgba(11,128,67,.28)}
-    50%{box-shadow:0 8px 0 #075e33, 0 18px 46px rgba(11,128,67,.44)}
+  /* ── destaque (TV) ── */
+  .destaque{
+    display:block;text-decoration:none;color:inherit;margin:18px 0 26px;
+    border:2px solid #111318;border-radius:18px;overflow:hidden;background:#fff;
+    box-shadow:0 6px 0 #f5c518;transition:transform .12s ease;
   }
-  @media (prefers-reduced-motion: reduce){
-    .cta{animation:none;transition:none}
+  .destaque:active{transform:translateY(3px)}
+  .destaque .foto{position:relative;background:#f7f7f5;aspect-ratio:1/.86;display:grid;place-items:center;padding:14px}
+  .destaque .foto img{width:100%;height:100%;object-fit:contain}
+  .destaque .corpo{padding:14px 16px 18px}
+  .destaque .nome{margin:0;font-size:15px;font-weight:700;line-height:1.3}
+  .destaque .preco{margin:10px 0 0;font-size:30px;font-weight:900;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+  .destaque .antes{margin:2px 0 0;font-size:13.5px;color:#6b6b76}
+  .destaque .antes s{text-decoration:line-through}
+  .destaque .bt{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;
+    background:#f5c518;color:#111318;font-weight:900;font-size:15px;letter-spacing:-.2px;
+    padding:15px;border-radius:12px;text-transform:uppercase}
+
+  .selo{
+    position:absolute;top:10px;left:10px;z-index:2;
+    background:#f5c518;color:#111318;font-size:11.5px;font-weight:900;
+    padding:5px 9px;border-radius:7px;letter-spacing:.02em;
   }
+  .rotulo{display:flex;align-items:center;gap:8px;margin:0 0 12px}
+  .rotulo h2{font-size:16px;margin:0;letter-spacing:-.3px}
+  .rotulo span{font-size:12px;color:#6b6b76}
+
+  /* ── grade ── */
+  .grade{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .card{
+    display:flex;flex-direction:column;text-decoration:none;color:inherit;
+    border:1px solid #e9e9ec;border-radius:14px;overflow:hidden;background:#fff;
+    transition:border-color .12s ease;
+  }
+  .card:active{border-color:#f5c518}
+  .card .foto{position:relative;background:#f7f7f5;padding:10px;aspect-ratio:1/1}
+  .card .foto img{width:100%;height:100%;object-fit:contain;display:block}
+  .card .selo{font-size:10.5px;padding:4px 7px;top:8px;left:8px}
+  .card .corpo{padding:10px 11px 12px;display:flex;flex-direction:column;flex:1}
+  .card .nome{margin:0;font-size:12.5px;line-height:1.32;font-weight:600;color:#2b2b32;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card .preco{margin:8px 0 0;font-size:17px;font-weight:900;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
+  .card .antes{margin:1px 0 0;font-size:11.5px;color:#8a8a94;min-height:15px}
+  .card .antes s{text-decoration:line-through}
+  .card .ver{margin-top:auto;padding-top:9px;font-size:12px;font-weight:900;color:#111318}
+  .card .ver::after{content:" →";color:#c9a112}
+
+  /* ── barra fixa do grupo ── */
+  .barra{
+    position:fixed;left:0;right:0;bottom:0;z-index:20;
+    background:rgba(255,255,255,.94);backdrop-filter:blur(10px);
+    border-top:1px solid #e9e9ec;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  }
+  .barra a{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    max-width:560px;margin:0 auto;text-decoration:none;
+    background:linear-gradient(180deg,#16a34a 0%,#0b8043 100%);color:#fff;
+    font-weight:900;font-size:15px;padding:14px;border-radius:13px;
+    box-shadow:0 3px 0 #075e33;letter-spacing:-.2px;
+  }
+  .barra svg{width:1.35em;height:1.35em;fill:currentColor;flex:0 0 auto}
+  .pe{margin:26px 0 8px;text-align:center;font-size:11.5px;color:#9a9aa3}
 </style>
 </head>
 <body>
 
-<a class="cta" href="https://chat.whatsapp.com/IXJEbgKnQeXFE18fbGiX6I"
-   target="_blank" rel="noopener" data-canal="whatsapp"
-   aria-label="Entrar no grupo do WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.03.24-3.47-.72-2.94-1.16-4.8-4.2-4.94-4.4-.14-.19-1.17-1.55-1.17-2.96 0-1.41.58-2.1.79-2.39.2-.29.44-.36.59-.36.15 0 .29 0 .42.01.14.01.32-.05.5.38.18.44.62 1.52.68 1.63.05.11.09.24.01.38-.08.15-.12.24-.24.37-.12.13-.25.29-.36.39-.12.11-.24.23-.1.45.14.22.61 1 1.31 1.62.9.8 1.65 1.05 1.89 1.17.24.12.38.1.52-.06.14-.15.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.37.65 1.61.77.24.12.4.18.46.28.06.11.06.62-.16 1.17z"/></svg>
-  <span>Entrar no grupo do WhatsApp</span>
-</a>
+<div class="wrap">
+  <header>
+    <p class="marca">Achadinhos Shopee PG</p>
+    <h1>Ofertas de hoje</h1>
+    <p class="sub"><b>9 ofertas</b> com preço conferido · 16/11</p>
+  </header>
+
+  <a class="destaque" href="/o/23294898943" aria-label="Smart TV LCD LED 32&quot; AOC 32S5155/78G - Wi-Fi, HD, Quad Core, Dolby…">
+    <div class="foto"><span class="selo">15% OFF</span>
+      <img src="https://cf.shopee.com.br/file/br-11134207-820la-mm0ij1nkfapze0" alt="" fetchpriority="high" decoding="async">
+    </div>
+    <div class="corpo">
+      <p class="nome">Smart TV LCD LED 32&quot; AOC 32S5155/78G - Wi-Fi, HD, Quad Core, Dolby Áudio, 60 Hz</p>
+      <p class="preco">R$ 1.189,15</p>
+      <p class="antes"><s>R$ 1.399,00</s></p>
+      <span class="bt">Ver oferta na Shopee</span>
+    </div>
+  </a>
+
+  <div class="rotulo">
+    <h2>Mais achadinhos</h2>
+    <span>o que mais sai</span>
+  </div>
+
+  <div class="grade">
+      <a class="card" href="/o/22398732769" aria-label="Máquina De Café Cápsula Automática Cafeteira Espresso 110V/220V">
+        <div class="foto"><span class="selo">35% OFF</span><img src="https://cf.shopee.com.br/file/br-11134207-7r98o-mcrsqihfnz1u7f" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="corpo">
+          <p class="nome">Máquina De Café Cápsula Automática Cafeteira Espresso…</p>
+          <p class="preco">R$ 389,99</p>
+          <p class="antes"><s>R$ 600,00</s></p>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/42325776617" aria-label="Espelho Grande Orgânico de Corpo Inteiro com Led 170x70cm Espelho…">
+        <div class="foto"><span class="selo">41% OFF</span><img src="https://cf.shopee.com.br/file/br-11134207-81z1k-mfy2qheuud516e" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="corpo">
+          <p class="nome">Espelho Grande Orgânico de Corpo Inteiro com Led…</p>
+          <p class="preco">R$ 270,90</p>
+          <p class="antes"><s>R$ 459,90</s></p>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/23597767441" aria-label="Lavadora De Alta Pressão Vonder C/ Rodas, 1.600 lbf/pol² 1400w Super…">
+        <div class="foto"><span class="selo">35% OFF</span><img src="https://cf.shopee.com.br/file/br-11134207-7r98o-m86573g91ngx80" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="corpo">
+          <p class="nome">Lavadora De Alta Pressão Vonder C/ Rodas, 1.600 lbf/pol²…</p>
+          <p class="preco">R$ 389,99</p>
+          <p class="antes"><s>R$ 599,98</s></p>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/23498195096" aria-label="Escova Secadora Alisadora Philco 3 Em 1 1300w Original Anti-frizz…">
+        <div class="foto"><span class="selo">50% OFF</span><img src="https://cf.shopee.com.br/file/br-11134207-820lg-mnk5htq1yneqf2" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="corpo">
+          <p class="nome">Escova Secadora Alisadora Philco 3 Em 1 1300w Original…</p>
+          <p class="preco">R$ 299,00</p>
+          <p class="antes"><s>R$ 599,00</s></p>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/23498464792" aria-label="Carrinho Organizador De Aço Multiuso 3 Prateleiras Premium Rodízio…">
+        <div class="foto"><span class="selo">51% OFF</span><img src="https://cf.shopee.com.br/file/sg-11134201-7rffd-m9hn0dh7ck0pdf" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="corpo">
+          <p class="nome">Carrinho Organizador De Aço Multiuso 3 Prateleiras…</p>
+          <p class="preco">R$ 137,99</p>
+          <p class="antes"><s>R$ 282,47</s></p>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22993970919" aria-label="Baba Eletrônica Com Monitor Visão Noturna, Câmera c/ Audio Sensor de…">
+        <div class="foto"><span class="selo">52% OFF</span><img src="https://cf.shopee.com.br/file/br-11134207-81z1k-mifbr1zypuddf9" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="corpo">
+          <p class="nome">Baba Eletrônica Com Monitor Visão Noturna, Câmera c/…</p>
+          <p class="preco">R$ 289,80</p>
+          <p class="antes"><s>R$ 600,00</s></p>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58207643582" aria-label="Kit 4 Banheiro Premium Inox Antiferrugem Preto/Dourado Brilhante…">
+        <div class="foto"><span class="selo">50% OFF</span><img src="https://cf.shopee.com.br/file/br-11134207-820lq-mrg1qgdsan7r03" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="corpo">
+          <p class="nome">Kit 4 Banheiro Premium Inox Antiferrugem Preto/Dourado…</p>
+          <p class="preco">R$ 99,89</p>
+          <p class="antes"><s>R$ 200,00</s></p>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58206746518" aria-label="Fechadura Eletronica Digital Senha Biometria Cartao Preto ASUS">
+        <div class="foto"><span class="selo">41% OFF</span><img src="https://cf.shopee.com.br/file/br-11134207-820ll-mlpc83gt8wlg24" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="corpo">
+          <p class="nome">Fechadura Eletronica Digital Senha Biometria Cartao…</p>
+          <p class="preco">R$ 295,00</p>
+          <p class="antes"><s>R$ 500,00</s></p>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+  </div>
+
+  <p class="pe">Achadinhos Shopee PG · Presidente Getúlio / SC</p>
+</div>
+
+<div class="barra">
+  <a href="https://chat.whatsapp.com/IXJEbgKnQeXFE18fbGiX6I" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.03.24-3.47-.72-2.94-1.16-4.8-4.2-4.94-4.4-.14-.19-1.17-1.55-1.17-2.96 0-1.41.58-2.1.79-2.39.2-.29.44-.36.59-.36.15 0 .29 0 .42.01.14.01.32-.05.5.38.18.44.62 1.52.68 1.63.05.11.09.24.01.38-.08.15-.12.24-.24.37-.12.13-.25.29-.36.39-.12.11-.24.23-.1.45.14.22.61 1 1.31 1.62.9.8 1.65 1.05 1.89 1.17.24.12.38.1.52-.06.14-.15.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.37.65 1.61.77.24.12.4.18.46.28.06.11.06.62-.16 1.17z"/></svg>
+    <span>Receber no WhatsApp</span>
+  </a>
+</div>
 
 <script>
-/* ─────────────────────────────────────────────
-   CONFIGURAÇÃO: troque o link aqui se mudar
-   ───────────────────────────────────────────── */
-const LINKS = {
-  whatsapp: 'https://chat.whatsapp.com/IXJEbgKnQeXFE18fbGiX6I'
-};
-
-/* Pixel do Meta (opcional). Cole o ID aqui e o evento Lead dispara no clique. */
+/* Pixel do Meta (opcional). Cole o ID aqui e o PageView passa a disparar. */
 const PIXEL_ID = '';
-
-const cta = document.querySelector('a.cta');
-if (cta && LINKS.whatsapp) cta.href = LINKS.whatsapp;
-
-/* Pixel: carrega só se tiver ID */
 if (PIXEL_ID) {
   !(function (f, b, e, v, n, t, s) {
     if (f.fbq) return;
@@ -107,13 +222,7 @@ if (PIXEL_ID) {
   fbq('init', PIXEL_ID);
   fbq('track', 'PageView');
 }
-
-/* cada clique conta como Lead pra otimizar a campanha */
-if (cta) {
-  cta.addEventListener('click', function () {
-    try { if (window.fbq) fbq('track', 'Lead', { canal: cta.dataset.canal }); } catch (e) {}
-  });
-}
 </script>
+
 </body>
 </html>

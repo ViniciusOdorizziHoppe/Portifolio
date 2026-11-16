@@ -1,25 +1,34 @@
 // Redireciona /o/<item_id> para o link da Shopee já com sub_id.
-// Motivo: o link resolvido tem ~600 caracteres (gads_t_sig), fica feio e
-// parece spam no WhatsApp. Aqui o link do post fica curto e a atribuição
-// continua inteira, porque o 302 carrega todos os parâmetros para o destino.
+// Antes de sair, registra o clique na VPS (é assim que a página /achadinho
+// descobre qual oferta o pessoal procura mais). O 302 carrega todos os
+// parâmetros de atribuição para o destino.
 const BASE = process.env.OFERTAS_API || 'http://185.115.161.188:8184';
 
 export default async function handler(req, res) {
   const id = String(req.query.id || '').replace(/\D/g, '');
+  const origem = (String(req.query.o || 'site').replace(/[^a-zA-Z0-9]/g, '') || 'site').slice(0, 12);
+  const pag = (String(req.query.p || 'achadinho').replace(/[^a-zA-Z0-9_-]/g, '') || 'achadinho').slice(0, 24);
 
   if (!id) {
     res.writeHead(302, { location: '/achadinho', 'cache-control': 'no-store' });
     return res.end();
   }
 
+  // conta o clique: no máximo 1s, e erro aqui nunca derruba o link
   try {
-    const r = await fetch(`${BASE}/api/link?id=${id}`, { signal: AbortSignal.timeout(8000) });
+    await fetch(`${BASE}/api/clique?id=${id}&o=${origem}&p=${pag}`, {
+      signal: AbortSignal.timeout(1000),
+    });
+  } catch { /* medição é opcional */ }
+
+  try {
+    const r = await fetch(`${BASE}/api/link?id=${id}&o=${origem}`, { signal: AbortSignal.timeout(8000) });
     const d = await r.json();
     if (d && d.link) {
       res.writeHead(302, {
         location: d.link,
-        // 1h na borda: o link resolvido não muda dentro do dia
-        'cache-control': 'public, max-age=1800, s-maxage=3600',
+        // sem cache: com resposta cacheada na borda o clique deixaria de ser contado
+        'cache-control': 'no-store',
       });
       return res.end();
     }
