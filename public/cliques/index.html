@@ -17,13 +17,18 @@
   .sub{color:#6b6b76;font-size:13px;margin:0}
 
   .topo{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:20px;
-    border:1px solid #e9e9ec;border-radius:16px;padding:16px 18px}
+    border:1px solid #e9e9ec;border-radius:16px;padding:16px 18px;flex-wrap:wrap}
   .total{font-size:38px;font-weight:900;letter-spacing:-1.5px;line-height:1;font-variant-numeric:tabular-nums}
   .total small{display:block;font-size:12px;font-weight:600;color:#6b6b76;letter-spacing:0;margin-top:6px}
   .abas{display:flex;gap:6px;flex-wrap:wrap}
   .abas button{font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;padding:7px 12px;border-radius:9px;
-    border:1px solid #e9e9ec;background:#fff;color:#111318}
+    border:1px solid #e9e9ec;background:#fff;color:#111318;white-space:nowrap}
   .abas button.on{background:#f5c518;border-color:#f5c518}
+  @media (max-width:440px){
+    .topo{flex-direction:column;align-items:stretch;gap:14px}
+    .abas{width:100%}
+    .abas button{flex:1;text-align:center;padding:9px 6px}
+  }
 
   ol{list-style:none;padding:0;margin:18px 0 0}
   li{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;
