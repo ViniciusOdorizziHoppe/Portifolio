@@ -14,6 +14,7 @@ Exemplos:
 import argparse
 import json
 import os
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -34,11 +35,17 @@ def carregar_ofertas(caminho: str):
 
 
 def link_com_sub(link: str, item_id: str) -> str:
-    """Anexa (ou troca) o sub_id para separar o tráfego do Facebook."""
+    """Anexa (ou troca) o sub_id SEM perder os utm_*.
+
+    Reconstruir a URL com split("?") apagava utm_source/utm_medium e o
+    gads_t_sig, que são justamente o que atribui a comissão à conta.
+    Anexar mantém tudo: testado no destino final da Shopee.
+    """
     if not link:
         return ""
-    base = link.split("?")[0]
-    return f"{base}?sub_id={item_id}-facebook-pg"
+    limpo = re.sub(r"([?&])sub_id=[^&]*", r"\1", str(link)).rstrip("?&")
+    separador = "&" if "?" in limpo else "?"
+    return f"{limpo}{separador}sub_id={item_id}-facebook-pg"
 
 
 def texto_html(nome: str, preco: float, antes: float, desconto: int, link: str, vendas: str) -> str:

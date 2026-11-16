@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ofertas de hoje · Achadinhos Shopee PG</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f5c518">
+<style>
+  :root{
+    --amarelo:#f5c518; --tinta:#111114; --texto:#1d1d22; --cinza:#6b6b76;
+    --linha:#e6e6ea; --verde:#0a7d43; --fundo:#fbfbfa;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{background:var(--fundo);color:var(--texto);font-size:15px;line-height:1.45;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--linha)}
+  .faixa{height:6px;background:var(--amarelo)}
+  .topo{max-width:620px;margin:0 auto;padding:14px 16px 12px}
+  h1{margin:0;font-size:19px;letter-spacing:-.4px;font-weight:800}
+  .sub{color:var(--cinza);font-size:12.5px;margin-top:2px}
+  .ferramentas{max-width:620px;margin:0 auto;padding:10px 16px 12px;display:flex;gap:8px}
+  input[type=search],select{
+    flex:1;min-width:0;font:inherit;font-size:14px;padding:9px 12px;border:1.5px solid var(--linha);
+    border-radius:11px;background:#fff;color:var(--texto);appearance:none;
+  }
+  select{flex:0 0 132px}
+  input:focus,select:focus{outline:none;border-color:var(--amarelo)}
+  main{max-width:620px;margin:0 auto;padding:4px 16px 60px}
+  .card{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--linha);
+    border-radius:14px;padding:12px;margin-bottom:10px}
+  .thumb{width:78px;height:78px;flex:0 0 auto;border-radius:10px;object-fit:cover;background:#f2f2ef}
+  .info{flex:1;min-width:0}
+  .nome{font-size:13.5px;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;
+    -webkit-box-orient:vertical;overflow:hidden;margin-bottom:5px}
+  .preco{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+  .agora{font-size:17px;font-weight:800;letter-spacing:-.3px}
+  .antes{font-size:12px;color:var(--cinza);text-decoration:line-through}
+  .off{background:var(--amarelo);color:#111;font-size:11px;font-weight:900;padding:2px 6px;border-radius:6px}
+  .meta{font-size:11.5px;color:var(--cinza);margin-top:3px}
+  .acoes{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+  button{font:inherit;cursor:pointer;border-radius:9px;padding:8px 12px;border:1.5px solid transparent;
+    font-size:13px;font-weight:700;transition:transform .1s}
+  button:active{transform:scale(.97)}
+  .principal{background:var(--tinta);color:#fff}
+  .principal.feito{background:var(--verde);color:#fff}
+  .ghost{background:#fff;border-color:var(--linha);color:var(--texto);font-weight:600}
+  .aviso{font-size:12px;color:var(--cinza);text-align:center;padding:18px 10px}
+  .carregando{text-align:center;color:var(--cinza);font-size:13px;padding:36px 10px}
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);
+    background:var(--tinta);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;
+    opacity:0;pointer-events:none;transition:opacity .18s, transform .18s;z-index:50;max-width:90vw}
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  .selo-sub{font-size:10.5px;color:var(--cinza);border:1px solid var(--linha);border-radius:999px;padding:1px 6px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="faixa"></div>
+  <div class="topo">
+    <h1>Ofertas de hoje</h1>
+    <div class="sub" id="sub">carregando…</div>
+  </div>
+  <div class="ferramentas">
+    <input type="search" id="busca" placeholder="buscar produto…" autocomplete="off">
+    <select id="ordem" aria-label="ordenar">
+      <option value="comissao">Comissão</option>
+      <option value="desconto">Desconto</option>
+      <option value="preco">Preço</option>
+    </select>
+  </div>
+</header>
+
+<main>
+  <div id="lista"><div class="carregando">buscando as ofertas aprovadas…</div></div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const state = { itens: [], resolvidos: {}, erro: null };
+
+const brl = (v) => 'R$ ' + Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const hoje = () => new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
+
+function toast(txt) {
+  const el = document.getElementById('toast');
+  el.textContent = txt;
+  el.classList.add('on');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('on'), 2200);
+}
+
+function mensagem(o, link) {
+  const linhas = ['🔥 *ACHADINHO DO DIA*', '', '*' + o.nome.trim() + '*', ''];
+  if (o.antes > o.preco) {
+    linhas.push(`De ${brl(o.antes)} por *${brl(o.preco)}* (${o.desconto}% OFF)`);
+  } else {
+    linhas.push(`💰 *${brl(o.preco)}*${o.desconto ? ` (${o.desconto}% OFF)` : ''}`);
+  }
+  if (o.vendas > 0 && o.vendas_txt) linhas.push(`📦 ${o.vendas_txt} vendidos`);
+  linhas.push('', '👉 ' + link);
+  return linhas.join('\n');
+}
+
+function copiar(texto) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(texto).catch(() => copiarAntigo(texto));
+  }
+  return Promise.resolve(copiarAntigo(texto));
+}
+
+function copiarAntigo(texto) {
+  const ta = document.createElement('textarea');
+  ta.value = texto;
+  ta.setAttribute('readonly', '');
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch (e) { /* sem clipboard */ }
+  ta.remove();
+}
+
+async function linkDoItem(o) {
+  if (!o.precisa_resolver) return o.link;
+  if (state.resolvidos[o.id]) return state.resolvidos[o.id];
+  const r = await fetch('/api/ofertas?link=' + encodeURIComponent(o.id), { cache: 'no-store' });
+  const d = await r.json();
+  if (!d.link) throw new Error(d.erro || 'não consegui preparar o link');
+  state.resolvidos[o.id] = d.link;
+  return d.link;
+}
+
+async function acaoCopiar(o, botao) {
+  const original = botao.textContent;
+  botao.disabled = true;
+  botao.textContent = o.precisa_resolver && !state.resolvidos[o.id] ? 'preparando link…' : 'copiando…';
+  try {
+    const link = await linkDoItem(o);
+    await copiar(mensagem(o, link));
+    botao.textContent = 'copiado!';
+    botao.classList.add('feito');
+    toast('mensagem pronta, cola no grupo');
+    setTimeout(() => { botao.textContent = original; botao.classList.remove('feito'); botao.disabled = false; }, 2000);
+  } catch (e) {
+    botao.textContent = 'erro, tentar de novo';
+    botao.disabled = false;
+    toast(e.message || 'falhou');
+  }
+}
+
+async function acaoCompartilhar(o) {
+  try {
+    const link = await linkDoItem(o);
+    const texto = mensagem(o, link);
+    if (navigator.share) {
+      await navigator.share({ text: texto });
+    } else {
+      await copiar(texto);
+      toast('sem compartilhamento nativo: copiei a mensagem');
+    }
+  } catch (e) {
+    if (e && e.name === 'AbortError') return;
+    toast(e.message || 'falhou');
+  }
+}
+
+function ordenar(itens, modo) {
+  const copia = itens.slice();
+  if (modo === 'desconto') copia.sort((a, b) => b.desconto - a.desconto);
+  else if (modo === 'preco') copia.sort((a, b) => a.preco - b.preco);
+  else copia.sort((a, b) => b.com_reais - a.com_reais);
+  return copia;
+}
+
+function render() {
+  const lista = document.getElementById('lista');
+  const sub = document.getElementById('sub');
+  const busca = document.getElementById('busca').value.trim().toLowerCase();
+  const modo = document.getElementById('ordem').value;
+
+  if (state.erro) {
+    lista.innerHTML = '<div class="carregando">' + state.erro + '</div>' +
+      '<div style="text-align:center"><button class="ghost" onclick="carregar()">tentar de novo</button></div>';
+    sub.textContent = 'sem conexão com a VPS';
+    return;
+  }
+
+  let itens = state.itens;
+  if (busca) itens = itens.filter((o) => o.nome.toLowerCase().includes(busca));
+  itens = ordenar(itens, modo);
+
+  sub.textContent = `${hoje()} · ${itens.length} de ${state.itens.length} ofertas aprovadas`;
+
+  if (!itens.length) {
+    lista.innerHTML = '<div class="aviso">nenhuma oferta com esse nome nas aprovadas de hoje.</div>';
+    return;
+  }
+
+  lista.innerHTML = itens.map((o) => `
+    <article class="card" data-id="${o.id}">
+      <img class="thumb" loading="lazy" src="${o.imagem}" alt="">
+      <div class="info">
+        <div class="nome">${o.nome}</div>
+        <div class="preco">
+          <span class="agora">${brl(o.preco)}</span>
+          ${o.antes > o.preco ? `<span class="antes">${brl(o.antes)}</span>` : ''}
+          ${o.desconto ? `<span class="off">-${o.desconto}%</span>` : ''}
+        </div>
+        <div class="meta">comissão ${brl(o.com_reais)}${o.vendas_txt ? ` · ${o.vendas_txt} vendidos` : ''}</div>
+        <div class="acoes">
+          <button class="principal" data-acao="copiar">Copiar mensagem</button>
+          <button class="ghost" data-acao="compartilhar">Compartilhar</button>
+          <a class="ghost" style="text-decoration:none;padding:8px 12px;border:1.5px solid var(--linha);border-radius:9px;font-size:13px;font-weight:600;color:var(--texto)"
+             href="${o.link}" target="_blank" rel="noopener">Abrir</a>
+        </div>
+      </div>
+    </article>`).join('');
+}
+
+document.getElementById('lista').addEventListener('click', (ev) => {
+  const botao = ev.target.closest('button[data-acao]');
+  if (!botao) return;
+  const card = botao.closest('.card');
+  const item = state.itens.find((o) => String(o.id) === card.dataset.id);
+  if (!item) return;
+  if (botao.dataset.acao === 'copiar') acaoCopiar(item, botao);
+  else acaoCompartilhar(item);
+});
+
+document.getElementById('busca').addEventListener('input', render);
+document.getElementById('ordem').addEventListener('change', render);
+
+async function carregar() {
+  state.erro = null;
+  document.getElementById('lista').innerHTML = '<div class="carregando">buscando as ofertas aprovadas…</div>';
+  try {
+    const r = await fetch('/api/ofertas?n=100', { cache: 'no-store' });
+    const d = await r.json();
+    if (d.erro) throw new Error(d.erro);
+    state.itens = d.itens || [];
+    render();
+  } catch (e) {
+    state.erro = 'não consegui carregar: ' + (e.message || 'erro desconhecido');
+    render();
+  }
+}
+
+carregar();
+</script>
+</body>
+</html>
