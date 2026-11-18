@@ -1,9 +1,8 @@
 // Redireciona /o/<item_id> para o link da Shopee já com o sub_id.
 //
-// Ordem importa: o cliente recebe o 302 ANTES da medição. Antes este arquivo
-// consultava a VPS duas vezes (contador e depois o link) e só então respondia,
-// o que somava ~870 ms de tela parada entre o toque e a Shopee. Agora o link
-// vem do mapa embutido no deploy e a contagem roda depois da resposta.
+// O link vem do mapa embutido no deploy (_links.js), então não há consulta à VPS
+// no caminho crítico. A única chamada remota é a do contador, e ela tem teto de
+// tempo: se a VPS demorar, o visitante segue para a Shopee mesmo assim.
 import LINKS from './_links.js';
 
 const BASE = process.env.OFERTAS_API || 'http://185.115.161.188:8184';
@@ -11,6 +10,9 @@ const BASE = process.env.OFERTAS_API || 'http://185.115.161.188:8184';
 // Só conta batida de navegador de gente. Crawler, preview de WhatsApp/Telegram,
 // curl e teste automatizado inflavam o número e nunca apareciam na Shopee.
 const NAO_E_GENTE = /(bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegram|discord|slack|twitterbot|linkedinbot|embedly|quora|pinterest|vkshare|curl|wget|python-|python\/|requests|axios|node-fetch|go-http|java\/|okhttp|headless|lighthouse|preview|scrapy|uptime|monitor|pingdom|gtmetrix|semrush|ahrefs)/i;
+
+const TETO_CONTADOR_MS = 450;
+const TETO_LINK_MS = 3500;
 
 export default async function handler(req, res) {
   const id = String(req.query.id || '').replace(/\D/g, '');
@@ -27,7 +29,7 @@ export default async function handler(req, res) {
   // Reserva: só consulta a VPS quando o id não está no mapa embutido.
   if (!destino) {
     try {
-      const r = await fetch(`${BASE}/api/link?id=${id}&o=${origem}`, { signal: AbortSignal.timeout(3500) });
+      const r = await fetch(`${BASE}/api/link?id=${id}&o=${origem}`, { signal: AbortSignal.timeout(TETO_LINK_MS) });
       const d = await r.json();
       if (d && d.link) destino = d.link;
     } catch (e) { /* segue para o descarte abaixo */ }
@@ -48,9 +50,18 @@ export default async function handler(req, res) {
       : destino + (destino.includes('?') ? '&' : '?') + `utm_content=${sub}`;
   }
 
-  // resposta primeiro: quem clicou não espera nada. A contagem é feita pelo
-  // navegador (sendBeacon para /api/c), porque a Vercel congela esta função
-  // assim que o 302 sai.
+  // Conta antes de responder, mas com teto: 450 ms no pior caso. Contar depois da
+  // resposta não funciona porque a Vercel congela a função assim que o 302 sai.
+  const ua = String(req.headers['user-agent'] || '');
+  const pareceGente = req.method === 'GET' && ua.length > 20 && !NAO_E_GENTE.test(ua);
+  if (pareceGente) {
+    const contador = fetch(`${BASE}/api/clique?id=${id}&o=${origem}&p=${pag}`, {
+      signal: AbortSignal.timeout(1200),
+    }).catch(() => {});
+    const teto = new Promise((r) => setTimeout(r, TETO_CONTADOR_MS));
+    await Promise.race([contador, teto]);
+  }
+
   res.writeHead(302, {
     location: destino,
     'cache-control': 'no-store',

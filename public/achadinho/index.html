@@ -429,11 +429,6 @@ if (PIXEL_ID) {
       fbq('track', 'InitiateCheckout');
       fbq('trackCustom', 'CliqueOferta', { produto: nome, destino: destino });
     } catch (err) { /* pixel nunca pode travar a saida */ }
-    /* contador: beacon proprio que sobrevive a navegacao e nao atrasa nada */
-    try {
-      var iid = destino.indexOf('/o/') === 0 ? destino.slice(3).split('?')[0] : '';
-      if (iid && navigator.sendBeacon) navigator.sendBeacon('/api/c?i=' + iid + '&o=site');
-    } catch (err) {}
     /* navega no mesmo tique: o pixel ja foi enfileirado. Antes eram 220 ms de espera
        que somavam ao redirecionamento e viravam abandono no navegador do Instagram. */
     window.location.href = destino;
