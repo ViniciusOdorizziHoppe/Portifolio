@@ -4,6 +4,10 @@
 // parâmetros de atribuição para o destino.
 const BASE = process.env.OFERTAS_API || 'http://185.115.161.188:8184';
 
+// Só conta batida de navegador de gente. Crawler, preview de WhatsApp/Telegram,
+// curl e test automatizado inflavam o número e nunca apareciam na Shopee.
+const NAO_E_GENTE = /(bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegram|discord|slack|twitterbot|linkedinbot|embedly|quora|pinterest|vkshare|curl|wget|python-|python\/|requests|axios|node-fetch|go-http|java\/|okhttp|headless|lighthouse|preview|scrapy|uptime|monitor|pingdom|gtmetrix|semrush|ahrefs)/i;
+
 export default async function handler(req, res) {
   const id = String(req.query.id || '').replace(/\D/g, '');
   const origem = (String(req.query.o || 'site').replace(/[^a-zA-Z0-9]/g, '') || 'site').slice(0, 12);
@@ -14,12 +18,17 @@ export default async function handler(req, res) {
     return res.end();
   }
 
+  const ua = String(req.headers['user-agent'] || '');
+  const pareceGente = req.method === 'GET' && ua.length > 20 && !NAO_E_GENTE.test(ua);
+
   // conta o clique: no máximo 1s, e erro aqui nunca derruba o link
-  try {
-    await fetch(`${BASE}/api/clique?id=${id}&o=${origem}&p=${pag}`, {
-      signal: AbortSignal.timeout(1000),
-    });
-  } catch { /* medição é opcional */ }
+  if (pareceGente) {
+    try {
+      await fetch(`${BASE}/api/clique?id=${id}&o=${origem}&p=${pag}`, {
+        signal: AbortSignal.timeout(1000),
+      });
+    } catch { /* medição é opcional */ }
+  }
 
   try {
     const r = await fetch(`${BASE}/api/link?id=${id}&o=${origem}`, { signal: AbortSignal.timeout(8000) });
