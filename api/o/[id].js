@@ -48,21 +48,12 @@ export default async function handler(req, res) {
       : destino + (destino.includes('?') ? '&' : '?') + `utm_content=${sub}`;
   }
 
-  // resposta primeiro: quem clicou não espera a medição
+  // resposta primeiro: quem clicou não espera nada. A contagem é feita pelo
+  // navegador (sendBeacon para /api/c), porque a Vercel congela esta função
+  // assim que o 302 sai.
   res.writeHead(302, {
     location: destino,
     'cache-control': 'no-store',
   });
-  res.end();
-
-  // medição depois da resposta, sem atrasar nem derrubar o link
-  const ua = String(req.headers['user-agent'] || '');
-  const pareceGente = req.method === 'GET' && ua.length > 20 && !NAO_E_GENTE.test(ua);
-  if (pareceGente) {
-    try {
-      await fetch(`${BASE}/api/clique?id=${id}&o=${origem}&p=${pag}`, {
-        signal: AbortSignal.timeout(1500),
-      });
-    } catch (e) { /* medição é opcional */ }
-  }
+  return res.end();
 }
