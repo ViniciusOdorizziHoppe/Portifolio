@@ -8,8 +8,9 @@ import LINKS from './_links.js';
 const BASE = process.env.OFERTAS_API || 'http://185.115.161.188:8184';
 
 // Só conta batida de navegador de gente. Crawler, preview de WhatsApp/Telegram,
-// curl e teste automatizado inflavam o número e nunca apareciam na Shopee.
-const NAO_E_GENTE = /(bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegram|discord|slack|twitterbot|linkedinbot|embedly|quora|pinterest|vkshare|curl|wget|python-|python\/|requests|axios|node-fetch|go-http|java\/|okhttp|headless|lighthouse|preview|scrapy|uptime|monitor|pingdom|gtmetrix|semrush|ahrefs)/i;
+// curl, teste automatizado e as minhas próprias medições (hermes-test) inflavam
+// o número e nunca apareciam na Shopee.
+const NAO_E_GENTE = /(bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegram|discord|slack|twitterbot|linkedinbot|embedly|quora|pinterest|vkshare|curl|wget|python-|python\/|requests|axios|node-fetch|go-http|java\/|okhttp|headless|lighthouse|preview|scrapy|uptime|monitor|pingdom|gtmetrix|semrush|ahrefs|hermes)/i;
 
 const TETO_CONTADOR_MS = 450;
 const TETO_LINK_MS = 3500;
