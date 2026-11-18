@@ -421,9 +421,13 @@ if (PIXEL_ID) {
     e.preventDefault();
     var nome = (a.getAttribute('aria-label') || '').slice(0, 90);
     var destino = a.getAttribute('href') || '';
-    fbq('track', 'InitiateCheckout');
-    fbq('trackCustom', 'CliqueOferta', { produto: nome, destino: destino });
-    setTimeout(function () { window.location.href = destino; }, 220);
+    try {
+      fbq('track', 'InitiateCheckout');
+      fbq('trackCustom', 'CliqueOferta', { produto: nome, destino: destino });
+    } catch (err) { /* pixel nunca pode travar a saida */ }
+    /* navega no mesmo tique: o pixel ja foi enfileirado. Antes eram 220 ms de espera
+       que somavam ao redirecionamento e viravam abandono no navegador do Instagram. */
+    window.location.href = destino;
   }, true);
 }
 </script>
