@@ -43,9 +43,14 @@ export default async function handler(req, res) {
 
   // A Shopee lê o sub_id dentro de utm_content, no formato sub1-sub2-sub3-sub4-sub5.
   // Sem isso o relatório mostra "----" e não dá para saber qual produto pagou.
-  // Link curto (s.shopee.com.br) descarta query extra no 301, então nele não mexe.
-  if (!/s\.shopee\.com\.br/.test(destino) && /shopee\.com\.br/.test(destino)) {
-    const sub = `${id}-${origem}---`;
+  // Link curto aceita `?sub_id=` e a Shopee sobrescreve o utm_content dele (mesma
+  // mecânica que o bot de WhatsApp usa), então aqui tratamos os dois formatos.
+  const sub = `${id}-${origem}---`;
+  if (/s\.shopee\.com\.br/.test(destino)) {
+    if (!/[?&]sub_id=/.test(destino)) {
+      destino = destino + (destino.includes('?') ? '&' : '?') + `sub_id=${encodeURIComponent(sub)}`;
+    }
+  } else if (/shopee\.com\.br/.test(destino)) {
     destino = /([?&])utm_content=[^&]*/.test(destino)
       ? destino.replace(/([?&])utm_content=[^&]*/, `$1utm_content=${sub}`)
       : destino + (destino.includes('?') ? '&' : '?') + `utm_content=${sub}`;
