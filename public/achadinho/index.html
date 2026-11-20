@@ -3,402 +3,541 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ofertas de hoje · Achadinhos Shopee PG</title>
-<!-- abre DNS e TLS com a Shopee enquanto a pessoa ainda está lendo a pagina:
+<title>Achadinhos do dia · Ofertas Shopee com desconto</title>
+<!-- abre DNS e TLS enquanto a pessoa ainda está lendo a pagina:
      quando ela toca no card, a conexao ja esta pronta -->
 <link rel="preconnect" href="https://shopee.com.br" crossorigin>
 <link rel="dns-prefetch" href="https://shopee.com.br">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Ofertas de hoje · Achadinhos Shopee PG">
+<meta property="og:title" content="Achadinhos do dia · Ofertas Shopee com desconto">
 <meta property="og:description" content="Achadinhos da Shopee com preço conferido. 30 ofertas atualizadas hoje.">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:url" content="https://www.viniciusodorizzi.com/achadinho">
 <meta property="og:image" content="https://www.viniciusodorizzi.com/achadinho/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta name="theme-color" content="#f5c518">
+<meta name="theme-color" content="#22110e">
 <meta name="robots" content="noindex">
 <style>
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0}
+  :root{
+    --bg:#fff8f2; --fg:#22110e; --card:#fff;
+    --primary:#ef4c00; --primary-glow:#ff8300;
+    --secondary:#feeadb; --muted-fg:#735e56;
+    --accent:#fbd530; --accent-fg:#331b06;
+    --success:#139948; --border:#ecdfd4;
+    --hot:linear-gradient(135deg,#ef4c00,#ff8300);
+    --shadow-card:0 6px 20px -10px rgba(89,35,10,.35);
+    --shadow-cta:0 10px 25px -8px rgba(239,76,0,.6);
+    --display:"Bricolage Grotesque","DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
   body{
-    background:#fff;color:#111318;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--fg);
+    font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
-    padding-bottom:calc(88px + env(safe-area-inset-bottom));
+    padding-bottom:calc(96px + env(safe-area-inset-bottom));
   }
-  .wrap{max-width:560px;margin:0 auto;padding:0 16px}
 
-  header{padding:22px 0 4px}
-  .marca{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6b6b76;font-weight:700;margin:0}
-  h1{font-size:27px;line-height:1.1;letter-spacing:-.7px;margin:10px 0 4px;font-weight:900}
-  .sub{margin:0;font-size:13px;color:#6b6b76}
-  .sub b{color:#111318;font-weight:700}
+  /* ── faixa do topo ── */
+  .topo{background:var(--fg);color:#fdf4ec;text-align:center;
+    font-size:12px;font-weight:500;padding:8px 14px;line-height:1.35}
 
-  /* ── destaque (TV) ── */
+  main{max-width:1024px;margin:0 auto;padding:0 16px}
+
+  /* ── cabecalho ── */
+  .hero{padding:26px 0 0;text-align:center}
+  .marca{margin:0;font-size:12px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--primary)}
+  h1{margin:4px 0 0;font-family:var(--display);font-weight:800;
+    font-size:clamp(27px,7.4vw,48px);line-height:1.05;letter-spacing:-1.4px}
+  h1 span{color:var(--primary)}
+  .pills{margin-top:14px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;
+    font-size:12px;color:var(--muted-fg)}
+  .pills span{background:var(--secondary);border-radius:999px;padding:5px 12px}
+
+  /* ── destaque ── */
   .destaque{
-    display:block;text-decoration:none;color:inherit;margin:18px 0 26px;
-    border:2px solid #111318;border-radius:18px;overflow:hidden;background:#fff;
-    box-shadow:0 6px 0 #f5c518;transition:transform .12s ease;
+    margin-top:24px;display:grid;grid-template-columns:1fr;overflow:hidden;
+    border:2px solid var(--primary);border-radius:24px;background:var(--card);
+    box-shadow:var(--shadow-card);text-decoration:none;color:inherit;
   }
-  .destaque:active{transform:translateY(3px)}
-  .destaque .foto{position:relative;background:#f7f7f5;aspect-ratio:1/.86;display:grid;place-items:center;padding:14px}
-  .destaque .foto img{width:100%;height:100%;object-fit:contain}
-  .destaque .corpo{padding:14px 16px 18px}
-  .destaque .nome{margin:0;font-size:15px;font-weight:700;line-height:1.3}
-  .destaque .preco{margin:10px 0 0;font-size:30px;font-weight:900;letter-spacing:-1px;font-variant-numeric:tabular-nums}
-  .destaque .antes{margin:2px 0 0;font-size:13.5px;color:#6b6b76}
-  .destaque .antes s{text-decoration:line-through}
-  .destaque .bt{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;
-    background:#f5c518;color:#111318;font-weight:900;font-size:15px;letter-spacing:-.2px;
-    padding:15px;border-radius:12px;text-transform:uppercase}
+  @media(min-width:768px){.destaque{grid-template-columns:1fr 1fr}}
+  .destaque .foto{position:relative;background:var(--card);padding:16px}
+  .destaque .foto img{display:block;width:100%;max-width:384px;margin:0 auto;
+    aspect-ratio:1/1;object-fit:contain}
+  .destaque .corpo{display:flex;flex-direction:column;justify-content:center;
+    gap:12px;padding:20px 20px 24px}
+  @media(min-width:768px){.destaque .corpo{padding:32px}}
+  .destaque h2{margin:0;font-family:var(--display);font-weight:600;
+    font-size:clamp(18px,4.6vw,24px);line-height:1.3;letter-spacing:-.3px}
+  .destaque .de{margin:0;font-size:14px;color:var(--muted-fg);text-decoration:line-through}
+  .destaque .preco{margin:0;font-family:var(--display);font-weight:800;
+    font-size:clamp(30px,8.4vw,38px);letter-spacing:-1.4px;color:var(--primary)}
+  .bt{display:flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--hot);color:#fff;font-weight:700;font-size:18px;
+    padding:16px;border-radius:16px;box-shadow:var(--shadow-cta);
+    animation:pulse-cta 1.8s ease-in-out infinite}
+  .fina{margin:0;text-align:center;font-size:12px;color:var(--muted-fg)}
+  @keyframes pulse-cta{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+  @media(prefers-reduced-motion:reduce){.bt{animation:none}}
 
-  .selo{
-    position:absolute;top:10px;left:10px;z-index:2;
-    background:#f5c518;color:#111318;font-size:11.5px;font-weight:900;
-    padding:5px 9px;border-radius:7px;letter-spacing:.02em;
-  }
-  .rotulo{display:flex;align-items:center;gap:8px;margin:0 0 12px}
-  .rotulo h2{font-size:16px;margin:0;letter-spacing:-.3px}
-  .rotulo span{font-size:12px;color:#6b6b76}
+  .selo-off{position:absolute;left:8px;top:8px;z-index:2;background:var(--hot);color:#fff;
+    font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;box-shadow:var(--shadow-cta)}
+  .selo-destaque{position:absolute;right:12px;top:12px;z-index:2;background:var(--accent);
+    color:var(--accent-fg);font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px}
 
-  /* ── grade ── */
-  .grade{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .card{
-    display:flex;flex-direction:column;text-decoration:none;color:inherit;
-    border:1px solid #e9e9ec;border-radius:14px;overflow:hidden;background:#fff;
-    transition:border-color .12s ease;
-  }
-  .card:active{border-color:#f5c518}
-  .card .foto{position:relative;background:#f7f7f5;padding:10px;aspect-ratio:1/1}
-  .card .foto img{width:100%;height:100%;object-fit:contain;display:block}
-  .card .selo{font-size:10.5px;padding:4px 7px;top:8px;left:8px}
-  .card .corpo{padding:10px 11px 12px;display:flex;flex-direction:column;flex:1}
-  .card .nome{margin:0;font-size:12.5px;line-height:1.32;font-weight:600;color:#2b2b32;
+  /* ── lista ── */
+  .lista{margin-top:40px}
+  .lista h2{margin:0;font-family:var(--display);font-weight:800;
+    font-size:clamp(21px,5vw,26px);letter-spacing:-.6px}
+  .dica{margin:2px 0 0;font-size:14px;color:var(--muted-fg)}
+  .grade{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(min-width:768px){.grade{grid-template-columns:repeat(4,1fr);gap:16px}}
+  .card{display:flex;flex-direction:column;overflow:hidden;border-radius:16px;
+    background:var(--card);box-shadow:var(--shadow-card);text-decoration:none;
+    color:inherit;transition:transform .15s ease}
+  @media(hover:hover){.card:hover{transform:translateY(-4px)}}
+  .card .foto{position:relative;padding:8px}
+  .card .foto img{display:block;width:100%;aspect-ratio:1/1;object-fit:contain}
+  .card .selo-off{font-size:11px;padding:4px 8px}
+  .card .corpo{display:flex;flex-direction:column;flex:1;gap:4px;padding:0 12px 12px}
+  .card .nome{margin:0;font-size:14px;font-weight:400;line-height:1.3;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .card .preco{margin:8px 0 0;font-size:17px;font-weight:900;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
-  .card .antes{margin:1px 0 0;font-size:11.5px;color:#8a8a94;min-height:15px}
-  .card .antes s{text-decoration:line-through}
-  .card .ver{margin-top:auto;padding-top:9px;font-size:12px;font-weight:900;color:#111318}
-  .card .ver::after{content:" →";color:#c9a112}
+  .card .precos{margin-top:auto;padding-top:4px}
+  .card .antes{margin:0;font-size:12px;color:var(--muted-fg);text-decoration:line-through}
+  .card .preco-c{margin:0;font-size:18px;font-weight:700;color:var(--primary)}
+  .card .ver{margin-top:4px;display:block;background:var(--success);color:#fff;text-align:center;
+    font-size:14px;font-weight:700;padding:8px;border-radius:12px}
 
-  /* ── barra fixa do grupo ── */
-  .barra{
-    position:fixed;left:0;right:0;bottom:0;z-index:20;
-    background:rgba(255,255,255,.94);backdrop-filter:blur(10px);
-    border-top:1px solid #e9e9ec;
-    padding:10px 16px calc(10px + env(safe-area-inset-bottom));
-  }
-  .barra a{
-    display:flex;align-items:center;justify-content:center;gap:10px;
-    max-width:560px;margin:0 auto;text-decoration:none;
-    background:linear-gradient(180deg,#16a34a 0%,#0b8043 100%);color:#fff;
-    font-weight:900;font-size:15px;padding:14px;border-radius:13px;
-    box-shadow:0 3px 0 #075e33;letter-spacing:-.2px;
-  }
-  .barra svg{width:1.35em;height:1.35em;fill:currentColor;flex:0 0 auto}
-  .pe{margin:26px 0 8px;text-align:center;font-size:11.5px;color:#9a9aa3}
+  /* ── grupo do whatsapp ── */
+  .grupo{margin-top:32px;display:flex;flex-direction:column;align-items:center;gap:6px;
+    text-align:center;padding:22px 18px;border:1px solid var(--border);border-radius:20px;
+    background:var(--card);box-shadow:var(--shadow-card)}
+  .grupo h3{margin:0;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-.3px}
+  .grupo p{margin:0;font-size:13px;color:var(--muted-fg)}
+  .grupo a{margin-top:10px;display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+    background:linear-gradient(180deg,#16a34a,#0b8043);color:#fff;font-weight:700;font-size:15px;
+    padding:14px 22px;border-radius:14px;box-shadow:0 3px 0 #075e33}
+  .grupo svg{width:20px;height:20px;fill:currentColor;flex:0 0 auto}
+
+  footer{margin:28px 0 10px;text-align:center;font-size:12px;color:var(--muted-fg);opacity:.9}
+
+  /* ── barra fixa (mobile) ── */
+  .barra{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));
+    z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:var(--hot);color:#fff;border-radius:16px;padding:13px 16px;
+    box-shadow:var(--shadow-cta);text-decoration:none}
+  @media(min-width:768px){.barra{display:none}}
+  .barra .b1{font-size:14px;font-weight:500}
+  .barra .b1 b{font-weight:700}
+  .barra .b2{font-weight:700;font-size:14px;white-space:nowrap}
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <header>
-    <p class="marca">Achadinhos Shopee PG</p>
-    <h1>Ofertas de hoje</h1>
-    <p class="sub"><b>30 ofertas</b> com preço conferido · 18/11</p>
+<div class="topo">🔥 Preços podem mudar a qualquer momento — aproveite hoje</div>
+
+<main>
+  <header class="hero">
+    <p class="marca">Achadinhos do dia</p>
+    <h1>As melhores ofertas da Shopee, <span>escolhidas pra você</span></h1>
+    <div class="pills">
+      <span>✔ Compra segura na Shopee</span>
+      <span>✔ 30 ofertas com preço conferido</span>
+    </div>
   </header>
 
   <a class="destaque" href="/o/23294898943" aria-label="Smart TV LCD LED 32&quot; AOC 32S5155/78G - Wi-Fi, HD, Quad Core, Dolby…">
-    <div class="foto"><span class="selo">15% OFF</span>
-      <img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820la-mm0ij1nkfapze0" alt="" fetchpriority="high" decoding="async">
+    <div class="foto">
+      <span class="selo-destaque">⭐ Oferta destaque</span><span class="selo-off">-15%</span>
+      <img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820la-mm0ij1nkfapze0" alt="Smart TV LCD LED 32&quot; AOC 32S5155/78G - Wi-Fi, HD, Quad…" fetchpriority="high" decoding="async">
     </div>
     <div class="corpo">
-      <p class="nome">Smart TV LCD LED 32&quot; AOC 32S5155/78G - Wi-Fi, HD, Quad Core, Dolby Áudio, 60 Hz</p>
-      <p class="preco">R$ 1.189,15</p>
-      <p class="antes"><s>R$ 1.399,00</s></p>
-      <span class="bt">Ver oferta na Shopee</span>
+      <h2>Smart TV LCD LED 32&quot; AOC 32S5155/78G - Wi-Fi, HD, Quad Core, Dolby Áudio, 60 Hz</h2>
+      <div>
+        <p class="de">de R$ 1.399,00</p>
+        <p class="preco">R$ 1.189,15</p>
+      </div>
+      <span class="bt">Quero essa oferta →</span>
+      <p class="fina">Você será levado direto para a Shopee</p>
     </div>
   </a>
 
-  <div class="rotulo">
-    <h2>Mais achadinhos</h2>
-    <span>o que mais sai</span>
-  </div>
-
-  <div class="grade">
+  <section class="lista">
+    <h2>Mais achadinhos 🛍️</h2>
+    <p class="dica">Os que mais saem</p>
+    <div class="grade">
       <a class="card" href="/o/14694742009" aria-label="Conjunto Sala de Jantar Mesa Tampo de Vidro com 4 Cadeiras…">
-        <div class="foto"><span class="selo">20% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rd4h-lx8n65kqz65lb4_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-20%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rd4h-lx8n65kqz65lb4_tn" alt="Conjunto Sala de Jantar Mesa Tampo de Vidro com 4 Cadeiras…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Conjunto Sala de Jantar Mesa Tampo de Vidro com 4…</p>
-          <p class="preco">R$ 1.130,42</p>
-          <p class="antes"><s>R$ 1.419,99</s></p>
+          <h3 class="nome">Conjunto Sala de Jantar Mesa Tampo de Vidro com 4…</h3>
+          <div class="precos">
+            <p class="antes">R$ 1.419,99</p>
+            <p class="preco-c">R$ 1.130,42</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/19899261087" aria-label="Guarda Roupa Casal 8 Portas 4 Gavetas Lisboa">
-        <div class="foto"><span class="selo">1% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820mb-mq3qmqsm8lc1db_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-1%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820mb-mq3qmqsm8lc1db_tn" alt="Guarda Roupa Casal 8 Portas 4 Gavetas Lisboa" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Guarda Roupa Casal 8 Portas 4 Gavetas Lisboa</p>
-          <p class="preco">R$ 1.238,89</p>
-          <p class="antes"><s>R$ 1.249,00</s></p>
+          <h3 class="nome">Guarda Roupa Casal 8 Portas 4 Gavetas Lisboa</h3>
+          <div class="precos">
+            <p class="antes">R$ 1.249,00</p>
+            <p class="preco-c">R$ 1.238,89</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/23797540567" aria-label="Conjunto Mesa Jantar Lupita MDF 120x80cm 4 Cadeiras Casa 812">
-        <div class="foto"><span class="selo">24% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lk-msycrbpp3zlzb6_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-24%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lk-msycrbpp3zlzb6_tn" alt="Conjunto Mesa Jantar Lupita MDF 120x80cm 4 Cadeiras Casa 812" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Conjunto Mesa Jantar Lupita MDF 120x80cm 4 Cadeiras Casa…</p>
-          <p class="preco">R$ 922,83</p>
-          <p class="antes"><s>R$ 1.221,47</s></p>
+          <h3 class="nome">Conjunto Mesa Jantar Lupita MDF 120x80cm 4 Cadeiras Casa…</h3>
+          <div class="precos">
+            <p class="antes">R$ 1.221,47</p>
+            <p class="preco-c">R$ 922,83</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/22993672474" aria-label="Tablet Pc Mil10 Android 13 256gb Memória 6gb Ram10 Polegadas Tablet…">
-        <div class="foto"><span class="selo">15% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m7hyjxft1wlofd_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-15%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m7hyjxft1wlofd_tn" alt="Tablet Pc Mil10 Android 13 256gb Memória 6gb Ram10…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Tablet Pc Mil10 Android 13 256gb Memória 6gb Ram10…</p>
-          <p class="preco">R$ 838,41</p>
-          <p class="antes"><s>R$ 986,36</s></p>
+          <h3 class="nome">Tablet Pc Mil10 Android 13 256gb Memória 6gb Ram10…</h3>
+          <div class="precos">
+            <p class="antes">R$ 986,36</p>
+            <p class="preco-c">R$ 838,41</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/58211903965" aria-label="Rack com Painel para TV até 65 Polegadas Life Caemmun">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-823p1-mp14kd14fhttb7_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-823p1-mp14kd14fhttb7_tn" alt="Rack com Painel para TV até 65 Polegadas Life Caemmun" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Rack com Painel para TV até 65 Polegadas Life Caemmun</p>
-          <p class="preco">R$ 805,49</p>
-          <p class="antes"></p>
+          <h3 class="nome">Rack com Painel para TV até 65 Polegadas Life Caemmun</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 805,49</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/23799151929" aria-label="Cômoda Roupeiro Infantil Organizadora 4 Gavetas Porta Guarda-Roupas…">
-        <div class="foto"><span class="selo">35% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820me-mor99qgnvi121e_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-35%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820me-mor99qgnvi121e_tn" alt="Cômoda Roupeiro Infantil Organizadora 4 Gavetas Porta…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Cômoda Roupeiro Infantil Organizadora 4 Gavetas Porta…</p>
-          <p class="preco">R$ 454,35</p>
-          <p class="antes"><s>R$ 699,00</s></p>
+          <h3 class="nome">Cômoda Roupeiro Infantil Organizadora 4 Gavetas Porta…</h3>
+          <div class="precos">
+            <p class="antes">R$ 699,00</p>
+            <p class="preco-c">R$ 454,35</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/14513265649" aria-label="Kit Wella Invigo Nutri Enrich (3 Produtos) Original">
-        <div class="foto"><span class="selo">8% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rbl0-m5onf7ro4use85_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-8%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rbl0-m5onf7ro4use85_tn" alt="Kit Wella Invigo Nutri Enrich (3 Produtos) Original" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Kit Wella Invigo Nutri Enrich (3 Produtos) Original</p>
-          <p class="preco">R$ 565,90</p>
-          <p class="antes"><s>R$ 615,90</s></p>
+          <h3 class="nome">Kit Wella Invigo Nutri Enrich (3 Produtos) Original</h3>
+          <div class="precos">
+            <p class="antes">R$ 615,90</p>
+            <p class="preco-c">R$ 565,90</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/22491696004" aria-label="Kit 4 Cadeiras Web Wood Polipropileno Sala de Jantar e Cozinha">
-        <div class="foto"><span class="selo">56% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lw-muhwxg7srlz6da_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-56%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lw-muhwxg7srlz6da_tn" alt="Kit 4 Cadeiras Web Wood Polipropileno Sala de Jantar e…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Kit 4 Cadeiras Web Wood Polipropileno Sala de Jantar e…</p>
-          <p class="preco">R$ 708,69</p>
-          <p class="antes"><s>R$ 1.599,90</s></p>
+          <h3 class="nome">Kit 4 Cadeiras Web Wood Polipropileno Sala de Jantar e…</h3>
+          <div class="precos">
+            <p class="antes">R$ 1.599,90</p>
+            <p class="preco-c">R$ 708,69</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/16892189215" aria-label="Bicicleta Aro 29 GT Sprint MX7 24V index Freio Disco Alumínio…">
-        <div class="foto"><span class="selo">20% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81z1k-me910y70d7nmf6_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-20%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81z1k-me910y70d7nmf6_tn" alt="Bicicleta Aro 29 GT Sprint MX7 24V index Freio Disco…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Bicicleta Aro 29 GT Sprint MX7 24V index Freio Disco…</p>
-          <p class="preco">R$ 799,00</p>
-          <p class="antes"><s>R$ 999,00</s></p>
+          <h3 class="nome">Bicicleta Aro 29 GT Sprint MX7 24V index Freio Disco…</h3>
+          <div class="precos">
+            <p class="antes">R$ 999,00</p>
+            <p class="preco-c">R$ 799,00</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/23697286388" aria-label="Conjunto 3 Malas De Bordo Viagem e 2 Frasqueira Nacional…">
-        <div class="foto"><span class="selo">19% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-lqaj4r02tm2rf8_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-19%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-lqaj4r02tm2rf8_tn" alt="Conjunto 3 Malas De Bordo Viagem e 2 Frasqueira Nacional…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Conjunto 3 Malas De Bordo Viagem e 2 Frasqueira Nacional…</p>
-          <p class="preco">R$ 648,00</p>
-          <p class="antes"><s>R$ 800,00</s></p>
+          <h3 class="nome">Conjunto 3 Malas De Bordo Viagem e 2 Frasqueira Nacional…</h3>
+          <div class="precos">
+            <p class="antes">R$ 800,00</p>
+            <p class="preco-c">R$ 648,00</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/23899314572" aria-label="Patinete Elétrico Adulto 350W – Alta Velocidade, Bateria Longa e…">
-        <div class="foto"><span class="selo">31% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8261h-mk3v2sfwjoqw23_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-31%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8261h-mk3v2sfwjoqw23_tn" alt="Patinete Elétrico Adulto 350W – Alta Velocidade, Bateria…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Patinete Elétrico Adulto 350W – Alta Velocidade, Bateria…</p>
-          <p class="preco">R$ 1.040,00</p>
-          <p class="antes"><s>R$ 1.500,00</s></p>
+          <h3 class="nome">Patinete Elétrico Adulto 350W – Alta Velocidade, Bateria…</h3>
+          <div class="precos">
+            <p class="antes">R$ 1.500,00</p>
+            <p class="preco-c">R$ 1.040,00</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/22698358748" aria-label="Bebedouro Eletrônico Polar Prata - Agua Natural e Gelada">
-        <div class="foto"><span class="selo">12% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m7uun6wys402e5_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-12%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m7uun6wys402e5_tn" alt="Bebedouro Eletrônico Polar Prata - Agua Natural e Gelada" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Bebedouro Eletrônico Polar Prata - Agua Natural e Gelada</p>
-          <p class="preco">R$ 485,00</p>
-          <p class="antes"><s>R$ 549,00</s></p>
+          <h3 class="nome">Bebedouro Eletrônico Polar Prata - Agua Natural e Gelada</h3>
+          <div class="precos">
+            <p class="antes">R$ 549,00</p>
+            <p class="preco-c">R$ 485,00</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/22592868092" aria-label="Guarda Roupa Dobrável 3 Portas Armário Organizador Portátil Multiuso…">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rccm-ls8ndncdbvf451_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rccm-ls8ndncdbvf451_tn" alt="Guarda Roupa Dobrável 3 Portas Armário Organizador…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Guarda Roupa Dobrável 3 Portas Armário Organizador…</p>
-          <p class="preco">R$ 298,77</p>
-          <p class="antes"></p>
+          <h3 class="nome">Guarda Roupa Dobrável 3 Portas Armário Organizador…</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 298,77</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/21997991730" aria-label="Bicicleta aro 20 BMX Pro-X Série 1 freios V-Brake aros Aero">
-        <div class="foto"><span class="selo">26% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m7ba29tu3j9m9b_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-26%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m7ba29tu3j9m9b_tn" alt="Bicicleta aro 20 BMX Pro-X Série 1 freios V-Brake aros Aero" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Bicicleta aro 20 BMX Pro-X Série 1 freios V-Brake aros…</p>
-          <p class="preco">R$ 589,00</p>
-          <p class="antes"><s>R$ 799,00</s></p>
+          <h3 class="nome">Bicicleta aro 20 BMX Pro-X Série 1 freios V-Brake aros…</h3>
+          <div class="precos">
+            <p class="antes">R$ 799,00</p>
+            <p class="preco-c">R$ 589,00</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/21597983002" aria-label="Fogão Suggar Neo Glass 5 Queimadores FGVNG510PRIX Prata Bivolt">
-        <div class="foto"><span class="selo">29% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rfhp-m35cf2epvks01c_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-29%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rfhp-m35cf2epvks01c_tn" alt="Fogão Suggar Neo Glass 5 Queimadores FGVNG510PRIX Prata…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Fogão Suggar Neo Glass 5 Queimadores FGVNG510PRIX Prata…</p>
-          <p class="preco">R$ 1.064,13</p>
-          <p class="antes"><s>R$ 1.489,00</s></p>
+          <h3 class="nome">Fogão Suggar Neo Glass 5 Queimadores FGVNG510PRIX Prata…</h3>
+          <div class="precos">
+            <p class="antes">R$ 1.489,00</p>
+            <p class="preco-c">R$ 1.064,13</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/21299179885" aria-label="Extratora Higienizadora Portátil Borrifa Esfrega e Extrai Sujeira…">
-        <div class="foto"><span class="selo">22% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rbn7-lqeu1vzxvsrqba_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-22%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rbn7-lqeu1vzxvsrqba_tn" alt="Extratora Higienizadora Portátil Borrifa Esfrega e Extrai…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Extratora Higienizadora Portátil Borrifa Esfrega e…</p>
-          <p class="preco">R$ 699,00</p>
-          <p class="antes"><s>R$ 899,99</s></p>
+          <h3 class="nome">Extratora Higienizadora Portátil Borrifa Esfrega e…</h3>
+          <div class="precos">
+            <p class="antes">R$ 899,99</p>
+            <p class="preco-c">R$ 699,00</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/22799125695" aria-label="Kit premium com 25 Potes Herméticos Acrílicos 4 Tamanhos Organização">
-        <div class="foto"><span class="selo">6% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81z1k-mg77fykw1oude6_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-6%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81z1k-mg77fykw1oude6_tn" alt="Kit premium com 25 Potes Herméticos Acrílicos 4 Tamanhos…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Kit premium com 25 Potes Herméticos Acrílicos 4 Tamanhos…</p>
-          <p class="preco">R$ 281,91</p>
-          <p class="antes"><s>R$ 299,90</s></p>
+          <h3 class="nome">Kit premium com 25 Potes Herméticos Acrílicos 4 Tamanhos…</h3>
+          <div class="precos">
+            <p class="antes">R$ 299,90</p>
+            <p class="preco-c">R$ 281,91</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/19699608441" aria-label="Balcão de Cozinha Pia de 120cm Sem Tampo Suiça POP SHARK MOVEIS 3…">
-        <div class="foto"><span class="selo">9% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mcjey3w4mwxeb3_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-9%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mcjey3w4mwxeb3_tn" alt="Balcão de Cozinha Pia de 120cm Sem Tampo Suiça POP SHARK…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Balcão de Cozinha Pia de 120cm Sem Tampo Suiça POP SHARK…</p>
-          <p class="preco">R$ 319,99</p>
-          <p class="antes"><s>R$ 349,99</s></p>
+          <h3 class="nome">Balcão de Cozinha Pia de 120cm Sem Tampo Suiça POP SHARK…</h3>
+          <div class="precos">
+            <p class="antes">R$ 349,99</p>
+            <p class="preco-c">R$ 319,99</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/23498464792" aria-label="Carrinho Organizador De Aço Multiuso 3 Prateleiras Premium Rodízio…">
-        <div class="foto"><span class="selo">51% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rffd-m9hn0dh7ck0pdf_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-51%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rffd-m9hn0dh7ck0pdf_tn" alt="Carrinho Organizador De Aço Multiuso 3 Prateleiras Premium…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Carrinho Organizador De Aço Multiuso 3 Prateleiras…</p>
-          <p class="preco">R$ 137,99</p>
-          <p class="antes"><s>R$ 282,47</s></p>
+          <h3 class="nome">Carrinho Organizador De Aço Multiuso 3 Prateleiras…</h3>
+          <div class="precos">
+            <p class="antes">R$ 282,47</p>
+            <p class="preco-c">R$ 137,99</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/23597767441" aria-label="Lavadora De Alta Pressão Vonder C/ Rodas, 1.600 lbf/pol² 1400w Super…">
-        <div class="foto"><span class="selo">35% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m86573g91ngx80_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-35%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m86573g91ngx80_tn" alt="Lavadora De Alta Pressão Vonder C/ Rodas, 1.600 lbf/pol²…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Lavadora De Alta Pressão Vonder C/ Rodas, 1.600 lbf/pol²…</p>
-          <p class="preco">R$ 389,99</p>
-          <p class="antes"><s>R$ 599,98</s></p>
+          <h3 class="nome">Lavadora De Alta Pressão Vonder C/ Rodas, 1.600 lbf/pol²…</h3>
+          <div class="precos">
+            <p class="antes">R$ 599,98</p>
+            <p class="preco-c">R$ 389,99</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/23698719751" aria-label="Kit Calça Wide leg Jeans Grafite Feminina Pantalona">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81ztc-mix6xw1henly49_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81ztc-mix6xw1henly49_tn" alt="Kit Calça Wide leg Jeans Grafite Feminina Pantalona" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Kit Calça Wide leg Jeans Grafite Feminina Pantalona</p>
-          <p class="preco">R$ 199,90</p>
-          <p class="antes"></p>
+          <h3 class="nome">Kit Calça Wide leg Jeans Grafite Feminina Pantalona</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 199,90</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/22993970919" aria-label="Baba Eletrônica Com Monitor Visão Noturna, Câmera c/ Audio Sensor de…">
-        <div class="foto"><span class="selo">52% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81z1k-mifbr1zypuddf9_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-52%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81z1k-mifbr1zypuddf9_tn" alt="Baba Eletrônica Com Monitor Visão Noturna, Câmera c/ Audio…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Baba Eletrônica Com Monitor Visão Noturna, Câmera c/…</p>
-          <p class="preco">R$ 289,80</p>
-          <p class="antes"><s>R$ 600,00</s></p>
+          <h3 class="nome">Baba Eletrônica Com Monitor Visão Noturna, Câmera c/…</h3>
+          <div class="precos">
+            <p class="antes">R$ 600,00</p>
+            <p class="preco-c">R$ 289,80</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/41012357542" aria-label="Máquina De Solda Inversora 220V/110V MMA-400 IGBT Tecnologia Display…">
-        <div class="foto"><span class="selo">53% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fcn-11134207-820l4-mk0cbu93vx1f01_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-53%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fcn-11134207-820l4-mk0cbu93vx1f01_tn" alt="Máquina De Solda Inversora 220V/110V MMA-400 IGBT…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Máquina De Solda Inversora 220V/110V MMA-400 IGBT…</p>
-          <p class="preco">R$ 308,00</p>
-          <p class="antes"><s>R$ 659,00</s></p>
+          <h3 class="nome">Máquina De Solda Inversora 220V/110V MMA-400 IGBT…</h3>
+          <div class="precos">
+            <p class="antes">R$ 659,00</p>
+            <p class="preco-c">R$ 308,00</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/22194468461" aria-label="jogo de 15 potes herméticos acrílico 4GRANDES 8MÉDIOS e 3PEQUENOS">
-        <div class="foto"><span class="selo">6% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81z1k-mf5mmi1k1n9g03_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-6%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81z1k-mf5mmi1k1n9g03_tn" alt="jogo de 15 potes herméticos acrílico 4GRANDES 8MÉDIOS e…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">jogo de 15 potes herméticos acrílico 4GRANDES 8MÉDIOS e…</p>
-          <p class="preco">R$ 216,11</p>
-          <p class="antes"><s>R$ 229,90</s></p>
+          <h3 class="nome">jogo de 15 potes herméticos acrílico 4GRANDES 8MÉDIOS e…</h3>
+          <div class="precos">
+            <p class="antes">R$ 229,90</p>
+            <p class="preco-c">R$ 216,11</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/58257789013" aria-label="Omeleteira Elétrica Agratto Mr Cheff Inox Dupla Prepara 2 Omeletes…">
-        <div class="foto"><span class="selo">29% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820ll-mmc8h9uyaoee6b_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-29%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820ll-mmc8h9uyaoee6b_tn" alt="Omeleteira Elétrica Agratto Mr Cheff Inox Dupla Prepara 2…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Omeleteira Elétrica Agratto Mr Cheff Inox Dupla Prepara…</p>
-          <p class="preco">R$ 105,90</p>
-          <p class="antes"><s>R$ 149,90</s></p>
+          <h3 class="nome">Omeleteira Elétrica Agratto Mr Cheff Inox Dupla Prepara…</h3>
+          <div class="precos">
+            <p class="antes">R$ 149,90</p>
+            <p class="preco-c">R$ 105,90</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/23598129360" aria-label="Kit 3 Progressivas Marroquinas Liss Única">
-        <div class="foto"><span class="selo">37% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m51sd2l4q8at0f_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-37%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m51sd2l4q8at0f_tn" alt="Kit 3 Progressivas Marroquinas Liss Única" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Kit 3 Progressivas Marroquinas Liss Única</p>
-          <p class="preco">R$ 149,90</p>
-          <p class="antes"><s>R$ 239,70</s></p>
+          <h3 class="nome">Kit 3 Progressivas Marroquinas Liss Única</h3>
+          <div class="precos">
+            <p class="antes">R$ 239,70</p>
+            <p class="preco-c">R$ 149,90</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/19897746728" aria-label="Escova Super Íon 3000 Multifuncional 1300W - Lizz Pro">
-        <div class="foto"><span class="selo">33% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820ll-mrvzduin42dj84_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-33%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820ll-mrvzduin42dj84_tn" alt="Escova Super Íon 3000 Multifuncional 1300W - Lizz Pro" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Escova Super Íon 3000 Multifuncional 1300W - Lizz Pro</p>
-          <p class="preco">R$ 336,11</p>
-          <p class="antes"><s>R$ 499,90</s></p>
+          <h3 class="nome">Escova Super Íon 3000 Multifuncional 1300W - Lizz Pro</h3>
+          <div class="precos">
+            <p class="antes">R$ 499,90</p>
+            <p class="preco-c">R$ 336,11</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/20165505440" aria-label="Fruteira Decoração rustica Casa nova Fruteira de cozinha Cesto de…">
-        <div class="foto"><span class="selo">31% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-823oo-mopdjfh8wuto37_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-31%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-823oo-mopdjfh8wuto37_tn" alt="Fruteira Decoração rustica Casa nova Fruteira de cozinha…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Fruteira Decoração rustica Casa nova Fruteira de cozinha…</p>
-          <p class="preco">R$ 249,90</p>
-          <p class="antes"><s>R$ 359,90</s></p>
+          <h3 class="nome">Fruteira Decoração rustica Casa nova Fruteira de cozinha…</h3>
+          <div class="precos">
+            <p class="antes">R$ 359,90</p>
+            <p class="preco-c">R$ 249,90</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
       <a class="card" href="/o/18398113291" aria-label="Bota Texana Feminina Cano Alto Salto Médio Western Bordada">
-        <div class="foto"><span class="selo">12% OFF</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rd6f-m7augiow67cc0a_tn" alt="" loading="lazy" decoding="async" width="320" height="320"></div>
+        <div class="foto"><span class="selo-off">-12%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rd6f-m7augiow67cc0a_tn" alt="Bota Texana Feminina Cano Alto Salto Médio Western Bordada" loading="lazy" decoding="async" width="320" height="320">
+        </div>
         <div class="corpo">
-          <p class="nome">Bota Texana Feminina Cano Alto Salto Médio Western Bordada</p>
-          <p class="preco">R$ 139,98</p>
-          <p class="antes"><s>R$ 159,90</s></p>
+          <h3 class="nome">Bota Texana Feminina Cano Alto Salto Médio Western Bordada</h3>
+          <div class="precos">
+            <p class="antes">R$ 159,90</p>
+            <p class="preco-c">R$ 139,98</p>
+          </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
+    </div>
+  </section>
+
+  <div class="grupo">
+    <h3>Receba os achadinhos no WhatsApp</h3>
+    <p>Ofertas novas todos os dias no grupo. Sem spam.</p>
+    <a href="https://chat.whatsapp.com/IXJEbgKnQeXFE18fbGiX6I" target="_blank" rel="noopener" onclick="if(window.fbq)fbq('track','Lead');">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.03.24-3.47-.72-2.94-1.16-4.8-4.2-4.94-4.4-.14-.19-1.17-1.55-1.17-2.96 0-1.41.58-2.1.79-2.39.2-.29.44-.36.59-.36.15 0 .29 0 .42.01.14.01.32-.05.5.38.18.44.62 1.52.68 1.63.05.11.09.24.01.38-.08.15-.12.24-.24.37-.12.13-.25.29-.36.39-.12.11-.24.23-.1.45.14.22.61 1 1.31 1.62.9.8 1.65 1.05 1.89 1.17.24.12.38.1.52-.06.14-.15.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.37.65 1.61.77.24.12.4.18.46.28.06.11.06.62-.16 1.17z"/></svg>
+      <span>Entrar no grupo</span>
+    </a>
   </div>
 
-  <p class="pe">Achadinhos Shopee PG · Presidente Getúlio / SC</p>
-</div>
+  <footer>Achadinhos Shopee PG · Presidente Getúlio / SC · preços de 20/11</footer>
+</main>
 
-<div class="barra">
-  <a href="https://chat.whatsapp.com/IXJEbgKnQeXFE18fbGiX6I" target="_blank" rel="noopener" onclick="if(window.fbq)fbq('track','Lead');">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.03.24-3.47-.72-2.94-1.16-4.8-4.2-4.94-4.4-.14-.19-1.17-1.55-1.17-2.96 0-1.41.58-2.1.79-2.39.2-.29.44-.36.59-.36.15 0 .29 0 .42.01.14.01.32-.05.5.38.18.44.62 1.52.68 1.63.05.11.09.24.01.38-.08.15-.12.24-.24.37-.12.13-.25.29-.36.39-.12.11-.24.23-.1.45.14.22.61 1 1.31 1.62.9.8 1.65 1.05 1.89 1.17.24.12.38.1.52-.06.14-.15.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.37.65 1.61.77.24.12.4.18.46.28.06.11.06.62-.16 1.17z"/></svg>
-    <span>Receber no WhatsApp</span>
-  </a>
-</div>
+<a class="barra" href="/o/23294898943" aria-label="Smart TV LCD LED 32&quot; AOC 32S5155/78G - Wi-Fi, HD, Quad Core, Dolby…">
+  <span class="b1">Destaque por <b>R$ 1.189,15</b></span>
+  <span class="b2">Comprar →</span>
+</a>
 
 <script>
 /* Pixel do Meta. ID da conta Ka Leo. PageView dispara no load. */
@@ -419,7 +558,7 @@ if (PIXEL_ID) {
 /* Clique na oferta = sinal de compra. Dispara antes de sair para a Shopee. */
 if (PIXEL_ID) {
   document.addEventListener('click', function (e) {
-    var a = e.target.closest ? e.target.closest('a.card, a.destaque') : null;
+    var a = e.target.closest ? e.target.closest('a.card, a.destaque, a.barra') : null;
     if (!a || !window.fbq) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
