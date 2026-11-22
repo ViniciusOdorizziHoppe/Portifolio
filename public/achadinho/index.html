@@ -87,6 +87,20 @@
   @keyframes pulse-cta{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
   @media(prefers-reduced-motion:reduce){.bt{animation:none}}
 
+  /* MOBILE: o destaque tem que caber na primeira tela junto com o preco e o botao.
+     Antes a foto quadrada empurrava o "Quero essa oferta" para tras da barra fixa. */
+  @media(max-width:767px){
+    .destaque .foto{padding:10px 10px 0}
+    .destaque .foto img{height:190px;width:100%;aspect-ratio:auto;object-fit:contain}
+    .destaque .corpo{padding:12px 16px 16px;gap:8px}
+    .destaque h2{font-size:16px;line-height:1.25}
+    .destaque .preco{font-size:29px}
+    .bt{padding:14px;font-size:16px}
+    .grupo{padding:16px 14px;margin-top:20px}
+    .grupo h3{font-size:16px}
+    .hero{padding:18px 0 0}
+  }
+
   .selo-off{position:absolute;left:8px;top:8px;z-index:2;background:var(--hot);color:#fff;
     font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;box-shadow:var(--shadow-cta)}
   .selo-destaque{position:absolute;right:12px;top:12px;z-index:2;background:var(--accent);
@@ -824,7 +838,7 @@
     </div>
   </section>
 
-  <footer>Achadinhos Shopee PG · Presidente Getúlio / SC · preços de 21/11</footer>
+  <footer>Achadinhos Shopee PG · Presidente Getúlio / SC · preços de 22/11</footer>
 </main>
 
 <a class="barra" href="https://chat.whatsapp.com/IXJEbgKnQeXFE18fbGiX6I" target="_blank" rel="noopener" onclick="if(window.fbq)fbq('track','Lead');hmTrack('clique_grupo',{origem:'barra'});">
