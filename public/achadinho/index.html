@@ -128,9 +128,10 @@
 
   /* ── barra fixa (mobile) ── */
   .barra{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));
-    z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;
-    background:var(--hot);color:#fff;border-radius:16px;padding:13px 16px;
-    box-shadow:var(--shadow-cta);text-decoration:none}
+    z-index:10;display:flex;align-items:center;justify-content:center;gap:10px;
+    background:linear-gradient(180deg,#16a34a,#0b8043);color:#fff;border-radius:16px;
+    padding:14px 16px;box-shadow:0 3px 0 #075e33;text-decoration:none}
+  .barra svg{width:20px;height:20px;fill:currentColor;flex:0 0 auto}
   @media(min-width:768px){.barra{display:none}}
   .barra .b1{font-size:14px;font-weight:500}
   .barra .b1 b{font-weight:700}
@@ -167,118 +168,19 @@
     </div>
   </a>
 
+  <div class="grupo">
+    <h3>Receba os achadinhos no WhatsApp</h3>
+    <p>Ofertas novas todos os dias no grupo. Sem spam.</p>
+    <a href="https://chat.whatsapp.com/IXJEbgKnQeXFE18fbGiX6I" target="_blank" rel="noopener" onclick="if(window.fbq)fbq('track','Lead');">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.03.24-3.47-.72-2.94-1.16-4.8-4.2-4.94-4.4-.14-.19-1.17-1.55-1.17-2.96 0-1.41.58-2.1.79-2.39.2-.29.44-.36.59-.36.15 0 .29 0 .42.01.14.01.32-.05.5.38.18.44.62 1.52.68 1.63.05.11.09.24.01.38-.08.15-.12.24-.24.37-.12.13-.25.29-.36.39-.12.11-.24.23-.1.45.14.22.61 1 1.31 1.62.9.8 1.65 1.05 1.89 1.17.24.12.38.1.52-.06.14-.15.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.37.65 1.61.77.24.12.4.18.46.28.06.11.06.62-.16 1.17z"/></svg>
+      <span>Entrar no grupo</span>
+    </a>
+  </div>
+
   <section class="lista">
     <h2>Mais achadinhos 🛍️</h2>
     <p class="dica">Os que mais saem</p>
     <div class="grade">
-      <a class="card" href="/o/58264043361" aria-label="Air Fryer Elétrica 6,5l Fritadeira Elétrica Multifuncional Inox 110v…">
-        <div class="foto"><span class="selo-off">-35%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-825au-mqhzewf48zyn6a_tn" alt="Air Fryer Elétrica 6,5l Fritadeira Elétrica Multifuncional…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Air Fryer Elétrica 6,5l Fritadeira Elétrica…</h3>
-          <div class="precos">
-            <p class="antes">R$ 600,00</p>
-            <p class="preco-c">R$ 389,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/19498188194" aria-label="Liquidificador Industrial Metvisa LAR.4 Liquidificador Inox 127v…">
-        <div class="foto"><span class="selo-off">-28%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rfhp-m9hsvd443btzfe_tn" alt="Liquidificador Industrial Metvisa LAR.4 Liquidificador…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Liquidificador Industrial Metvisa LAR.4 Liquidificador…</h3>
-          <div class="precos">
-            <p class="antes">R$ 770,00</p>
-            <p class="preco-c">R$ 551,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/22692837721" aria-label="Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor Preta">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-lrg0rpjmc7ppc3_tn" alt="Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor Preta" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor Preta</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 485,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/18799197227" aria-label="Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor Branca">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-lrg0rpjmm1pg33_tn" alt="Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor Branca" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor…</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 471,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58262027455" aria-label="expositor para bolo 6 nichos 40x30x30 prateleira para bolo balcão de…">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820m5-mp4fxosqqnltac_tn" alt="expositor para bolo 6 nichos 40x30x30 prateleira para bolo…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">expositor para bolo 6 nichos 40x30x30 prateleira para…</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 330,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/20372306095" aria-label="Sapateira Organizadora Porta sapato Banco Sapateira hall de entrada">
-        <div class="foto"><span class="selo-off">-24%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m8m1v0c54uepc2_tn" alt="Sapateira Organizadora Porta sapato Banco Sapateira hall…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Sapateira Organizadora Porta sapato Banco Sapateira hall…</h3>
-          <div class="precos">
-            <p class="antes">R$ 289,90</p>
-            <p class="preco-c">R$ 220,93</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58261016406" aria-label="Envio local, caixa transparente para sapatos, caixa organizadora,…">
-        <div class="foto"><span class="selo-off">-49%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820m3-mogih8ys2mthc5_tn" alt="Envio local, caixa transparente para sapatos, caixa…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Envio local, caixa transparente para sapatos, caixa…</h3>
-          <div class="precos">
-            <p class="antes">R$ 550,00</p>
-            <p class="preco-c">R$ 279,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/22093198722" aria-label="Sapateira Multiuso Madeira Prateleira Organizador Sapateira hall de…">
-        <div class="foto"><span class="selo-off">-22%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-825a9-mgciiy5bsg7c4a_tn" alt="Sapateira Multiuso Madeira Prateleira Organizador…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Sapateira Multiuso Madeira Prateleira Organizador…</h3>
-          <div class="precos">
-            <p class="antes">R$ 255,90</p>
-            <p class="preco-c">R$ 198,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/22897272161" aria-label="Prateleira Industrial Suspensa Teto Cozinha pratileira prateleira…">
-        <div class="foto"><span class="selo-off">-58%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134201-7r98o-lv0fkkgugd9fae_tn" alt="Prateleira Industrial Suspensa Teto Cozinha pratileira…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Prateleira Industrial Suspensa Teto Cozinha pratileira…</h3>
-          <div class="precos">
-            <p class="antes">R$ 652,33</p>
-            <p class="preco-c">R$ 272,63</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
       <a class="card" href="/o/13714364431" aria-label="Kit 10 Embalagens PVC Organizadora Roupa, Cama, Mesa e Banho…">
         <div class="foto"><span class="selo-off">-3%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-lusddlrnvvro82_tn" alt="Kit 10 Embalagens PVC Organizadora Roupa, Cama, Mesa e…" loading="lazy" decoding="async" width="320" height="320">
         </div>
@@ -291,506 +193,14 @@
           <span class="ver">Ver oferta</span>
         </div>
       </a>
-      <a class="card" href="/o/23598563135" aria-label="Cafeteira Elétrica Inox Cafeteira Elétrica 4 Litros Cafeteira Master…">
-        <div class="foto"><span class="selo-off">-9%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7ravo-malajb9wf0400d_tn" alt="Cafeteira Elétrica Inox Cafeteira Elétrica 4 Litros…" loading="lazy" decoding="async" width="320" height="320">
+      <a class="card" href="/o/23393046740" aria-label="JOGO de Pés Do Fogão Consul Erva Doce e Consul Facilite Original">
+        <div class="foto"><span class="selo-off">-3%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rd6n-lvf12gisy7yjca_tn" alt="JOGO de Pés Do Fogão Consul Erva Doce e Consul Facilite…" loading="lazy" decoding="async" width="320" height="320">
         </div>
         <div class="corpo">
-          <h3 class="nome">Cafeteira Elétrica Inox Cafeteira Elétrica 4 Litros…</h3>
+          <h3 class="nome">JOGO de Pés Do Fogão Consul Erva Doce e Consul Facilite…</h3>
           <div class="precos">
-            <p class="antes">R$ 1.320,00</p>
-            <p class="preco-c">R$ 1.206,53</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/23593850508" aria-label="Fritadeira Industrial Fritadeira Elétrica 220v Fritadeira Grande…">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rd6h-m7tim4y7wg4ne9_tn" alt="Fritadeira Industrial Fritadeira Elétrica 220v Fritadeira…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Fritadeira Industrial Fritadeira Elétrica 220v…</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 2.595,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/22294568902" aria-label="Prateleiras de armazenamento utensílios de cozinha domésticos…">
-        <div class="foto"><span class="selo-off">-51%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-825ae-mg4rf274qwpa87_tn" alt="Prateleiras de armazenamento utensílios de cozinha…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Prateleiras de armazenamento utensílios de cozinha…</h3>
-          <div class="precos">
-            <p class="antes">R$ 738,00</p>
-            <p class="preco-c">R$ 359,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/18897389509" aria-label="Kit 3 Lava Louça Pastilha Jimo 25x15g Detergente Para Máquina Lava…">
-        <div class="foto"><span class="selo-off">-26%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m4rhs7dhn9rp4d_tn" alt="Kit 3 Lava Louça Pastilha Jimo 25x15g Detergente Para…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Kit 3 Lava Louça Pastilha Jimo 25x15g Detergente Para…</h3>
-          <div class="precos">
-            <p class="antes">R$ 201,20</p>
-            <p class="preco-c">R$ 148,55</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58264625764" aria-label="Geladeira Portátil Preta 15 Litros Freezer 12v/24v 110v/220v Mini…">
-        <div class="foto"><span class="selo-off">-25%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8257w-mqwbehc5aq6ca8_tn" alt="Geladeira Portátil Preta 15 Litros Freezer 12v/24v…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Geladeira Portátil Preta 15 Litros Freezer 12v/24v…</h3>
-          <div class="precos">
-            <p class="antes">R$ 1.399,90</p>
-            <p class="preco-c">R$ 1.045,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58264625727" aria-label="Geladeira Portátil Preta 55 Litros Freezer 12v/24v 110v/220v Mini…">
-        <div class="foto"><span class="selo-off">-35%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8258j-mqw512ueew3u56_tn" alt="Geladeira Portátil Preta 55 Litros Freezer 12v/24v…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Geladeira Portátil Preta 55 Litros Freezer 12v/24v…</h3>
-          <div class="precos">
-            <p class="antes">R$ 2.599,90</p>
-            <p class="preco-c">R$ 1.699,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/15141542887" aria-label="Kit 6 Prateleira Reta Madeira Maciça Canto Rustica Grossa 3…">
-        <div class="foto"><span class="selo-off">-15%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134201-820mc-mqx9pvcmwpom89_tn" alt="Kit 6 Prateleira Reta Madeira Maciça Canto Rustica Grossa…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Kit 6 Prateleira Reta Madeira Maciça Canto Rustica…</h3>
-          <div class="precos">
-            <p class="antes">R$ 272,33</p>
-            <p class="preco-c">R$ 231,49</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58270678618" aria-label="Alexa Echo Dot 5 Geração - Assistente Virtual">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134201-820ll-mudxq13sb3sz67_tn" alt="Alexa Echo Dot 5 Geração - Assistente Virtual" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Alexa Echo Dot 5 Geração - Assistente Virtual</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 499,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/21198315904" aria-label="Liquidificador Industrial Inox Liquidificador Vitalex LQI-02 Jarra…">
-        <div class="foto"><span class="selo-off">-25%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-824j8-mf4ghghg9lah03_tn" alt="Liquidificador Industrial Inox Liquidificador Vitalex…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Liquidificador Industrial Inox Liquidificador Vitalex…</h3>
-          <div class="precos">
-            <p class="antes">R$ 900,00</p>
-            <p class="preco-c">R$ 672,08</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/44567259601" aria-label="Lava e Seca Hisense 3s 14/9kg com Motor Inverter Wi-fi e Steam…">
-        <div class="foto"><span class="selo-off">-41%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-82586-msn65y4n53ig61_tn" alt="Lava e Seca Hisense 3s 14/9kg com Motor Inverter Wi-fi e…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Lava e Seca Hisense 3s 14/9kg com Motor Inverter Wi-fi e…</h3>
-          <div class="precos">
-            <p class="antes">R$ 5.319,00</p>
-            <p class="preco-c">R$ 3.146,74</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58207125713" aria-label="Asoprador Portatil 8 Em 1, Aspirador De Pó Sem Fio, 16.000 Pa…">
-        <div class="foto"><span class="selo-off">-17%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820ld-mmk1vcyyfy107e_tn" alt="Asoprador Portatil 8 Em 1, Aspirador De Pó Sem Fio, 16.000…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Asoprador Portatil 8 Em 1, Aspirador De Pó Sem Fio,…</h3>
-          <div class="precos">
-            <p class="antes">R$ 299,00</p>
-            <p class="preco-c">R$ 249,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/18698155187" aria-label="Air Fryer Fritadeira Elétrica 127V Sem Óleo/air Fryer 5L">
-        <div class="foto"><span class="selo-off">-20%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81zu8-mko798aptou801_tn" alt="Air Fryer Fritadeira Elétrica 127V Sem Óleo/air Fryer 5L" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Air Fryer Fritadeira Elétrica 127V Sem Óleo/air Fryer 5L</h3>
-          <div class="precos">
-            <p class="antes">R$ 269,99</p>
-            <p class="preco-c">R$ 216,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/21897737885" aria-label="Coifa de Parede 80cm Vidro Curvo Duto Slim Fogatti Inox">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-lyvdrw6u50e933_tn" alt="Coifa de Parede 80cm Vidro Curvo Duto Slim Fogatti Inox" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Coifa de Parede 80cm Vidro Curvo Duto Slim Fogatti Inox</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 699,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/52263193910" aria-label="Lava e Seca Hisense 11Kg WD1i com Vapor e iBubble Titanium">
-        <div class="foto"><span class="selo-off">-20%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8258q-mq56jqqo9nnzba_tn" alt="Lava e Seca Hisense 11Kg WD1i com Vapor e iBubble Titanium" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Lava e Seca Hisense 11Kg WD1i com Vapor e iBubble Titanium</h3>
-          <div class="precos">
-            <p class="antes">R$ 3.911,58</p>
-            <p class="preco-c">R$ 3.140,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/22694796001" aria-label="Cafeteira Portátil Para Viagem Máquina De Café Expresso 3 em 1…">
-        <div class="foto"><span class="selo-off">-36%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820li-moof7ku3b4053b_tn" alt="Cafeteira Portátil Para Viagem Máquina De Café Expresso 3…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Cafeteira Portátil Para Viagem Máquina De Café Expresso…</h3>
-          <div class="precos">
-            <p class="antes">R$ 459,99</p>
-            <p class="preco-c">R$ 295,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/20098277834" aria-label="Luminária de teto para sala de estar nova luminária de cristal para…">
-        <div class="foto"><span class="selo-off">-24%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-md5qqa5na59ue5_tn" alt="Luminária de teto para sala de estar nova luminária de…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Luminária de teto para sala de estar nova luminária de…</h3>
-          <div class="precos">
-            <p class="antes">R$ 688,00</p>
-            <p class="preco-c">R$ 525,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/20698270656" aria-label="Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 6 Bocas 90cm">
-        <div class="foto"><span class="selo-off">-20%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mcqgmzmzcyypfd_tn" alt="Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 6 Bocas…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 6…</h3>
-          <div class="precos">
-            <p class="antes">R$ 824,88</p>
-            <p class="preco-c">R$ 659,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/51265151550" aria-label="Lava e Seca Hisense 12kg 3s Inverter com Wi-fi e Função Steam Branca">
-        <div class="foto"><span class="selo-off">-20%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8259s-mradqf461q13e0_tn" alt="Lava e Seca Hisense 12kg 3s Inverter com Wi-fi e Função…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Lava e Seca Hisense 12kg 3s Inverter com Wi-fi e Função…</h3>
-          <div class="precos">
-            <p class="antes">R$ 3.748,51</p>
-            <p class="preco-c">R$ 2.999,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/23199425383" aria-label="Processador Triturador Elétrico Alça Picador De Alimentos Carne…">
-        <div class="foto"><span class="selo-off">-57%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-825zn-mmg22e440rnn77_tn" alt="Processador Triturador Elétrico Alça Picador De Alimentos…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Processador Triturador Elétrico Alça Picador De…</h3>
-          <div class="precos">
-            <p class="antes">R$ 320,00</p>
-            <p class="preco-c">R$ 139,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/48968470658" aria-label="Echo Dot (5a geração) Smart Speaker com Alexa integrado, cor preta">
-        <div class="foto"><span class="selo-off">-39%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8259c-mtnijrhiisqv38_tn" alt="Echo Dot (5a geração) Smart Speaker com Alexa integrado,…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Echo Dot (5a geração) Smart Speaker com Alexa integrado,…</h3>
-          <div class="precos">
-            <p class="antes">R$ 433,00</p>
-            <p class="preco-c">R$ 264,08</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/22498741594" aria-label="Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 5 Bocas 60cm">
-        <div class="foto"><span class="selo-off">-20%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mci44a2v3oqpe5_tn" alt="Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 5 Bocas…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 5…</h3>
-          <div class="precos">
-            <p class="antes">R$ 774,88</p>
-            <p class="preco-c">R$ 619,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/47911215368" aria-label="Lava e Seca Hisense 11kg Wd1i11 Compacta Fit e Função Steam Inverter…">
-        <div class="foto"><span class="selo-off">-39%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lr-mopolf7cozyb65_tn" alt="Lava e Seca Hisense 11kg Wd1i11 Compacta Fit e Função…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Lava e Seca Hisense 11kg Wd1i11 Compacta Fit e Função…</h3>
-          <div class="precos">
-            <p class="antes">R$ 4.629,00</p>
-            <p class="preco-c">R$ 2.820,65</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/23296074626" aria-label="Kit 1 Jimo Essence Odorizante Para Lava Louças + 5 Jimo Pastilha…">
-        <div class="foto"><span class="selo-off">-10%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81z1k-mfmxzrp1ut501a_tn" alt="Kit 1 Jimo Essence Odorizante Para Lava Louças + 5 Jimo…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Kit 1 Jimo Essence Odorizante Para Lava Louças + 5 Jimo…</h3>
-          <div class="precos">
-            <p class="antes">R$ 143,99</p>
-            <p class="preco-c">R$ 129,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/19899500317" aria-label="sapateira de parede,Sapateira Organizadores de Parede kit 2 Pcs em…">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m1cq5ctxc7kw71_tn" alt="sapateira de parede,Sapateira Organizadores de Parede kit…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">sapateira de parede,Sapateira Organizadores de Parede…</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 99,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/23097458402" aria-label="Purificador de Água IBBL FR600 Exclusive Prata Compressor 127V Água…">
-        <div class="foto"><span class="selo-off">-14%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820m4-mukrk4hmnxmr9c_tn" alt="Purificador de Água IBBL FR600 Exclusive Prata Compressor…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Purificador de Água IBBL FR600 Exclusive Prata…</h3>
-          <div class="precos">
-            <p class="antes">R$ 1.139,00</p>
-            <p class="preco-c">R$ 979,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/47911121711" aria-label="Lava e Seca Hisense 11kg Wd1i11 Compacta Fit e Função Steam Inverter…">
-        <div class="foto"><span class="selo-off">-38%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820ls-monwbffoapl152_tn" alt="Lava e Seca Hisense 11kg Wd1i11 Compacta Fit e Função…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Lava e Seca Hisense 11kg Wd1i11 Compacta Fit e Função…</h3>
-          <div class="precos">
-            <p class="antes">R$ 4.359,00</p>
-            <p class="preco-c">R$ 2.711,96</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58206933550" aria-label="Processador Triturador Elétrico Picador Triturador De Alimentos…">
-        <div class="foto"><span class="selo-off">-63%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8260k-mlt984w5juv8cb_tn" alt="Processador Triturador Elétrico Picador Triturador De…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Processador Triturador Elétrico Picador Triturador De…</h3>
-          <div class="precos">
-            <p class="antes">R$ 320,00</p>
-            <p class="preco-c">R$ 119,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/23492619305" aria-label="Colchão Solteiro Inflável + Bomba de Ar Elétrica Vg Plus">
-        <div class="foto"><span class="selo-off">-5%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rbkw-lnszdnatx8vl7b_tn" alt="Colchão Solteiro Inflável + Bomba de Ar Elétrica Vg Plus" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Colchão Solteiro Inflável + Bomba de Ar Elétrica Vg Plus</h3>
-          <div class="precos">
-            <p class="antes">R$ 167,99</p>
-            <p class="preco-c">R$ 159,59</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/23892634884" aria-label="Purificador de Água IBBL FR600 Exclusive Preto Compressor 127v Água…">
-        <div class="foto"><span class="selo-off">-21%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820l6-mukrk4hms5c30f_tn" alt="Purificador de Água IBBL FR600 Exclusive Preto Compressor…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Purificador de Água IBBL FR600 Exclusive Preto…</h3>
-          <div class="precos">
-            <p class="antes">R$ 1.179,00</p>
-            <p class="preco-c">R$ 936,38</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58200395054" aria-label="Geladeira Refrigerador HQ Defrost 290 Litros Preto HQ-290RDF">
-        <div class="foto"><span class="selo-off">-44%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-821g9-mgqqwbw9eayw9c_tn" alt="Geladeira Refrigerador HQ Defrost 290 Litros Preto HQ-290RDF" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Geladeira Refrigerador HQ Defrost 290 Litros Preto…</h3>
-          <div class="precos">
-            <p class="antes">R$ 3.000,00</p>
-            <p class="preco-c">R$ 1.672,83</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/19197729152" aria-label="roupão Lilo Stitch cama mesa e banho">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820l8-ms4gw0evaltw88_tn" alt="roupão Lilo Stitch cama mesa e banho" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">roupão Lilo Stitch cama mesa e banho</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 159,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/23192568267" aria-label="Colchão Solteiro Inflável + Bomba de Ar + Travesseiro Vg Plus">
-        <div class="foto"><span class="selo-off">-5%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rbmm-ln1j04hkwq2ib4_tn" alt="Colchão Solteiro Inflável + Bomba de Ar + Travesseiro Vg…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Colchão Solteiro Inflável + Bomba de Ar + Travesseiro Vg…</h3>
-          <div class="precos">
-            <p class="antes">R$ 134,39</p>
-            <p class="preco-c">R$ 127,67</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/44067167649" aria-label="Purificador de Água IBBL FR600 Exclusive Preto Compressor 220V Água…">
-        <div class="foto"><span class="selo-off">-14%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820m1-mukrk4hmqqrn23_tn" alt="Purificador de Água IBBL FR600 Exclusive Preto Compressor…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Purificador de Água IBBL FR600 Exclusive Preto…</h3>
-          <div class="precos">
-            <p class="antes">R$ 1.089,00</p>
-            <p class="preco-c">R$ 936,38</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58206826456" aria-label="Geladeira Refrigerador HQ 230 Litros Duplex Defrost, Baixo Consumo A…">
-        <div class="foto"><span class="selo-off">-22%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8261c-mlqs5b3ataf498_tn" alt="Geladeira Refrigerador HQ 230 Litros Duplex Defrost, Baixo…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Geladeira Refrigerador HQ 230 Litros Duplex Defrost,…</h3>
-          <div class="precos">
-            <p class="antes">R$ 2.064,13</p>
-            <p class="preco-c">R$ 1.618,48</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58207634227" aria-label="Secador de Roupas Portátil Dobrável Secadora Elétrica Bivolt">
-        <div class="foto"><span class="selo-off">-22%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lp-mm9eihapd3ie51_tn" alt="Secador de Roupas Portátil Dobrável Secadora Elétrica Bivolt" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Secador de Roupas Portátil Dobrável Secadora Elétrica…</h3>
-          <div class="precos">
-            <p class="antes">R$ 250,00</p>
-            <p class="preco-c">R$ 194,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/23292945677" aria-label="Kit 3 Colmeias Organizadora Plus GG Fechada Toalha Blusa Lençol Cama…">
-        <div class="foto"><span class="selo-off">-15%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m6eaw0cq8e9z50_tn" alt="Kit 3 Colmeias Organizadora Plus GG Fechada Toalha Blusa…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Kit 3 Colmeias Organizadora Plus GG Fechada Toalha Blusa…</h3>
-          <div class="precos">
-            <p class="antes">R$ 164,99</p>
-            <p class="preco-c">R$ 139,70</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/18698007373" aria-label="Kit Cozinha C/BalcÃO Cooktop 1 Porta Br C/Forno ElÉTrico 48 L 110v…">
-        <div class="foto"><span class="selo-off">-32%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rfg8-m3f3zax6ko2084_tn" alt="Kit Cozinha C/BalcÃO Cooktop 1 Porta Br C/Forno ElÉTrico…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Kit Cozinha C/BalcÃO Cooktop 1 Porta Br C/Forno ElÉTrico…</h3>
-          <div class="precos">
-            <p class="antes">R$ 1.622,68</p>
-            <p class="preco-c">R$ 1.099,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58206314946" aria-label="Geladeira Refrigerador Compacto HQ 140L Duplex Defrost, Baixo…">
-        <div class="foto"><span class="selo-off">-30%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8262e-mlgja81x9a0x61_tn" alt="Geladeira Refrigerador Compacto HQ 140L Duplex Defrost,…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Geladeira Refrigerador Compacto HQ 140L Duplex Defrost,…</h3>
-          <div class="precos">
-            <p class="antes">R$ 2.000,00</p>
-            <p class="preco-c">R$ 1.401,09</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/22296999929" aria-label="Exaustor Super Potente 100, 125mm e 150mm C/ Controlador De Potência…">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820ly-mto6xh6p4em8e3_tn" alt="Exaustor Super Potente 100, 125mm e 150mm C/ Controlador…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Exaustor Super Potente 100, 125mm e 150mm C/ Controlador…</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 149,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/20998316093" aria-label="Estrutura de aço Prateleiras multicamadas prateleira de metal…">
-        <div class="foto"><span class="selo-off">-15%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-824gs-me78skmir5s18a_tn" alt="Estrutura de aço Prateleiras multicamadas prateleira de…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Estrutura de aço Prateleiras multicamadas prateleira de…</h3>
-          <div class="precos">
-            <p class="antes">R$ 299,00</p>
-            <p class="preco-c">R$ 254,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/28591021644" aria-label="Purificador de Água IBBL FR600 Exclusive Prata Compressor 220V Água…">
-        <div class="foto"><span class="selo-off">-7%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820ln-mukrk4hmpc776b_tn" alt="Purificador de Água IBBL FR600 Exclusive Prata Compressor…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Purificador de Água IBBL FR600 Exclusive Prata…</h3>
-          <div class="precos">
-            <p class="antes">R$ 1.049,00</p>
-            <p class="preco-c">R$ 979,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/22798707866" aria-label="Processador Elétrico Triturador de Alimentos Litros Picador…">
-        <div class="foto"><span class="selo-off">-26%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mc25dyporg05b6_tn" alt="Processador Elétrico Triturador de Alimentos Litros…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Processador Elétrico Triturador de Alimentos Litros…</h3>
-          <div class="precos">
-            <p class="antes">R$ 129,00</p>
-            <p class="preco-c">R$ 95,00</p>
+            <p class="antes">R$ 78,88</p>
+            <p class="preco-c">R$ 76,52</p>
           </div>
           <span class="ver">Ver oferta</span>
         </div>
@@ -807,170 +217,62 @@
           <span class="ver">Ver oferta</span>
         </div>
       </a>
-      <a class="card" href="/o/21897990051" aria-label="KIT BALCÃO PARA COOKTOP VIOLETA 2 PORTAS COM FOGÃO COOKTOP 5 BOCAS…">
-        <div class="foto"><span class="selo-off">-29%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820ln-mm6habpfsmiu41_tn" alt="KIT BALCÃO PARA COOKTOP VIOLETA 2 PORTAS COM FOGÃO COOKTOP…" loading="lazy" decoding="async" width="320" height="320">
+      <a class="card" href="/o/23199034988" aria-label="Cabo Paralelo Uniflex 2x0,75mm2 Bicolor Rolo 100m Para Som…">
+        <div class="foto"><span class="selo-off">-14%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81z1k-mig1qrmhs5j7d5_tn" alt="Cabo Paralelo Uniflex 2x0,75mm2 Bicolor Rolo 100m Para Som…" loading="lazy" decoding="async" width="320" height="320">
         </div>
         <div class="corpo">
-          <h3 class="nome">KIT BALCÃO PARA COOKTOP VIOLETA 2 PORTAS COM FOGÃO…</h3>
+          <h3 class="nome">Cabo Paralelo Uniflex 2x0,75mm2 Bicolor Rolo 100m Para…</h3>
           <div class="precos">
-            <p class="antes">R$ 1.269,53</p>
-            <p class="preco-c">R$ 902,83</p>
+            <p class="antes">R$ 95,60</p>
+            <p class="preco-c">R$ 82,00</p>
           </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
-      <a class="card" href="/o/21598988837" aria-label="Super Exaustor Axial 100, 125 ou 150mm 170m3/h Cultivo Indoor Grow…">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81ztc-mjppdispi8eb22_tn" alt="Super Exaustor Axial 100, 125 ou 150mm 170m3/h Cultivo…" loading="lazy" decoding="async" width="320" height="320">
+      <a class="card" href="/o/22297761255" aria-label="Sacola Transparente Pvc Super Resistente Para Presídio Roupa de Cama…">
+        <div class="foto"><span class="selo-off">-10%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mcrsnk1nnrpd57_tn" alt="Sacola Transparente Pvc Super Resistente Para Presídio…" loading="lazy" decoding="async" width="320" height="320">
         </div>
         <div class="corpo">
-          <h3 class="nome">Super Exaustor Axial 100, 125 ou 150mm 170m3/h Cultivo…</h3>
+          <h3 class="nome">Sacola Transparente Pvc Super Resistente Para Presídio…</h3>
+          <div class="precos">
+            <p class="antes">R$ 39,90</p>
+            <p class="preco-c">R$ 35,91</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/57557040745" aria-label="Kit 2 Prateleira de Madeira Prateleira Suspensa Com Alça Para…">
+        <div class="foto"><span class="selo-off">-22%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lt-mlnwg52ye3nqca_tn" alt="Kit 2 Prateleira de Madeira Prateleira Suspensa Com Alça…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Kit 2 Prateleira de Madeira Prateleira Suspensa Com Alça…</h3>
+          <div class="precos">
+            <p class="antes">R$ 49,90</p>
+            <p class="preco-c">R$ 38,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/19899500317" aria-label="sapateira de parede,Sapateira Organizadores de Parede kit 2 Pcs em…">
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m1cq5ctxc7kw71_tn" alt="sapateira de parede,Sapateira Organizadores de Parede kit…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">sapateira de parede,Sapateira Organizadores de Parede…</h3>
           <div class="precos">
             
-            <p class="preco-c">R$ 134,90</p>
+            <p class="preco-c">R$ 99,90</p>
           </div>
           <span class="ver">Ver oferta</span>
         </div>
       </a>
-      <a class="card" href="/o/23492947577" aria-label="Kit 3 Colmeia Organizadora Plus GG Roupas Cama Mesa Banho Blusas…">
-        <div class="foto"><span class="selo-off">-20%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820md-mng8xcg5vrwi6b_tn" alt="Kit 3 Colmeia Organizadora Plus GG Roupas Cama Mesa Banho…" loading="lazy" decoding="async" width="320" height="320">
+      <a class="card" href="/o/23698547329" aria-label="star infantil menino tênis all infantil tenis infantil menina tênis…">
+        <div class="foto"><span class="selo-off">-39%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rav0-mabs5501gltx46_tn" alt="star infantil menino tênis all infantil tenis infantil…" loading="lazy" decoding="async" width="320" height="320">
         </div>
         <div class="corpo">
-          <h3 class="nome">Kit 3 Colmeia Organizadora Plus GG Roupas Cama Mesa…</h3>
+          <h3 class="nome">star infantil menino tênis all infantil tenis infantil…</h3>
           <div class="precos">
-            <p class="antes">R$ 159,99</p>
-            <p class="preco-c">R$ 128,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/21699562836" aria-label="KIT BALCÃO COOKTOP ITATIAIA COM 1 PORTA E FOGÃO COOKTOP 5 BOCAS">
-        <div class="foto"><span class="selo-off">-22%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rfhs-m3ge2zkpnm5h9a_tn" alt="KIT BALCÃO COOKTOP ITATIAIA COM 1 PORTA E FOGÃO COOKTOP 5…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">KIT BALCÃO COOKTOP ITATIAIA COM 1 PORTA E FOGÃO COOKTOP…</h3>
-          <div class="precos">
-            <p class="antes">R$ 1.151,14</p>
-            <p class="preco-c">R$ 899,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/22398797346" aria-label="Luminária pendente longa para sala de estar, luminária decorativa de…">
-        <div class="foto"><span class="selo-off">-21%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-md4ellk5ztbm24_tn" alt="Luminária pendente longa para sala de estar, luminária…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Luminária pendente longa para sala de estar, luminária…</h3>
-          <div class="precos">
-            <p class="antes">R$ 410,00</p>
-            <p class="preco-c">R$ 323,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/20697811364" aria-label="Triturador Processador Picador De Alimentos Elétrico Moedor De Carne…">
-        <div class="foto"><span class="selo-off">-26%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m5zsski1ewedde_tn" alt="Triturador Processador Picador De Alimentos Elétrico…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Triturador Processador Picador De Alimentos Elétrico…</h3>
-          <div class="precos">
-            <p class="antes">R$ 120,00</p>
-            <p class="preco-c">R$ 89,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58253681039" aria-label="Kit Balcão Para Cooktop Cozinha Kaiki Violeta Nature/Off White com…">
-        <div class="foto"><span class="selo-off">-35%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8262c-mjpyqdzkrnk3fd_tn" alt="Kit Balcão Para Cooktop Cozinha Kaiki Violeta Nature/Off…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Kit Balcão Para Cooktop Cozinha Kaiki Violeta Nature/Off…</h3>
-          <div class="precos">
-            <p class="antes">R$ 1.384,44</p>
-            <p class="preco-c">R$ 899,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/23862724046" aria-label="Luminária Astronauta Arandela Quarto Luminária De Parede Moderno…">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rbmx-lodqzqa9x3w05f_tn" alt="Luminária Astronauta Arandela Quarto Luminária De Parede…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Luminária Astronauta Arandela Quarto Luminária De…</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 199,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/15179947829" aria-label="Liquidificador Portátil Mini Original Fresh Juice Elétrico Copo…">
-        <div class="foto"><span class="selo-off">-47%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2F661b2863f64b94ac187ce885b85ab6df_tn" alt="Liquidificador Portátil Mini Original Fresh Juice Elétrico…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Liquidificador Portátil Mini Original Fresh Juice…</h3>
-          <div class="precos">
-            <p class="antes">R$ 217,83</p>
-            <p class="preco-c">R$ 115,64</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/23093571847" aria-label="Kit Balcão Para Cooktop Cozinha Kaiki Violeta com Fogão Cooktop 4…">
-        <div class="foto"><span class="selo-off">-34%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rfho-m3glxl53vftx80_tn" alt="Kit Balcão Para Cooktop Cozinha Kaiki Violeta com Fogão…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Kit Balcão Para Cooktop Cozinha Kaiki Violeta com Fogão…</h3>
-          <div class="precos">
-            <p class="antes">R$ 1.163,53</p>
-            <p class="preco-c">R$ 769,99</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58254573255" aria-label="Sapateira Modular 4 em 1 para Até 55 Pares Vertical Estante…">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8261f-mk9z4hny6tc79c_tn" alt="Sapateira Modular 4 em 1 para Até 55 Pares Vertical…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Sapateira Modular 4 em 1 para Até 55 Pares Vertical…</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 179,90</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/22294229454" aria-label="Processador Triturador Elétrico Picador De Alimentos Moedor De Carne…">
-        <div class="foto"><span class="selo-off">-21%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mc0n6wbwej6v86_tn" alt="Processador Triturador Elétrico Picador De Alimentos…" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Processador Triturador Elétrico Picador De Alimentos…</h3>
-          <div class="precos">
-            <p class="antes">R$ 100,00</p>
-            <p class="preco-c">R$ 79,00</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/58219769743" aria-label="Echo Dot Smart speaker com Alexa Com Alexa">
-        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8259g-mts1imwxqjuqbc_tn" alt="Echo Dot Smart speaker com Alexa Com Alexa" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Echo Dot Smart speaker com Alexa Com Alexa</h3>
-          <div class="precos">
-            
-            <p class="preco-c">R$ 661,98</p>
-          </div>
-          <span class="ver">Ver oferta</span>
-        </div>
-      </a>
-      <a class="card" href="/o/19899087488" aria-label="Colchão Solteiro Inflável + Bomba de Ar Manual Vg Plus">
-        <div class="foto"><span class="selo-off">-5%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rbk8-lnsynbokncfkee_tn" alt="Colchão Solteiro Inflável + Bomba de Ar Manual Vg Plus" loading="lazy" decoding="async" width="320" height="320">
-        </div>
-        <div class="corpo">
-          <h3 class="nome">Colchão Solteiro Inflável + Bomba de Ar Manual Vg Plus</h3>
-          <div class="precos">
-            <p class="antes">R$ 111,99</p>
-            <p class="preco-c">R$ 106,39</p>
+            <p class="antes">R$ 69,90</p>
+            <p class="preco-c">R$ 42,36</p>
           </div>
           <span class="ver">Ver oferta</span>
         </div>
@@ -987,14 +289,722 @@
           <span class="ver">Ver oferta</span>
         </div>
       </a>
-      <a class="card" href="/o/22992619642" aria-label="Colchão Inflável Solteiro Flocked Comfort Vg Plus">
-        <div class="foto"><span class="selo-off">-5%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rbmk-lnsyohnn82r91e_tn" alt="Colchão Inflável Solteiro Flocked Comfort Vg Plus" loading="lazy" decoding="async" width="320" height="320">
+      <a class="card" href="/o/58206933550" aria-label="Processador Triturador Elétrico Picador Triturador De Alimentos…">
+        <div class="foto"><span class="selo-off">-63%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8260k-mlt984w5juv8cb_tn" alt="Processador Triturador Elétrico Picador Triturador De…" loading="lazy" decoding="async" width="320" height="320">
         </div>
         <div class="corpo">
-          <h3 class="nome">Colchão Inflável Solteiro Flocked Comfort Vg Plus</h3>
+          <h3 class="nome">Processador Triturador Elétrico Picador Triturador De…</h3>
           <div class="precos">
-            <p class="antes">R$ 89,59</p>
-            <p class="preco-c">R$ 85,11</p>
+            <p class="antes">R$ 320,00</p>
+            <p class="preco-c">R$ 119,99</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58256857161" aria-label="Faca Vermelha 6 Lâminas Para Liquidificador Walita Ri2240 RI2242…">
+        <div class="foto"><span class="selo-off">-8%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8262b-mlrr6vl2f8qp5f_tn" alt="Faca Vermelha 6 Lâminas Para Liquidificador Walita Ri2240…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Faca Vermelha 6 Lâminas Para Liquidificador Walita…</h3>
+          <div class="precos">
+            <p class="antes">R$ 59,90</p>
+            <p class="preco-c">R$ 54,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22798707866" aria-label="Processador Elétrico Triturador de Alimentos Litros Picador…">
+        <div class="foto"><span class="selo-off">-26%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mc25dyporg05b6_tn" alt="Processador Elétrico Triturador de Alimentos Litros…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Processador Elétrico Triturador de Alimentos Litros…</h3>
+          <div class="precos">
+            <p class="antes">R$ 129,00</p>
+            <p class="preco-c">R$ 95,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58218195597" aria-label="Calça Feminina Jeans Cintura Alta Calça Jeans Feminina Preta Calça…">
+        <div class="foto"><span class="selo-off">-33%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lt-mtzjjmvhy6td15_tn" alt="Calça Feminina Jeans Cintura Alta Calça Jeans Feminina…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Calça Feminina Jeans Cintura Alta Calça Jeans Feminina…</h3>
+          <div class="precos">
+            <p class="antes">R$ 119,90</p>
+            <p class="preco-c">R$ 79,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/20697811364" aria-label="Triturador Processador Picador De Alimentos Elétrico Moedor De Carne…">
+        <div class="foto"><span class="selo-off">-26%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m5zsski1ewedde_tn" alt="Triturador Processador Picador De Alimentos Elétrico…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Triturador Processador Picador De Alimentos Elétrico…</h3>
+          <div class="precos">
+            <p class="antes">R$ 120,00</p>
+            <p class="preco-c">R$ 89,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58218190677" aria-label="Calça Wide Leg Jeans Feminina Cintura Alta Calça Pantalona Jeans…">
+        <div class="foto"><span class="selo-off">-43%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820mh-mt5q9km9hwjp6d_tn" alt="Calça Wide Leg Jeans Feminina Cintura Alta Calça Pantalona…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Calça Wide Leg Jeans Feminina Cintura Alta Calça…</h3>
+          <div class="precos">
+            <p class="antes">R$ 139,90</p>
+            <p class="preco-c">R$ 79,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22294229454" aria-label="Processador Triturador Elétrico Picador De Alimentos Moedor De Carne…">
+        <div class="foto"><span class="selo-off">-21%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mc0n6wbwej6v86_tn" alt="Processador Triturador Elétrico Picador De Alimentos…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Processador Triturador Elétrico Picador De Alimentos…</h3>
+          <div class="precos">
+            <p class="antes">R$ 100,00</p>
+            <p class="preco-c">R$ 79,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/23191893680" aria-label="Kit Jimo Pastilha Limpa Máquina Lava Louça 2x17g + 1 Jimo Essence…">
+        <div class="foto"><span class="selo-off">-8%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m4uo644no88i09_tn" alt="Kit Jimo Pastilha Limpa Máquina Lava Louça 2x17g + 1 Jimo…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Kit Jimo Pastilha Limpa Máquina Lava Louça 2x17g + 1…</h3>
+          <div class="precos">
+            <p class="antes">R$ 69,90</p>
+            <p class="preco-c">R$ 63,97</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58202648188" aria-label="Conjunto de teclado e teclado USB com fio, teclado gamer…">
+        <div class="foto"><span class="selo-off">-60%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81ztc-mj1eroajn1tue4_tn" alt="Conjunto de teclado e teclado USB com fio, teclado gamer…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Conjunto de teclado e teclado USB com fio, teclado gamer…</h3>
+          <div class="precos">
+            <p class="antes">R$ 150,00</p>
+            <p class="preco-c">R$ 59,99</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58257879524" aria-label="Mini Batedeira De Mão Bolo Portátil 260w 110V e 220V Leve 7…">
+        <div class="foto"><span class="selo-off">-41%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-82620-mmg2kbyvmiv657_tn" alt="Mini Batedeira De Mão Bolo Portátil 260w 110V e 220V Leve…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Mini Batedeira De Mão Bolo Portátil 260w 110V e 220V…</h3>
+          <div class="precos">
+            <p class="antes">R$ 100,00</p>
+            <p class="preco-c">R$ 59,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22392973394" aria-label="Cafeteira Italiana Alumínio 3/6/9 Xícaras Aço Decorada Top Cafeteira…">
+        <div class="foto"><span class="selo-off">-10%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m20zzhn5my1wbc_tn" alt="Cafeteira Italiana Alumínio 3/6/9 Xícaras Aço Decorada Top…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Cafeteira Italiana Alumínio 3/6/9 Xícaras Aço Decorada…</h3>
+          <div class="precos">
+            <p class="antes">R$ 60,00</p>
+            <p class="preco-c">R$ 54,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/57056003165" aria-label="Conjunto Feminino Conjunto Alfaiataria Conjunto Cropped e Short…">
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81ztc-mki6g55x9h4y8f_tn" alt="Conjunto Feminino Conjunto Alfaiataria Conjunto Cropped e…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Conjunto Feminino Conjunto Alfaiataria Conjunto Cropped…</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 40,68</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58262444816" aria-label="Organizador Bolsas Acrílico Transparente Multiuso 3 Divisórias">
+        <div class="foto"><span class="selo-off">-50%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820ma-mraarnmbun7r2d_tn" alt="Organizador Bolsas Acrílico Transparente Multiuso 3…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Organizador Bolsas Acrílico Transparente Multiuso 3…</h3>
+          <div class="precos">
+            <p class="antes">R$ 74,90</p>
+            <p class="preco-c">R$ 37,49</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/20898573236" aria-label="Kit com 2 Jimo Pastilha Lava Máquinas Lava Louça Com 4x17g">
+        <div class="foto"><span class="selo-off">-13%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7qukw-lka1paz5g98p29_tn" alt="Kit com 2 Jimo Pastilha Lava Máquinas Lava Louça Com 4x17g" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Kit com 2 Jimo Pastilha Lava Máquinas Lava Louça Com 4x17g</h3>
+          <div class="precos">
+            <p class="antes">R$ 39,99</p>
+            <p class="preco-c">R$ 34,89</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58259768106" aria-label="Power Bank Carregador Portátil 10.000mAh Turbo 22.5W – Carregamento…">
+        <div class="foto"><span class="selo-off">-5%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lx-mnlpj7u0rjlu01_tn" alt="Power Bank Carregador Portátil 10.000mAh Turbo 22.5W –…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Power Bank Carregador Portátil 10.000mAh Turbo 22.5W –…</h3>
+          <div class="precos">
+            <p class="antes">R$ 119,90</p>
+            <p class="preco-c">R$ 114,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58269741066" aria-label="Lava Louças em Pó AlvejaPro 1kg Detergente para máquina de lavar…">
+        <div class="foto"><span class="selo-off">-38%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134201-820lg-mtx02wgpyh3536_tn" alt="Lava Louças em Pó AlvejaPro 1kg Detergente para máquina de…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Lava Louças em Pó AlvejaPro 1kg Detergente para máquina…</h3>
+          <div class="precos">
+            <p class="antes">R$ 49,90</p>
+            <p class="preco-c">R$ 30,93</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58265203211" aria-label="Furadeira Parafusadeira bosch 48V Parafusadeira 2 baterias Furadeira…">
+        <div class="foto"><span class="selo-off">-50%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820l8-ms3nqgs98ah226_tn" alt="Furadeira Parafusadeira bosch 48V Parafusadeira 2 baterias…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Furadeira Parafusadeira bosch 48V Parafusadeira 2…</h3>
+          <div class="precos">
+            <p class="antes">R$ 800,00</p>
+            <p class="preco-c">R$ 399,29</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58261583038" aria-label="Lava Louças em Pó para Máquina de Lavar Louças 1kg com Percarbonato…">
+        <div class="foto"><span class="selo-off">-19%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-823pp-mosnkgqrwtfmc6_tn" alt="Lava Louças em Pó para Máquina de Lavar Louças 1kg com…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Lava Louças em Pó para Máquina de Lavar Louças 1kg com…</h3>
+          <div class="precos">
+            <p class="antes">R$ 37,90</p>
+            <p class="preco-c">R$ 30,59</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/45853382860" aria-label="Furadeira parafusadeira Bosch Original GSB 6-115 48v 2 Baterias…">
+        <div class="foto"><span class="selo-off">-24%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fcn-11134207-820l4-mt0uoclp4d1l26_tn" alt="Furadeira parafusadeira Bosch Original GSB 6-115 48v 2…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Furadeira parafusadeira Bosch Original GSB 6-115 48v 2…</h3>
+          <div class="precos">
+            <p class="antes">R$ 523,26</p>
+            <p class="preco-c">R$ 399,16</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22789668981" aria-label="Mochila de viagem de grande capacidade Mochila de viagem de negócios…">
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rcc4-lt0aufogl9dhc6_tn" alt="Mochila de viagem de grande capacidade Mochila de viagem…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Mochila de viagem de grande capacidade Mochila de viagem…</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 397,81</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/27615883286" aria-label="bo Furadeira Elétrica De Impacto Profissional GSB 16 RE 1200W…">
+        <div class="foto"><span class="selo-off">-18%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fcn-11134207-820l4-mtm5nj5r6wapa9_tn" alt="bo Furadeira Elétrica De Impacto Profissional GSB 16 RE…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">bo Furadeira Elétrica De Impacto Profissional GSB 16 RE…</h3>
+          <div class="precos">
+            <p class="antes">R$ 400,00</p>
+            <p class="preco-c">R$ 329,29</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58210653418" aria-label="Parafusadeira Furadeira bosch 48V Parafusadeira 2 baterias Furadeira…">
+        <div class="foto"><span class="selo-off">-33%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lr-moje4ol1ybk0f2_tn" alt="Parafusadeira Furadeira bosch 48V Parafusadeira 2 baterias…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Parafusadeira Furadeira bosch 48V Parafusadeira 2…</h3>
+          <div class="precos">
+            <p class="antes">R$ 600,00</p>
+            <p class="preco-c">R$ 399,86</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/48114534086" aria-label="Parafusadeira Furadeira BOSCH 48V Brushless Kit Completo Com 2…">
+        <div class="foto"><span class="selo-off">-50%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fcn-11134207-820l4-mukh1qbq2gw8df_tn" alt="Parafusadeira Furadeira BOSCH 48V Brushless Kit Completo…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Parafusadeira Furadeira BOSCH 48V Brushless Kit Completo…</h3>
+          <div class="precos">
+            <p class="antes">R$ 800,35</p>
+            <p class="preco-c">R$ 399,48</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58211025357" aria-label="Parafusadeira Furadeira Bosch Profissional 48V Furadeira de Impacto…">
+        <div class="foto"><span class="selo-off">-49%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820li-msck693qc6x29a_tn" alt="Parafusadeira Furadeira Bosch Profissional 48V Furadeira…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Parafusadeira Furadeira Bosch Profissional 48V Furadeira…</h3>
+          <div class="precos">
+            <p class="antes">R$ 779,00</p>
+            <p class="preco-c">R$ 399,51</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/49905733336" aria-label="Furadeira parafusadeira 48V furadeira de impacto 2 Baterias Bosch…">
+        <div class="foto"><span class="selo-off">-49%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fcn-11134207-820l4-msgne2ylk93956_tn" alt="Furadeira parafusadeira 48V furadeira de impacto 2…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Furadeira parafusadeira 48V furadeira de impacto 2…</h3>
+          <div class="precos">
+            <p class="antes">R$ 781,40</p>
+            <p class="preco-c">R$ 399,25</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/44378601137" aria-label="Furadeira parafusadeira de impacto 48V profissional 1900 RPM…">
+        <div class="foto"><span class="selo-off">-30%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fcn-11134207-820l4-mthr2qvikn43f2_tn" alt="Furadeira parafusadeira de impacto 48V profissional 1900…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Furadeira parafusadeira de impacto 48V profissional 1900…</h3>
+          <div class="precos">
+            <p class="antes">R$ 573,02</p>
+            <p class="preco-c">R$ 399,38</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22798123184" aria-label="Borracha Original Para Forno de fogão 6 Bocas Fogão Brastemp Bf075ab…">
+        <div class="foto"><span class="selo-off">-14%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m8jwxo9w0jqpb9_tn" alt="Borracha Original Para Forno de fogão 6 Bocas Fogão…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Borracha Original Para Forno de fogão 6 Bocas Fogão…</h3>
+          <div class="precos">
+            <p class="antes">R$ 148,69</p>
+            <p class="preco-c">R$ 128,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58262027455" aria-label="expositor para bolo 6 nichos 40x30x30 prateleira para bolo balcão de…">
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820m5-mp4fxosqqnltac_tn" alt="expositor para bolo 6 nichos 40x30x30 prateleira para bolo…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">expositor para bolo 6 nichos 40x30x30 prateleira para…</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 330,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22998689214" aria-label="Cooktop Embutir Fogão Industrial Gás 1 Boca Dupla Aço Inox Fast…">
+        <div class="foto"><span class="selo-off">-3%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7ra3t-mbmviqnt6xqu85_tn" alt="Cooktop Embutir Fogão Industrial Gás 1 Boca Dupla Aço Inox…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Cooktop Embutir Fogão Industrial Gás 1 Boca Dupla Aço…</h3>
+          <div class="precos">
+            <p class="antes">R$ 398,40</p>
+            <p class="preco-c">R$ 386,45</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22493015344" aria-label="Driver TI QVS QST 244TI 80W Rms Titanio Corneta TI Som Automotivo…">
+        <div class="foto"><span class="selo-off">-44%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mc93offgiuowa9_tn" alt="Driver TI QVS QST 244TI 80W Rms Titanio Corneta TI Som…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Driver TI QVS QST 244TI 80W Rms Titanio Corneta TI Som…</h3>
+          <div class="precos">
+            <p class="antes">R$ 369,90</p>
+            <p class="preco-c">R$ 208,32</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22792866248" aria-label="Kit Instalação Ar Condicionado LG Samsung Elgin Daikin Fujitsu Gree…">
+        <div class="foto"><span class="selo-off">-5%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-maotk7wm7dlbb1_tn" alt="Kit Instalação Ar Condicionado LG Samsung Elgin Daikin…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Kit Instalação Ar Condicionado LG Samsung Elgin Daikin…</h3>
+          <div class="precos">
+            <p class="antes">R$ 349,00</p>
+            <p class="preco-c">R$ 329,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/28170086970" aria-label="Secador De Cabelo 5 Em 1 Escova Secadora Modelador De Cachos…">
+        <div class="foto"><span class="selo-off">-47%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fcn-11134207-7ras8-m3jcwpf0xh6y18_tn" alt="Secador De Cabelo 5 Em 1 Escova Secadora Modelador De…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Secador De Cabelo 5 Em 1 Escova Secadora Modelador De…</h3>
+          <div class="precos">
+            <p class="antes">R$ 510,00</p>
+            <p class="preco-c">R$ 268,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/20372306095" aria-label="Sapateira Organizadora Porta sapato Banco Sapateira hall de entrada">
+        <div class="foto"><span class="selo-off">-24%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m8m1v0c54uepc2_tn" alt="Sapateira Organizadora Porta sapato Banco Sapateira hall…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Sapateira Organizadora Porta sapato Banco Sapateira hall…</h3>
+          <div class="precos">
+            <p class="antes">R$ 289,90</p>
+            <p class="preco-c">R$ 220,93</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/20397678013" aria-label="Drive Titanio Titanium 204ti Trio 60w Rms 8 Ohms Som Automotivo Som…">
+        <div class="foto"><span class="selo-off">-28%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-m3mgxj0nbeu3d4_tn" alt="Drive Titanio Titanium 204ti Trio 60w Rms 8 Ohms Som…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Drive Titanio Titanium 204ti Trio 60w Rms 8 Ohms Som…</h3>
+          <div class="precos">
+            <p class="antes">R$ 249,90</p>
+            <p class="preco-c">R$ 179,89</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58261016406" aria-label="Envio local, caixa transparente para sapatos, caixa organizadora,…">
+        <div class="foto"><span class="selo-off">-49%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820m3-mogih8ys2mthc5_tn" alt="Envio local, caixa transparente para sapatos, caixa…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Envio local, caixa transparente para sapatos, caixa…</h3>
+          <div class="precos">
+            <p class="antes">R$ 550,00</p>
+            <p class="preco-c">R$ 279,99</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22897272161" aria-label="Prateleira Industrial Suspensa Teto Cozinha pratileira prateleira…">
+        <div class="foto"><span class="selo-off">-58%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134201-7r98o-lv0fkkgugd9fae_tn" alt="Prateleira Industrial Suspensa Teto Cozinha pratileira…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Prateleira Industrial Suspensa Teto Cozinha pratileira…</h3>
+          <div class="precos">
+            <p class="antes">R$ 652,33</p>
+            <p class="preco-c">R$ 272,63</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22093198722" aria-label="Sapateira Multiuso Madeira Prateleira Organizador Sapateira hall de…">
+        <div class="foto"><span class="selo-off">-22%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-825a9-mgciiy5bsg7c4a_tn" alt="Sapateira Multiuso Madeira Prateleira Organizador…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Sapateira Multiuso Madeira Prateleira Organizador…</h3>
+          <div class="precos">
+            <p class="antes">R$ 255,90</p>
+            <p class="preco-c">R$ 198,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58215998421" aria-label="Perfume Árabe Fakhar Rose EDP 100ml Perfume da Sereia Feminino,…">
+        <div class="foto"><span class="selo-off">-12%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8258x-mufej0g59o8w1f_tn" alt="Perfume Árabe Fakhar Rose EDP 100ml Perfume da Sereia…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Perfume Árabe Fakhar Rose EDP 100ml Perfume da Sereia…</h3>
+          <div class="precos">
+            <p class="antes">R$ 200,00</p>
+            <p class="preco-c">R$ 176,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/23098826342" aria-label="FLK Relógio Smartwatch Feminino Glicemia Pressão Arterial Chamada…">
+        <div class="foto"><span class="selo-off">-33%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-81z1k-milgb7c0cu82c8_tn" alt="FLK Relógio Smartwatch Feminino Glicemia Pressão Arterial…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">FLK Relógio Smartwatch Feminino Glicemia Pressão…</h3>
+          <div class="precos">
+            <p class="antes">R$ 399,00</p>
+            <p class="preco-c">R$ 269,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22294568902" aria-label="Prateleiras de armazenamento utensílios de cozinha domésticos…">
+        <div class="foto"><span class="selo-off">-51%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-825ae-mg4rf274qwpa87_tn" alt="Prateleiras de armazenamento utensílios de cozinha…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Prateleiras de armazenamento utensílios de cozinha…</h3>
+          <div class="precos">
+            <p class="antes">R$ 738,00</p>
+            <p class="preco-c">R$ 359,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58215038102" aria-label="JIOYE Smartwatch Relogio Chamada GPS IP68 à Prova d&#x27;Água Bússola…">
+        <div class="foto"><span class="selo-off">-49%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lz-mrl0v88ox2pwbb_tn" alt="JIOYE Smartwatch Relogio Chamada GPS IP68 à Prova d&#x27;Água…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">JIOYE Smartwatch Relogio Chamada GPS IP68 à Prova d&#x27;Água…</h3>
+          <div class="precos">
+            <p class="antes">R$ 600,00</p>
+            <p class="preco-c">R$ 308,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/21897737885" aria-label="Coifa de Parede 80cm Vidro Curvo Duto Slim Fogatti Inox">
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-lyvdrw6u50e933_tn" alt="Coifa de Parede 80cm Vidro Curvo Duto Slim Fogatti Inox" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Coifa de Parede 80cm Vidro Curvo Duto Slim Fogatti Inox</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 699,99</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/23197899596" aria-label="Alto Falante QVS 10 60vpk PRO S 450wrms Medio Grave Pancadao Som…">
+        <div class="foto"><span class="selo-off">-38%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lq-mqtkn1bocq9scf_tn" alt="Alto Falante QVS 10 60vpk PRO S 450wrms Medio Grave…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Alto Falante QVS 10 60vpk PRO S 450wrms Medio Grave…</h3>
+          <div class="precos">
+            <p class="antes">R$ 999,00</p>
+            <p class="preco-c">R$ 619,60</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/20698270656" aria-label="Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 6 Bocas 90cm">
+        <div class="foto"><span class="selo-off">-20%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mcqgmzmzcyypfd_tn" alt="Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 6 Bocas…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 6…</h3>
+          <div class="precos">
+            <p class="antes">R$ 824,88</p>
+            <p class="preco-c">R$ 659,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22394440961" aria-label="Micro-ondas LG 30 Litros Prata Limpa Fácil MS3043BR 127V">
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-824gp-mf19ft47hkb153_tn" alt="Micro-ondas LG 30 Litros Prata Limpa Fácil MS3043BR 127V" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Micro-ondas LG 30 Litros Prata Limpa Fácil MS3043BR 127V</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 969,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22498741594" aria-label="Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 5 Bocas 60cm">
+        <div class="foto"><span class="selo-off">-20%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-mci44a2v3oqpe5_tn" alt="Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 5 Bocas…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Coifa De Parede Fogatti Vidro Curvo Slim Inox 4 E 5…</h3>
+          <div class="precos">
+            <p class="antes">R$ 774,88</p>
+            <p class="preco-c">R$ 619,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22692837721" aria-label="Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor Preta">
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-lrg0rpjmc7ppc3_tn" alt="Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor Preta" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor Preta</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 485,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/23097458402" aria-label="Purificador de Água IBBL FR600 Exclusive Prata Compressor 127V Água…">
+        <div class="foto"><span class="selo-off">-14%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820m4-mukrk4hmnxmr9c_tn" alt="Purificador de Água IBBL FR600 Exclusive Prata Compressor…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Purificador de Água IBBL FR600 Exclusive Prata…</h3>
+          <div class="precos">
+            <p class="antes">R$ 1.139,00</p>
+            <p class="preco-c">R$ 979,99</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/18799197227" aria-label="Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor Branca">
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-7r98o-lrg0rpjmm1pg33_tn" alt="Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor Branca" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Echo Dot (5ª Geração): Smart Speaker com Alexa - Cor…</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 471,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/23892634884" aria-label="Purificador de Água IBBL FR600 Exclusive Preto Compressor 127v Água…">
+        <div class="foto"><span class="selo-off">-21%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820l6-mukrk4hms5c30f_tn" alt="Purificador de Água IBBL FR600 Exclusive Preto Compressor…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Purificador de Água IBBL FR600 Exclusive Preto…</h3>
+          <div class="precos">
+            <p class="antes">R$ 1.179,00</p>
+            <p class="preco-c">R$ 936,38</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/56260326053" aria-label="Teclado Mecânico 75% Teclado Gamer Mecanico Computador PC Teclado…">
+        <div class="foto"><span class="selo-off">-13%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lj-mo48b871dk3mea_tn" alt="Teclado Mecânico 75% Teclado Gamer Mecanico Computador PC…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Teclado Mecânico 75% Teclado Gamer Mecanico Computador…</h3>
+          <div class="precos">
+            <p class="antes">R$ 499,90</p>
+            <p class="preco-c">R$ 434,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/44067167649" aria-label="Purificador de Água IBBL FR600 Exclusive Preto Compressor 220V Água…">
+        <div class="foto"><span class="selo-off">-14%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820m1-mukrk4hmqqrn23_tn" alt="Purificador de Água IBBL FR600 Exclusive Preto Compressor…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Purificador de Água IBBL FR600 Exclusive Preto…</h3>
+          <div class="precos">
+            <p class="antes">R$ 1.089,00</p>
+            <p class="preco-c">R$ 936,38</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/23593850508" aria-label="Fritadeira Industrial Fritadeira Elétrica 220v Fritadeira Grande…">
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-7rd6h-m7tim4y7wg4ne9_tn" alt="Fritadeira Industrial Fritadeira Elétrica 220v Fritadeira…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Fritadeira Industrial Fritadeira Elétrica 220v…</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 2.595,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/28591021644" aria-label="Purificador de Água IBBL FR600 Exclusive Prata Compressor 220V Água…">
+        <div class="foto"><span class="selo-off">-7%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820ln-mukrk4hmpc776b_tn" alt="Purificador de Água IBBL FR600 Exclusive Prata Compressor…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Purificador de Água IBBL FR600 Exclusive Prata…</h3>
+          <div class="precos">
+            <p class="antes">R$ 1.049,00</p>
+            <p class="preco-c">R$ 979,99</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/22698691822" aria-label="Smart TV DLED 50 4K Toshiba 50C350NS VIDAA 3 HDMI 2 USB Wi-Fi - TB029M">
+        <div class="foto"><span class="selo-off">-9%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820mb-moo9ppvjpu6b05_tn" alt="Smart TV DLED 50 4K Toshiba 50C350NS VIDAA 3 HDMI 2 USB…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Smart TV DLED 50 4K Toshiba 50C350NS VIDAA 3 HDMI 2 USB…</h3>
+          <div class="precos">
+            <p class="antes">R$ 3.023,90</p>
+            <p class="preco-c">R$ 2.749,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/23494484046" aria-label="Ar-Condicionado Split Inverter 9000 BTUs Philco Só Frio PAC9000FC 220V">
+        <div class="foto"><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820md-mrg7be3gvh1j8e_tn" alt="Ar-Condicionado Split Inverter 9000 BTUs Philco Só Frio…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Ar-Condicionado Split Inverter 9000 BTUs Philco Só Frio…</h3>
+          <div class="precos">
+            
+            <p class="preco-c">R$ 1.999,99</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58215293585" aria-label="Smart TV Samsung 43&quot; QLED Full HD Q5F HDR Xbox Cloud Gaming Wi-Fi…">
+        <div class="foto"><span class="selo-off">-25%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134207-820lt-mra67cgb632dda_tn" alt="Smart TV Samsung 43&quot; QLED Full HD Q5F HDR Xbox Cloud…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Smart TV Samsung 43&quot; QLED Full HD Q5F HDR Xbox Cloud…</h3>
+          <div class="precos">
+            <p class="antes">R$ 2.799,00</p>
+            <p class="preco-c">R$ 2.099,00</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58264625727" aria-label="Geladeira Portátil Preta 55 Litros Freezer 12v/24v 110v/220v Mini…">
+        <div class="foto"><span class="selo-off">-35%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fsg-11134201-8258j-mqw512ueew3u56_tn" alt="Geladeira Portátil Preta 55 Litros Freezer 12v/24v…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Geladeira Portátil Preta 55 Litros Freezer 12v/24v…</h3>
+          <div class="precos">
+            <p class="antes">R$ 2.599,90</p>
+            <p class="preco-c">R$ 1.699,90</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/58213022792" aria-label="Ar Condicionado Split Inverter TCL BreezeIN AI 12000 BTUs Frio 220V…">
+        <div class="foto"><span class="selo-off">-2%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134275-820lo-mptf47zszvuoa4_tn" alt="Ar Condicionado Split Inverter TCL BreezeIN AI 12000 BTUs…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Ar Condicionado Split Inverter TCL BreezeIN AI 12000…</h3>
+          <div class="precos">
+            <p class="antes">R$ 3.209,00</p>
+            <p class="preco-c">R$ 3.129,35</p>
+          </div>
+          <span class="ver">Ver oferta</span>
+        </div>
+      </a>
+      <a class="card" href="/o/20699593359" aria-label="Ar Condicionado Split Inverter Midea AI 12000 BTUs Frio 127V…">
+        <div class="foto"><span class="selo-off">-23%</span><img src="/api/img?src=https%3A%2F%2Fcf.shopee.com.br%2Ffile%2Fbr-11134201-820lj-mn5ucaw6jtvo02_tn" alt="Ar Condicionado Split Inverter Midea AI 12000 BTUs Frio…" loading="lazy" decoding="async" width="320" height="320">
+        </div>
+        <div class="corpo">
+          <h3 class="nome">Ar Condicionado Split Inverter Midea AI 12000 BTUs Frio…</h3>
+          <div class="precos">
+            <p class="antes">R$ 3.899,00</p>
+            <p class="preco-c">R$ 2.998,91</p>
           </div>
           <span class="ver">Ver oferta</span>
         </div>
@@ -1011,12 +1021,12 @@
     </a>
   </div>
 
-  <footer>Achadinhos Shopee PG · Presidente Getúlio / SC · preços de 20/11</footer>
+  <footer>Achadinhos Shopee PG · Presidente Getúlio / SC · preços de 21/11</footer>
 </main>
 
-<a class="barra" href="/o/23098736264" aria-label="Fritadeira Elétrica Multifuncional Inox 110v Tela Inteligente Sem…">
-  <span class="b1">Destaque por <b>R$ 392,00</b></span>
-  <span class="b2">Comprar →</span>
+<a class="barra" href="https://chat.whatsapp.com/IXJEbgKnQeXFE18fbGiX6I" target="_blank" rel="noopener" onclick="if(window.fbq)fbq('track','Lead');">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.03.24-3.47-.72-2.94-1.16-4.8-4.2-4.94-4.4-.14-.19-1.17-1.55-1.17-2.96 0-1.41.58-2.1.79-2.39.2-.29.44-.36.59-.36.15 0 .29 0 .42.01.14.01.32-.05.5.38.18.44.62 1.52.68 1.63.05.11.09.24.01.38-.08.15-.12.24-.24.37-.12.13-.25.29-.36.39-.12.11-.24.23-.1.45.14.22.61 1 1.31 1.62.9.8 1.65 1.05 1.89 1.17.24.12.38.1.52-.06.14-.15.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.37.65 1.61.77.24.12.4.18.46.28.06.11.06.62-.16 1.17z"/></svg>
+  <span class="b2">Receber ofertas no WhatsApp</span>
 </a>
 
 <script>
@@ -1038,7 +1048,7 @@ if (PIXEL_ID) {
 /* Clique na oferta = sinal de compra. Dispara antes de sair para a Shopee. */
 if (PIXEL_ID) {
   document.addEventListener('click', function (e) {
-    var a = e.target.closest ? e.target.closest('a.card, a.destaque, a.barra') : null;
+    var a = e.target.closest ? e.target.closest('a.card, a.destaque') : null;
     if (!a || !window.fbq) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
