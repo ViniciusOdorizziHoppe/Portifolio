@@ -58,8 +58,15 @@ export default async function handler(req, res) {
 
   // Conta antes de responder, mas com teto: 450 ms no pior caso. Contar depois da
   // resposta não funciona porque a Vercel congela a função assim que o 302 sai.
+  //
+  // Só conta quem veio de um card da página (Referer nosso). Sem esse filtro o número
+  // do painel /cliques somava robô que passou pelo filtro de UA e prefetch de link:
+  // em 20/11 marcou 4 enquanto o pixel registrou 1 clique real. O número tem que
+  // servir para comparar com a Shopee, não para inflar.
   const ua = String(req.headers['user-agent'] || '');
-  const pareceGente = req.method === 'GET' && ua.length > 20 && !NAO_E_GENTE.test(ua);
+  const referer = String(req.headers.referer || req.headers.referrer || '');
+  const veioDaPagina = /viniciusodorizzi\.com|localhost|127\.0\.0\.1/.test(referer);
+  const pareceGente = req.method === 'GET' && ua.length > 20 && !NAO_E_GENTE.test(ua) && veioDaPagina;
   if (pareceGente) {
     const contador = fetch(`${BASE}/api/clique?id=${id}&o=${origem}&p=${pag}`, {
       signal: AbortSignal.timeout(1200),
