@@ -24,7 +24,7 @@
   "rewrites": [
     {
       "source": "/o/:id",
-      "destination": "/api/o/:id"
+      "destination": "/api/ir?id=:id"
     },
     {
       "source": "/entrar",
