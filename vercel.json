@@ -27,6 +27,14 @@
       "destination": "/api/o/:id"
     },
     {
+      "source": "/entrar",
+      "destination": "/api/entrar"
+    },
+    {
+      "source": "/entrar/",
+      "destination": "/api/entrar"
+    },
+    {
       "source": "/oferta",
       "destination": "/oferta/index.html"
     },

@@ -1,8 +1,13 @@
 // Redireciona /o/<item_id> para o link da Shopee já com o sub_id.
 //
 // O link vem do mapa embutido no deploy (_links.js), então não há consulta à VPS
-// no caminho crítico. A única chamada remota é a do contador, e ela tem teto de
-// tempo: se a VPS demorar, o visitante segue para a Shopee mesmo assim.
+// no caminho crítico. O contador deixou de ser esperado: a resposta sai no mesmo
+// instante e o registro do clique roda em background (waitUntil da Vercel).
+//
+// Medido em 22/11/2026: o redirect levava 1,10 s até a Shopee, com 450 ms de espera
+// nossa e um salto 308 extra de apex -> www. Cada 100 ms a mais aqui é gente que
+// fecha o app antes de a Shopee registrar o clique (taxa de entrega estava em 8%).
+import { waitUntil } from '@vercel/functions';
 import LINKS from './_links.js';
 
 const BASE = process.env.OFERTAS_API || 'http://185.115.161.188:8184';
@@ -12,7 +17,6 @@ const BASE = process.env.OFERTAS_API || 'http://185.115.161.188:8184';
 // o número e nunca apareciam na Shopee.
 const NAO_E_GENTE = /(bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegram|discord|slack|twitterbot|linkedinbot|embedly|quora|pinterest|vkshare|curl|wget|python-|python\/|requests|axios|node-fetch|go-http|java\/|okhttp|headless|lighthouse|preview|scrapy|uptime|monitor|pingdom|gtmetrix|semrush|ahrefs|hermes)/i;
 
-const TETO_CONTADOR_MS = 450;
 const TETO_LINK_MS = 3500;
 
 export default async function handler(req, res) {
@@ -56,23 +60,28 @@ export default async function handler(req, res) {
       : destino + (destino.includes('?') ? '&' : '?') + `utm_content=${sub}`;
   }
 
-  // Conta antes de responder, mas com teto: 450 ms no pior caso. Contar depois da
-  // resposta não funciona porque a Vercel congela a função assim que o 302 sai.
+  // Contar DEPOIS de responder, em background.
   //
   // Só conta quem veio de um card da página (Referer nosso). Sem esse filtro o número
-  // do painel /cliques somava robô que passou pelo filtro de UA e prefetch de link:
-  // em 20/11 marcou 4 enquanto o pixel registrou 1 clique real. O número tem que
-  // servir para comparar com a Shopee, não para inflar.
+  // do painel /cliques somava robô que passou pelo filtro de UA e prefetch de link.
   const ua = String(req.headers['user-agent'] || '');
   const referer = String(req.headers.referer || req.headers.referrer || '');
   const veioDaPagina = /viniciusodorizzi\.com|localhost|127\.0\.0\.1/.test(referer);
   const pareceGente = req.method === 'GET' && ua.length > 20 && !NAO_E_GENTE.test(ua) && veioDaPagina;
+
   if (pareceGente) {
-    const contador = fetch(`${BASE}/api/clique?id=${id}&o=${origem}&p=${pag}`, {
-      signal: AbortSignal.timeout(1200),
-    }).catch(() => {});
-    const teto = new Promise((r) => setTimeout(r, TETO_CONTADOR_MS));
-    await Promise.race([contador, teto]);
+    try {
+      waitUntil(
+        fetch(`${BASE}/api/clique?id=${id}&o=${origem}&p=${pag}`, {
+          signal: AbortSignal.timeout(4000),
+        }).catch(() => {}),
+      );
+    } catch (e) {
+      // ambiente sem waitUntil (teste local): cai no fetch solto, sem segurar a resposta
+      fetch(`${BASE}/api/clique?id=${id}&o=${origem}&p=${pag}`, {
+        signal: AbortSignal.timeout(4000),
+      }).catch(() => {});
+    }
   }
 
   res.writeHead(302, {
