@@ -16,6 +16,12 @@ const GRUPO = 'https://chat.whatsapp.com/IXJEbgKnQeXFE18fbGiX6I';
 // apontar via env GRUPO_INVITE, sem mexer em criativo nenhum.
 const DESTINO = process.env.GRUPO_INVITE || GRUPO;
 
+// O contador da VPS só aceita id NUMÉRICO: quando mandávamos id=grupo ele
+// respondia {"ok":true} e descartava o registro — por isso entrada no grupo
+// nunca aparecia no relatório. Este id fixo substitui o "grupo" e é traduzido
+// de volta para "Entradas no grupo" em /api/cliques.
+const GRUPO_ID = process.env.GRUPO_ID || '1000000000001';
+
 const NAO_E_GENTE = /(bot|crawl|spider|slurp|facebookexternalhit|telegram|discord|slack|twitterbot|linkedinbot|embedly|quora|pinterest|vkshare|curl|wget|python-|python\/|requests|axios|node-fetch|go-http|java\/|okhttp|headless|lighthouse|preview|scrapy|uptime|monitor|pingdom|gtmetrix|semrush|ahrefs|hermes)/i;
 
 export default async function handler(req, res) {
@@ -26,8 +32,9 @@ export default async function handler(req, res) {
   const pareceGente = req.method === 'GET' && ua.length > 20 && !NAO_E_GENTE.test(ua);
 
   if (pareceGente) {
-    // id=grupo identifica entrada no relatório, separado dos cliques de produto.
-    const registro = fetch(`${BASE}/api/clique?id=grupo&o=${origem}&p=${pag}`, {
+    // id=GRUPO_ID identifica entrada no grupo, separado dos cliques de produto
+    // (a VPS não aceita id de texto, então usamos um número fixo).
+    const registro = fetch(`${BASE}/api/clique?id=${GRUPO_ID}&o=${origem}&p=${pag}`, {
       signal: AbortSignal.timeout(4000),
     }).catch(() => {});
     try {
