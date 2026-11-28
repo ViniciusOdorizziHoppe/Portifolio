@@ -74,7 +74,7 @@ function paginaDeSaida(destino, id, origem, extra) {
         window.himetrica.track('clique_oferta', PROPS);
       }
     } catch (e) {}
-    setTimeout(vai, 80);
+    setTimeout(vai, 350);   // da tempo do evento sair; teto duro abaixo cobre o resto
   };
   s.onerror = vai;
   document.head.appendChild(s);

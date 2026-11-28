@@ -100,7 +100,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const state = { itens: [], filtro: 'destaques', erro: null };
+const state = { itens: [], total: 0, filtro: 'destaques', erro: null };
 
 const brl = (v) => 'R$ ' + Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const hoje = () => new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
@@ -281,7 +281,7 @@ function render() {
   itens = ordenar(itens, modo);
   if (state.filtro === 'destaques' && !busca) itens = embaralha(itens, seedDoDia());
 
-  sub.textContent = hoje() + ' · ' + itens.length + ' de ' + state.itens.length + ' na vitrine';
+  sub.textContent = hoje() + ' · ' + itens.length + ' de ' + (state.total || state.itens.length) + ' na vitrine';
 
   if (!itens.length) {
     lista.innerHTML = '<div class="aviso">nada nesse filtro. Tenta "Tudo" ou limpa a busca.</div>';
@@ -357,6 +357,7 @@ async function carregar() {
     const d = await r.json();
     if (d.erro) throw new Error(d.erro);
     state.itens = d.itens || [];
+    state.total = d.total || state.itens.length;
     conta();
     render();
   } catch (e) {
