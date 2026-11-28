@@ -6,6 +6,8 @@
 <title>Ofertas de hoje · Achadinhos Shopee PG</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#f5c518">
+<!-- Himetrica: analytics no navegador (CSP do site já libera cdn.himetrica.com) -->
+<script defer src="https://cdn.himetrica.com/tracker.js" data-api-key="hm_3fa8f337266e3d922366cc93fd23d99697ead02d10bb4517"></script>
 <style>
   :root{
     --amarelo:#f5c518; --tinta:#111114; --texto:#1d1d22; --cinza:#6b6b76;
@@ -17,10 +19,17 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
   header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--linha)}
   .faixa{height:6px;background:var(--amarelo)}
-  .topo{max-width:620px;margin:0 auto;padding:14px 16px 12px}
+  .topo{max-width:620px;margin:0 auto;padding:14px 16px 8px}
   h1{margin:0;font-size:19px;letter-spacing:-.4px;font-weight:800}
   .sub{color:var(--cinza);font-size:12.5px;margin-top:2px}
-  .ferramentas{max-width:620px;margin:0 auto;padding:10px 16px 12px;display:flex;gap:8px}
+  .chips{max-width:620px;margin:0 auto;padding:8px 16px 4px;display:flex;gap:7px;overflow-x:auto;
+    scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;font:inherit;font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:999px;
+    border:1.5px solid var(--linha);background:#fff;color:var(--texto);cursor:pointer;white-space:nowrap}
+  .chip[aria-pressed="true"]{background:var(--tinta);border-color:var(--tinta);color:#fff}
+  .chip .n{font-weight:600;opacity:.65;margin-left:4px}
+  .ferramentas{max-width:620px;margin:0 auto;padding:8px 16px 12px;display:flex;gap:8px}
   input[type=search],select{
     flex:1;min-width:0;font:inherit;font-size:14px;padding:9px 12px;border:1.5px solid var(--linha);
     border-radius:11px;background:#fff;color:var(--texto);appearance:none;
@@ -39,6 +48,10 @@
   .antes{font-size:12px;color:var(--cinza);text-decoration:line-through}
   .off{background:var(--amarelo);color:#111;font-size:11px;font-weight:900;padding:2px 6px;border-radius:6px}
   .meta{font-size:11.5px;color:var(--cinza);margin-top:3px}
+  .selos{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+  .selo{font-size:10px;font-weight:900;letter-spacing:.3px;padding:2px 7px;border-radius:6px}
+  .selo.moda{background:#f0eaff;color:#5b2ea6}
+  .selo.extra{background:#e6f7ee;color:#0a7d43}
   .acoes{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
   button{font:inherit;cursor:pointer;border-radius:9px;padding:8px 12px;border:1.5px solid transparent;
     font-size:13px;font-weight:700;transition:transform .1s}
@@ -54,7 +67,6 @@
     background:var(--tinta);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;
     opacity:0;pointer-events:none;transition:opacity .18s, transform .18s;z-index:50;max-width:90vw}
   .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-  .selo-sub{font-size:10.5px;color:var(--cinza);border:1px solid var(--linha);border-radius:999px;padding:1px 6px}
 </style>
 </head>
 <body>
@@ -64,6 +76,12 @@
   <div class="topo">
     <h1>Ofertas de hoje</h1>
     <div class="sub" id="sub">carregando…</div>
+  </div>
+  <div class="chips" id="chips">
+    <button class="chip" data-filtro="destaques" aria-pressed="true">Destaques</button>
+    <button class="chip" data-filtro="moda" aria-pressed="false">Moda <span class="n" id="n-moda"></span></button>
+    <button class="chip" data-filtro="extra" aria-pressed="false">Comissão alta <span class="n" id="n-extra"></span></button>
+    <button class="chip" data-filtro="tudo" aria-pressed="false">Tudo <span class="n" id="n-tudo"></span></button>
   </div>
   <div class="ferramentas">
     <input type="search" id="busca" placeholder="buscar produto…" autocomplete="off">
@@ -76,13 +94,13 @@
 </header>
 
 <main>
-  <div id="lista"><div class="carregando">buscando as ofertas aprovadas…</div></div>
+  <div id="lista"><div class="carregando">buscando a vitrine do dia…</div></div>
 </main>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const state = { itens: [], resolvidos: {}, erro: null };
+const state = { itens: [], filtro: 'destaques', erro: null };
 
 const brl = (v) => 'R$ ' + Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const hoje = () => new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
@@ -95,14 +113,53 @@ function toast(txt) {
   el._t = setTimeout(() => el.classList.remove('on'), 2200);
 }
 
+function track(nome, props) {
+  try {
+    if (window.himetrica && typeof window.himetrica.track === 'function') {
+      window.himetrica.track(nome, props || {});
+    }
+  } catch (e) {}
+}
+
+// Mudança diária: mesma lista, ordem diferente a cada dia.
+// O seed é a data (AAAAMM DD), então o embaralhado é estável dentro do dia.
+function embaralha(itens, seed) {
+  const a = itens.slice();
+  let s = seed >>> 0;
+  const rnd = () => {
+    s = (s + 0x6D2B79F5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1));
+    const tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+function seedDoDia() {
+  const d = new Date();
+  return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+}
+
+function vendasTxt(n) {
+  n = Number(n) || 0;
+  if (n >= 1000) return (Math.floor(n / 100) / 10).toString().replace('.', ',') + 'mil+';
+  return n ? String(n) : '';
+}
+
 function mensagem(o, link) {
   const linhas = ['🔥 *ACHADINHO DO DIA*', '', '*' + o.nome.trim() + '*', ''];
   if (o.antes > o.preco) {
-    linhas.push(`De ${brl(o.antes)} por *${brl(o.preco)}* (${o.desconto}% OFF)`);
+    linhas.push('De ' + brl(o.antes) + ' por *' + brl(o.preco) + '* (' + o.desconto + '% OFF)');
   } else {
-    linhas.push(`💰 *${brl(o.preco)}*${o.desconto ? ` (${o.desconto}% OFF)` : ''}`);
+    linhas.push('💰 *' + brl(o.preco) + '*' + (o.desconto ? ' (' + o.desconto + '% OFF)' : ''));
   }
-  if (o.vendas > 0 && o.vendas_txt) linhas.push(`📦 ${o.vendas_txt} vendidos`);
+  const v = vendasTxt(o.vendas);
+  if (v) linhas.push('📦 ' + v + ' vendidos');
   linhas.push('', '👉 ' + link);
   return linhas.join('\n');
 }
@@ -122,18 +179,16 @@ function copiarAntigo(texto) {
   ta.style.opacity = '0';
   document.body.appendChild(ta);
   ta.select();
-  try { document.execCommand('copy'); } catch (e) { /* sem clipboard */ }
+  try { document.execCommand('copy'); } catch (e) {}
   ta.remove();
 }
 
-// Link curto do próprio domínio: o destino (com sub_id) é resolvido só no
-// clique, em /o/<id>. Sem isso o texto do WhatsApp carrega 600 caracteres.
+// Link do próprio domínio, marcado como "veio do grupo": /o/<id>?o=wa.
+// Nessa rota a página registra a visita no Himetrica antes de mandar pra Shopee.
 function linkCurto(o) {
   return location.origin + '/o/' + o.id + '?o=wa';
 }
 
-// A foto precisa vir pelo nosso servidor: o CDN da Shopee não manda CORS,
-// então o navegador não consegue baixar para compartilhar.
 async function fotoDoItem(o) {
   if (!o.imagem) return null;
   const r = await fetch('/api/img?src=' + encodeURIComponent(o.imagem));
@@ -151,6 +206,7 @@ async function acaoCopiar(o, botao) {
     botao.textContent = 'texto copiado!';
     botao.classList.add('feito');
     toast('texto pronto — anexa a foto no WhatsApp');
+    track('copiar_oferta', { id: o.id, nicho: o.nicho, preco: o.preco });
     setTimeout(() => { botao.textContent = original; botao.classList.remove('feito'); botao.disabled = false; }, 2000);
   } catch (e) {
     botao.textContent = original;
@@ -159,8 +215,6 @@ async function acaoCopiar(o, botao) {
   }
 }
 
-// Envia foto + texto juntos pela gaveta do sistema (WhatsApp recebe a imagem
-// com o texto como legenda). É o único caminho que leva a imagem junto.
 async function acaoEnviar(o, botao) {
   const original = botao.textContent;
   botao.disabled = true;
@@ -182,6 +236,7 @@ async function acaoEnviar(o, botao) {
       botao.textContent = 'enviado!';
       botao.classList.add('feito');
       toast('escolheu o grupo, foi com foto');
+      track('enviar_grupo', { id: o.id, nicho: o.nicho, preco: o.preco });
     } else {
       await copiar(texto);
       toast('navegador sem compartilhar: texto copiado, baixa a foto no "Baixar foto"');
@@ -201,6 +256,13 @@ function ordenar(itens, modo) {
   return copia;
 }
 
+function filtra(itens, filtro) {
+  if (filtro === 'moda') return itens.filter((o) => o.nicho === 'moda');
+  if (filtro === 'extra') return itens.filter((o) => o.extra);
+  if (filtro === 'destaques') return itens.filter((o) => o.nicho === 'moda' || o.extra || o.com_reais >= 15);
+  return itens;
+}
+
 function render() {
   const lista = document.getElementById('lista');
   const sub = document.getElementById('sub');
@@ -214,28 +276,35 @@ function render() {
     return;
   }
 
-  let itens = state.itens;
-  if (busca) itens = itens.filter((o) => o.nome.toLowerCase().includes(busca));
+  let itens = filtra(state.itens, state.filtro);
+  if (busca) itens = itens.filter((o) => (o.nome || '').toLowerCase().includes(busca));
   itens = ordenar(itens, modo);
+  if (state.filtro === 'destaques' && !busca) itens = embaralha(itens, seedDoDia());
 
-  sub.textContent = `${hoje()} · ${itens.length} de ${state.itens.length} ofertas aprovadas`;
+  sub.textContent = hoje() + ' · ' + itens.length + ' de ' + state.itens.length + ' na vitrine';
 
   if (!itens.length) {
-    lista.innerHTML = '<div class="aviso">nenhuma oferta com esse nome nas aprovadas de hoje.</div>';
+    lista.innerHTML = '<div class="aviso">nada nesse filtro. Tenta "Tudo" ou limpa a busca.</div>';
     return;
   }
 
-  lista.innerHTML = itens.map((o) => `
+  lista.innerHTML = itens.map((o) => {
+    const selos = [];
+    if (o.nicho === 'moda') selos.push('<span class="selo moda">MODA</span>');
+    if (o.extra) selos.push('<span class="selo extra">COMISSÃO ' + (o.com_pct ? o.com_pct + '%' : 'ALTA') + '</span>');
+    const vt = vendasTxt(o.vendas);
+    return `
     <article class="card" data-id="${o.id}">
       <img class="thumb" loading="lazy" src="${o.imagem}" alt="">
       <div class="info">
         <div class="nome">${o.nome}</div>
         <div class="preco">
           <span class="agora">${brl(o.preco)}</span>
-          ${o.antes > o.preco ? `<span class="antes">${brl(o.antes)}</span>` : ''}
-          ${o.desconto ? `<span class="off">-${o.desconto}%</span>` : ''}
+          ${o.antes > o.preco ? '<span class="antes">' + brl(o.antes) + '</span>' : ''}
+          ${o.desconto ? '<span class="off">-' + o.desconto + '%</span>' : ''}
         </div>
-        <div class="meta">comissão ${brl(o.com_reais)}${o.vendas_txt ? ` · ${o.vendas_txt} vendidos` : ''}</div>
+        <div class="meta">comissão ${brl(o.com_reais)}${vt ? ' · ' + vt + ' vendidos' : ''}</div>
+        ${selos.length ? '<div class="selos">' + selos.join('') + '</div>' : ''}
         <div class="acoes">
           <button class="principal" data-acao="enviar">Enviar com foto</button>
           <button class="ghost" data-acao="copiar">Só o texto</button>
@@ -243,7 +312,8 @@ function render() {
           <a class="mini" href="/api/img?src=${encodeURIComponent(o.imagem)}" download="achadinho-${o.id}.jpg">Baixar foto</a>
         </div>
       </div>
-    </article>`).join('');
+    </article>`;
+  }).join('');
 }
 
 document.getElementById('lista').addEventListener('click', (ev) => {
@@ -259,18 +329,52 @@ document.getElementById('lista').addEventListener('click', (ev) => {
 document.getElementById('busca').addEventListener('input', render);
 document.getElementById('ordem').addEventListener('change', render);
 
+document.getElementById('chips').addEventListener('click', (ev) => {
+  const c = ev.target.closest('.chip');
+  if (!c) return;
+  state.filtro = c.dataset.filtro;
+  document.querySelectorAll('.chip').forEach((b) => {
+    b.setAttribute('aria-pressed', b === c ? 'true' : 'false');
+  });
+  track('filtro_vitrine', { filtro: state.filtro });
+  render();
+});
+
+function conta() {
+  const t = state.itens.length;
+  const m = state.itens.filter((o) => o.nicho === 'moda').length;
+  const e = state.itens.filter((o) => o.extra).length;
+  document.getElementById('n-moda').textContent = m ? '(' + m + ')' : '';
+  document.getElementById('n-extra').textContent = e ? '(' + e + ')' : '';
+  document.getElementById('n-tudo').textContent = t ? '(' + t + ')' : '';
+}
+
 async function carregar() {
   state.erro = null;
-  document.getElementById('lista').innerHTML = '<div class="carregando">buscando as ofertas aprovadas…</div>';
+  document.getElementById('lista').innerHTML = '<div class="carregando">buscando a vitrine do dia…</div>';
   try {
-    const r = await fetch('/api/ofertas?n=100', { cache: 'no-store' });
+    const r = await fetch('/api/ofertas?fonte=vitrine', { cache: 'no-store' });
     const d = await r.json();
     if (d.erro) throw new Error(d.erro);
     state.itens = d.itens || [];
+    conta();
     render();
   } catch (e) {
-    state.erro = 'não consegui carregar: ' + (e.message || 'erro desconhecido');
-    render();
+    // vitrine fora do ar: cai no catálogo aprovado do bot, que é o plano B
+    try {
+      const r2 = await fetch('/api/ofertas?n=100', { cache: 'no-store' });
+      const d2 = await r2.json();
+      if (d2.erro) throw new Error(d2.erro);
+      state.itens = (d2.itens || []).map((o) => Object.assign({}, o, {
+        nicho: 'geral', extra: (o.com_reais || 0) >= 30, vendas: o.vendas || 0,
+      }));
+      conta();
+      render();
+      return;
+    } catch (e2) {
+      state.erro = 'não consegui carregar: ' + ((e2 && e2.message) || 'erro desconhecido');
+      render();
+    }
   }
 }
 

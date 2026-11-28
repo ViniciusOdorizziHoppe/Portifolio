@@ -1,14 +1,20 @@
 // Ponte para a API da VPS (a página é https e a API é http, então não dá para
 // chamar direto do navegador: mixed content + CORS). Aqui roda no servidor.
+//
+// ?fonte=vitrine -> /api/vitrine na VPS: lista curada (moda + comissão alta),
+//                   gerada todo dia pelo robô em /opt/ofertas.
+// sem fonte      -> /api/ofertas-hoje, o catálogo aprovado do tg-bot.
 const BASE = process.env.OFERTAS_API || 'http://185.115.161.188:8184';
 
 export default async function handler(req, res) {
   const linkId = String(req.query.link || '').trim();
-  const n = Math.max(1, Math.min(100, Number(req.query.n) || 60));
+  const n = Math.max(1, Math.min(400, Number(req.query.n) || 60));
+  const fonte = String(req.query.fonte || '').trim();
 
-  const alvo = linkId
-    ? `${BASE}/api/link?id=${encodeURIComponent(linkId)}`
-    : `${BASE}/api/ofertas-hoje?n=${n}`;
+  let alvo;
+  if (linkId) alvo = `${BASE}/api/link?id=${encodeURIComponent(linkId)}`;
+  else if (fonte === 'vitrine') alvo = `${BASE}/api/vitrine`;
+  else alvo = `${BASE}/api/ofertas-hoje?n=${n}`;
 
   try {
     const r = await fetch(alvo, {
