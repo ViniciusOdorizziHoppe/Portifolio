@@ -191,6 +191,7 @@ function linkCurto(o) {
 
 async function fotoDoItem(o) {
   if (!o.imagem) return null;
+  // aqui sim a imagem cheia: e a que vai pro grupo
   const r = await fetch('/api/img?src=' + encodeURIComponent(o.imagem));
   if (!r.ok) return null;
   const blob = await r.blob();
@@ -295,7 +296,9 @@ function render() {
     const vt = vendasTxt(o.vendas);
     return `
     <article class="card" data-id="${o.id}">
-      <img class="thumb" loading="lazy" src="${o.imagem}" alt="">
+      <img class="thumb" loading="lazy" alt=""
+           src="${o.thumb || o.imagem}"
+           onerror="this.onerror=null;this.src='${o.imagem}';this.style.opacity='.35'">
       <div class="info">
         <div class="nome">${o.nome}</div>
         <div class="preco">
